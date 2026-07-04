@@ -363,12 +363,12 @@ nav{
   margin-top:44px;
   align-items:start;
 }
-.play-grid .ph:nth-child(1){grid-column:span 2;}
-.play-grid .ph:nth-child(2){grid-column:span 2;margin-top:33px;}
-.play-grid .ph:nth-child(3){grid-column:span 2;}
-.play-grid .ph:nth-child(4){grid-column:span 2;margin-top:22px;}
-.play-grid .ph:nth-child(5){grid-column:span 2;}
-.play-grid .ph:nth-child(6){grid-column:span 2;margin-top:33px;}
+.play-grid > *{overflow:hidden;}
+.play-grid > *:nth-child(1){grid-column:span 3;}
+.play-grid > *:nth-child(2){grid-column:span 3;}
+.play-grid > *:nth-child(3){grid-column:span 2;}
+.play-grid > *:nth-child(4){grid-column:span 2;margin-top:22px;}
+.play-grid > *:nth-child(5){grid-column:span 2;}
 
 /* ---------- contact ---------- */
 .contact{
@@ -467,19 +467,19 @@ nav{
 .hero-frame{position:relative;}
 .hero-name{
   position:absolute;
-  top:18px;
+  top:16px;
   left:0;
   right:0;
   margin:0;
-  padding:0 3vw;
+  padding:0 2vw;
   text-align:center;
   white-space:nowrap;
   font-family:var(--ogg);
   font-weight:400;
   color:#fff;
-  font-size:clamp(24px,8.2vw,116px);
+  font-size:clamp(20px,6vw,78px);
   line-height:1;
-  letter-spacing:-0.02em;
+  letter-spacing:-0.035em;
   text-shadow:0 2px 24px rgba(0,0,0,0.35);
 }
 .hero-ladder{max-width:22ch;}
@@ -490,16 +490,15 @@ nav{
 .textcard .tile-title{margin-top:0;}
 .tl-desc{font-family:var(--telegraf);font-size:18px;line-height:1.5;letter-spacing:0.38px;margin-top:11px;}
 
-/* ---------- black film box (even padding, seamless bg) ---------- */
+/* ---------- film box (padding + bg matched to the screenshot #0f0f0f) ---------- */
 .filmbox-dark{
-  background:var(--black);
+  background:#0f0f0f;
   display:flex;
   align-items:center;
   justify-content:center;
-  padding:44px;
-  aspect-ratio:16/7;
+  padding:26px 22px;
 }
-.filmbox-dark img{width:100%;height:auto;max-height:100%;object-fit:contain;}
+.filmbox-dark img{width:100%;max-width:440px;height:auto;display:block;}
 
 /* ---------- run club ---------- */
 .run-grid{
@@ -515,16 +514,17 @@ nav{
 .run-grid .rp img{width:100%;height:100%;object-fit:cover;display:block;}
 .run-grid .tall{aspect-ratio:3/4;}
 .run-note{
-  margin-top:44px;
+  margin-top:18px;
   display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:44px;
+  grid-template-columns:190px 1fr 1.2fr;
+  gap:24px;
   align-items:center;
 }
-.run-note .marie{max-width:300px;}
-.run-note .marie img{width:100%;border:1px solid var(--ink);}
-.run-note p{font-size:20px;line-height:1.33;}
-.run-note p .big{font-family:var(--ogg);font-size:26px;letter-spacing:-0.52px;font-style:italic;}
+.run-note .marie img{height:240px;width:auto;max-width:100%;margin:0 auto;border:1px solid var(--ink);display:block;}
+.run-note p{font-size:18px;line-height:1.4;letter-spacing:0.38px;}
+.run-note p .big{font-family:var(--ogg);font-size:24px;letter-spacing:-0.4px;font-style:italic;}
+.run-note .rm{overflow:hidden;aspect-ratio:16/10;}
+.run-note .rm img{width:100%;height:100%;object-fit:cover;display:block;}
 
 /* ---------- research evidence ---------- */
 .sem-pair{
@@ -586,8 +586,7 @@ nav{
   .ski-grid{grid-template-columns:1fr 1fr;}
   .ski-grid > div{margin-top:0;}
   .play-grid{grid-template-columns:1fr 1fr;}
-  .play-grid .ph:nth-child(n){grid-column:auto;margin-top:0;}
-  .play-grid .artbox:nth-child(n){grid-column:auto;margin-top:0;}
+  .play-grid > *{grid-column:auto !important;margin-top:0;}
   .skills-grid{grid-template-columns:1fr 1fr;}
   .sem-pair{grid-template-columns:1fr;}
   .run-grid{grid-template-columns:1fr 1fr;}
@@ -751,10 +750,10 @@ nav{
     </div>
 
     <div class="ski-grid">
-      <div class="sv"><video autoplay muted loop playsinline preload="metadata" poster="assets/ski-montage.jpg" aria-label="Skiing down an alpine piste, filmed while riding"><source src="assets/ski-montage.mp4" type="video/mp4"></video></div>
-      <div class="sv"><video autoplay muted loop playsinline preload="metadata" poster="assets/ski-slalom.jpg" aria-label="Carving slalom gates in slow motion"><source src="assets/ski-slalom.mp4" type="video/mp4"></video></div>
+      <div class="sv"><video autoplay muted loop playsinline preload="metadata" poster="assets/ski-montage.jpg" aria-label="Carving down a sunlit piste, filmed while riding"><source src="assets/ski-montage.mp4" type="video/mp4"></video></div>
+      <div class="sv"><video autoplay muted loop playsinline preload="metadata" poster="assets/ski-jump.jpg" aria-label="Launching off a kicker in slow motion"><source src="assets/ski-jump.mp4" type="video/mp4"></video></div>
       <div class="sv"><video autoplay muted loop playsinline preload="metadata" poster="assets/ski-park-air.jpg" aria-label="Airborne off a snow park kicker in slow motion"><source src="assets/ski-park-air.mp4" type="video/mp4"></video></div>
-      <div class="sv"><video autoplay muted loop playsinline preload="metadata" poster="assets/ski-indoor.jpg" aria-label="Sliding a rail at the indoor snow centre"><source src="assets/ski-indoor.mp4" type="video/mp4"></video></div>
+      <div class="sv"><video autoplay muted loop playsinline preload="metadata" poster="assets/ski-cliff.jpg" aria-label="Dropping into powder off a small cliff"><source src="assets/ski-cliff.mp4" type="video/mp4"></video></div>
       <div class="sv"><video autoplay muted loop playsinline preload="metadata" poster="assets/ski-offpiste.jpg" aria-label="Off piste in a snowstorm beside the trees"><source src="assets/ski-offpiste.mp4" type="video/mp4"></video></div>
       <div class="sv"><video autoplay muted loop playsinline preload="metadata" poster="assets/ski-pov.jpg" aria-label="Following a friend down a sunny piste, filmed while skiing"><source src="assets/ski-pov.mp4" type="video/mp4"></video></div>
     </div>
@@ -946,10 +945,9 @@ nav{
 
     <div class="run-note">
       <div class="marie"><img src="assets/marie-curie.jpg" alt="Marie Curie fundraising page showing £1,647 raised, 66 percent of a £2,500 target"></div>
-      <p>For the 2026 London Marathon I ran for <span class="big">Marie Curie</span> and raised £1,647 from 64 donors, two thirds of the way to the target, with a crowd of mates on Horse Guards holding a "GO TIGGY" sign at the finish.</p>
+      <p>For the 2026 London Marathon I ran for <span class="big">Marie Curie</span> and raised £1,647 from 64 donors, two thirds of the target, with a crowd of mates holding a "GO TIGGY" sign at the finish.</p>
+      <div class="rm"><img src="assets/marathon.jpg" alt="Friends at the London Marathon finish with GO TIGGY and Release the Tiger signs"></div>
     </div>
-
-    <div class="artbox ratio-wide" style="margin-top:18px;"><img src="assets/marathon.jpg" alt="Friends at the London Marathon finish with GO TIGGY and Release the Tiger signs"></div>
   </section>
 
   <!-- SKILLS -->
@@ -1004,11 +1002,10 @@ nav{
 
     <div class="play-grid">
       <div class="artbox ratio-landscape"><img src="assets/surf-cutback.jpg" alt="Surfer carving off the top of a wave, spray flying"></div>
-      <div class="artbox ratio-portrait"><img src="assets/skate.jpg" alt="Skateboarding a rail at the local park"></div>
       <div class="artbox ratio-landscape"><img src="assets/beach.jpg" alt="Two people playing badminton on the beach as the sun sets over the sea"></div>
+      <div class="artbox ratio-portrait"><img src="assets/skate.jpg" alt="Skateboarding a rail at the local park"></div>
       <div class="artbox ratio-landscape"><img src="assets/travel-cirque.jpg" alt="Three friends on a grassy ridge in front of a mountain cirque"></div>
       <div class="artbox ratio-landscape"><img src="assets/surf.jpg" alt="Lone surfer riding a small wave under a pink dawn sky, shot from the water"></div>
-      <div class="ph ratio-square"><span class="tag">CLIMB / PIANO / 日本語 / PC BUILDS / CHESS</span></div>
     </div>
   </section>
 
