@@ -31,7 +31,7 @@ body{
   line-height:1.33;
   letter-spacing:0.5px;
   -webkit-font-smoothing:antialiased;
-  overflow-x:hidden;
+  overflow-x:clip;
 }
 
 img{max-width:100%;display:block;}
@@ -97,12 +97,17 @@ section{margin-top:var(--section-gap);}
 
 /* ---------- nav ---------- */
 nav{
+  position:sticky;
+  top:0;
+  z-index:60;
   display:flex;
   align-items:baseline;
   justify-content:space-between;
-  padding:24px 0;
+  padding:16px 0;
   gap:18px;
   flex-wrap:wrap;
+  background:var(--vellum);
+  border-bottom:1px solid var(--ink);
 }
 .wordmark{
   font-family:var(--ogg);
@@ -604,6 +609,9 @@ nav{
   .hero-name{white-space:normal;}
   .statline .stat{border-right:none;padding-right:0;margin-right:0;}
   .hero .positioning{font-size:20px;}
+  nav{padding:12px 0;}
+  .navlinks{gap:14px;}
+  .navlinks a{font-size:15px;}
 }
 </style>
 </head>
@@ -615,7 +623,7 @@ nav{
 
   <!-- NAV -->
   <nav>
-    <a class="wordmark" href="#top">JB<sup>®</sup></a>
+    <a class="wordmark" href="#top">JTB<sup>®</sup></a>
     <div class="navlinks">
       <a href="#story">TikTok</a>
       <a href="#film">Film</a>
@@ -1028,7 +1036,7 @@ nav{
     </div>
 
     <div class="footer-mark">
-      <span class="big">JB<sup style="font-size:0.3em;vertical-align:super;">®</sup></span>
+      <span class="big">JTB<sup style="font-size:0.3em;vertical-align:super;">®</sup></span>
       <span class="meta">All footage and photography my own · built with an AI agent I set up myself</span>
     </div>
   </section>
