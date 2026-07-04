@@ -456,6 +456,14 @@ nav{
 .skillgroup .k{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;display:block;margin-bottom:11px;}
 .skillgroup .v{font-family:var(--telegraf);font-size:20px;line-height:1.33;letter-spacing:0.5px;}
 
+/* ---------- real artwork ---------- */
+.artbox{width:100%;overflow:hidden;}
+.artbox img,.artbox video{width:100%;height:100%;object-fit:cover;display:block;}
+.art-natural{width:100%;height:auto;display:block;}
+.shot{border:1px solid var(--ink);}
+.art--top{object-position:top;}
+.hero-video{width:100%;display:block;aspect-ratio:848/480;object-fit:cover;background:var(--black);}
+
 /* ---------- zero-to ledger ---------- */
 .ledger{margin-top:44px;border-top:1px solid var(--ink);}
 .ledger .lrow{
@@ -525,17 +533,16 @@ nav{
   </nav>
 
   <div class="mock-banner">
-    <span>DESIGN MOCKUP · placeholder blocks mark where footage and photography drop in</span>
-    <span>v0.3</span>
+    <span>WORK IN PROGRESS · real footage in, a few tiles still waiting on assets</span>
+    <span>v0.4</span>
   </div>
 
   <!-- HERO -->
   <header class="hero" id="top">
     <div class="hero-frame">
-      <div class="ph dark ratio-hero">
-        <span class="corner">01 / hero</span>
-        <span class="tag">SKI HERO LOOP · 10–20s · filming while skiing, muted, autoplay</span>
-      </div>
+      <video class="hero-video" autoplay muted loop playsinline poster="assets/ski-hero.jpg" aria-label="Skiing down an alpine piste into low golden sun">
+        <source src="assets/ski-hero.mp4" type="video/mp4">
+      </video>
     </div>
     <div class="hero-copy">
       <h1 class="serif-display">On skis at three. A bike business at sixteen. A TikTok that found 89,000 people.</h1>
@@ -559,7 +566,7 @@ nav{
     </div>
 
     <div class="ledger">
-      <div class="lrow"><span>A Twitch channel in my gaming years</span><span class="out">→ 1,500 followers</span></div>
+      <div class="lrow"><span>A Twitch channel in my gaming years</span><span class="out">→ 1.3k followers</span></div>
       <div class="lrow"><span>Brocklebikes, a repair business started at sixteen</span><span class="out">→ 495+ bikes fixed</span></div>
       <div class="lrow"><span>A university run club, founded in January</span><span class="out">→ 25 runners a week by June</span></div>
       <div class="lrow"><span>@jacksontigerb, started from nothing in 2024</span><span class="out">→ 89,000 followers in seven months</span></div>
@@ -580,30 +587,25 @@ nav{
 
     <div class="story-numbers">
       <div class="bignum"><span class="n">0 → 89k</span><span class="l">followers in ~7 months</span></div>
-      <div class="bignum"><span class="n">83k</span><span class="l">where it sits now</span></div>
+      <div class="bignum"><span class="n">80.9k</span><span class="l">where it sits now</span></div>
       <div class="bignum"><span class="n">millions</span><span class="l">of views across the account</span></div>
-    </div>
-
-    <div class="analytics-row">
-      <div class="ph ratio-wide"><span class="corner">screenshot</span><span class="tag">TIKTOK ANALYTICS · follower growth graph</span></div>
-      <div class="ph ratio-wide"><span class="corner">screenshot</span><span class="tag">TIKTOK ANALYTICS · top videos + audience</span></div>
     </div>
 
     <div class="story-grid">
       <div>
-        <div class="ph ratio-vertical"><span class="tag">TOP VIDEO 01</span></div>
-        <div class="tile-title"><div class="t">A hook in three seconds <span class="sub">— or they're gone</span></div></div>
-        <div class="tile-tags">tiktok / retention</div>
+        <img class="art-natural shot" src="assets/tiktok-analysis.jpg" alt="TikTok analytics for one video: 1.2 million views, 188 thousand likes, 3,956 hours of watch time and 5,600 new followers">
+        <div class="tile-title"><div class="t">One video, 1.2 million views <span class="sub">— and 5,600 new followers from it</span></div></div>
+        <div class="tile-tags">video analysis / 3,956 hours watched / 61% retention</div>
       </div>
       <div class="offset-1">
-        <div class="ph ratio-vertical"><span class="tag">TOP VIDEO 02</span></div>
-        <div class="tile-title"><div class="t">Skiing meets language <span class="sub">— an odd pairing that worked</span></div></div>
-        <div class="tile-tags">tiktok / niche</div>
+        <img class="art-natural shot" src="assets/tiktok-grid.jpg" alt="TikTok profile grid showing videos at 1.1 million, 659 thousand, 269 thousand and other six figure view counts">
+        <div class="tile-title"><div class="t">Not a one off <span class="sub">— six figures, over and over</span></div></div>
+        <div class="tile-tags">1.1m / 659k / 269k / 169k / 128k</div>
       </div>
       <div class="offset-2">
-        <div class="ph ratio-vertical"><span class="tag">TOP VIDEO 03</span></div>
-        <div class="tile-title"><div class="t">Posted daily <span class="sub">— cadence over polish</span></div></div>
-        <div class="tile-tags">tiktok / consistency</div>
+        <img class="art-natural shot" src="assets/tiktok-profile.jpg" alt="TikTok profile for @jacksontigerb: 80.9 thousand followers and 2.5 million likes">
+        <div class="tile-title"><div class="t">80.9k followers, 2.5m likes <span class="sub">— where it stands today</span></div></div>
+        <div class="tile-tags">@jacksontigerb / july 2026</div>
       </div>
     </div>
 
@@ -630,9 +632,9 @@ nav{
         <div class="tile-tags">photoshop / vegas</div>
       </div>
       <div>
-        <div class="ph ratio-square"><span class="corner">twitch</span><span class="tag">1,500 FOLLOWERS</span></div>
+        <div class="artbox ratio-square"><img src="assets/twitch.jpg" alt="Twitch channel jacksontig3r with 1.3 thousand followers"></div>
         <div class="tile-title"><div class="t">Live streaming <span class="sub">— on camera, unscripted</span></div></div>
-        <div class="tile-tags">twitch / gaming</div>
+        <div class="tile-tags">twitch / 1.3k followers</div>
       </div>
       <div>
         <div class="ph ratio-square"><span class="corner">youtube</span><span class="tag">GAMING VIDEOS</span></div>
@@ -663,11 +665,11 @@ nav{
     </div>
 
     <div class="ski-grid">
-      <div class="a"><div class="ph ratio-landscape"><span class="corner">01</span><span class="tag">FREERIDE · off piste</span></div></div>
-      <div class="b"><div class="ph ratio-portrait"><span class="corner">02</span><span class="tag">FILMING WHILE SKIING</span></div></div>
-      <div class="c"><div class="ph ratio-square"><span class="corner">03</span><span class="tag">PISTE · carving</span></div></div>
-      <div class="d"><div class="ph ratio-square"><span class="corner">04</span><span class="tag">RESORT · with friends</span></div></div>
-      <div class="e"><div class="ph ratio-portrait"><span class="corner">05</span><span class="tag">PARK · messing about</span></div></div>
+      <div class="a"><div class="artbox ratio-landscape"><img src="assets/ski-offpiste.jpg" alt="Skiing off piste beside a snow covered tree"></div></div>
+      <div class="b"><div class="artbox ratio-portrait"><video autoplay muted loop playsinline poster="assets/ski-montage.jpg" aria-label="Ski edit filmed while riding, mountains behind"><source src="assets/ski-montage.mp4" type="video/mp4"></video></div></div>
+      <div class="c"><div class="artbox ratio-square"><img src="assets/ski-slalom.jpg" alt="Carving through slalom gates"></div></div>
+      <div class="d"><div class="artbox ratio-square"><img src="assets/ski-piste-pov.jpg" alt="Following a friend down a sunny piste"></div></div>
+      <div class="e"><div class="artbox ratio-portrait"><img src="assets/ski-park-air.jpg" alt="Airborne off a snow park kicker"></div></div>
     </div>
 
     <p class="ski-para">Different resorts, different conditions, the same footage habit. If a plan changes on the mountain, that's normal, not a crisis.</p>
@@ -690,7 +692,7 @@ nav{
         <div class="tile-tags">CAD / fabrication / Netherlands</div>
       </div>
       <div class="p">
-        <div class="ph ratio-wide"><span class="corner">Arduino</span><span class="tag">MAZE ROBOT · build photo</span></div>
+        <div class="artbox ratio-wide"><img src="assets/maze-robot.jpg" alt="Arduino maze solving robot with breadboard wiring and yellow wheels"></div>
         <div class="tile-title"><div class="t">Maze solving robot <span class="sub">— sensors and soldering</span></div></div>
         <div class="tile-tags">electronics / control logic</div>
       </div>
@@ -705,9 +707,14 @@ nav{
         <div class="tile-tags">visiting research associate / surface coatings / bubble dynamics</div>
       </div>
       <div class="p">
-        <div class="ph ratio-wide"><span class="corner">Exeter</span><span class="tag">ACADEMIC BUILDS · projects</span></div>
-        <div class="tile-title"><div class="t">Bridges, turbines and robots <span class="sub">— the academic builds</span></div></div>
-        <div class="tile-tags">balsa bridge, the only one to survive full load / £50 hydroturbine</div>
+        <div class="artbox ratio-wide"><img src="assets/bridge-test.jpg" alt="Remote control car crossing the balsa bridge on test day"></div>
+        <div class="tile-title"><div class="t">The balsa bridge <span class="sub">— the only one to hold under full load</span></div></div>
+        <div class="tile-tags">spotted the flaw before test day / team project</div>
+      </div>
+      <div class="p">
+        <div class="artbox ratio-wide"><img src="assets/hydroturbine.jpg" alt="Hydroturbine built from an orange pipe, tested in a real stream"></div>
+        <div class="tile-title"><div class="t">A £50 hydroturbine <span class="sub">— tested in a real stream</span></div></div>
+        <div class="tile-tags">design to field test / renewable energy</div>
       </div>
     </div>
 
@@ -868,10 +875,10 @@ nav{
     </div>
 
     <div class="play-grid">
-      <div class="ph ratio-square"><span class="tag">SURF</span></div>
+      <div class="artbox ratio-square"><img src="assets/surf.jpg" alt="Surfer on a distant wave at dusk, shot from in the water"></div>
       <div class="ph ratio-square"><span class="tag">CLIMB</span></div>
-      <div class="ph ratio-square"><span class="tag">LONDON MARATHON</span></div>
-      <div class="ph ratio-landscape"><span class="tag">TRAVEL</span></div>
+      <div class="artbox ratio-square"><img src="assets/runclub.jpg" alt="Run club on a coastal path at sunset"></div>
+      <div class="artbox ratio-landscape"><img src="assets/travel-cirque.jpg" alt="Three friends on a grassy ridge in front of a mountain cirque"></div>
       <div class="ph ratio-landscape"><span class="tag">PIANO / GUITAR / 日本語</span></div>
       <div class="ph ratio-landscape"><span class="tag">PC BUILDS / CHESS</span></div>
     </div>
@@ -894,7 +901,7 @@ nav{
 
     <div class="footer-mark">
       <span class="big">JB<sup style="font-size:0.3em;vertical-align:super;">®</sup></span>
-      <span class="meta">Design mockup · footage and photography drop in next</span>
+      <span class="meta">All footage and photography my own · a few tiles still to fill</span>
     </div>
   </section>
 
