@@ -184,7 +184,6 @@ nav{
 .hero{margin-top:44px;}
 .hero-frame{position:relative;}
 .hero-copy{margin-top:44px;}
-.hero h1{max-width:22ch;}
 .hero .positioning{
   font-family:var(--telegraf);
   font-size:24px;
@@ -302,16 +301,18 @@ nav{
 /* ---------- skiing grid ---------- */
 .ski-grid{
   display:grid;
-  grid-template-columns:repeat(12,1fr);
+  grid-template-columns:repeat(3,1fr);
   gap:18px;
   margin-top:44px;
   align-items:start;
 }
-.ski-grid .a{grid-column:1/7;}
-.ski-grid .b{grid-column:7/13;margin-top:66px;}
-.ski-grid .c{grid-column:1/5;}
-.ski-grid .d{grid-column:5/9;margin-top:33px;}
-.ski-grid .e{grid-column:9/13;}
+.ski-grid .sv{aspect-ratio:9/16;overflow:hidden;}
+.ski-grid .sv video{width:100%;height:100%;object-fit:cover;display:block;background:var(--black);}
+.ski-grid > div:nth-child(2){margin-top:66px;}
+.ski-grid > div:nth-child(3){margin-top:28px;}
+.ski-grid > div:nth-child(4){margin-top:-28px;}
+.ski-grid > div:nth-child(5){margin-top:33px;}
+.ski-grid > div:nth-child(7){margin-top:-22px;}
 .ski-para{
   max-width:40ch;
   margin-top:44px;
@@ -463,6 +464,26 @@ nav{
 .shot{border:1px solid var(--ink);}
 .art--top{object-position:top;}
 .hero-video{width:100%;display:block;aspect-ratio:848/480;object-fit:cover;background:var(--black);}
+.hero-frame{position:relative;}
+.hero-name{
+  position:absolute;
+  top:22px;
+  left:28px;
+  margin:0;
+  font-family:var(--ogg);
+  font-weight:400;
+  color:#fff;
+  font-size:clamp(34px,5.5vw,74px);
+  line-height:1.02;
+  letter-spacing:-0.02em;
+}
+.hero-ladder{max-width:22ch;}
+
+/* ---------- film text cards ---------- */
+.timeline .span2{grid-column:span 2;}
+.textcard{border-top:1px solid var(--ink);padding-top:14px;}
+.textcard .tile-title{margin-top:0;}
+.tl-desc{font-family:var(--telegraf);font-size:18px;line-height:1.5;letter-spacing:0.38px;margin-top:11px;}
 
 /* ---------- zero-to ledger ---------- */
 .ledger{margin-top:44px;border-top:1px solid var(--ink);}
@@ -495,7 +516,7 @@ nav{
   .projects .p:nth-child(n){margin-top:0;}
   .ai-body{grid-template-columns:1fr;}
   .ski-grid{grid-template-columns:1fr 1fr;}
-  .ski-grid .a,.ski-grid .b,.ski-grid .c,.ski-grid .d,.ski-grid .e{grid-column:auto;margin-top:0;}
+  .ski-grid > div{margin-top:0;}
   .play-grid{grid-template-columns:1fr 1fr;}
   .play-grid .ph:nth-child(n){grid-column:auto;margin-top:0;}
   .skills-grid{grid-template-columns:1fr 1fr;}
@@ -503,6 +524,7 @@ nav{
 }
 @media (max-width:560px){
   .story-grid,.timeline,.ski-grid,.play-grid,.skills-grid{grid-template-columns:1fr;}
+  .timeline .span2{grid-column:auto;}
   .cvitem{grid-template-columns:1fr;}
   .cvitem .date{grid-column:1;text-align:left;}
   .ledger .lrow{flex-direction:column;gap:4px;}
@@ -520,7 +542,7 @@ nav{
 
   <!-- NAV -->
   <nav>
-    <a class="wordmark" href="#top">Jackson Brocklebank<sup>®</sup></a>
+    <a class="wordmark" href="#top">JB<sup>®</sup></a>
     <div class="navlinks">
       <a href="#story">TikTok</a>
       <a href="#film">Film</a>
@@ -533,8 +555,8 @@ nav{
   </nav>
 
   <div class="mock-banner">
-    <span>WORK IN PROGRESS · real footage in, a few tiles still waiting on assets</span>
-    <span>v0.4</span>
+    <span>WORK IN PROGRESS · research images and a couple of tiles still to come</span>
+    <span>v0.5</span>
   </div>
 
   <!-- HERO -->
@@ -543,9 +565,10 @@ nav{
       <video class="hero-video" autoplay muted loop playsinline poster="assets/ski-hero.jpg" aria-label="Skiing down an alpine piste into low golden sun">
         <source src="assets/ski-hero.mp4" type="video/mp4">
       </video>
+      <h1 class="hero-name">Jackson Tiger<br>Brocklebank</h1>
     </div>
     <div class="hero-copy">
-      <h1 class="serif-display">On skis at three. A bike business at sixteen. A TikTok that found 89,000 people.</h1>
+      <p class="serif-display hero-ladder">On skis at three. A bike business at sixteen. A TikTok that found 89,000 people.</p>
       <p class="positioning">I'm Jackson. There's no tidy title for what I do, so this page just shows it: engineering, skiing, and a habit of <em>starting things</em> that end up working. Everything below is mine, built, filmed, repaired or grown.</p>
       <div class="statline">
         <span class="stat"><b>millions</b> of views on @jacksontigerb</span>
@@ -568,8 +591,10 @@ nav{
     <div class="ledger">
       <div class="lrow"><span>A Twitch channel in my gaming years</span><span class="out">→ 1.3k followers</span></div>
       <div class="lrow"><span>Brocklebikes, a repair business started at sixteen</span><span class="out">→ 495+ bikes fixed</span></div>
+      <div class="lrow"><span>A renewable energy degree at Exeter</span><span class="out">→ a 2:1, and a first for the dissertation</span></div>
       <div class="lrow"><span>A university run club, founded in January</span><span class="out">→ 25 runners a week by June</span></div>
       <div class="lrow"><span>@jacksontigerb, started from nothing in 2024</span><span class="out">→ 89,000 followers in seven months</span></div>
+      <div class="lrow"><span>A materials science Master's at UCL</span><span class="out">→ the Finisterre coating, further down</span></div>
       <div class="lrow"><span>One speculative email to Curtin University</span><span class="out">→ a research post in Perth</span></div>
       <div class="lrow"><span>This website</span><span class="out">→ you're looking at it</span></div>
     </div>
@@ -593,16 +618,11 @@ nav{
 
     <div class="story-grid">
       <div>
-        <img class="art-natural shot" src="assets/tiktok-analysis.jpg" alt="TikTok analytics for one video: 1.2 million views, 188 thousand likes, 3,956 hours of watch time and 5,600 new followers">
-        <div class="tile-title"><div class="t">One video, 1.2 million views <span class="sub">— and 5,600 new followers from it</span></div></div>
-        <div class="tile-tags">video analysis / 3,956 hours watched / 61% retention</div>
+        <img class="art-natural shot" src="assets/tiktok-grid.jpg" alt="TikTok profile grid showing videos at 1.1 million, 659 thousand, 269 thousand and other six figure view counts">
+        <div class="tile-title"><div class="t">One video hit 1.2 million views <span class="sub">— and the rest kept pace</span></div></div>
+        <div class="tile-tags">1.1m / 659k / 269k / 5,600 new followers from a single video / 61% retention</div>
       </div>
       <div class="offset-1">
-        <img class="art-natural shot" src="assets/tiktok-grid.jpg" alt="TikTok profile grid showing videos at 1.1 million, 659 thousand, 269 thousand and other six figure view counts">
-        <div class="tile-title"><div class="t">Not a one off <span class="sub">— six figures, over and over</span></div></div>
-        <div class="tile-tags">1.1m / 659k / 269k / 169k / 128k</div>
-      </div>
-      <div class="offset-2">
         <img class="art-natural shot" src="assets/tiktok-profile.jpg" alt="TikTok profile for @jacksontigerb: 80.9 thousand followers and 2.5 million likes">
         <div class="tile-title"><div class="t">80.9k followers, 2.5m likes <span class="sub">— where it stands today</span></div></div>
         <div class="tile-tags">@jacksontigerb / july 2026</div>
@@ -626,25 +646,23 @@ nav{
     </div>
 
     <div class="timeline">
-      <div>
-        <div class="ph ratio-square"><span class="corner">2010s</span><span class="tag">CHILDHOOD EDITS</span></div>
-        <div class="tile-title"><div class="t">Scooter &amp; trampoline <span class="sub">— where it began</span></div></div>
-        <div class="tile-tags">photoshop / vegas</div>
+      <div class="span2">
+        <img class="art-natural shot" src="assets/scooter-edit.jpg" alt="YouTube upload titled Jackson Tiger 2017 Edit, four minutes thirty three seconds">
+        <div class="tile-title"><div class="t">Scooter &amp; trampoline edits <span class="sub">— where it began</span></div></div>
+        <div class="tile-tags">the 2017 edit / sony vegas / photoshop</div>
       </div>
       <div>
-        <div class="artbox ratio-square"><img src="assets/twitch.jpg" alt="Twitch channel jacksontig3r with 1.3 thousand followers"></div>
+        <div class="artbox ratio-landscape"><img class="shot" src="assets/twitch.jpg" alt="Twitch channel jacksontig3r with 1.3 thousand followers"></div>
         <div class="tile-title"><div class="t">Live streaming <span class="sub">— on camera, unscripted</span></div></div>
         <div class="tile-tags">twitch / 1.3k followers</div>
       </div>
-      <div>
-        <div class="ph ratio-square"><span class="corner">youtube</span><span class="tag">GAMING VIDEOS</span></div>
-        <div class="tile-title"><div class="t">Long form edits <span class="sub">— learning the craft</span></div></div>
-        <div class="tile-tags">premiere / resolve</div>
+      <div class="textcard">
+        <div class="tile-title"><div class="t">Long form edits <span class="sub">— the YouTube years</span></div></div>
+        <p class="tl-desc">Years of gaming videos, cut in Premiere and Vegas with thumbnails built in Photoshop. None of it is online any more, which is probably for the best, but the editing hours were real.</p>
       </div>
-      <div>
-        <div class="ph ratio-square"><span class="corner">2024</span><span class="tag">OBAN VLOG</span></div>
+      <div class="textcard">
         <div class="tile-title"><div class="t">A mountain day, filmed <span class="sub">— Oban, Scotland</span></div></div>
-        <div class="tile-tags">vlog / on trip</div>
+        <p class="tl-desc">A university field trip turned into a vlog: a day hiking a Scottish mountain, shot and edited on the move. Proof the habit survives bad weather.</p>
       </div>
     </div>
 
@@ -665,11 +683,13 @@ nav{
     </div>
 
     <div class="ski-grid">
-      <div class="a"><div class="artbox ratio-landscape"><img src="assets/ski-offpiste.jpg" alt="Skiing off piste beside a snow covered tree"></div></div>
-      <div class="b"><div class="artbox ratio-portrait"><video autoplay muted loop playsinline poster="assets/ski-montage.jpg" aria-label="Ski edit filmed while riding, mountains behind"><source src="assets/ski-montage.mp4" type="video/mp4"></video></div></div>
-      <div class="c"><div class="artbox ratio-square"><img src="assets/ski-slalom.jpg" alt="Carving through slalom gates"></div></div>
-      <div class="d"><div class="artbox ratio-square"><img src="assets/ski-piste-pov.jpg" alt="Following a friend down a sunny piste"></div></div>
-      <div class="e"><div class="artbox ratio-portrait"><img src="assets/ski-park-air.jpg" alt="Airborne off a snow park kicker"></div></div>
+      <div class="sv"><video autoplay muted loop playsinline preload="metadata" poster="assets/ski-montage.jpg" aria-label="Ski edit filmed while riding, mountains behind"><source src="assets/ski-montage.mp4" type="video/mp4"></video></div>
+      <div class="sv"><video autoplay muted loop playsinline preload="metadata" poster="assets/ski-golden.jpg" aria-label="Golden hour piste with long shadows"><source src="assets/ski-golden.mp4" type="video/mp4"></video></div>
+      <div class="sv"><video autoplay muted loop playsinline preload="metadata" poster="assets/ski-slalom.jpg" aria-label="Carving slalom gates in slow motion"><source src="assets/ski-slalom.mp4" type="video/mp4"></video></div>
+      <div class="sv"><video autoplay muted loop playsinline preload="metadata" poster="assets/ski-offpiste.jpg" aria-label="Off piste beside snow covered trees"><source src="assets/ski-offpiste.mp4" type="video/mp4"></video></div>
+      <div class="sv"><video autoplay muted loop playsinline preload="metadata" poster="assets/ski-park-air.jpg" aria-label="Airborne off a snow park kicker in slow motion"><source src="assets/ski-park-air.mp4" type="video/mp4"></video></div>
+      <div class="sv"><video autoplay muted loop playsinline preload="metadata" poster="assets/ski-piste-pov.jpg" aria-label="Following a friend down a sunny piste, filmed while skiing"><source src="assets/ski-pov.mp4" type="video/mp4"></video></div>
+      <div class="sv"><video autoplay muted loop playsinline preload="metadata" poster="assets/ski-indoor.jpg" aria-label="Sliding a rail at the indoor snow centre"><source src="assets/ski-indoor.mp4" type="video/mp4"></video></div>
     </div>
 
     <p class="ski-para">Different resorts, different conditions, the same footage habit. If a plan changes on the mountain, that's normal, not a crisis.</p>
@@ -687,7 +707,7 @@ nav{
 
     <div class="projects">
       <div class="p">
-        <div class="ph ratio-wide"><span class="corner">Exeter</span><span class="tag">SOLAR BOAT · on the water</span></div>
+        <div class="artbox ratio-wide"><img src="assets/solar-boat.jpg" alt="The solar boat team in blue lab coats working on the hull in the workshop"></div>
         <div class="tile-title"><div class="t">Solar racing boat <span class="sub">— designed, machined, raced</span></div></div>
         <div class="tile-tags">CAD / fabrication / Netherlands</div>
       </div>
@@ -697,7 +717,7 @@ nav{
         <div class="tile-tags">electronics / control logic</div>
       </div>
       <div class="p">
-        <div class="ph ratio-wide"><span class="corner">since 2020</span><span class="tag">BROCKLEBIKES · workshop</span></div>
+        <div class="artbox ratio-wide"><img src="assets/brocklebikes.jpg" alt="A bike on the repair stand in the garden"></div>
         <div class="tile-title"><div class="t">Brocklebikes <span class="sub">— a business I started at sixteen</span></div></div>
         <div class="tile-tags">495+ repairs / self taught / customer facing</div>
       </div>
@@ -879,8 +899,8 @@ nav{
       <div class="ph ratio-square"><span class="tag">CLIMB</span></div>
       <div class="artbox ratio-square"><img src="assets/runclub.jpg" alt="Run club on a coastal path at sunset"></div>
       <div class="artbox ratio-landscape"><img src="assets/travel-cirque.jpg" alt="Three friends on a grassy ridge in front of a mountain cirque"></div>
-      <div class="ph ratio-landscape"><span class="tag">PIANO / GUITAR / 日本語</span></div>
-      <div class="ph ratio-landscape"><span class="tag">PC BUILDS / CHESS</span></div>
+      <div class="artbox ratio-landscape"><img src="assets/marathon.jpg" alt="Friends with signs at the London Marathon"></div>
+      <div class="ph ratio-landscape"><span class="tag">PIANO / 日本語 / PC BUILDS / CHESS</span></div>
     </div>
   </section>
 
