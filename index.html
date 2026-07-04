@@ -272,7 +272,7 @@ nav{
   line-height:1.1;
   letter-spacing:-0.52px;
 }
-.tile-title .t .sub{font-style:italic;}
+.tile-title .t .sub{font-style:italic;display:block;margin-top:2px;}
 .tile-tags{
   font-family:var(--telegraf);
   font-size:15px;
@@ -440,7 +440,7 @@ nav{
 }
 .cvitem .h{grid-column:1;}
 .cvitem .h .t{font-family:var(--ogg);font-size:26px;line-height:1.1;letter-spacing:-0.52px;}
-.cvitem .h .t .sub{font-style:italic;}
+.cvitem .h .t .sub{font-style:italic;display:block;margin-top:2px;}
 .cvitem .h .place{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;margin-top:11px;display:block;}
 .cvitem .h .desc{font-family:var(--telegraf);font-size:18px;line-height:1.5;letter-spacing:0.38px;margin-top:11px;max-width:56ch;}
 .cvitem .date{grid-column:2;font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;text-align:right;white-space:nowrap;}
@@ -464,23 +464,22 @@ nav{
 .shot{border:1px solid var(--ink);}
 .art--top{object-position:top;}
 .hero-video{width:100%;display:block;aspect-ratio:848/480;object-fit:cover;background:var(--black);}
-.hero-frame{position:relative;}
+.hero-frame{position:relative;overflow:hidden;}
 .hero-name{
   position:absolute;
-  top:16px;
-  left:0;
-  right:0;
-  margin:0;
-  padding:0 2vw;
-  text-align:center;
-  white-space:nowrap;
+  top:2.6%;
+  left:3.5%;
+  width:93%;
+  height:auto;
+  display:block;
+  filter:drop-shadow(0 2px 12px rgba(0,0,0,0.4));
+}
+.hero-name text{
   font-family:var(--ogg);
   font-weight:400;
-  color:#fff;
-  font-size:clamp(20px,6vw,78px);
-  line-height:1;
-  letter-spacing:-0.035em;
-  text-shadow:0 2px 24px rgba(0,0,0,0.35);
+  fill:#fff;
+  font-size:82px;
+  letter-spacing:-0.01em;
 }
 .hero-ladder{max-width:22ch;}
 
@@ -516,14 +515,14 @@ nav{
 .run-note{
   margin-top:18px;
   display:grid;
-  grid-template-columns:190px 1fr 1.2fr;
-  gap:24px;
-  align-items:center;
+  grid-template-columns:1fr 1fr;
+  gap:32px;
+  align-items:start;
 }
-.run-note .marie img{height:240px;width:auto;max-width:100%;margin:0 auto;border:1px solid var(--ink);display:block;}
+.run-note .marie img{width:100%;height:auto;border:1px solid var(--ink);display:block;}
 .run-note p{font-size:18px;line-height:1.4;letter-spacing:0.38px;}
 .run-note p .big{font-family:var(--ogg);font-size:24px;letter-spacing:-0.4px;font-style:italic;}
-.run-note .rm{overflow:hidden;aspect-ratio:16/10;}
+.run-note .rm{overflow:hidden;aspect-ratio:16/10;margin-top:18px;}
 .run-note .rm img{width:100%;height:100%;object-fit:cover;display:block;}
 
 /* ---------- research evidence ---------- */
@@ -551,7 +550,7 @@ nav{
 }
 .soon .lab{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;}
 .soon .big{font-family:var(--ogg);font-size:26px;line-height:1.05;letter-spacing:-0.52px;}
-.soon .big .sub{font-style:italic;}
+.soon .big .sub{font-style:italic;display:block;}
 
 /* ---------- zero-to ledger ---------- */
 .ledger{margin-top:44px;border-top:1px solid var(--ink);}
@@ -610,7 +609,7 @@ nav{
 </head>
 <body>
 
-<div class="rail">LONDON 51.5°N — PARK CITY 40.6°N ✳ WINTER 26/27</div>
+<div class="rail">LONDON 51.5°N · PARK CITY 40.6°N ✳ WINTER 26/27</div>
 
 <div class="page">
 
@@ -635,7 +634,9 @@ nav{
       <video class="hero-video" autoplay muted loop playsinline poster="assets/ski-hero.jpg" aria-label="Skiing down an alpine piste into low golden sun">
         <source src="assets/ski-hero.mp4" type="video/mp4">
       </video>
-      <h1 class="hero-name">Jackson Tiger Brocklebank</h1>
+      <svg class="hero-name" viewBox="0 0 1000 96" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Jackson Tiger Brocklebank">
+        <text x="500" y="76" text-anchor="middle" textLength="1000" lengthAdjust="spacingAndGlyphs">Jackson Tiger Brocklebank</text>
+      </svg>
     </div>
     <div class="hero-copy">
       <p class="serif-display hero-ladder">On skis at three. A bike business at sixteen. A TikTok that found 89,000 people.</p>
@@ -652,8 +653,8 @@ nav{
   <section id="pattern">
     <div class="sec-head">
       <div>
-        <span class="eyebrow">00 — the pattern</span>
-        <h2 class="serif-heading">Things I've started from zero — <span class="italic">and where they got to</span></h2>
+        <span class="eyebrow">00 · the pattern</span>
+        <h2 class="serif-heading">Things I've started from zero, <span class="italic">and where they got to</span></h2>
       </div>
       <p class="lead">The full CV is further down the page. This is the short version.</p>
     </div>
@@ -674,39 +675,39 @@ nav{
   <section id="story">
     <div class="sec-head">
       <div>
-        <span class="eyebrow">01 — case study: @jacksontigerb</span>
-        <h2 class="serif-heading">Zero to 89,000 in seven months — <span class="italic">run like an engineering project</span></h2>
+        <span class="eyebrow">01 · case study: @jacksontigerb</span>
+        <h2 class="serif-heading">Zero to 89,000 followers in seven months</h2>
       </div>
       <p class="lead">I started <span class="italic">@jacksontigerb</span> in 2024, mixing learning Japanese with skiing and the rest of an active life. I ran it the way I run any build: post daily, read the numbers, keep what works, drop what doesn't. It found an audience fast.</p>
     </div>
 
     <div class="story-numbers">
       <div class="bignum"><span class="n">0 → 89k</span><span class="l">followers in ~7 months</span></div>
-      <div class="bignum"><span class="n">80.9k</span><span class="l">where it sits now</span></div>
+      <div class="bignum"><span class="n">80.9k</span><span class="l">still there since I paused it</span></div>
       <div class="bignum"><span class="n">millions</span><span class="l">of views across the account</span></div>
     </div>
 
     <div class="story-grid">
       <div>
         <img class="art-natural shot" src="assets/tiktok-analysis.jpg" alt="TikTok video analysis: 1.2 million views, 188 thousand likes, 5,600 new followers and 61 percent retention">
-        <div class="tile-title"><div class="t">One video, 1.2 million views <span class="sub">— 5,600 followers from it alone</span></div></div>
+        <div class="tile-title"><div class="t">One video, 1.2 million views <span class="sub">5,600 followers from it alone</span></div></div>
         <div class="tile-tags">1.2m views / 3,956 hours watched / 61% retention</div>
       </div>
       <div class="offset-1">
         <img class="art-natural shot" src="assets/tiktok-grid.jpg" alt="TikTok profile grid showing videos at 1.1 million, 659 thousand, 269 thousand and other six figure view counts">
-        <div class="tile-title"><div class="t">Not a fluke <span class="sub">— six figures, again and again</span></div></div>
+        <div class="tile-title"><div class="t">Not a fluke <span class="sub">six figures, again and again</span></div></div>
         <div class="tile-tags">1.1m / 659k / 269k / 169k / 128k</div>
       </div>
       <div class="offset-2">
         <img class="art-natural shot" src="assets/tiktok-profile.jpg" alt="TikTok profile for @jacksontigerb: 80.9 thousand followers and 2.5 million likes">
-        <div class="tile-title"><div class="t">80.9k followers, 2.5m likes <span class="sub">— where it stands today</span></div></div>
+        <div class="tile-title"><div class="t">80.9k followers, 2.5m likes <span class="sub">where it stands today</span></div></div>
         <div class="tile-tags">@jacksontigerb / july 2026</div>
       </div>
     </div>
 
     <div class="sec-head" style="margin-top:88px;">
       <div><span class="eyebrow">what I took from it</span></div>
-      <p class="lead">The account taught me which trends to ride, which to skip, and that cadence beats polish. Growing it alone also meant doing every job at once: ideas, filming, editing, captions, posting, replying to comments, reading the analytics after. That's the same loop a brand channel runs, just <span class="italic">smaller</span>.</p>
+      <p class="lead">The account taught me which trends to ride, which to skip, and that cadence beats polish. Growing it alone also meant doing every job at once: ideas, filming, editing, captions, posting, replying to comments, reading the analytics after. That's the same loop a brand channel runs, just <span class="italic">smaller</span>. I've paused posting this year to put the Masters in London first, which is why it's eased from 89k to 80.9k, but the instinct for what works hasn't gone anywhere.</p>
     </div>
   </section>
 
@@ -714,8 +715,8 @@ nav{
   <section id="film">
     <div class="sec-head">
       <div>
-        <span class="eyebrow">02 — fifteen years behind a camera</span>
-        <h2 class="serif-heading">Editing isn't new to me — <span class="italic">it's been there the whole time</span></h2>
+        <span class="eyebrow">02 · fifteen years behind a camera</span>
+        <h2 class="serif-heading">Editing isn't new to me, <span class="italic">it's been there the whole time</span></h2>
       </div>
       <p class="lead">Long before the TikTok, there were scooter edits, gaming videos and a Twitch channel. The tools changed, the habit did not.</p>
     </div>
@@ -723,12 +724,12 @@ nav{
     <div class="timeline">
       <div class="span2">
         <div class="filmbox-dark"><img src="assets/scooter-edit.jpg" alt="YouTube upload titled Jackson Tiger 2017 Edit, four minutes thirty three seconds"></div>
-        <div class="tile-title"><div class="t">Scooter &amp; trampoline edits <span class="sub">— where it began</span></div></div>
+        <div class="tile-title"><div class="t">Scooter &amp; trampoline edits <span class="sub">where it began</span></div></div>
         <div class="tile-tags">the 2017 edit / sony vegas / photoshop</div>
       </div>
       <div class="span2">
         <div class="artbox ratio-wide"><img class="shot" src="assets/twitch.jpg" alt="Twitch channel jacksontig3r with 1.3 thousand followers"></div>
-        <div class="tile-title"><div class="t">Twitch &amp; YouTube <span class="sub">— the streaming years</span></div></div>
+        <div class="tile-title"><div class="t">Twitch &amp; YouTube <span class="sub">the streaming years</span></div></div>
         <div class="tile-tags">1.3k on Twitch, live and unscripted, plus years of gaming edits on YouTube in Premiere and Vegas</div>
       </div>
     </div>
@@ -743,8 +744,8 @@ nav{
   <section id="ski">
     <div class="sec-head">
       <div>
-        <span class="eyebrow">03 — on snow</span>
-        <h2 class="serif-heading">On skis since three — <span class="italic">and just as happy holding the camera</span></h2>
+        <span class="eyebrow">03 · on snow</span>
+        <h2 class="serif-heading">On skis since three, <span class="italic">and just as happy holding the camera</span></h2>
       </div>
       <p class="lead">Comfortable across all terrain, piste or freeride, and used to filming while I ride. This is the part of the job you can't fake, and it's home ground.</p>
     </div>
@@ -765,8 +766,8 @@ nav{
   <section id="build">
     <div class="sec-head">
       <div>
-        <span class="eyebrow">04 — I also build things</span>
-        <h2 class="serif-heading">Carv is a ski company built by engineers — <span class="italic">I get the product on both sides</span></h2>
+        <span class="eyebrow">04 · I also build things</span>
+        <h2 class="serif-heading">Carv is a ski company built by engineers, <span class="italic">so I get the product on both sides</span></h2>
       </div>
       <p class="lead">A Master's in materials engineering and a lot of hands on projects. Useful context for a brand whose whole product is a sensor for skiers.</p>
     </div>
@@ -774,36 +775,36 @@ nav{
     <div class="projects">
       <div class="p">
         <div class="artbox ratio-wide"><img src="assets/solar-boat.jpg" alt="The solar boat team in blue lab coats working on the hull in the workshop"></div>
-        <div class="tile-title"><div class="t">Solar racing boat <span class="sub">— designed, machined, raced</span></div></div>
+        <div class="tile-title"><div class="t">Solar racing boat <span class="sub">designed, machined, raced</span></div></div>
         <div class="tile-tags">CAD / fabrication / Netherlands</div>
       </div>
       <div class="p">
         <div class="artbox ratio-wide"><img src="assets/maze-robot.jpg" alt="Arduino maze solving robot with breadboard wiring and yellow wheels"></div>
-        <div class="tile-title"><div class="t">Maze solving robot <span class="sub">— sensors and soldering</span></div></div>
+        <div class="tile-title"><div class="t">Maze solving robot <span class="sub">sensors and soldering</span></div></div>
         <div class="tile-tags">electronics / control logic</div>
       </div>
       <div class="p">
         <div class="artbox ratio-wide"><img src="assets/brocklebikes.jpg" alt="A bike on the repair stand in the garden"></div>
-        <div class="tile-title"><div class="t">Brocklebikes <span class="sub">— a business I started at sixteen</span></div></div>
+        <div class="tile-title"><div class="t">Brocklebikes <span class="sub">a business I started at sixteen</span></div></div>
         <div class="tile-tags">495+ repairs / self taught / customer facing</div>
       </div>
       <div class="p">
         <div class="soon">
-          <span class="lab">next · Curtin University, Perth</span>
-          <span class="big">Photocatalytic water splitting <span class="sub">— clean hydrogen, coming soon</span></span>
-          <span class="lab">starts August 2026 · surface coatings &amp; bubble dynamics</span>
+          <span class="lab">next up · Curtin University, Perth</span>
+          <span class="big">Coming soon</span>
+          <span class="lab">from August 2026</span>
         </div>
-        <div class="tile-title"><div class="t">Photocatalytic water splitting <span class="sub">— clean hydrogen research</span></div></div>
-        <div class="tile-tags">visiting research associate / from August 2026</div>
+        <div class="tile-title"><div class="t">Photocatalytic water splitting <span class="sub">clean hydrogen research</span></div></div>
+        <div class="tile-tags">visiting research associate / surface coatings &amp; bubble dynamics</div>
       </div>
       <div class="p">
         <div class="artbox ratio-wide"><img src="assets/bridge.jpg" alt="Building the balsa bridge in the workshop with two teammates"></div>
-        <div class="tile-title"><div class="t">The balsa bridge <span class="sub">— the only one to hold under full load</span></div></div>
+        <div class="tile-title"><div class="t">The balsa bridge <span class="sub">the only one to hold under full load</span></div></div>
         <div class="tile-tags">spotted the flaw before test day / team project</div>
       </div>
       <div class="p">
         <div class="artbox ratio-wide"><img src="assets/hydroturbine.jpg" alt="Hydroturbine built from an orange pipe, tested in a real stream"></div>
-        <div class="tile-title"><div class="t">A £50 hydroturbine <span class="sub">— tested in a real stream</span></div></div>
+        <div class="tile-title"><div class="t">A £50 hydroturbine <span class="sub">tested in a real stream</span></div></div>
         <div class="tile-tags">design to field test / renewable energy</div>
       </div>
     </div>
@@ -815,8 +816,8 @@ nav{
   <section id="collab">
     <div class="sec-head">
       <div>
-        <span class="eyebrow">05 — the research, up close</span>
-        <h2 class="serif-heading">A PFAS free waterproof coating — <span class="italic">built with Finisterre</span></h2>
+        <span class="eyebrow">05 · the research, up close</span>
+        <h2 class="serif-heading">A PFAS free waterproof coating, <span class="italic">built with Finisterre</span></h2>
       </div>
       <p class="lead">My Master's project, and the one that pulls the whole page together: the outdoors, materials science and a more sustainable way of doing it. I'm synthesising a PFAS free superhydrophobic coating for outdoor textiles, supervised by Prospero Taroni-Junior and working with Abbie Spence at <span class="italic">Finisterre</span>.</p>
     </div>
@@ -838,11 +839,11 @@ nav{
     <div class="sem-pair" style="margin-top:44px;">
       <figure>
         <img src="assets/sem-clumped.jpg" alt="SEM image of unmodified titanium dioxide sitting in large clumps on the fibres">
-        <figcaption>Unmodified TiO₂ — sitting in clumps on the fibres</figcaption>
+        <figcaption>Unmodified TiO₂, sitting in clumps on the fibres</figcaption>
       </figure>
       <figure>
         <img src="assets/sem-dispersed.jpg" alt="SEM image of surface modified titanium dioxide spread evenly across the fibres">
-        <figcaption>Surface modified TiO₂ — spread evenly, the coating I want</figcaption>
+        <figcaption>Surface modified TiO₂, spread evenly, the coating I want</figcaption>
       </figure>
     </div>
     <p class="tile-tags" style="margin-top:11px;">SEM at ×2,000 · modifying the particle surface stops it clumping, so the coating sits even and repels better</p>
@@ -855,8 +856,8 @@ nav{
   <section id="education">
     <div class="sec-head">
       <div>
-        <span class="eyebrow">06 — education &amp; awards</span>
-        <h2 class="serif-heading">The degrees behind it — <span class="italic">materials and energy</span></h2>
+        <span class="eyebrow">06 · education &amp; awards</span>
+        <h2 class="serif-heading">The degrees behind it, <span class="italic">materials and energy</span></h2>
       </div>
       <p class="lead">A Master's in advanced materials on top of an engineering degree, with a couple of firsts along the way.</p>
     </div>
@@ -864,7 +865,7 @@ nav{
     <div class="cvlist">
       <div class="cvitem">
         <div class="h">
-          <div class="t">MSc Advanced Materials Science <span class="sub">— University College London</span></div>
+          <div class="t">MSc Advanced Materials Science <span class="sub">University College London</span></div>
           <span class="place">London · research year</span>
           <p class="desc">The home of the PFAS free coating project above. Day to day it's synthesis in the lab and a lot of hours on the characterisation suite, SEM, TEM, FTIR, XRD and XPS.</p>
         </div>
@@ -872,7 +873,7 @@ nav{
       </div>
       <div class="cvitem">
         <div class="h">
-          <div class="t">BEng Renewable Energy Engineering <span class="sub">— University of Exeter, 2:1</span></div>
+          <div class="t">BEng Renewable Energy Engineering <span class="sub">University of Exeter, 2:1</span></div>
           <span class="place">Exeter · mechanical and electrical grounding</span>
           <p class="desc">My dissertation on redox flow batteries for renewable energy earned a first, and so did the field trip module, where I pitched wind turbine blade recycling to industry partners Nadara and ReBlade. One field trip, a day hiking a mountain near Oban, I turned into a vlog, shot and edited on the move.</p>
         </div>
@@ -885,16 +886,16 @@ nav{
   <section id="experience">
     <div class="sec-head">
       <div>
-        <span class="eyebrow">07 — experience beyond the studio</span>
-        <h2 class="serif-heading">Roles that were really about people — <span class="italic">and staying calm when it is busy</span></h2>
+        <span class="eyebrow">07 · experience beyond the studio</span>
+        <h2 class="serif-heading">Roles that were really about people, <span class="italic">and staying calm when it's busy</span></h2>
       </div>
-      <p class="lead">Community building, teaching and customer facing work. Most of a social role is people, and this is where I have done it.</p>
+      <p class="lead">Community building, teaching and customer facing work. Most of a social role is people, and this is where I've done it.</p>
     </div>
 
     <div class="cvlist">
       <div class="cvitem">
         <div class="h">
-          <div class="t">Run Club Founder &amp; President <span class="sub">— Falmouth Running Society</span></div>
+          <div class="t">Run Club Founder &amp; President <span class="sub">Falmouth Running Society</span></div>
           <span class="place">Started a club and grew a community</span>
           <p class="desc">Founded and led a university running club, growing it to 200+ followers and weekly sessions of up to 25 runners in a single semester.</p>
         </div>
@@ -902,7 +903,7 @@ nav{
       </div>
       <div class="cvitem">
         <div class="h">
-          <div class="t">Digital Hub Student Ambassador <span class="sub">— University of Exeter</span></div>
+          <div class="t">Digital Hub Student Ambassador <span class="sub">University of Exeter</span></div>
           <span class="place">Technical support, up to 100 students a day</span>
           <p class="desc">Provided troubleshooting in the library IT department, helping up to a hundred students a day, calm and quick under pressure.</p>
         </div>
@@ -910,7 +911,7 @@ nav{
       </div>
       <div class="cvitem">
         <div class="h">
-          <div class="t">Student Representative <span class="sub">— University College London</span></div>
+          <div class="t">Student Representative <span class="sub">University College London</span></div>
           <span class="place">Relaying feedback in departmental meetings</span>
           <p class="desc">Gathering and relaying course feedback, helping the department spot and address student concerns.</p>
         </div>
@@ -918,7 +919,7 @@ nav{
       </div>
       <div class="cvitem">
         <div class="h">
-          <div class="t">Customer Facing Roles <span class="sub">— cafés and a lettings office</span></div>
+          <div class="t">Customer Facing Roles <span class="sub">cafés and a lettings office</span></div>
           <span class="place">Drury 188-189 · Castle Beach Café · Frank Harris &amp; Co</span>
           <p class="desc">Fast, accurate service across two café roles and a sales and lettings office, handling orders, enquiries and day to day admin while staying calm in busy settings.</p>
         </div>
@@ -931,8 +932,8 @@ nav{
   <section id="run">
     <div class="sec-head">
       <div>
-        <span class="eyebrow">08 — run club &amp; the marathon</span>
-        <h2 class="serif-heading">I started a run club in January — <span class="italic">by June it was 25 a week</span></h2>
+        <span class="eyebrow">08 · run club &amp; the marathon</span>
+        <h2 class="serif-heading">I started a run club in January, <span class="italic">by June it was 25 a week</span></h2>
       </div>
       <p class="lead">Founding Falmouth Running Society taught me how to grow a real community from nothing, the offline version of building an audience. Then I took it further and ran the London Marathon.</p>
     </div>
@@ -944,9 +945,11 @@ nav{
     </div>
 
     <div class="run-note">
-      <div class="marie"><img src="assets/marie-curie.jpg" alt="Marie Curie fundraising page showing £1,647 raised, 66 percent of a £2,500 target"></div>
-      <p>For the 2026 London Marathon I ran for <span class="big">Marie Curie</span> and raised £1,647 from 64 donors, two thirds of the target, with a crowd of mates holding a "GO TIGGY" sign at the finish.</p>
-      <div class="rm"><img src="assets/marathon.jpg" alt="Friends at the London Marathon finish with GO TIGGY and Release the Tiger signs"></div>
+      <div class="marie"><img src="assets/marie-curie.jpg" alt="Marie Curie fundraising page: £1,647 raised, 66 percent of a £2,500 target, 64 donors"></div>
+      <div>
+        <p>For the 2026 London Marathon I ran for <span class="big">Marie Curie</span> and raised £1,647 from 64 donors, two thirds of the target, with a crowd of mates holding a "GO TIGGY" sign at the finish.</p>
+        <div class="rm"><img src="assets/marathon.jpg" alt="Friends at the London Marathon finish holding GO TIGGY signs"></div>
+      </div>
     </div>
   </section>
 
@@ -954,8 +957,8 @@ nav{
   <section id="skills">
     <div class="sec-head">
       <div>
-        <span class="eyebrow">09 — the toolkit</span>
-        <h2 class="serif-heading">What I can actually do — <span class="italic">hands on and technical</span></h2>
+        <span class="eyebrow">09 · the toolkit</span>
+        <h2 class="serif-heading">What I can actually do, <span class="italic">hands on and technical</span></h2>
       </div>
       <p class="lead">The creative tools I edit with, plus the technical and workshop skills behind the projects.</p>
     </div>
@@ -974,8 +977,8 @@ nav{
   <section id="ai">
     <div class="sec-head">
       <div>
-        <span class="eyebrow">10 — ai as a tool, not a talking point</span>
-        <h2 class="serif-heading">I treat AI as a superpower — <span class="italic">and I actually use it</span></h2>
+        <span class="eyebrow">10 · ai as a tool, not a talking point</span>
+        <h2 class="serif-heading">I actually use AI, <span class="italic">not just talk about it</span></h2>
       </div>
       <p class="lead">Not a buzzword on a slide. It's wired into how I research, plan and clear the repetitive work off my plate.</p>
     </div>
@@ -994,8 +997,8 @@ nav{
   <section id="play">
     <div class="sec-head">
       <div>
-        <span class="eyebrow">11 — off the mountain</span>
-        <h2 class="serif-heading">The chairlift test <span class="italic">— the rest of me</span></h2>
+        <span class="eyebrow">11 · off the mountain</span>
+        <h2 class="serif-heading">Everything else I'm into</h2>
       </div>
       <p class="lead">Surf, skate, climb, Japanese, piano and guitar, chess, and I build my own PCs. I shoot most of this myself, so the photos are half the hobby. I like being outside and I like meeting people, which is most of this job.</p>
     </div>
@@ -1011,7 +1014,7 @@ nav{
 
   <!-- CONTACT -->
   <section class="contact" id="contact">
-    <span class="eyebrow">12 — let's talk</span>
+    <span class="eyebrow">12 · let's talk</span>
     <h2 class="serif-display">Talk to me about next winter.</h2>
     <p class="avail">From August to late November 2026 I'm at Curtin University in Perth, researching clean hydrogen. From mid September I can be set up and working online, and from December I'm on the ground, London, Park City or a resort, wherever the season needs me.</p>
 
