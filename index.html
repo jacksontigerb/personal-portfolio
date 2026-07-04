@@ -467,15 +467,20 @@ nav{
 .hero-frame{position:relative;}
 .hero-name{
   position:absolute;
-  top:22px;
-  left:28px;
+  top:18px;
+  left:0;
+  right:0;
   margin:0;
+  padding:0 3vw;
+  text-align:center;
+  white-space:nowrap;
   font-family:var(--ogg);
   font-weight:400;
   color:#fff;
-  font-size:clamp(34px,5.5vw,74px);
-  line-height:1.02;
+  font-size:clamp(24px,8.2vw,116px);
+  line-height:1;
   letter-spacing:-0.02em;
+  text-shadow:0 2px 24px rgba(0,0,0,0.35);
 }
 .hero-ladder{max-width:22ch;}
 
@@ -484,6 +489,69 @@ nav{
 .textcard{border-top:1px solid var(--ink);padding-top:14px;}
 .textcard .tile-title{margin-top:0;}
 .tl-desc{font-family:var(--telegraf);font-size:18px;line-height:1.5;letter-spacing:0.38px;margin-top:11px;}
+
+/* ---------- black film box (even padding, seamless bg) ---------- */
+.filmbox-dark{
+  background:var(--black);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:44px;
+  aspect-ratio:16/7;
+}
+.filmbox-dark img{width:100%;height:auto;max-height:100%;object-fit:contain;}
+
+/* ---------- run club ---------- */
+.run-grid{
+  display:grid;
+  grid-template-columns:0.8fr 1fr 1fr;
+  gap:18px;
+  margin-top:44px;
+  align-items:start;
+}
+.run-grid .rv{aspect-ratio:9/16;overflow:hidden;grid-row:span 2;}
+.run-grid .rv video{width:100%;height:100%;object-fit:cover;display:block;background:var(--black);}
+.run-grid .rp{overflow:hidden;}
+.run-grid .rp img{width:100%;height:100%;object-fit:cover;display:block;}
+.run-grid .tall{aspect-ratio:3/4;}
+.run-note{
+  margin-top:44px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:44px;
+  align-items:center;
+}
+.run-note .marie{max-width:300px;}
+.run-note .marie img{width:100%;border:1px solid var(--ink);}
+.run-note p{font-size:20px;line-height:1.33;}
+.run-note p .big{font-family:var(--ogg);font-size:26px;letter-spacing:-0.52px;font-style:italic;}
+
+/* ---------- research evidence ---------- */
+.sem-pair{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+  margin-top:18px;
+}
+.sem-pair figure{margin:0;}
+.sem-pair img{width:100%;display:block;border:1px solid var(--ink);}
+.sem-pair figcaption{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;margin-top:11px;}
+.research-video{width:100%;display:block;aspect-ratio:16/9;object-fit:cover;background:var(--black);border:1px solid var(--ink);margin-top:44px;}
+.wca-graph{width:100%;display:block;border:1px solid var(--ink);margin-top:18px;background:#fff;}
+
+/* ---------- coming soon tile ---------- */
+.soon{
+  aspect-ratio:16/9;
+  border:1px solid var(--ink);
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:space-between;
+  padding:18px;
+}
+.soon .lab{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;}
+.soon .big{font-family:var(--ogg);font-size:26px;line-height:1.05;letter-spacing:-0.52px;}
+.soon .big .sub{font-style:italic;}
 
 /* ---------- zero-to ledger ---------- */
 .ledger{margin-top:44px;border-top:1px solid var(--ink);}
@@ -519,7 +587,12 @@ nav{
   .ski-grid > div{margin-top:0;}
   .play-grid{grid-template-columns:1fr 1fr;}
   .play-grid .ph:nth-child(n){grid-column:auto;margin-top:0;}
+  .play-grid .artbox:nth-child(n){grid-column:auto;margin-top:0;}
   .skills-grid{grid-template-columns:1fr 1fr;}
+  .sem-pair{grid-template-columns:1fr;}
+  .run-grid{grid-template-columns:1fr 1fr;}
+  .run-grid .rv{grid-row:auto;}
+  .run-note{grid-template-columns:1fr;gap:24px;}
   .rail{display:none;}
 }
 @media (max-width:560px){
@@ -529,6 +602,8 @@ nav{
   .cvitem .date{grid-column:1;text-align:left;}
   .ledger .lrow{flex-direction:column;gap:4px;}
   .ledger .lrow .out{text-align:left;max-width:100%;}
+  .run-grid{grid-template-columns:1fr;}
+  .hero-name{white-space:normal;}
   .statline .stat{border-right:none;padding-right:0;margin-right:0;}
   .hero .positioning{font-size:20px;}
 }
@@ -549,15 +624,11 @@ nav{
       <a href="#ski">Skiing</a>
       <a href="#build">Build</a>
       <a href="#collab">Research</a>
+      <a href="#run">Run</a>
       <a href="#education">CV</a>
       <a href="#contact">Contact</a>
     </div>
   </nav>
-
-  <div class="mock-banner">
-    <span>WORK IN PROGRESS · research images and a couple of tiles still to come</span>
-    <span>v0.5</span>
-  </div>
 
   <!-- HERO -->
   <header class="hero" id="top">
@@ -565,7 +636,7 @@ nav{
       <video class="hero-video" autoplay muted loop playsinline poster="assets/ski-hero.jpg" aria-label="Skiing down an alpine piste into low golden sun">
         <source src="assets/ski-hero.mp4" type="video/mp4">
       </video>
-      <h1 class="hero-name">Jackson Tiger<br>Brocklebank</h1>
+      <h1 class="hero-name">Jackson Tiger Brocklebank</h1>
     </div>
     <div class="hero-copy">
       <p class="serif-display hero-ladder">On skis at three. A bike business at sixteen. A TikTok that found 89,000 people.</p>
@@ -618,11 +689,16 @@ nav{
 
     <div class="story-grid">
       <div>
-        <img class="art-natural shot" src="assets/tiktok-grid.jpg" alt="TikTok profile grid showing videos at 1.1 million, 659 thousand, 269 thousand and other six figure view counts">
-        <div class="tile-title"><div class="t">One video hit 1.2 million views <span class="sub">— and the rest kept pace</span></div></div>
-        <div class="tile-tags">1.1m / 659k / 269k / 5,600 new followers from a single video / 61% retention</div>
+        <img class="art-natural shot" src="assets/tiktok-analysis.jpg" alt="TikTok video analysis: 1.2 million views, 188 thousand likes, 5,600 new followers and 61 percent retention">
+        <div class="tile-title"><div class="t">One video, 1.2 million views <span class="sub">— 5,600 followers from it alone</span></div></div>
+        <div class="tile-tags">1.2m views / 3,956 hours watched / 61% retention</div>
       </div>
       <div class="offset-1">
+        <img class="art-natural shot" src="assets/tiktok-grid.jpg" alt="TikTok profile grid showing videos at 1.1 million, 659 thousand, 269 thousand and other six figure view counts">
+        <div class="tile-title"><div class="t">Not a fluke <span class="sub">— six figures, again and again</span></div></div>
+        <div class="tile-tags">1.1m / 659k / 269k / 169k / 128k</div>
+      </div>
+      <div class="offset-2">
         <img class="art-natural shot" src="assets/tiktok-profile.jpg" alt="TikTok profile for @jacksontigerb: 80.9 thousand followers and 2.5 million likes">
         <div class="tile-title"><div class="t">80.9k followers, 2.5m likes <span class="sub">— where it stands today</span></div></div>
         <div class="tile-tags">@jacksontigerb / july 2026</div>
@@ -647,22 +723,14 @@ nav{
 
     <div class="timeline">
       <div class="span2">
-        <img class="art-natural shot" src="assets/scooter-edit.jpg" alt="YouTube upload titled Jackson Tiger 2017 Edit, four minutes thirty three seconds">
+        <div class="filmbox-dark"><img src="assets/scooter-edit.jpg" alt="YouTube upload titled Jackson Tiger 2017 Edit, four minutes thirty three seconds"></div>
         <div class="tile-title"><div class="t">Scooter &amp; trampoline edits <span class="sub">— where it began</span></div></div>
         <div class="tile-tags">the 2017 edit / sony vegas / photoshop</div>
       </div>
-      <div>
-        <div class="artbox ratio-landscape"><img class="shot" src="assets/twitch.jpg" alt="Twitch channel jacksontig3r with 1.3 thousand followers"></div>
-        <div class="tile-title"><div class="t">Live streaming <span class="sub">— on camera, unscripted</span></div></div>
-        <div class="tile-tags">twitch / 1.3k followers</div>
-      </div>
-      <div class="textcard">
-        <div class="tile-title"><div class="t">Long form edits <span class="sub">— the YouTube years</span></div></div>
-        <p class="tl-desc">Years of gaming videos, cut in Premiere and Vegas with thumbnails built in Photoshop. None of it is online any more, which is probably for the best, but the editing hours were real.</p>
-      </div>
-      <div class="textcard">
-        <div class="tile-title"><div class="t">A mountain day, filmed <span class="sub">— Oban, Scotland</span></div></div>
-        <p class="tl-desc">A university field trip turned into a vlog: a day hiking a Scottish mountain, shot and edited on the move. Proof the habit survives bad weather.</p>
+      <div class="span2">
+        <div class="artbox ratio-wide"><img class="shot" src="assets/twitch.jpg" alt="Twitch channel jacksontig3r with 1.3 thousand followers"></div>
+        <div class="tile-title"><div class="t">Twitch &amp; YouTube <span class="sub">— the streaming years</span></div></div>
+        <div class="tile-tags">1.3k on Twitch, live and unscripted, plus years of gaming edits on YouTube in Premiere and Vegas</div>
       </div>
     </div>
 
@@ -683,13 +751,12 @@ nav{
     </div>
 
     <div class="ski-grid">
-      <div class="sv"><video autoplay muted loop playsinline preload="metadata" poster="assets/ski-montage.jpg" aria-label="Ski edit filmed while riding, mountains behind"><source src="assets/ski-montage.mp4" type="video/mp4"></video></div>
-      <div class="sv"><video autoplay muted loop playsinline preload="metadata" poster="assets/ski-golden.jpg" aria-label="Golden hour piste with long shadows"><source src="assets/ski-golden.mp4" type="video/mp4"></video></div>
+      <div class="sv"><video autoplay muted loop playsinline preload="metadata" poster="assets/ski-montage.jpg" aria-label="Skiing down an alpine piste, filmed while riding"><source src="assets/ski-montage.mp4" type="video/mp4"></video></div>
       <div class="sv"><video autoplay muted loop playsinline preload="metadata" poster="assets/ski-slalom.jpg" aria-label="Carving slalom gates in slow motion"><source src="assets/ski-slalom.mp4" type="video/mp4"></video></div>
-      <div class="sv"><video autoplay muted loop playsinline preload="metadata" poster="assets/ski-offpiste.jpg" aria-label="Off piste beside snow covered trees"><source src="assets/ski-offpiste.mp4" type="video/mp4"></video></div>
       <div class="sv"><video autoplay muted loop playsinline preload="metadata" poster="assets/ski-park-air.jpg" aria-label="Airborne off a snow park kicker in slow motion"><source src="assets/ski-park-air.mp4" type="video/mp4"></video></div>
-      <div class="sv"><video autoplay muted loop playsinline preload="metadata" poster="assets/ski-piste-pov.jpg" aria-label="Following a friend down a sunny piste, filmed while skiing"><source src="assets/ski-pov.mp4" type="video/mp4"></video></div>
       <div class="sv"><video autoplay muted loop playsinline preload="metadata" poster="assets/ski-indoor.jpg" aria-label="Sliding a rail at the indoor snow centre"><source src="assets/ski-indoor.mp4" type="video/mp4"></video></div>
+      <div class="sv"><video autoplay muted loop playsinline preload="metadata" poster="assets/ski-offpiste.jpg" aria-label="Off piste in a snowstorm beside the trees"><source src="assets/ski-offpiste.mp4" type="video/mp4"></video></div>
+      <div class="sv"><video autoplay muted loop playsinline preload="metadata" poster="assets/ski-pov.jpg" aria-label="Following a friend down a sunny piste, filmed while skiing"><source src="assets/ski-pov.mp4" type="video/mp4"></video></div>
     </div>
 
     <p class="ski-para">Different resorts, different conditions, the same footage habit. If a plan changes on the mountain, that's normal, not a crisis.</p>
@@ -722,12 +789,16 @@ nav{
         <div class="tile-tags">495+ repairs / self taught / customer facing</div>
       </div>
       <div class="p">
-        <div class="ph ratio-wide"><span class="corner">Curtin, Perth</span><span class="tag">CLEAN HYDROGEN · lab work</span></div>
+        <div class="soon">
+          <span class="lab">next · Curtin University, Perth</span>
+          <span class="big">Photocatalytic water splitting <span class="sub">— clean hydrogen, coming soon</span></span>
+          <span class="lab">starts August 2026 · surface coatings &amp; bubble dynamics</span>
+        </div>
         <div class="tile-title"><div class="t">Photocatalytic water splitting <span class="sub">— clean hydrogen research</span></div></div>
-        <div class="tile-tags">visiting research associate / surface coatings / bubble dynamics</div>
+        <div class="tile-tags">visiting research associate / from August 2026</div>
       </div>
       <div class="p">
-        <div class="artbox ratio-wide"><img src="assets/bridge-test.jpg" alt="Remote control car crossing the balsa bridge on test day"></div>
+        <div class="artbox ratio-wide"><img src="assets/bridge.jpg" alt="Building the balsa bridge in the workshop with two teammates"></div>
         <div class="tile-title"><div class="t">The balsa bridge <span class="sub">— the only one to hold under full load</span></div></div>
         <div class="tile-tags">spotted the flaw before test day / team project</div>
       </div>
@@ -751,7 +822,10 @@ nav{
       <p class="lead">My Master's project, and the one that pulls the whole page together: the outdoors, materials science and a more sustainable way of doing it. I'm synthesising a PFAS free superhydrophobic coating for outdoor textiles, supervised by Prospero Taroni-Junior and working with Abbie Spence at <span class="italic">Finisterre</span>.</p>
     </div>
 
-    <div class="ph ratio-wide" style="margin-top:44px;"><span class="corner">lab</span><span class="tag">COATING · water beading on treated fabric</span></div>
+    <video class="research-video" autoplay muted loop playsinline preload="metadata" poster="assets/wca-coating.jpg" aria-label="A water droplet beading up on the coated fabric under the contact angle goniometer">
+      <source src="assets/wca-coating.mp4" type="video/mp4">
+    </video>
+    <p class="tile-tags" style="margin-top:11px;">a water droplet holding its shape on my coated fabric, measured on the goniometer</p>
 
     <div class="ai-body" style="margin-top:44px;">
       <div>
@@ -762,10 +836,20 @@ nav{
       </div>
     </div>
 
-    <div class="analytics-row">
-      <div class="ph ratio-wide"><span class="corner">lab</span><span class="tag">SEM / characterisation · your images</span></div>
-      <div class="ph ratio-wide"><span class="corner">field</span><span class="tag">FINISTERRE · product / testing shots</span></div>
+    <div class="sem-pair" style="margin-top:44px;">
+      <figure>
+        <img src="assets/sem-clumped.jpg" alt="SEM image of unmodified titanium dioxide sitting in large clumps on the fibres">
+        <figcaption>Unmodified TiO₂ — sitting in clumps on the fibres</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/sem-dispersed.jpg" alt="SEM image of surface modified titanium dioxide spread evenly across the fibres">
+        <figcaption>Surface modified TiO₂ — spread evenly, the coating I want</figcaption>
+      </figure>
     </div>
+    <p class="tile-tags" style="margin-top:11px;">SEM at ×2,000 · modifying the particle surface stops it clumping, so the coating sits even and repels better</p>
+
+    <img class="wca-graph" src="assets/wca-graph.jpg" alt="Graph of water contact angle by coating, showing my emulsions reaching the same superhydrophobic range as commercial PFAS free DWR">
+    <p class="tile-tags" style="margin-top:11px;">water contact angle by coating · my emulsions reach the same range as commercial PFAS free DWR, while the uncoated control soaks straight through</p>
   </section>
 
   <!-- EDUCATION -->
@@ -791,7 +875,7 @@ nav{
         <div class="h">
           <div class="t">BEng Renewable Energy Engineering <span class="sub">— University of Exeter, 2:1</span></div>
           <span class="place">Exeter · mechanical and electrical grounding</span>
-          <p class="desc">My dissertation on redox flow batteries for renewable energy earned a first, and so did the field trip module, where I pitched wind turbine blade recycling to industry partners Nadara and ReBlade.</p>
+          <p class="desc">My dissertation on redox flow batteries for renewable energy earned a first, and so did the field trip module, where I pitched wind turbine blade recycling to industry partners Nadara and ReBlade. One field trip, a day hiking a mountain near Oban, I turned into a vlog, shot and edited on the move.</p>
         </div>
         <div class="date">09/2022 – 07/2025</div>
       </div>
@@ -844,11 +928,35 @@ nav{
     </div>
   </section>
 
+  <!-- RUN CLUB & MARATHON -->
+  <section id="run">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">08 — run club &amp; the marathon</span>
+        <h2 class="serif-heading">I started a run club in January — <span class="italic">by June it was 25 a week</span></h2>
+      </div>
+      <p class="lead">Founding Falmouth Running Society taught me how to grow a real community from nothing, the offline version of building an audience. Then I took it further and ran the London Marathon.</p>
+    </div>
+
+    <div class="run-grid">
+      <div class="rv"><video autoplay muted loop playsinline preload="metadata" poster="assets/runclub.jpg" aria-label="The run club heading down a Falmouth street together"><source src="assets/runclub.mp4" type="video/mp4"></video></div>
+      <div class="rp tall"><img src="assets/runclub-street.jpg" alt="Run club running down a pastel terraced street at dusk"></div>
+      <div class="rp tall"><img src="assets/runclub-road.jpg" alt="Run club strung out along a coastal road in the evening light"></div>
+    </div>
+
+    <div class="run-note">
+      <div class="marie"><img src="assets/marie-curie.jpg" alt="Marie Curie fundraising page showing £1,647 raised, 66 percent of a £2,500 target"></div>
+      <p>For the 2026 London Marathon I ran for <span class="big">Marie Curie</span> and raised £1,647 from 64 donors, two thirds of the way to the target, with a crowd of mates on Horse Guards holding a "GO TIGGY" sign at the finish.</p>
+    </div>
+
+    <div class="artbox ratio-wide" style="margin-top:18px;"><img src="assets/marathon.jpg" alt="Friends at the London Marathon finish with GO TIGGY and Release the Tiger signs"></div>
+  </section>
+
   <!-- SKILLS -->
   <section id="skills">
     <div class="sec-head">
       <div>
-        <span class="eyebrow">08 — the toolkit</span>
+        <span class="eyebrow">09 — the toolkit</span>
         <h2 class="serif-heading">What I can actually do — <span class="italic">hands on and technical</span></h2>
       </div>
       <p class="lead">The creative tools I edit with, plus the technical and workshop skills behind the projects.</p>
@@ -868,7 +976,7 @@ nav{
   <section id="ai">
     <div class="sec-head">
       <div>
-        <span class="eyebrow">09 — ai as a tool, not a talking point</span>
+        <span class="eyebrow">10 — ai as a tool, not a talking point</span>
         <h2 class="serif-heading">I treat AI as a superpower — <span class="italic">and I actually use it</span></h2>
       </div>
       <p class="lead">Not a buzzword on a slide. It's wired into how I research, plan and clear the repetitive work off my plate.</p>
@@ -888,25 +996,25 @@ nav{
   <section id="play">
     <div class="sec-head">
       <div>
-        <span class="eyebrow">10 — off the mountain</span>
+        <span class="eyebrow">11 — off the mountain</span>
         <h2 class="serif-heading">The chairlift test <span class="italic">— the rest of me</span></h2>
       </div>
-      <p class="lead">Surf, climb, the London Marathon, Japanese, piano and guitar, chess, and I build my own PCs. I like being outside and I like meeting people, which is most of this job.</p>
+      <p class="lead">Surf, skate, climb, Japanese, piano and guitar, chess, and I build my own PCs. I shoot most of this myself, so the photos are half the hobby. I like being outside and I like meeting people, which is most of this job.</p>
     </div>
 
     <div class="play-grid">
-      <div class="artbox ratio-square"><img src="assets/surf.jpg" alt="Surfer on a distant wave at dusk, shot from in the water"></div>
-      <div class="ph ratio-square"><span class="tag">CLIMB</span></div>
-      <div class="artbox ratio-square"><img src="assets/runclub.jpg" alt="Run club on a coastal path at sunset"></div>
+      <div class="artbox ratio-landscape"><img src="assets/surf-cutback.jpg" alt="Surfer carving off the top of a wave, spray flying"></div>
+      <div class="artbox ratio-portrait"><img src="assets/skate.jpg" alt="Skateboarding a rail at the local park"></div>
+      <div class="artbox ratio-landscape"><img src="assets/beach.jpg" alt="Two people playing badminton on the beach as the sun sets over the sea"></div>
       <div class="artbox ratio-landscape"><img src="assets/travel-cirque.jpg" alt="Three friends on a grassy ridge in front of a mountain cirque"></div>
-      <div class="artbox ratio-landscape"><img src="assets/marathon.jpg" alt="Friends with signs at the London Marathon"></div>
-      <div class="ph ratio-landscape"><span class="tag">PIANO / 日本語 / PC BUILDS / CHESS</span></div>
+      <div class="artbox ratio-landscape"><img src="assets/surf.jpg" alt="Lone surfer riding a small wave under a pink dawn sky, shot from the water"></div>
+      <div class="ph ratio-square"><span class="tag">CLIMB / PIANO / 日本語 / PC BUILDS / CHESS</span></div>
     </div>
   </section>
 
   <!-- CONTACT -->
   <section class="contact" id="contact">
-    <span class="eyebrow">11 — let's talk</span>
+    <span class="eyebrow">12 — let's talk</span>
     <h2 class="serif-display">Talk to me about next winter.</h2>
     <p class="avail">From August to late November 2026 I'm at Curtin University in Perth, researching clean hydrogen. From mid September I can be set up and working online, and from December I'm on the ground, London, Park City or a resort, wherever the season needs me.</p>
 
@@ -921,7 +1029,7 @@ nav{
 
     <div class="footer-mark">
       <span class="big">JB<sup style="font-size:0.3em;vertical-align:super;">®</sup></span>
-      <span class="meta">All footage and photography my own · a few tiles still to fill</span>
+      <span class="meta">All footage and photography my own · built with an AI agent I set up myself</span>
     </div>
   </section>
 
