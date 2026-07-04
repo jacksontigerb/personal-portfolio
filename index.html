@@ -1,0 +1,903 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jackson Brocklebank</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@0;1&family=Inter:wght@400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#292a2c;
+  --vellum:#f2f2f2;
+  --black:#000000;
+  --ogg:'Playfair Display', Georgia, serif;
+  --telegraf:'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --section-gap:120px;
+  --margin:64px;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;border-radius:0;}
+
+html{scroll-behavior:smooth;}
+
+body{
+  background:var(--vellum);
+  color:var(--ink);
+  font-family:var(--telegraf);
+  font-weight:400;
+  font-size:20px;
+  line-height:1.33;
+  letter-spacing:0.5px;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+
+img{max-width:100%;display:block;}
+
+/* ---------- shared type ---------- */
+.ogg{font-family:var(--ogg);font-weight:400;}
+.serif-display{
+  font-family:var(--ogg);
+  font-weight:400;
+  font-size:55px;
+  line-height:1.08;
+  letter-spacing:-1.98px;
+}
+.serif-heading{
+  font-family:var(--ogg);
+  font-weight:400;
+  font-size:26px;
+  line-height:1.1;
+  letter-spacing:-0.52px;
+}
+.italic{font-style:italic;}
+.meta{
+  font-family:var(--telegraf);
+  font-size:15px;
+  line-height:1.67;
+  letter-spacing:0.6px;
+}
+.eyebrow{
+  font-family:var(--telegraf);
+  font-size:15px;
+  letter-spacing:0.6px;
+  text-transform:lowercase;
+  color:var(--ink);
+  display:block;
+  margin-bottom:18px;
+}
+
+/* ---------- layout scaffold ---------- */
+.page{
+  max-width:1440px;
+  margin:0 auto;
+  padding:0 var(--margin);
+  position:relative;
+}
+section{margin-top:var(--section-gap);}
+
+/* ---------- vertical running strip ---------- */
+.rail{
+  position:fixed;
+  right:14px;
+  top:50%;
+  transform:translateY(-50%) rotate(180deg);
+  writing-mode:vertical-rl;
+  font-family:var(--telegraf);
+  font-size:15px;
+  letter-spacing:0.6px;
+  color:var(--black);
+  z-index:50;
+  pointer-events:none;
+  mix-blend-mode:difference;
+  color:#fff;
+}
+
+/* ---------- nav ---------- */
+nav{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  padding:24px 0;
+  gap:18px;
+  flex-wrap:wrap;
+}
+.wordmark{
+  font-family:var(--ogg);
+  font-size:26px;
+  letter-spacing:-0.52px;
+  color:var(--ink);
+  text-decoration:none;
+}
+.wordmark sup{font-size:0.5em;vertical-align:super;}
+.navlinks{display:flex;gap:32px;flex-wrap:wrap;}
+.navlinks a{
+  font-family:var(--telegraf);
+  font-size:18px;
+  letter-spacing:0.38px;
+  color:var(--ink);
+  text-decoration:none;
+  padding-bottom:2px;
+  border-bottom:1px solid transparent;
+}
+.navlinks a:hover{border-bottom:1px solid var(--black);}
+
+/* ---------- inline links ---------- */
+.link{
+  color:var(--ink);
+  text-decoration:none;
+  border-bottom:1px solid var(--black);
+  padding-bottom:1px;
+}
+.link:hover{border-bottom-width:2px;}
+
+/* ---------- placeholder blocks ---------- */
+.ph{
+  position:relative;
+  width:100%;
+  background:
+    repeating-linear-gradient(135deg,
+      rgba(41,42,44,0.035) 0 2px,
+      transparent 2px 22px),
+    var(--vellum);
+  border:1px solid var(--ink);
+  display:flex;
+  align-items:flex-end;
+  justify-content:flex-start;
+  color:var(--ink);
+  overflow:hidden;
+}
+.ph .tag{
+  font-family:var(--telegraf);
+  font-size:15px;
+  letter-spacing:0.6px;
+  padding:11px 14px;
+}
+.ph .corner{
+  position:absolute;
+  top:11px;
+  right:14px;
+  font-family:var(--telegraf);
+  font-size:15px;
+  letter-spacing:0.6px;
+  opacity:0.55;
+}
+.ph.dark{
+  background:
+    repeating-linear-gradient(135deg,
+      rgba(255,255,255,0.05) 0 2px,
+      transparent 2px 22px),
+    var(--black);
+  border-color:var(--black);
+  color:#fff;
+}
+.ratio-hero{aspect-ratio:21/9;}
+.ratio-wide{aspect-ratio:16/9;}
+.ratio-landscape{aspect-ratio:4/3;}
+.ratio-square{aspect-ratio:1/1;}
+.ratio-portrait{aspect-ratio:2/3;}
+.ratio-vertical{aspect-ratio:9/16;}
+
+/* ---------- hero ---------- */
+.hero{margin-top:44px;}
+.hero-frame{position:relative;}
+.hero-copy{margin-top:44px;}
+.hero h1{max-width:22ch;}
+.hero .positioning{
+  font-family:var(--telegraf);
+  font-size:24px;
+  line-height:1.25;
+  letter-spacing:0.6px;
+  max-width:34ch;
+  margin-top:24px;
+}
+.hero .positioning em{font-family:var(--ogg);font-style:italic;}
+.statline{
+  display:flex;
+  gap:0;
+  flex-wrap:wrap;
+  margin-top:44px;
+  font-family:var(--telegraf);
+  font-size:18px;
+  letter-spacing:0.38px;
+}
+.statline .stat{padding-right:22px;margin-right:22px;border-right:1px solid var(--ink);}
+.statline .stat:last-child{border-right:none;margin-right:0;padding-right:0;}
+.statline .stat b{font-family:var(--ogg);font-weight:400;font-size:24px;letter-spacing:-0.3px;}
+
+/* ---------- section header ---------- */
+.sec-head{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:44px;
+  align-items:start;
+}
+.sec-head .num{
+  font-family:var(--telegraf);
+  font-size:15px;
+  letter-spacing:0.6px;
+}
+.sec-head .lead{
+  font-family:var(--telegraf);
+  font-size:20px;
+  line-height:1.33;
+  letter-spacing:0.5px;
+}
+.sec-head .lead em{font-family:var(--ogg);font-style:italic;}
+
+/* ---------- story / case study ---------- */
+.story-numbers{
+  display:flex;
+  flex-wrap:wrap;
+  gap:44px;
+  margin-top:44px;
+  align-items:flex-end;
+}
+.bignum{line-height:1;}
+.bignum .n{
+  font-family:var(--ogg);
+  font-size:55px;
+  letter-spacing:-1.98px;
+  display:block;
+}
+.bignum .l{
+  font-family:var(--telegraf);
+  font-size:15px;
+  letter-spacing:0.6px;
+  display:block;
+  margin-top:11px;
+}
+.story-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+  margin-top:44px;
+  align-items:start;
+}
+.story-grid .offset-1{margin-top:44px;}
+.story-grid .offset-2{margin-top:88px;}
+.analytics-row{
+  display:grid;
+  grid-template-columns:1.4fr 1fr;
+  gap:18px;
+  margin-top:18px;
+}
+
+/* ---------- project heading block ---------- */
+.tile-title{margin-top:18px;}
+.tile-title .t{
+  font-family:var(--ogg);
+  font-size:26px;
+  line-height:1.1;
+  letter-spacing:-0.52px;
+}
+.tile-title .t .sub{font-style:italic;}
+.tile-tags{
+  font-family:var(--telegraf);
+  font-size:15px;
+  letter-spacing:0.6px;
+  margin-top:11px;
+}
+
+/* ---------- timeline ---------- */
+.timeline{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px;
+  margin-top:44px;
+  align-items:start;
+}
+.tools-row{
+  margin-top:44px;
+  font-family:var(--telegraf);
+  font-size:18px;
+  letter-spacing:0.38px;
+  border-top:1px solid var(--ink);
+  padding-top:18px;
+}
+.tools-row .k{font-size:15px;letter-spacing:0.6px;display:block;margin-bottom:11px;}
+
+/* ---------- skiing grid ---------- */
+.ski-grid{
+  display:grid;
+  grid-template-columns:repeat(12,1fr);
+  gap:18px;
+  margin-top:44px;
+  align-items:start;
+}
+.ski-grid .a{grid-column:1/7;}
+.ski-grid .b{grid-column:7/13;margin-top:66px;}
+.ski-grid .c{grid-column:1/5;}
+.ski-grid .d{grid-column:5/9;margin-top:33px;}
+.ski-grid .e{grid-column:9/13;}
+.ski-para{
+  max-width:40ch;
+  margin-top:44px;
+  font-size:20px;
+  line-height:1.33;
+}
+
+/* ---------- build / projects ---------- */
+.projects{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:44px 18px;
+  margin-top:44px;
+  align-items:start;
+}
+.projects .p:nth-child(even){margin-top:44px;}
+.framing{
+  margin-top:44px;
+  font-family:var(--ogg);
+  font-size:26px;
+  line-height:1.1;
+  letter-spacing:-0.52px;
+  max-width:26ch;
+}
+
+/* ---------- ai ---------- */
+.ai-body{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:44px;
+  margin-top:44px;
+  align-items:start;
+}
+.ai-body p{font-size:20px;line-height:1.33;}
+.ai-pull{
+  font-family:var(--ogg);
+  font-style:italic;
+  font-size:26px;
+  line-height:1.1;
+  letter-spacing:-0.52px;
+}
+
+/* ---------- personality ---------- */
+.play-grid{
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  gap:18px;
+  margin-top:44px;
+  align-items:start;
+}
+.play-grid .ph:nth-child(1){grid-column:span 2;}
+.play-grid .ph:nth-child(2){grid-column:span 2;margin-top:33px;}
+.play-grid .ph:nth-child(3){grid-column:span 2;}
+.play-grid .ph:nth-child(4){grid-column:span 2;margin-top:22px;}
+.play-grid .ph:nth-child(5){grid-column:span 2;}
+.play-grid .ph:nth-child(6){grid-column:span 2;margin-top:33px;}
+
+/* ---------- contact ---------- */
+.contact{
+  margin-top:var(--section-gap);
+  border-top:1px solid var(--ink);
+  padding:44px 0 88px;
+}
+.contact h2{max-width:16ch;}
+.contact .avail{
+  max-width:44ch;
+  margin-top:24px;
+  font-size:20px;
+  line-height:1.33;
+}
+.contact-cols{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:18px 44px;
+  margin-top:44px;
+  max-width:640px;
+}
+.contact-cols .row{
+  display:flex;
+  justify-content:space-between;
+  gap:18px;
+  border-bottom:1px solid var(--ink);
+  padding-bottom:11px;
+}
+.contact-cols .row .k{font-size:15px;letter-spacing:0.6px;}
+
+.footer-mark{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  margin-top:88px;
+  flex-wrap:wrap;
+  gap:18px;
+}
+.footer-mark .big{
+  font-family:var(--ogg);
+  font-size:55px;
+  letter-spacing:-1.98px;
+  line-height:1;
+}
+
+/* ---------- mockup banner ---------- */
+.mock-banner{
+  border:1px solid var(--ink);
+  padding:11px 14px;
+  margin-top:24px;
+  font-family:var(--telegraf);
+  font-size:15px;
+  letter-spacing:0.6px;
+  display:flex;
+  justify-content:space-between;
+  gap:18px;
+  flex-wrap:wrap;
+}
+
+/* ---------- ledger lists (education / experience) ---------- */
+.cvlist{margin-top:44px;border-top:1px solid var(--ink);}
+.cvitem{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:11px 44px;
+  padding:24px 0;
+  border-bottom:1px solid var(--ink);
+  align-items:baseline;
+}
+.cvitem .h{grid-column:1;}
+.cvitem .h .t{font-family:var(--ogg);font-size:26px;line-height:1.1;letter-spacing:-0.52px;}
+.cvitem .h .t .sub{font-style:italic;}
+.cvitem .h .place{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;margin-top:11px;display:block;}
+.cvitem .h .desc{font-family:var(--telegraf);font-size:18px;line-height:1.5;letter-spacing:0.38px;margin-top:11px;max-width:56ch;}
+.cvitem .date{grid-column:2;font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;text-align:right;white-space:nowrap;}
+
+/* ---------- skills ---------- */
+.skills-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:44px;
+  margin-top:44px;
+  border-top:1px solid var(--ink);
+  padding-top:44px;
+}
+.skillgroup .k{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;display:block;margin-bottom:11px;}
+.skillgroup .v{font-family:var(--telegraf);font-size:20px;line-height:1.33;letter-spacing:0.5px;}
+
+/* ---------- zero-to ledger ---------- */
+.ledger{margin-top:44px;border-top:1px solid var(--ink);}
+.ledger .lrow{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  gap:18px;
+  padding:16px 0;
+  border-bottom:1px solid var(--ink);
+  font-family:var(--telegraf);
+  font-size:18px;
+  letter-spacing:0.38px;
+  line-height:1.5;
+}
+.ledger .lrow .out{text-align:right;flex-shrink:0;max-width:50%;}
+
+/* ---------- responsive ---------- */
+@media (max-width:900px){
+  :root{--margin:28px;--section-gap:88px;}
+  .serif-display{font-size:40px;letter-spacing:-1.2px;}
+  .footer-mark .big{font-size:40px;letter-spacing:-1.2px;}
+  .bignum .n{font-size:40px;letter-spacing:-1.2px;}
+  .sec-head{grid-template-columns:1fr;gap:24px;}
+  .story-grid{grid-template-columns:1fr 1fr;}
+  .story-grid .offset-1,.story-grid .offset-2{margin-top:0;}
+  .analytics-row{grid-template-columns:1fr;}
+  .timeline{grid-template-columns:1fr 1fr;}
+  .projects{grid-template-columns:1fr;}
+  .projects .p:nth-child(n){margin-top:0;}
+  .ai-body{grid-template-columns:1fr;}
+  .ski-grid{grid-template-columns:1fr 1fr;}
+  .ski-grid .a,.ski-grid .b,.ski-grid .c,.ski-grid .d,.ski-grid .e{grid-column:auto;margin-top:0;}
+  .play-grid{grid-template-columns:1fr 1fr;}
+  .play-grid .ph:nth-child(n){grid-column:auto;margin-top:0;}
+  .skills-grid{grid-template-columns:1fr 1fr;}
+  .rail{display:none;}
+}
+@media (max-width:560px){
+  .story-grid,.timeline,.ski-grid,.play-grid,.skills-grid{grid-template-columns:1fr;}
+  .cvitem{grid-template-columns:1fr;}
+  .cvitem .date{grid-column:1;text-align:left;}
+  .ledger .lrow{flex-direction:column;gap:4px;}
+  .ledger .lrow .out{text-align:left;max-width:100%;}
+  .statline .stat{border-right:none;padding-right:0;margin-right:0;}
+  .hero .positioning{font-size:20px;}
+}
+</style>
+</head>
+<body>
+
+<div class="rail">LONDON 51.5°N — PARK CITY 40.6°N ✳ WINTER 26/27</div>
+
+<div class="page">
+
+  <!-- NAV -->
+  <nav>
+    <a class="wordmark" href="#top">Jackson Brocklebank<sup>®</sup></a>
+    <div class="navlinks">
+      <a href="#story">TikTok</a>
+      <a href="#film">Film</a>
+      <a href="#ski">Skiing</a>
+      <a href="#build">Build</a>
+      <a href="#collab">Research</a>
+      <a href="#education">CV</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <div class="mock-banner">
+    <span>DESIGN MOCKUP · placeholder blocks mark where footage and photography drop in</span>
+    <span>v0.3</span>
+  </div>
+
+  <!-- HERO -->
+  <header class="hero" id="top">
+    <div class="hero-frame">
+      <div class="ph dark ratio-hero">
+        <span class="corner">01 / hero</span>
+        <span class="tag">SKI HERO LOOP · 10–20s · filming while skiing, muted, autoplay</span>
+      </div>
+    </div>
+    <div class="hero-copy">
+      <h1 class="serif-display">On skis at three. A bike business at sixteen. A TikTok that found 89,000 people.</h1>
+      <p class="positioning">I'm Jackson. There's no tidy title for what I do, so this page just shows it: engineering, skiing, and a habit of <em>starting things</em> that end up working. Everything below is mine, built, filmed, repaired or grown.</p>
+      <div class="statline">
+        <span class="stat"><b>millions</b> of views on @jacksontigerb</span>
+        <span class="stat"><b>15 years</b> behind a camera</span>
+        <span class="stat"><b>all terrain</b> on skis since three</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- PATTERN -->
+  <section id="pattern">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">00 — the pattern</span>
+        <h2 class="serif-heading">Things I've started from zero — <span class="italic">and where they got to</span></h2>
+      </div>
+      <p class="lead">The full CV is further down the page. This is the short version.</p>
+    </div>
+
+    <div class="ledger">
+      <div class="lrow"><span>A Twitch channel in my gaming years</span><span class="out">→ 1,500 followers</span></div>
+      <div class="lrow"><span>Brocklebikes, a repair business started at sixteen</span><span class="out">→ 495+ bikes fixed</span></div>
+      <div class="lrow"><span>A university run club, founded in January</span><span class="out">→ 25 runners a week by June</span></div>
+      <div class="lrow"><span>@jacksontigerb, started from nothing in 2024</span><span class="out">→ 89,000 followers in seven months</span></div>
+      <div class="lrow"><span>One speculative email to Curtin University</span><span class="out">→ a research post in Perth</span></div>
+      <div class="lrow"><span>This website</span><span class="out">→ you're looking at it</span></div>
+    </div>
+  </section>
+
+  <!-- STORY -->
+  <section id="story">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">01 — case study: @jacksontigerb</span>
+        <h2 class="serif-heading">Zero to 89,000 in seven months — <span class="italic">run like an engineering project</span></h2>
+      </div>
+      <p class="lead">I started <span class="italic">@jacksontigerb</span> in 2024, mixing learning Japanese with skiing and the rest of an active life. I ran it the way I run any build: post daily, read the numbers, keep what works, drop what doesn't. It found an audience fast.</p>
+    </div>
+
+    <div class="story-numbers">
+      <div class="bignum"><span class="n">0 → 89k</span><span class="l">followers in ~7 months</span></div>
+      <div class="bignum"><span class="n">83k</span><span class="l">where it sits now</span></div>
+      <div class="bignum"><span class="n">millions</span><span class="l">of views across the account</span></div>
+    </div>
+
+    <div class="analytics-row">
+      <div class="ph ratio-wide"><span class="corner">screenshot</span><span class="tag">TIKTOK ANALYTICS · follower growth graph</span></div>
+      <div class="ph ratio-wide"><span class="corner">screenshot</span><span class="tag">TIKTOK ANALYTICS · top videos + audience</span></div>
+    </div>
+
+    <div class="story-grid">
+      <div>
+        <div class="ph ratio-vertical"><span class="tag">TOP VIDEO 01</span></div>
+        <div class="tile-title"><div class="t">A hook in three seconds <span class="sub">— or they're gone</span></div></div>
+        <div class="tile-tags">tiktok / retention</div>
+      </div>
+      <div class="offset-1">
+        <div class="ph ratio-vertical"><span class="tag">TOP VIDEO 02</span></div>
+        <div class="tile-title"><div class="t">Skiing meets language <span class="sub">— an odd pairing that worked</span></div></div>
+        <div class="tile-tags">tiktok / niche</div>
+      </div>
+      <div class="offset-2">
+        <div class="ph ratio-vertical"><span class="tag">TOP VIDEO 03</span></div>
+        <div class="tile-title"><div class="t">Posted daily <span class="sub">— cadence over polish</span></div></div>
+        <div class="tile-tags">tiktok / consistency</div>
+      </div>
+    </div>
+
+    <div class="sec-head" style="margin-top:88px;">
+      <div><span class="eyebrow">what I took from it</span></div>
+      <p class="lead">The account taught me which trends to ride, which to skip, and that cadence beats polish. Growing it alone also meant doing every job at once: ideas, filming, editing, captions, posting, replying to comments, reading the analytics after. That's the same loop a brand channel runs, just <span class="italic">smaller</span>.</p>
+    </div>
+  </section>
+
+  <!-- FILM -->
+  <section id="film">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">02 — fifteen years behind a camera</span>
+        <h2 class="serif-heading">Editing isn't new to me — <span class="italic">it's been there the whole time</span></h2>
+      </div>
+      <p class="lead">Long before the TikTok, there were scooter edits, gaming videos and a Twitch channel. The tools changed, the habit did not.</p>
+    </div>
+
+    <div class="timeline">
+      <div>
+        <div class="ph ratio-square"><span class="corner">2010s</span><span class="tag">CHILDHOOD EDITS</span></div>
+        <div class="tile-title"><div class="t">Scooter &amp; trampoline <span class="sub">— where it began</span></div></div>
+        <div class="tile-tags">photoshop / vegas</div>
+      </div>
+      <div>
+        <div class="ph ratio-square"><span class="corner">twitch</span><span class="tag">1,500 FOLLOWERS</span></div>
+        <div class="tile-title"><div class="t">Live streaming <span class="sub">— on camera, unscripted</span></div></div>
+        <div class="tile-tags">twitch / gaming</div>
+      </div>
+      <div>
+        <div class="ph ratio-square"><span class="corner">youtube</span><span class="tag">GAMING VIDEOS</span></div>
+        <div class="tile-title"><div class="t">Long form edits <span class="sub">— learning the craft</span></div></div>
+        <div class="tile-tags">premiere / resolve</div>
+      </div>
+      <div>
+        <div class="ph ratio-square"><span class="corner">2024</span><span class="tag">OBAN VLOG</span></div>
+        <div class="tile-title"><div class="t">A mountain day, filmed <span class="sub">— Oban, Scotland</span></div></div>
+        <div class="tile-tags">vlog / on trip</div>
+      </div>
+    </div>
+
+    <div class="tools-row">
+      <span class="k">tools I actually use</span>
+      Premiere Pro / Photoshop / DaVinci Resolve / Sony Vegas / CapCut / Adobe Creative Cloud
+    </div>
+  </section>
+
+  <!-- SKIING -->
+  <section id="ski">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">03 — on snow</span>
+        <h2 class="serif-heading">On skis since three — <span class="italic">and just as happy holding the camera</span></h2>
+      </div>
+      <p class="lead">Comfortable across all terrain, piste or freeride, and used to filming while I ride. This is the part of the job you can't fake, and it's home ground.</p>
+    </div>
+
+    <div class="ski-grid">
+      <div class="a"><div class="ph ratio-landscape"><span class="corner">01</span><span class="tag">FREERIDE · off piste</span></div></div>
+      <div class="b"><div class="ph ratio-portrait"><span class="corner">02</span><span class="tag">FILMING WHILE SKIING</span></div></div>
+      <div class="c"><div class="ph ratio-square"><span class="corner">03</span><span class="tag">PISTE · carving</span></div></div>
+      <div class="d"><div class="ph ratio-square"><span class="corner">04</span><span class="tag">RESORT · with friends</span></div></div>
+      <div class="e"><div class="ph ratio-portrait"><span class="corner">05</span><span class="tag">PARK · messing about</span></div></div>
+    </div>
+
+    <p class="ski-para">Different resorts, different conditions, the same footage habit. If a plan changes on the mountain, that's normal, not a crisis.</p>
+  </section>
+
+  <!-- BUILD -->
+  <section id="build">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">04 — I also build things</span>
+        <h2 class="serif-heading">Carv is a ski company built by engineers — <span class="italic">I get the product on both sides</span></h2>
+      </div>
+      <p class="lead">A Master's in materials engineering and a lot of hands on projects. Useful context for a brand whose whole product is a sensor for skiers.</p>
+    </div>
+
+    <div class="projects">
+      <div class="p">
+        <div class="ph ratio-wide"><span class="corner">Exeter</span><span class="tag">SOLAR BOAT · on the water</span></div>
+        <div class="tile-title"><div class="t">Solar racing boat <span class="sub">— designed, machined, raced</span></div></div>
+        <div class="tile-tags">CAD / fabrication / Netherlands</div>
+      </div>
+      <div class="p">
+        <div class="ph ratio-wide"><span class="corner">Arduino</span><span class="tag">MAZE ROBOT · build photo</span></div>
+        <div class="tile-title"><div class="t">Maze solving robot <span class="sub">— sensors and soldering</span></div></div>
+        <div class="tile-tags">electronics / control logic</div>
+      </div>
+      <div class="p">
+        <div class="ph ratio-wide"><span class="corner">since 2020</span><span class="tag">BROCKLEBIKES · workshop</span></div>
+        <div class="tile-title"><div class="t">Brocklebikes <span class="sub">— a business I started at sixteen</span></div></div>
+        <div class="tile-tags">495+ repairs / self taught / customer facing</div>
+      </div>
+      <div class="p">
+        <div class="ph ratio-wide"><span class="corner">Curtin, Perth</span><span class="tag">CLEAN HYDROGEN · lab work</span></div>
+        <div class="tile-title"><div class="t">Photocatalytic water splitting <span class="sub">— clean hydrogen research</span></div></div>
+        <div class="tile-tags">visiting research associate / surface coatings / bubble dynamics</div>
+      </div>
+      <div class="p">
+        <div class="ph ratio-wide"><span class="corner">Exeter</span><span class="tag">ACADEMIC BUILDS · projects</span></div>
+        <div class="tile-title"><div class="t">Bridges, turbines and robots <span class="sub">— the academic builds</span></div></div>
+        <div class="tile-tags">balsa bridge, the only one to survive full load / £50 hydroturbine</div>
+      </div>
+    </div>
+
+    <p class="framing">Idea to tested prototype, and the person explaining it to camera afterwards.</p>
+  </section>
+
+  <!-- RESEARCH FEATURE / FINISTERRE -->
+  <section id="collab">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">05 — the research, up close</span>
+        <h2 class="serif-heading">A PFAS free waterproof coating — <span class="italic">built with Finisterre</span></h2>
+      </div>
+      <p class="lead">My Master's project, and the one that pulls the whole page together: the outdoors, materials science and a more sustainable way of doing it. I'm synthesising a PFAS free superhydrophobic coating for outdoor textiles, supervised by Prospero Taroni-Junior and working with Abbie Spence at <span class="italic">Finisterre</span>.</p>
+    </div>
+
+    <div class="ph ratio-wide" style="margin-top:44px;"><span class="corner">lab</span><span class="tag">COATING · water beading on treated fabric</span></div>
+
+    <div class="ai-body" style="margin-top:44px;">
+      <div>
+        <p>PFAS are the fluorine chemistry that makes most waterproof gear work, and they're turning up where they shouldn't, in water, in soil, in us, with a growing link to real health risks. Finding a fluorine free version that still beads water in the wet and the cold felt like a problem worth a year of my life.</p>
+      </div>
+      <div>
+        <p>Finisterre already build their kit on PFAS free chemistry, so working with them means the research points at something people might actually wear. <a class="link" href="https://jacksontigerb.github.io/fluorine-free-DWR/" target="_blank" rel="noopener">Read more about the project</a>, the nanoparticle side and how I make the coating.</p>
+      </div>
+    </div>
+
+    <div class="analytics-row">
+      <div class="ph ratio-wide"><span class="corner">lab</span><span class="tag">SEM / characterisation · your images</span></div>
+      <div class="ph ratio-wide"><span class="corner">field</span><span class="tag">FINISTERRE · product / testing shots</span></div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">06 — education &amp; awards</span>
+        <h2 class="serif-heading">The degrees behind it — <span class="italic">materials and energy</span></h2>
+      </div>
+      <p class="lead">A Master's in advanced materials on top of an engineering degree, with a couple of firsts along the way.</p>
+    </div>
+
+    <div class="cvlist">
+      <div class="cvitem">
+        <div class="h">
+          <div class="t">MSc Advanced Materials Science <span class="sub">— University College London</span></div>
+          <span class="place">London · research year</span>
+          <p class="desc">The home of the PFAS free coating project above. Day to day it's synthesis in the lab and a lot of hours on the characterisation suite, SEM, TEM, FTIR, XRD and XPS.</p>
+        </div>
+        <div class="date">09/2025 – 09/2026</div>
+      </div>
+      <div class="cvitem">
+        <div class="h">
+          <div class="t">BEng Renewable Energy Engineering <span class="sub">— University of Exeter, 2:1</span></div>
+          <span class="place">Exeter · mechanical and electrical grounding</span>
+          <p class="desc">My dissertation on redox flow batteries for renewable energy earned a first, and so did the field trip module, where I pitched wind turbine blade recycling to industry partners Nadara and ReBlade.</p>
+        </div>
+        <div class="date">09/2022 – 07/2025</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE BEYOND THE STUDIO -->
+  <section id="experience">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">07 — experience beyond the studio</span>
+        <h2 class="serif-heading">Roles that were really about people — <span class="italic">and staying calm when it is busy</span></h2>
+      </div>
+      <p class="lead">Community building, teaching and customer facing work. Most of a social role is people, and this is where I have done it.</p>
+    </div>
+
+    <div class="cvlist">
+      <div class="cvitem">
+        <div class="h">
+          <div class="t">Run Club Founder &amp; President <span class="sub">— Falmouth Running Society</span></div>
+          <span class="place">Started a club and grew a community</span>
+          <p class="desc">Founded and led a university running club, growing it to 200+ followers and weekly sessions of up to 25 runners in a single semester.</p>
+        </div>
+        <div class="date">01/2024 – 06/2024</div>
+      </div>
+      <div class="cvitem">
+        <div class="h">
+          <div class="t">Digital Hub Student Ambassador <span class="sub">— University of Exeter</span></div>
+          <span class="place">Technical support, up to 100 students a day</span>
+          <p class="desc">Provided troubleshooting in the library IT department, helping up to a hundred students a day, calm and quick under pressure.</p>
+        </div>
+        <div class="date">09/2024 – 06/2025</div>
+      </div>
+      <div class="cvitem">
+        <div class="h">
+          <div class="t">Student Representative <span class="sub">— University College London</span></div>
+          <span class="place">Relaying feedback in departmental meetings</span>
+          <p class="desc">Gathering and relaying course feedback, helping the department spot and address student concerns.</p>
+        </div>
+        <div class="date">09/2025 – present</div>
+      </div>
+      <div class="cvitem">
+        <div class="h">
+          <div class="t">Customer Facing Roles <span class="sub">— cafés and a lettings office</span></div>
+          <span class="place">Drury 188-189 · Castle Beach Café · Frank Harris &amp; Co</span>
+          <p class="desc">Fast, accurate service across two café roles and a sales and lettings office, handling orders, enquiries and day to day admin while staying calm in busy settings.</p>
+        </div>
+        <div class="date">2023 – present</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">08 — the toolkit</span>
+        <h2 class="serif-heading">What I can actually do — <span class="italic">hands on and technical</span></h2>
+      </div>
+      <p class="lead">The creative tools I edit with, plus the technical and workshop skills behind the projects.</p>
+    </div>
+
+    <div class="skills-grid">
+      <div class="skillgroup"><span class="k">creative &amp; content</span><span class="v">Premiere Pro · Photoshop · DaVinci Resolve · Sony Vegas · CapCut · iPhone shooting</span></div>
+      <div class="skillgroup"><span class="k">cad &amp; design</span><span class="v">Onshape · SolidWorks · 3D Printing</span></div>
+      <div class="skillgroup"><span class="k">electronics &amp; prototyping</span><span class="v">Arduino · ESP32 · Ultrasonic Sensors · Soldering · MQTT · MODBUS</span></div>
+      <div class="skillgroup"><span class="k">workshop &amp; fabrication</span><span class="v">Lathe · Bandsaw · Hand Tools</span></div>
+      <div class="skillgroup"><span class="k">programming &amp; data</span><span class="v">Python · SQL · MATLAB · C++ · Git</span></div>
+      <div class="skillgroup"><span class="k">materials characterisation</span><span class="v">SEM · TEM · FTIR · XRD · XPS · UV/Vis · Optical Microscopy</span></div>
+    </div>
+  </section>
+
+  <!-- AI -->
+  <section id="ai">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">09 — ai as a tool, not a talking point</span>
+        <h2 class="serif-heading">I treat AI as a superpower — <span class="italic">and I actually use it</span></h2>
+      </div>
+      <p class="lead">Not a buzzword on a slide. It's wired into how I research, plan and clear the repetitive work off my plate.</p>
+    </div>
+
+    <div class="ai-body">
+      <div>
+        <p>My daily driver is Claude Code with MCP integrations I set up myself, plugged into real workflows. I use it for content research and ideas, for turning a rough thought into something I can test quickly, and for taking the dull jobs off my plate, logging, tracking and reporting.</p>
+      </div>
+      <div>
+        <p class="ai-pull">This site was planned, designed and built with an AI agent I set up myself.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PERSONALITY -->
+  <section id="play">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">10 — off the mountain</span>
+        <h2 class="serif-heading">The chairlift test <span class="italic">— the rest of me</span></h2>
+      </div>
+      <p class="lead">Surf, climb, the London Marathon, Japanese, piano and guitar, chess, and I build my own PCs. I like being outside and I like meeting people, which is most of this job.</p>
+    </div>
+
+    <div class="play-grid">
+      <div class="ph ratio-square"><span class="tag">SURF</span></div>
+      <div class="ph ratio-square"><span class="tag">CLIMB</span></div>
+      <div class="ph ratio-square"><span class="tag">LONDON MARATHON</span></div>
+      <div class="ph ratio-landscape"><span class="tag">TRAVEL</span></div>
+      <div class="ph ratio-landscape"><span class="tag">PIANO / GUITAR / 日本語</span></div>
+      <div class="ph ratio-landscape"><span class="tag">PC BUILDS / CHESS</span></div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <span class="eyebrow">11 — let's talk</span>
+    <h2 class="serif-display">Talk to me about next winter.</h2>
+    <p class="avail">From August to late November 2026 I'm at Curtin University in Perth, researching clean hydrogen. From mid September I can be set up and working online, and from December I'm on the ground, London, Park City or a resort, wherever the season needs me.</p>
+
+    <div class="contact-cols">
+      <div class="row"><span class="k">email</span><span>on the live site</span></div>
+      <div class="row"><span class="k">phone</span><span>on the live site</span></div>
+      <div class="row"><span class="k">tiktok</span><a class="link" href="https://www.tiktok.com/@jacksontigerb" target="_blank" rel="noopener">@jacksontigerb</a></div>
+      <div class="row"><span class="k">linkedin</span><a class="link" href="https://www.linkedin.com/in/jacksontigerb" target="_blank" rel="noopener">/in/jacksontigerb</a></div>
+      <div class="row"><span class="k">cv</span><a class="link" href="#">download PDF</a></div>
+      <div class="row"><span class="k">based</span><span>London now · Perth from August</span></div>
+    </div>
+
+    <div class="footer-mark">
+      <span class="big">JB<sup style="font-size:0.3em;vertical-align:super;">®</sup></span>
+      <span class="meta">Design mockup · footage and photography drop in next</span>
+    </div>
+  </section>
+
+</div>
+</body>
+</html>
