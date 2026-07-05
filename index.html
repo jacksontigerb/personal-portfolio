@@ -4,6 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Jackson Brocklebank</title>
+<meta name="description" content="Engineering, skiing, film and the projects I've started along the way.">
+<meta name="theme-color" content="#f2f2f2">
+<link rel="canonical" href="https://jacksontigerb.github.io/personal-portfolio/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Jackson Brocklebank">
+<meta property="og:description" content="Engineering, skiing, film and the projects I've started along the way.">
+<meta property="og:url" content="https://jacksontigerb.github.io/personal-portfolio/">
+<meta property="og:image" content="https://jacksontigerb.github.io/personal-portfolio/assets/ski-hero.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='%23292a2c'/><text x='32' y='47' font-family='Georgia,serif' font-size='42' font-style='italic' text-anchor='middle' fill='%23f2f2f2'>J</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@0;1&family=Inter:wght@400&display=swap" rel="stylesheet">
@@ -34,7 +44,7 @@ body{
   overflow-x:clip;
 }
 
-img{max-width:100%;display:block;}
+img{max-width:100%;height:auto;display:block;}
 
 /* ---------- shared type ---------- */
 .ogg{font-family:var(--ogg);font-weight:400;}
@@ -575,6 +585,17 @@ nav{
 }
 .ledger .lrow .out{text-align:right;flex-shrink:0;max-width:50%;}
 
+/* ---------- motion, focus & anchors ---------- */
+[id]{scroll-margin-top:76px;}
+.navlinks a.active{border-bottom:1px solid var(--black);}
+.link:focus-visible,.navlinks a:focus-visible,.wordmark:focus-visible{outline:2px solid var(--ink);outline-offset:3px;}
+html.anim .reveal{opacity:0;transform:translateY(14px);transition:opacity .55s ease,transform .55s ease;}
+html.anim .reveal.in{opacity:1;transform:translateY(0);}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto;}
+  html.anim .reveal{opacity:1;transform:none;transition:none;}
+}
+
 /* ---------- responsive ---------- */
 @media (max-width:900px){
   :root{--margin:28px;--section-gap:88px;}
@@ -691,7 +712,6 @@ nav{
       <div class="lrow"><span>@jacksontigerb, started from nothing in 2024</span><span class="out">→ 89,000 followers in seven months</span></div>
       <div class="lrow"><span>A materials science Master's at UCL</span><span class="out">→ the Finisterre collaboration, and a degree</span></div>
       <div class="lrow"><span>One speculative email to Curtin University</span><span class="out">→ a research position in Perth</span></div>
-      <div class="lrow"><span>This website</span><span class="out">→ you're looking at it</span></div>
     </div>
   </section>
 
@@ -713,17 +733,17 @@ nav{
 
     <div class="story-grid">
       <div>
-        <img class="art-natural shot" src="assets/tiktok-analysis.jpg" alt="TikTok video analysis: 1.2 million views, 188 thousand likes, 5,600 new followers and 61 percent retention">
+        <img loading="lazy" decoding="async" class="art-natural shot" width="800" height="1740" src="assets/tiktok-analysis.jpg" alt="TikTok video analysis: 1.2 million views, 188 thousand likes, 5,600 new followers and 61 percent retention">
         <div class="tile-title"><div class="t">One video, 1.2 million views <span class="sub">5,600 followers from it alone</span></div></div>
         <div class="tile-tags">1.2m views / 3,956 hours watched / 61% retention</div>
       </div>
       <div class="offset-1">
-        <img class="art-natural shot" src="assets/tiktok-grid.jpg" alt="TikTok profile grid showing videos at 1.1 million, 659 thousand, 269 thousand and other six figure view counts">
+        <img loading="lazy" decoding="async" class="art-natural shot" width="800" height="1740" src="assets/tiktok-grid.jpg" alt="TikTok profile grid showing videos at 1.1 million, 659 thousand, 269 thousand and other six figure view counts">
         <div class="tile-title"><div class="t">Not a one off <span class="sub">plenty of videos over 100k views</span></div></div>
         <div class="tile-tags">1.1m / 659k / 269k / 169k / 128k</div>
       </div>
       <div class="offset-2">
-        <img class="art-natural shot" src="assets/tiktok-profile.jpg" alt="TikTok profile for @jacksontigerb: 80.9 thousand followers and 2.5 million likes">
+        <img loading="lazy" decoding="async" class="art-natural shot" width="900" height="756" src="assets/tiktok-profile.jpg" alt="TikTok profile for @jacksontigerb: 80.9 thousand followers and 2.5 million likes">
         <div class="tile-title"><div class="t">80.9k followers, 2.5m likes <span class="sub">where it's at now</span></div></div>
         <div class="tile-tags">@jacksontigerb / july 2026</div>
       </div>
@@ -747,12 +767,12 @@ nav{
 
     <div class="timeline">
       <div class="span2">
-        <div class="filmbox-dark"><img src="assets/scooter-edit.jpg" alt="YouTube upload titled Jackson Tiger 2017 Edit, four minutes thirty three seconds"></div>
+        <div class="filmbox-dark"><img loading="lazy" decoding="async" width="734" height="152" src="assets/scooter-edit.jpg" alt="YouTube upload titled Jackson Tiger 2017 Edit, four minutes thirty three seconds"></div>
         <div class="tile-title"><div class="t">Scooter &amp; trampoline edits <span class="sub">where it began</span></div></div>
         <div class="tile-tags">the 2017 edit / sony vegas / photoshop</div>
       </div>
       <div class="span2">
-        <div class="artbox ratio-wide"><img class="shot" src="assets/twitch.jpg" alt="Twitch channel jacksontig3r with 1.3 thousand followers"></div>
+        <div class="artbox ratio-wide"><img loading="lazy" decoding="async" class="shot" src="assets/twitch.jpg" alt="Twitch channel jacksontig3r with 1.3 thousand followers"></div>
         <div class="tile-title"><div class="t">Twitch &amp; YouTube <span class="sub">the streaming years</span></div></div>
         <div class="tile-tags">1.3k on Twitch, live and unscripted, plus years of gaming edits on YouTube in Premiere and Vegas</div>
       </div>
@@ -798,17 +818,17 @@ nav{
 
     <div class="projects">
       <div class="p">
-        <div class="artbox ratio-wide"><img src="assets/solar-boat.jpg" alt="The solar boat team in blue lab coats working on the hull in the workshop"></div>
+        <div class="artbox ratio-wide"><img loading="lazy" decoding="async" src="assets/solar-boat.jpg" alt="The solar boat team in blue lab coats working on the hull in the workshop"></div>
         <div class="tile-title"><div class="t">Solar racing boat <span class="sub">designed, machined, raced</span></div></div>
         <div class="tile-tags">CAD / fabrication / Netherlands</div>
       </div>
       <div class="p">
-        <div class="artbox ratio-wide"><img src="assets/maze-robot.jpg" alt="Arduino maze solving robot with breadboard wiring and yellow wheels"></div>
+        <div class="artbox ratio-wide"><img loading="lazy" decoding="async" src="assets/maze-robot.jpg" alt="Arduino maze solving robot with breadboard wiring and yellow wheels"></div>
         <div class="tile-title"><div class="t">Maze solving robot <span class="sub">sensors and soldering</span></div></div>
         <div class="tile-tags">electronics / control logic</div>
       </div>
       <div class="p">
-        <div class="artbox ratio-wide"><img src="assets/brocklebikes.jpg" alt="A bike on the repair stand in the garden"></div>
+        <div class="artbox ratio-wide"><img loading="lazy" decoding="async" src="assets/brocklebikes.jpg" alt="A bike on the repair stand in the garden"></div>
         <div class="tile-title"><div class="t">Brocklebikes <span class="sub">a business I started at sixteen</span></div></div>
         <div class="tile-tags">495+ repairs / self taught / customer facing</div>
       </div>
@@ -822,12 +842,12 @@ nav{
         <div class="tile-tags">visiting research associate / surface coatings &amp; bubble dynamics</div>
       </div>
       <div class="p">
-        <div class="artbox ratio-wide"><img src="assets/bridge.jpg" alt="Building the balsa bridge in the workshop with two teammates"></div>
+        <div class="artbox ratio-wide"><img loading="lazy" decoding="async" src="assets/bridge.jpg" alt="Building the balsa bridge in the workshop with two teammates"></div>
         <div class="tile-title"><div class="t">The balsa bridge <span class="sub">the only one to hold under full load</span></div></div>
         <div class="tile-tags">spotted the flaw before test day / team project</div>
       </div>
       <div class="p">
-        <div class="artbox ratio-wide"><img src="assets/hydroturbine.jpg" alt="Hydroturbine built from an orange pipe, tested in a real stream"></div>
+        <div class="artbox ratio-wide"><img loading="lazy" decoding="async" src="assets/hydroturbine.jpg" alt="Hydroturbine built from an orange pipe, tested in a real stream"></div>
         <div class="tile-title"><div class="t">A £50 hydroturbine <span class="sub">tested in a real stream</span></div></div>
         <div class="tile-tags">design to field test / renewable energy</div>
       </div>
@@ -862,17 +882,17 @@ nav{
 
     <div class="sem-pair" style="margin-top:44px;">
       <figure>
-        <img src="assets/sem-clumped.jpg" alt="SEM image of unmodified titanium dioxide sitting in large clumps on the fibres">
+        <img loading="lazy" decoding="async" width="1200" height="900" src="assets/sem-clumped.jpg" alt="SEM image of unmodified titanium dioxide sitting in large clumps on the fibres">
         <figcaption>Unmodified TiO₂, sitting in clumps on the fibres</figcaption>
       </figure>
       <figure>
-        <img src="assets/sem-dispersed.jpg" alt="SEM image of surface modified titanium dioxide spread evenly across the fibres">
+        <img loading="lazy" decoding="async" width="1200" height="900" src="assets/sem-dispersed.jpg" alt="SEM image of surface modified titanium dioxide spread evenly across the fibres">
         <figcaption>Surface modified TiO₂, spread evenly, the coating I want</figcaption>
       </figure>
     </div>
     <p class="tile-tags" style="margin-top:11px;">SEM at ×2,000 · modifying the particle surface stops it clumping, so the coating sits even and repels better</p>
 
-    <img class="wca-graph" src="assets/wca-graph.jpg" alt="Graph of water contact angle by coating, showing my emulsions reaching the same superhydrophobic range as commercial PFAS free DWR">
+    <img loading="lazy" decoding="async" class="wca-graph" width="1600" height="848" src="assets/wca-graph.jpg" alt="Graph of water contact angle by coating, showing my emulsions reaching the same superhydrophobic range as commercial PFAS free DWR">
     <p class="tile-tags" style="margin-top:11px;">water contact angle by coating · my emulsions reach the same range as commercial PFAS free DWR, while the uncoated control soaks straight through</p>
   </section>
 
@@ -964,15 +984,15 @@ nav{
 
     <div class="run-grid">
       <div class="rv"><video autoplay muted loop playsinline preload="metadata" poster="assets/runclub.jpg" aria-label="The run club heading down a Falmouth street together"><source src="assets/runclub.mp4" type="video/mp4"></video></div>
-      <div class="rp tall"><img src="assets/runclub-street.jpg" alt="Run club running down a pastel terraced street at dusk"></div>
-      <div class="rp tall"><img src="assets/runclub-road.jpg" alt="Run club strung out along a coastal road in the evening light"></div>
+      <div class="rp tall"><img loading="lazy" decoding="async" src="assets/runclub-street.jpg" alt="Run club running down a pastel terraced street at dusk"></div>
+      <div class="rp tall"><img loading="lazy" decoding="async" src="assets/runclub-road.jpg" alt="Run club strung out along a coastal road in the evening light"></div>
     </div>
 
     <div class="run-note">
-      <div class="marie"><img src="assets/marie-curie.jpg" alt="Marie Curie fundraising page: £1,647 raised, 66 percent of a £2,500 target, 64 donors"></div>
+      <div class="marie"><img loading="lazy" decoding="async" width="1000" height="1070" src="assets/marie-curie.jpg" alt="Marie Curie fundraising page: £1,647 raised, 66 percent of a £2,500 target, 64 donors"></div>
       <div>
         <p>For the 2026 London Marathon I ran for <span class="big">Marie Curie</span> and raised £1,647 from 64 donors, two thirds of the target, with a crowd of mates holding a "GO TIGGY" sign at the finish.</p>
-        <div class="rm"><img src="assets/marathon.jpg" alt="Friends at the London Marathon finish holding GO TIGGY signs"></div>
+        <div class="rm"><img loading="lazy" decoding="async" src="assets/marathon.jpg" alt="Friends at the London Marathon finish holding GO TIGGY signs"></div>
       </div>
     </div>
   </section>
@@ -1028,11 +1048,11 @@ nav{
     </div>
 
     <div class="play-grid">
-      <div class="artbox ratio-landscape"><img src="assets/surf-cutback.jpg" alt="Surfer carving off the top of a wave, spray flying"></div>
-      <div class="artbox ratio-landscape"><img src="assets/beach.jpg" alt="Two people playing badminton on the beach as the sun sets over the sea"></div>
-      <div class="artbox ratio-portrait"><img src="assets/skate.jpg" alt="Skateboarding a rail at the local park"></div>
-      <div class="artbox ratio-landscape"><img src="assets/travel-cirque.jpg" alt="Three friends on a grassy ridge in front of a mountain cirque"></div>
-      <div class="artbox ratio-landscape"><img src="assets/surf.jpg" alt="Lone surfer riding a small wave under a pink dawn sky, shot from the water"></div>
+      <div class="artbox ratio-landscape"><img loading="lazy" decoding="async" src="assets/surf-cutback.jpg" alt="Surfer carving off the top of a wave, spray flying"></div>
+      <div class="artbox ratio-landscape"><img loading="lazy" decoding="async" src="assets/beach.jpg" alt="Two people playing badminton on the beach as the sun sets over the sea"></div>
+      <div class="artbox ratio-portrait"><img loading="lazy" decoding="async" src="assets/skate.jpg" alt="Skateboarding a rail at the local park"></div>
+      <div class="artbox ratio-landscape"><img loading="lazy" decoding="async" src="assets/travel-cirque.jpg" alt="Three friends on a grassy ridge in front of a mountain cirque"></div>
+      <div class="artbox ratio-landscape"><img loading="lazy" decoding="async" src="assets/surf.jpg" alt="Lone surfer riding a small wave under a pink dawn sky, shot from the water"></div>
     </div>
   </section>
 
@@ -1053,10 +1073,58 @@ nav{
 
     <div class="footer-mark">
       <span class="big">JTB<sup style="font-size:0.3em;vertical-align:super;">®</sup></span>
-      <span class="meta">All footage and photography my own · built with an AI agent I set up myself</span>
+      <span class="meta">All footage and photography my own · <a class="link" href="#top">back to top</a></span>
     </div>
   </section>
 
 </div>
+
+<script>
+(function(){
+  if(!('IntersectionObserver' in window))return;
+  var doc=document;
+
+  /* pause the looping videos while they're off screen */
+  var vids=[].slice.call(doc.querySelectorAll('video[autoplay]'));
+  var vo=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      var v=e.target;
+      if(e.isIntersecting){var p=v.play();if(p&&p.catch)p.catch(function(){});}
+      else v.pause();
+    });
+  },{rootMargin:'120px 0px'});
+  vids.forEach(function(v){vo.observe(v);});
+
+  /* underline the nav link for the section in view */
+  var map={story:'story',film:'film',ski:'ski',build:'build',collab:'collab',run:'run',education:'education',experience:'education',contact:'contact'};
+  var links={};
+  [].slice.call(doc.querySelectorAll('.navlinks a')).forEach(function(a){
+    var id=(a.getAttribute('href')||'').slice(1);
+    if(id)links[id]=a;
+  });
+  var so=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(!e.isIntersecting)return;
+      var target=map[e.target.id];
+      if(!target||!links[target])return;
+      for(var k in links)links[k].classList.remove('active');
+      links[target].classList.add('active');
+    });
+  },{rootMargin:'-40% 0px -55% 0px'});
+  for(var id in map){var s=doc.getElementById(id);if(s)so.observe(s);}
+
+  /* gentle fade-up as things arrive; skipped for reduced motion */
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  var sel='.sec-head,.story-numbers,.story-grid>div,.timeline>div,.ski-grid .sv,.projects .p,.play-grid>div,.cvitem,.skillgroup,.run-grid>div,.run-note,.sem-pair figure,.ai-body>div,.ledger .lrow,.contact-cols .row,.framing,.ski-para,.tools-row,.research-video,.wca-graph,.contact h2,.contact .avail,.footer-mark';
+  var els=[].slice.call(doc.querySelectorAll(sel));
+  doc.documentElement.classList.add('anim');
+  var ro=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){e.target.classList.add('in');ro.unobserve(e.target);}
+    });
+  },{rootMargin:'0px 0px -7% 0px',threshold:0.08});
+  els.forEach(function(el){el.classList.add('reveal');ro.observe(el);});
+})();
+</script>
 </body>
 </html>
