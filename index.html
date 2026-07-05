@@ -402,7 +402,9 @@ nav{
   border-bottom:1px solid var(--ink);
   padding-bottom:11px;
 }
-.contact-cols .row .k{font-size:15px;letter-spacing:0.6px;}
+.contact-cols .row .k{font-size:15px;letter-spacing:0.6px;flex-shrink:0;}
+.contact-cols .row a{overflow-wrap:anywhere;text-align:right;}
+.contact-cols .row a.email{font-size:15px;letter-spacing:0.6px;}
 
 .footer-mark{
   display:flex;
@@ -609,9 +611,23 @@ nav{
   .hero-name{white-space:normal;}
   .statline .stat{border-right:none;padding-right:0;margin-right:0;}
   .hero .positioning{font-size:20px;}
-  nav{padding:12px 0;}
-  .navlinks{gap:14px;}
-  .navlinks a{font-size:15px;}
+  body{font-size:17px;}
+  .contact-cols{grid-template-columns:1fr;gap:0;max-width:none;}
+  /* keep the sticky nav a single tidy row that scrolls sideways
+     instead of wrapping into a tall bar stuck over the content */
+  nav{padding:12px 0;flex-wrap:nowrap;gap:14px;align-items:center;}
+  .wordmark{flex:0 0 auto;}
+  .navlinks{
+    flex:1 1 auto;
+    min-width:0;
+    flex-wrap:nowrap;
+    gap:18px;
+    overflow-x:auto;
+    scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
+  }
+  .navlinks::-webkit-scrollbar{display:none;}
+  .navlinks a{font-size:15px;white-space:nowrap;padding-bottom:0;}
 }
 </style>
 </head>
@@ -1027,8 +1043,8 @@ nav{
     <p class="avail">From August to late November 2026 I'm at Curtin University in Perth, researching clean hydrogen. From mid September I can be set up and working online, and from December I'm on the ground, London, Park City or a resort, wherever the season needs me.</p>
 
     <div class="contact-cols">
-      <div class="row"><span class="k">email</span><span>on the live site</span></div>
-      <div class="row"><span class="k">phone</span><span>on the live site</span></div>
+      <div class="row"><span class="k">email</span><a class="link email" href="mailto:jackson.brocklebank.25@ucl.ac.uk">jackson.brocklebank.25@ucl.ac.uk</a></div>
+      <div class="row"><span class="k">phone</span><a class="link" href="tel:+447999754655">+44 7999 754655</a></div>
       <div class="row"><span class="k">tiktok</span><a class="link" href="https://www.tiktok.com/@jacksontigerb" target="_blank" rel="noopener">@jacksontigerb</a></div>
       <div class="row"><span class="k">linkedin</span><a class="link" href="https://www.linkedin.com/in/jacksontigerb" target="_blank" rel="noopener">/in/jacksontigerb</a></div>
       <div class="row"><span class="k">cv</span><a class="link" href="#">download PDF</a></div>
