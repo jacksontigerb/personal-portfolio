@@ -708,9 +708,13 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
 
 /* ---------- project cards ---------- */
 [hidden]{display:none !important;}
-::view-transition-group(pj-swap){animation-duration:.55s;animation-timing-function:cubic-bezier(.2,.8,.2,1);}
-::view-transition-old(pj-swap),::view-transition-new(pj-swap){height:100%;width:100%;object-fit:cover;}
-::view-transition-old(root),::view-transition-new(root){animation-duration:.45s;}
+::view-transition-group(pj-swap){animation-duration:.5s;animation-timing-function:cubic-bezier(.2,.8,.2,1);}
+::view-transition-image-pair(pj-swap){isolation:auto;}
+::view-transition-old(pj-swap){animation:pj-out .2s ease both;}
+::view-transition-new(pj-swap){animation:pj-in .34s ease .14s both;}
+@keyframes pj-out{to{opacity:0;}}
+@keyframes pj-in{from{opacity:0;}}
+::view-transition-old(root),::view-transition-new(root){animation-duration:.3s;}
 .cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:44px;align-items:stretch;}
 .card{border:1px solid var(--ink);display:flex;flex-direction:column;cursor:pointer;min-width:0;}
 .card:hover,.card.active{box-shadow:0 0 0 1px var(--ink);}
