@@ -749,6 +749,46 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
   .navlinks::-webkit-scrollbar{display:none;}
   .navlinks a{font-size:15px;white-space:nowrap;padding-bottom:0;}
 }
+
+/* ---------- project cards ---------- */
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:44px;align-items:stretch;}
+.card{border:1px solid var(--ink);display:flex;flex-direction:column;cursor:pointer;min-width:0;}
+.card:hover,.card.active{box-shadow:0 0 0 1px var(--ink);}
+.card .cimg{border-bottom:1px solid var(--ink);font-size:0;}
+.card .cimg img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block;}
+.card .cbody{padding:18px;display:flex;flex-direction:column;gap:11px;flex:1;}
+.card .ct{font-family:var(--ogg);font-size:26px;line-height:1.1;letter-spacing:-0.52px;}
+.card .ct .sub{font-style:italic;display:block;margin-top:2px;font-size:20px;}
+.card .ctags{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;}
+.card .copen{margin-top:auto;padding-top:14px;border-top:1px solid var(--ink);font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;display:flex;justify-content:space-between;gap:11px;}
+.card:hover .copen .a{text-decoration:underline;}
+.card:focus-visible{outline:2px solid var(--ink);outline-offset:3px;}
+.card.feature{grid-column:span 2;}
+.card.feature .cimg img{aspect-ratio:21/9;}
+.card.textonly .cbody{min-height:220px;}
+.card.soon{cursor:default;}
+.card.soon:hover{box-shadow:none;}
+
+/* ---------- expanded project panels ---------- */
+.panel{border:1px solid var(--ink);margin-top:18px;padding:clamp(18px,3vw,44px);}
+.panel-head{display:flex;justify-content:space-between;align-items:baseline;gap:18px;margin-bottom:24px;}
+.panel-head .t{font-family:var(--ogg);font-size:26px;line-height:1.1;letter-spacing:-0.52px;}
+.panel-head .t .sub{font-style:italic;display:block;margin-top:2px;font-size:20px;}
+.pclose{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;background:none;border:none;border-bottom:1px solid var(--black);cursor:pointer;color:var(--ink);padding:0 0 1px;flex-shrink:0;}
+.pclose:hover{border-bottom-width:2px;}
+.panel .intro{font-size:20px;line-height:1.33;max-width:60ch;margin-bottom:24px;}
+.panel-cols{display:grid;grid-template-columns:1.4fr 1fr;gap:44px;align-items:start;}
+.panel-cols .intro{margin-bottom:0;}
+@media (max-width:900px){
+  .cards{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .panel-cols{grid-template-columns:1fr;gap:24px;}
+}
+@media (max-width:560px){
+  .cards{grid-template-columns:minmax(0,1fr);}
+  .card.feature{grid-column:auto;}
+  .card.feature .cimg img{aspect-ratio:16/10;}
+  .panel-head{flex-direction:column;gap:8px;}
+}
 </style>
 </head>
 <body>
@@ -759,14 +799,13 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
 
   <!-- NAV -->
   <nav>
-    <a class="wordmark" href="#top">JTB<sup>®</sup></a>
+    <a class="wordmark" href="#top">JTB<sup>&reg;</sup></a>
     <div class="navlinks">
-      <a href="#story">TikTok</a>
-      <a href="#film">Film</a>
-      <a href="#ski">Skiing</a>
-      <a href="#build">Build</a>
-      <a href="#collab">Research</a>
-      <a href="#run">Run</a>
+      <a href="#engineering">Engineering</a>
+      <a href="#research">Research</a>
+      <a href="#content">Content</a>
+      <a href="#aicode">AI</a>
+      <a href="#sport">Sport</a>
       <a href="#education">CV</a>
       <a href="#contact">Contact</a>
     </div>
@@ -793,6 +832,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
     </div>
   </header>
 
+  
   <!-- PATTERN -->
   <section id="pattern">
     <div class="sec-head">
@@ -814,158 +854,155 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
     </div>
   </section>
 
-  <!-- STORY -->
-  <section id="story">
+  
+  <!-- ENGINEERING -->
+  <section id="engineering">
     <div class="sec-head">
       <div>
-        <span class="eyebrow">01 · case study: @jacksontigerb</span>
-        <h2 class="serif-heading">Zero to 89,000 followers in seven months</h2>
+        <span class="eyebrow">01 · engineering &amp; build</span>
+        <h2 class="serif-heading">Things I&#8217;ve <span class="italic">designed and built</span></h2>
       </div>
-      <p class="lead">I started <span class="italic">@jacksontigerb</span> in 2024, posting about learning Japanese, skiing and the rest of an active life. I ran it the best I could: posting daily, reading the numbers, keeping what worked and dropping what didn't. It grew quickly.</p>
+      <p class="lead">From an idea, through the workshop, to something tested in the real world. Each card opens into the full story.</p>
     </div>
-
-    <div class="story-numbers">
-      <div class="bignum"><span class="n">0 → 89k</span><span class="l">followers in ~7 months</span></div>
-      <div class="bignum"><span class="n">80.9k</span><span class="l">still there since I stopped</span></div>
-      <div class="bignum"><span class="n">millions</span><span class="l">of views across the account</span></div>
-    </div>
-
-    <div class="story-grid">
-      <div>
-        <img loading="lazy" decoding="async" class="art-natural shot" width="800" height="1740" src="assets/tiktok-analysis.jpg" alt="TikTok video analysis: 1.2 million views, 188 thousand likes, 5,600 new followers and 61 percent retention">
-        <div class="tile-title"><div class="t">One video, 1.2 million views <span class="sub">5,600 followers from it alone</span></div></div>
-        <div class="tile-tags">1.2m views / 3,956 hours watched / 61% retention</div>
-      </div>
-      <div class="offset-1">
-        <img loading="lazy" decoding="async" class="art-natural shot" width="800" height="1740" src="assets/tiktok-grid.jpg" alt="TikTok profile grid showing videos at 1.1 million, 659 thousand, 269 thousand and other six figure view counts">
-        <div class="tile-title"><div class="t">Not a one off <span class="sub">plenty of videos over 100k views</span></div></div>
-        <div class="tile-tags">1.1m / 659k / 269k / 169k / 128k</div>
-      </div>
-      <div class="offset-2">
-        <img loading="lazy" decoding="async" class="art-natural shot" width="900" height="756" src="assets/tiktok-profile.jpg" alt="TikTok profile for @jacksontigerb: 80.9 thousand followers and 2.5 million likes">
-        <div class="tile-title"><div class="t">80.9k followers, 2.5m likes <span class="sub">where it's at now</span></div></div>
-        <div class="tile-tags">@jacksontigerb / july 2026</div>
-      </div>
-    </div>
-
-    <div class="sec-head" style="margin-top:88px;">
-      <div><span class="eyebrow">what I took from it</span></div>
-      <p class="lead">The account taught me which trends to follow and which to skip. Doing it on my own meant every job at once: ideas, filming, editing, captions, posting, replying to comments and reading the analytics after. It's a <span class="italic">smaller</span> version of what a brand channel does day to day. I've paused posting this year to focus on the Masters in London, which is why it's eased from 89k to 80.9k.</p>
-    </div>
-  </section>
-
-  <!-- FILM -->
-  <section id="film">
-    <div class="sec-head">
-      <div>
-        <span class="eyebrow">02 · fifteen years behind a camera</span>
-        <h2 class="serif-heading">I've been editing video <span class="italic">for years</span></h2>
-      </div>
-      <p class="lead">Before the TikTok there were scooter edits, gaming videos and a Twitch channel, going back years.</p>
-    </div>
-
-    <div class="timeline">
-      <div class="span2">
-        <div class="filmbox-dark"><img loading="lazy" decoding="async" width="734" height="152" src="assets/scooter-edit.jpg" alt="YouTube upload titled Jackson Tiger 2017 Edit, four minutes thirty three seconds"></div>
-        <div class="tile-title"><div class="t">Scooter &amp; trampoline edits <span class="sub">where it began</span></div></div>
-        <div class="tile-tags">the 2017 edit / sony vegas / photoshop</div>
-      </div>
-      <div class="span2">
-        <div class="artbox ratio-wide"><img loading="lazy" decoding="async" class="shot" src="assets/twitch.jpg" alt="Twitch channel jacksontig3r with 1.3 thousand followers"></div>
-        <div class="tile-title"><div class="t">Twitch &amp; YouTube <span class="sub">the streaming years</span></div></div>
-        <div class="tile-tags">1.3k on Twitch, live and unscripted, plus years of gaming edits on YouTube in Premiere and Vegas</div>
-      </div>
-    </div>
-
-    <div class="tools-row">
-      <span class="k">tools I use</span>
-      Premiere Pro / Photoshop / DaVinci Resolve / Sony Vegas / CapCut / Adobe Creative Cloud
-    </div>
-  </section>
-
-  <!-- SKIING -->
-  <section id="ski">
-    <div class="sec-head">
-      <div>
-        <span class="eyebrow">03 · on snow</span>
-        <h2 class="serif-heading">On skis since I was three, <span class="italic">and used to filming while I ride</span></h2>
-      </div>
-      <p class="lead">Comfortable across all terrain, piste or freeride. I've skied most of my life, and I'm used to having a camera with me.</p>
-    </div>
-
-    <div class="ski-grid">
-      <div class="sv"><video autoplay muted loop playsinline preload="metadata" poster="assets/ski-montage.jpg" aria-label="Carving down a sunlit piste, filmed while riding"><source src="assets/ski-montage.mp4" type="video/mp4"></video></div>
-      <div class="sv"><video autoplay muted loop playsinline preload="metadata" poster="assets/ski-jump.jpg" aria-label="Launching off a kicker in slow motion"><source src="assets/ski-jump.mp4" type="video/mp4"></video></div>
-      <div class="sv"><video autoplay muted loop playsinline preload="metadata" poster="assets/ski-park-air.jpg" aria-label="Airborne off a snow park kicker in slow motion"><source src="assets/ski-park-air.mp4" type="video/mp4"></video></div>
-      <div class="sv"><video autoplay muted loop playsinline preload="metadata" poster="assets/ski-cliff.jpg" aria-label="Dropping into powder off a small cliff"><source src="assets/ski-cliff.mp4" type="video/mp4"></video></div>
-      <div class="sv"><video autoplay muted loop playsinline preload="metadata" poster="assets/ski-offpiste.jpg" aria-label="Off piste in a snowstorm beside the trees"><source src="assets/ski-offpiste.mp4" type="video/mp4"></video></div>
-      <div class="sv"><video autoplay muted loop playsinline preload="metadata" poster="assets/ski-pov.jpg" aria-label="Following a friend down a sunny piste, filmed while skiing"><source src="assets/ski-pov.mp4" type="video/mp4"></video></div>
-    </div>
-
-    <p class="ski-para">Different resorts and conditions, filmed as I go. Plans change on the mountain, and I'm used to that.</p>
-  </section>
-
-  <!-- BUILD -->
-  <section id="build">
-    <div class="sec-head">
-      <div>
-        <span class="eyebrow">04 · I also build things</span>
-        <h2 class="serif-heading">Carv is a ski company built by engineers, <span class="italic">so I understand both sides of it</span></h2>
-      </div>
-      <p class="lead">A Master's in materials engineering and a lot of hands on projects. Useful context for a brand whose whole product is a sensor for skiers.</p>
-    </div>
-
-    <div class="projects">
-      <div class="p">
-        <div class="artbox ratio-wide"><img loading="lazy" decoding="async" src="assets/solar-boat.jpg" alt="The solar boat team in blue lab coats working on the hull in the workshop"></div>
-        <div class="tile-title"><div class="t">Solar racing boat <span class="sub">designed, machined, raced</span></div></div>
-        <div class="tile-tags">CAD / fabrication / Netherlands</div>
-      </div>
-      <div class="p">
-        <div class="artbox ratio-wide"><img loading="lazy" decoding="async" src="assets/maze-robot.jpg" alt="Arduino maze solving robot with breadboard wiring and yellow wheels"></div>
-        <div class="tile-title"><div class="t">Maze solving robot <span class="sub">sensors and soldering</span></div></div>
-        <div class="tile-tags">electronics / control logic</div>
-      </div>
-      <div class="p">
-        <div class="artbox ratio-wide"><img loading="lazy" decoding="async" src="assets/brocklebikes.jpg" alt="A bike on the repair stand in the garden"></div>
-        <div class="tile-title"><div class="t">Brocklebikes <span class="sub">a business I started at sixteen</span></div></div>
-        <div class="tile-tags">495+ repairs / self taught / customer facing</div>
-      </div>
-      <div class="p">
-        <div class="soon">
-          <span class="lab">next up · Curtin University, Perth</span>
-          <span class="big">Coming soon</span>
-          <span class="lab">from August 2026</span>
+    <div class="cards">
+      <div class="card" data-panel="p-solar" aria-controls="p-solar">
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/solar-boat.jpg" alt="The solar boat team in blue lab coats working on the hull in the workshop"></div>
+        <div class="cbody">
+          <div class="ct">Solar racing boat <span class="sub">designed, machined, raced</span></div>
+          <div class="ctags">CAD / fabrication / raced in the Netherlands</div>
+          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
         </div>
-        <div class="tile-title"><div class="t">Photocatalytic water splitting <span class="sub">clean hydrogen research</span></div></div>
-        <div class="tile-tags">visiting research associate / surface coatings &amp; bubble dynamics</div>
       </div>
-      <div class="p">
+      <div class="card" data-panel="p-maze" aria-controls="p-maze">
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/maze-robot.jpg" alt="Arduino maze solving robot with breadboard wiring and yellow wheels"></div>
+        <div class="cbody">
+          <div class="ct">Maze solving robot <span class="sub">sensors and soldering</span></div>
+          <div class="ctags">electronics / control logic / Arduino</div>
+          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+      <div class="card" data-panel="p-bridge" aria-controls="p-bridge">
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/bridge.jpg" alt="Building the balsa bridge in the workshop with two teammates"></div>
+        <div class="cbody">
+          <div class="ct">The balsa bridge <span class="sub">the only one to hold under full load</span></div>
+          <div class="ctags">team project / spotted the flaw before test day</div>
+          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+      <div class="card" data-panel="p-hydro" aria-controls="p-hydro">
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/hydroturbine.jpg" alt="Hydroturbine built from an orange pipe, tested in a real stream"></div>
+        <div class="cbody">
+          <div class="ct">A £50 hydroturbine <span class="sub">tested in a real stream</span></div>
+          <div class="ctags">design to field test / renewable energy</div>
+          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+      <div class="card" data-panel="p-bikes" aria-controls="p-bikes">
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/brocklebikes.jpg" alt="A bike on the repair stand in the garden"></div>
+        <div class="cbody">
+          <div class="ct">Brocklebikes <span class="sub">a business I started at sixteen</span></div>
+          <div class="ctags">495+ repairs / self taught / customer facing</div>
+          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+      <div class="card textonly soon">
+        
+        <div class="cbody">
+          <div class="ct">Photocatalytic water splitting <span class="sub">clean hydrogen at Curtin University</span></div>
+          <div class="ctags">visiting research associate / Perth / from August 2026</div>
+          <div class="copen"><span class="a">coming soon</span><span></span></div>
+        </div>
+      </div>
+    </div>
+    <div class="panel" id="p-solar" hidden>
+      <div class="panel-head">
+        <div class="t">Solar racing boat <span class="sub">designed, machined, raced</span></div>
+        <button class="pclose" data-close type="button">close &times;</button>
+      </div>
+      <div class="panel-cols">
+        <div class="artbox ratio-wide"><img loading="lazy" decoding="async" src="assets/solar-boat.jpg" alt="The solar boat team in blue lab coats working on the hull in the workshop"></div>
+        <p class="intro">A university team project to design, build and race a solar powered boat. I worked on the CAD and the fabrication in the workshop, and we raced the finished boat in the Netherlands.</p>
+      </div>
+    </div>
+    <div class="panel" id="p-maze" hidden>
+      <div class="panel-head">
+        <div class="t">Maze solving robot <span class="sub">sensors and soldering</span></div>
+        <button class="pclose" data-close type="button">close &times;</button>
+      </div>
+      <div class="panel-cols">
+        <div class="artbox ratio-wide"><img loading="lazy" decoding="async" src="assets/maze-robot.jpg" alt="Arduino maze solving robot with breadboard wiring and yellow wheels"></div>
+        <p class="intro">An Arduino robot built to find its way through a maze on its own. Ultrasonic sensors, control logic and a lot of soldering.</p>
+      </div>
+    </div>
+    <div class="panel" id="p-bridge" hidden>
+      <div class="panel-head">
+        <div class="t">The balsa bridge <span class="sub">the only one to hold under full load</span></div>
+        <button class="pclose" data-close type="button">close &times;</button>
+      </div>
+      <div class="panel-cols">
         <div class="artbox ratio-wide"><img loading="lazy" decoding="async" src="assets/bridge.jpg" alt="Building the balsa bridge in the workshop with two teammates"></div>
-        <div class="tile-title"><div class="t">The balsa bridge <span class="sub">the only one to hold under full load</span></div></div>
-        <div class="tile-tags">spotted the flaw before test day / team project</div>
+        <p class="intro">A team project to build a bridge from balsa wood. We spotted the flaw in our design before test day and fixed it, and ours was the only bridge to hold under full load.</p>
       </div>
-      <div class="p">
+    </div>
+    <div class="panel" id="p-hydro" hidden>
+      <div class="panel-head">
+        <div class="t">A £50 hydroturbine <span class="sub">tested in a real stream</span></div>
+        <button class="pclose" data-close type="button">close &times;</button>
+      </div>
+      <div class="panel-cols">
         <div class="artbox ratio-wide"><img loading="lazy" decoding="async" src="assets/hydroturbine.jpg" alt="Hydroturbine built from an orange pipe, tested in a real stream"></div>
-        <div class="tile-title"><div class="t">A £50 hydroturbine <span class="sub">tested in a real stream</span></div></div>
-        <div class="tile-tags">design to field test / renewable energy</div>
+        <p class="intro">A hydroturbine designed and built for around £50, then taken outside and tested in a real stream. The whole journey from design to field test.</p>
+      </div>
+    </div>
+    <div class="panel" id="p-bikes" hidden>
+      <div class="panel-head">
+        <div class="t">Brocklebikes <span class="sub">a business I started at sixteen</span></div>
+        <button class="pclose" data-close type="button">close &times;</button>
+      </div>
+      <div class="panel-cols">
+        <div class="artbox ratio-wide"><img loading="lazy" decoding="async" src="assets/brocklebikes.jpg" alt="A bike on the repair stand in the garden"></div>
+        <p class="intro">The bike repair business I started at sixteen. Self taught, customer facing, and more than 495 bikes fixed.</p>
       </div>
     </div>
 
     <p class="framing">I like taking an idea through to a working prototype, then explaining it on camera.</p>
+
   </section>
 
-  <!-- RESEARCH FEATURE / FINISTERRE -->
-  <section id="collab">
+  <!-- RESEARCH -->
+  <section id="research">
     <div class="sec-head">
       <div>
-        <span class="eyebrow">05 · the research, up close</span>
-        <h2 class="serif-heading">A PFAS free waterproof coating, <span class="italic">in collaboration with <a class="link" href="https://finisterre.com/" target="_blank" rel="noopener">Finisterre</a></span></h2>
+        <span class="eyebrow">02 · research &amp; materials</span>
+        <h2 class="serif-heading">The lab work, <span class="italic">up close</span></h2>
       </div>
-      <p class="lead">My Master's project, and the one that brings together a few things I care about: the outdoors, materials science and sustainability. I'm synthesising a PFAS free superhydrophobic coating for outdoor textiles, supervised by Prospero Taroni-Junior and working with Abbie Spence at <span class="italic">Finisterre</span>.</p>
+      <p class="lead">Materials science with a purpose, coatings, energy storage and clean hydrogen.</p>
     </div>
-
-    <video class="research-video" autoplay muted loop playsinline preload="metadata" poster="assets/wca-coating.jpg" aria-label="A water droplet beading up on the coated fabric under the contact angle goniometer">
+    <div class="cards">
+      <div class="card feature" data-panel="p-pfas" aria-controls="p-pfas">
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/wca-coating.jpg" alt="A water droplet beading up on the coated fabric under the contact angle goniometer"></div>
+        <div class="cbody">
+          <div class="ct">A PFAS free waterproof coating <span class="sub">in collaboration with Finisterre</span></div>
+          <div class="ctags">SEM / contact angle / nanoparticle synthesis / my Master&#8217;s project</div>
+          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+      <div class="card textonly" data-panel="p-redox" aria-controls="p-redox">
+        
+        <div class="cbody">
+          <div class="ct">Redox flow batteries <span class="sub">BEng dissertation, awarded a first</span></div>
+          <div class="ctags">energy storage / renewable energy / University of Exeter</div>
+          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="panel" id="p-pfas" hidden>
+      <div class="panel-head">
+        <div class="t">A PFAS free waterproof coating <span class="sub">in collaboration with Finisterre</span></div>
+        <button class="pclose" data-close type="button">close &times;</button>
+      </div>
+      <p class="intro">My Master's project, and the one that brings together a few things I care about: the outdoors, materials science and sustainability. I'm synthesising a PFAS free superhydrophobic coating for outdoor textiles, supervised by Prospero Taroni-Junior and working with Abbie Spence at <span class="italic">Finisterre</span>.</p>
+      <video class="research-video" autoplay muted loop playsinline preload="metadata" poster="assets/wca-coating.jpg" aria-label="A water droplet beading up on the coated fabric under the contact angle goniometer">
       <source src="assets/wca-coating.mp4" type="video/mp4">
     </video>
     <p class="tile-tags" style="margin-top:11px;">a water droplet holding its shape on my coated fabric, measured on the goniometer</p>
@@ -993,157 +1030,165 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
 
     <img loading="lazy" decoding="async" class="wca-graph" width="1600" height="848" src="assets/wca-graph.jpg" alt="Graph of water contact angle by coating, showing my emulsions reaching the same superhydrophobic range as commercial PFAS free DWR">
     <p class="tile-tags" style="margin-top:11px;">water contact angle by coating · my emulsions reach the same range as commercial PFAS free DWR, while the uncoated control soaks straight through</p>
+  
+    </div>
+    <div class="panel" id="p-redox" hidden>
+      <div class="panel-head">
+        <div class="t">Redox flow batteries <span class="sub">BEng dissertation, awarded a first</span></div>
+        <button class="pclose" data-close type="button">close &times;</button>
+      </div>
+      <p class="intro">My BEng dissertation at the University of Exeter looked at redox flow batteries for storing renewable energy. It was awarded a first.</p>
+    </div>
+
   </section>
 
-  <!-- EDUCATION -->
-  <section id="education">
+  <!-- CONTENT & COMMUNITY -->
+  <section id="content">
     <div class="sec-head">
       <div>
-        <span class="eyebrow">06 · education &amp; awards</span>
-        <h2 class="serif-heading">The degrees behind it, <span class="italic">materials and energy</span></h2>
+        <span class="eyebrow">03 · content &amp; community</span>
+        <h2 class="serif-heading">Things I&#8217;ve <span class="italic">grown</span></h2>
       </div>
-      <p class="lead">A Master's in advanced materials on top of an engineering degree, with a couple of firsts along the way.</p>
+      <p class="lead">Audiences and communities, built one post or one Tuesday evening run at a time.</p>
+    </div>
+    <div class="cards">
+      <div class="card" data-panel="p-tiktok" aria-controls="p-tiktok">
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/tiktok-profile.jpg" alt="TikTok profile for @jacksontigerb: 80.9 thousand followers and 2.5 million likes"></div>
+        <div class="cbody">
+          <div class="ct">@jacksontigerb <span class="sub">zero to 89,000 followers in seven months</span></div>
+          <div class="ctags">2.5m likes / one video at 1.2m views / run solo</div>
+          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+      <div class="card" data-panel="p-film" aria-controls="p-film">
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/twitch.jpg" alt="Twitch channel jacksontig3r with 1.3 thousand followers"></div>
+        <div class="cbody">
+          <div class="ct">Film &amp; editing <span class="sub">fifteen years behind a camera</span></div>
+          <div class="ctags">scooter edits / gaming videos / a Twitch channel</div>
+          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+      <div class="card" data-panel="p-runclub" aria-controls="p-runclub">
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/runclub-street.jpg" alt="Run club running down a pastel terraced street at dusk"></div>
+        <div class="cbody">
+          <div class="ct">Falmouth Running Society <span class="sub">founded in January, 25 a week by June</span></div>
+          <div class="ctags">community / weekly sessions / 200+ followers</div>
+          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="panel" id="p-tiktok" hidden>
+      <div class="panel-head">
+        <div class="t">@jacksontigerb <span class="sub">zero to 89,000 followers in seven months</span></div>
+        <button class="pclose" data-close type="button">close &times;</button>
+      </div>
+      <p class="intro">I started <span class="italic">@jacksontigerb</span> in 2024, posting about learning Japanese, skiing and the rest of an active life. I ran it the best I could: posting daily, reading the numbers, keeping what worked and dropping what didn't. It grew quickly.</p>
+      <div class="story-numbers">
+      <div class="bignum"><span class="n">0 → 89k</span><span class="l">followers in ~7 months</span></div>
+      <div class="bignum"><span class="n">80.9k</span><span class="l">still there since I stopped</span></div>
+      <div class="bignum"><span class="n">millions</span><span class="l">of views across the account</span></div>
     </div>
 
-    <div class="cvlist">
-      <div class="cvitem">
-        <div class="h">
-          <div class="t">MSc Advanced Materials Science <span class="sub">University College London</span></div>
-          <span class="place">London · research year</span>
-          <p class="desc">The home of the PFAS free coating project above. Day to day it's synthesis in the lab and a lot of hours on the characterisation suite, SEM, TEM, FTIR, XRD and XPS.</p>
-        </div>
-        <div class="date">09/2025 – 09/2026</div>
-      </div>
-      <div class="cvitem">
-        <div class="h">
-          <div class="t">BEng Renewable Energy Engineering <span class="sub">University of Exeter, 2:1</span></div>
-          <span class="place">Exeter · mechanical and electrical grounding</span>
-          <p class="desc">My dissertation on redox flow batteries for renewable energy earned a first, and so did the field trip module, where I pitched wind turbine blade recycling to industry partners Nadara and ReBlade. One field trip, a day hiking a mountain near Oban, I turned into a vlog, shot and edited on the move.</p>
-        </div>
-        <div class="date">09/2022 – 07/2025</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- EXPERIENCE BEYOND THE STUDIO -->
-  <section id="experience">
-    <div class="sec-head">
+    <div class="story-grid">
       <div>
-        <span class="eyebrow">07 · experience beyond the studio</span>
-        <h2 class="serif-heading">Roles that were really about people, <span class="italic">and staying calm when it's busy</span></h2>
+        <img loading="lazy" decoding="async" class="art-natural shot" width="800" height="1740" src="assets/tiktok-analysis.jpg" alt="TikTok video analysis: 1.2 million views, 188 thousand likes, 5,600 new followers and 61 percent retention">
+        <div class="tile-title"><div class="t">One video, 1.2 million views <span class="sub">5,600 followers from it alone</span></div></div>
+        <div class="tile-tags">1.2m views / 3,956 hours watched / 61% retention</div>
       </div>
-      <p class="lead">Community building, teaching and customer facing work. Most of a social media role comes down to people, and these are the jobs where I've done that.</p>
-    </div>
-
-    <div class="cvlist">
-      <div class="cvitem">
-        <div class="h">
-          <div class="t">Run Club Founder &amp; President <span class="sub">Falmouth Running Society</span></div>
-          <span class="place">Started a club and grew a community</span>
-          <p class="desc">Founded and led a university running club, growing it to 200+ followers and weekly sessions of up to 25 runners in a single semester.</p>
-        </div>
-        <div class="date">01/2024 – 06/2024</div>
+      <div class="offset-1">
+        <img loading="lazy" decoding="async" class="art-natural shot" width="800" height="1740" src="assets/tiktok-grid.jpg" alt="TikTok profile grid showing videos at 1.1 million, 659 thousand, 269 thousand and other six figure view counts">
+        <div class="tile-title"><div class="t">Not a one off <span class="sub">plenty of videos over 100k views</span></div></div>
+        <div class="tile-tags">1.1m / 659k / 269k / 169k / 128k</div>
       </div>
-      <div class="cvitem">
-        <div class="h">
-          <div class="t">Digital Hub Student Ambassador <span class="sub">University of Exeter</span></div>
-          <span class="place">Technical support, up to 100 students a day</span>
-          <p class="desc">Provided troubleshooting in the library IT department, helping up to a hundred students a day, calm and quick under pressure.</p>
-        </div>
-        <div class="date">09/2024 – 06/2025</div>
-      </div>
-      <div class="cvitem">
-        <div class="h">
-          <div class="t">Student Representative <span class="sub">University College London</span></div>
-          <span class="place">Relaying feedback in departmental meetings</span>
-          <p class="desc">Gathering and relaying course feedback, helping the department spot and address student concerns.</p>
-        </div>
-        <div class="date">09/2025 – present</div>
-      </div>
-      <div class="cvitem">
-        <div class="h">
-          <div class="t">Customer Facing Roles <span class="sub">cafés and a lettings office</span></div>
-          <span class="place">Drury 188-189 · Castle Beach Café · Frank Harris &amp; Co</span>
-          <p class="desc">Fast, accurate service across two café roles and a sales and lettings office, handling orders, enquiries and day to day admin while staying calm in busy settings.</p>
-        </div>
-        <div class="date">2023 – present</div>
+      <div class="offset-2">
+        <img loading="lazy" decoding="async" class="art-natural shot" width="900" height="756" src="assets/tiktok-profile.jpg" alt="TikTok profile for @jacksontigerb: 80.9 thousand followers and 2.5 million likes">
+        <div class="tile-title"><div class="t">80.9k followers, 2.5m likes <span class="sub">where it's at now</span></div></div>
+        <div class="tile-tags">@jacksontigerb / july 2026</div>
       </div>
     </div>
-  </section>
 
-  <!-- RUN CLUB & MARATHON -->
-  <section id="run">
-    <div class="sec-head">
-      <div>
-        <span class="eyebrow">08 · run club &amp; the marathon</span>
-        <h2 class="serif-heading">I started a run club in January, <span class="italic">by June it was 25 a week</span></h2>
+    <div class="sec-head" style="margin-top:88px;">
+      <div><span class="eyebrow">what I took from it</span></div>
+      <p class="lead">The account taught me which trends to follow and which to skip. Doing it on my own meant every job at once: ideas, filming, editing, captions, posting, replying to comments and reading the analytics after. It's a <span class="italic">smaller</span> version of what a brand channel does day to day. I've paused posting this year to focus on the Masters in London, which is why it's eased from 89k to 80.9k.</p>
+    </div>
+  
+    </div>
+    <div class="panel" id="p-film" hidden>
+      <div class="panel-head">
+        <div class="t">Film &amp; editing <span class="sub">fifteen years behind a camera</span></div>
+        <button class="pclose" data-close type="button">close &times;</button>
       </div>
-      <p class="lead">Founding Falmouth Running Society showed me how to build a community in person, not just online. I also ran the 2026 London Marathon.</p>
+      <p class="intro">Before the TikTok there were scooter edits, gaming videos and a Twitch channel, going back years.</p>
+      <div class="timeline">
+      <div class="span2">
+        <div class="filmbox-dark"><img loading="lazy" decoding="async" width="734" height="152" src="assets/scooter-edit.jpg" alt="YouTube upload titled Jackson Tiger 2017 Edit, four minutes thirty three seconds"></div>
+        <div class="tile-title"><div class="t">Scooter &amp; trampoline edits <span class="sub">where it began</span></div></div>
+        <div class="tile-tags">the 2017 edit / sony vegas / photoshop</div>
+      </div>
+      <div class="span2">
+        <div class="artbox ratio-wide"><img loading="lazy" decoding="async" class="shot" src="assets/twitch.jpg" alt="Twitch channel jacksontig3r with 1.3 thousand followers"></div>
+        <div class="tile-title"><div class="t">Twitch &amp; YouTube <span class="sub">the streaming years</span></div></div>
+        <div class="tile-tags">1.3k on Twitch, live and unscripted, plus years of gaming edits on YouTube in Premiere and Vegas</div>
+      </div>
     </div>
 
-    <div class="run-grid">
+    <div class="tools-row">
+      <span class="k">tools I use</span>
+      Premiere Pro / Photoshop / DaVinci Resolve / Sony Vegas / CapCut / Adobe Creative Cloud
+    </div>
+  
+    </div>
+    <div class="panel" id="p-runclub" hidden>
+      <div class="panel-head">
+        <div class="t">Falmouth Running Society <span class="sub">founded in January, 25 a week by June</span></div>
+        <button class="pclose" data-close type="button">close &times;</button>
+      </div>
+      <p class="intro">Founding Falmouth Running Society showed me how to build a community in person, not just online.</p>
+      <div class="run-grid">
       <div class="rv"><video autoplay muted loop playsinline preload="metadata" poster="assets/runclub.jpg" aria-label="The run club heading down a Falmouth street together"><source src="assets/runclub.mp4" type="video/mp4"></video></div>
       <div class="rp tall"><img loading="lazy" decoding="async" src="assets/runclub-street.jpg" alt="Run club running down a pastel terraced street at dusk"></div>
       <div class="rp tall"><img loading="lazy" decoding="async" src="assets/runclub-road.jpg" alt="Run club strung out along a coastal road in the evening light"></div>
     </div>
 
-    <div class="run-note">
-      <div class="marie"><img loading="lazy" decoding="async" width="1000" height="1070" src="assets/marie-curie.jpg" alt="Marie Curie fundraising page: £1,647 raised, 66 percent of a £2,500 target, 64 donors"></div>
-      <div>
-        <p>For the 2026 London Marathon I ran for <span class="big">Marie Curie</span> and raised £1,647 from 64 donors, two thirds of the target, with a crowd of mates holding a "GO TIGGY" sign at the finish.</p>
-        <div class="rm"><img loading="lazy" decoding="async" src="assets/marathon.jpg" alt="Friends at the London Marathon finish holding GO TIGGY signs"></div>
-      </div>
+    
     </div>
+
   </section>
 
-  <!-- SKILLS -->
-  <section id="skills">
+  <!-- AI & CODE -->
+  <section id="aicode">
     <div class="sec-head">
       <div>
-        <span class="eyebrow">09 · the toolkit</span>
-        <h2 class="serif-heading">What I can do, <span class="italic">hands on and technical</span></h2>
-      </div>
-      <p class="lead">The creative tools I edit with, plus the technical and workshop skills behind the projects.</p>
-    </div>
-
-    <div class="skills-grid">
-      <div class="skillgroup"><span class="k">creative &amp; content</span><span class="v">Premiere Pro · Photoshop · DaVinci Resolve · Sony Vegas · CapCut · iPhone shooting</span></div>
-      <div class="skillgroup"><span class="k">cad &amp; design</span><span class="v">Onshape · SolidWorks · 3D Printing</span></div>
-      <div class="skillgroup"><span class="k">electronics &amp; prototyping</span><span class="v">Arduino · ESP32 · Ultrasonic Sensors · Soldering · MQTT · MODBUS</span></div>
-      <div class="skillgroup"><span class="k">workshop &amp; fabrication</span><span class="v">Lathe · Bandsaw · Hand Tools</span></div>
-      <div class="skillgroup"><span class="k">programming &amp; data</span><span class="v">Python · SQL · MATLAB · C++ · Git</span></div>
-      <div class="skillgroup"><span class="k">materials characterisation</span><span class="v">SEM · TEM · FTIR · XRD · XPS · UV/Vis · Optical Microscopy</span></div>
-    </div>
-  </section>
-
-  <!-- AI -->
-  <section id="ai">
-    <div class="sec-head">
-      <div>
-        <span class="eyebrow">10 · ai in practice</span>
+        <span class="eyebrow">04 · ai in practice</span>
         <h2 class="serif-heading">How I use AI <span class="italic">day to day</span></h2>
       </div>
       <p class="lead">I use it in my actual work, for research, planning and taking the repetitive jobs off my plate.</p>
     </div>
-
-    <div class="ai-body">
-      <div>
-        <p>I mostly use Claude Code, with MCP integrations I set up myself. I use it for content research and ideas, for turning a rough idea into something I can test quickly, and for the dull jobs like logging, tracking and reporting.</p>
+    <div class="cards">
+      <div class="card" data-panel="p-pocket" aria-controls="p-pocket">
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/pocket-claude-terminal.png" alt="Terminal on the Mac showing a dictated phrase arriving in the live Claude Code session"></div>
+        <div class="cbody">
+          <div class="ct">Pocket Claude <span class="sub">one agent, from my laptop, my phone or my voice</span></div>
+          <div class="ctags">Ubuntu VPS / tmux / Tailscale / iOS Shortcuts</div>
+          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
+        </div>
       </div>
-      <div>
-        <p class="ai-pull">This site was planned, designed and built with an AI agent I set up myself.</p>
+      <div class="card textonly" data-panel="p-site" aria-controls="p-site">
+        
+        <div class="cbody">
+          <div class="ct">This website <span class="sub">planned, designed and built with an AI agent I run myself</span></div>
+          <div class="ctags">design system / GitHub Pages / no frameworks</div>
+          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
+        </div>
       </div>
     </div>
-
-    <div class="sec-head" style="margin-top:88px;">
-      <div>
-        <span class="eyebrow">a small infrastructure project · july 2026</span>
-        <h2 class="serif-heading">Pocket Claude, <span class="italic">the same agent from my laptop, my phone or my voice</span></h2>
+    <div class="panel" id="p-pocket" hidden>
+      <div class="panel-head">
+        <div class="t">Pocket Claude <span class="sub">a small infrastructure project, july 2026</span></div>
+        <button class="pclose" data-close type="button">close &times;</button>
       </div>
-      <p class="lead">I set up a small cloud server that runs a coding agent around the clock. My laptop, my phone's terminal and a voice shortcut all attach to the same live session, so work carries on wherever I am.</p>
-    </div>
-
-    <div class="pc-clients">
+      <p class="intro">I set up a small cloud server that runs a coding agent around the clock. My laptop, my phone's terminal and a voice shortcut all attach to the same live session, so work carries on wherever I am.</p>
+      <div class="pc-clients">
       <div class="pc-node">
         <div class="t">Laptop</div>
         <p class="d">A full terminal at my desk, attached to the running session.</p>
@@ -1224,30 +1269,208 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
       <span class="k">built with</span>
       Ubuntu VPS / tmux / Tailscale / WireGuard / Mutagen / systemd / iOS Shortcuts
     </div>
-  </section>
-
-  <!-- PERSONALITY -->
-  <section id="play">
-    <div class="sec-head">
-      <div>
-        <span class="eyebrow">11 · off the mountain</span>
-        <h2 class="serif-heading">Everything else I'm into</h2>
+  
+    </div>
+    <div class="panel" id="p-site" hidden>
+      <div class="panel-head">
+        <div class="t">This website <span class="sub">built with an AI agent</span></div>
+        <button class="pclose" data-close type="button">close &times;</button>
       </div>
-      <p class="lead">Surf, skate, climb, Japanese, piano and guitar, chess, and I build my own PCs. I shoot most of this myself, so the photos are half the hobby. I like being outside and I like meeting people, which is most of this job.</p>
+      <div class="ai-body" style="margin-top:0;">
+        <div><p class="ai-pull">This site was planned, designed and built with an AI agent I set up myself.</p></div>
+        <div><p>I mostly use Claude Code, with MCP integrations I set up myself. I use it for content research and ideas, for turning a rough idea into something I can test quickly, and for the dull jobs like logging, tracking and reporting.</p></div>
+      </div>
     </div>
 
-    <div class="play-grid">
+  </section>
+
+  <!-- SPORT & OUTDOORS -->
+  <section id="sport">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">05 · sport &amp; outdoors</span>
+        <h2 class="serif-heading">Where I am <span class="italic">when I&#8217;m not working</span></h2>
+      </div>
+      <p class="lead">The active life behind the projects.</p>
+    </div>
+    <div class="cards">
+      <div class="card" data-panel="p-ski" aria-controls="p-ski">
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/ski-montage.jpg" alt="Carving down a sunlit piste, filmed while riding"></div>
+        <div class="cbody">
+          <div class="ct">Skiing <span class="sub">on skis since I was three</span></div>
+          <div class="ctags">all terrain / filmed while I ride</div>
+          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+      <div class="card" data-panel="p-marathon" aria-controls="p-marathon">
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/marathon.jpg" alt="Friends at the London Marathon finish holding GO TIGGY signs"></div>
+        <div class="cbody">
+          <div class="ct">London Marathon 2026 <span class="sub">£1,647 raised for Marie Curie</span></div>
+          <div class="ctags">64 donors / run for charity</div>
+          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+      <div class="card" data-panel="p-play" aria-controls="p-play">
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/surf-cutback.jpg" alt="Surfer carving off the top of a wave, spray flying"></div>
+        <div class="cbody">
+          <div class="ct">Off the mountain <span class="sub">surf, skate, climb and the rest</span></div>
+          <div class="ctags">photography / travel / most of it shot myself</div>
+          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="panel" id="p-ski" hidden>
+      <div class="panel-head">
+        <div class="t">Skiing <span class="sub">on skis since I was three</span></div>
+        <button class="pclose" data-close type="button">close &times;</button>
+      </div>
+      <p class="intro">Comfortable across all terrain, piste or freeride. I've skied most of my life, and I'm used to having a camera with me.</p>
+      <div class="ski-grid">
+      <div class="sv"><video autoplay muted loop playsinline preload="metadata" poster="assets/ski-montage.jpg" aria-label="Carving down a sunlit piste, filmed while riding"><source src="assets/ski-montage.mp4" type="video/mp4"></video></div>
+      <div class="sv"><video autoplay muted loop playsinline preload="metadata" poster="assets/ski-jump.jpg" aria-label="Launching off a kicker in slow motion"><source src="assets/ski-jump.mp4" type="video/mp4"></video></div>
+      <div class="sv"><video autoplay muted loop playsinline preload="metadata" poster="assets/ski-park-air.jpg" aria-label="Airborne off a snow park kicker in slow motion"><source src="assets/ski-park-air.mp4" type="video/mp4"></video></div>
+      <div class="sv"><video autoplay muted loop playsinline preload="metadata" poster="assets/ski-cliff.jpg" aria-label="Dropping into powder off a small cliff"><source src="assets/ski-cliff.mp4" type="video/mp4"></video></div>
+      <div class="sv"><video autoplay muted loop playsinline preload="metadata" poster="assets/ski-offpiste.jpg" aria-label="Off piste in a snowstorm beside the trees"><source src="assets/ski-offpiste.mp4" type="video/mp4"></video></div>
+      <div class="sv"><video autoplay muted loop playsinline preload="metadata" poster="assets/ski-pov.jpg" aria-label="Following a friend down a sunny piste, filmed while skiing"><source src="assets/ski-pov.mp4" type="video/mp4"></video></div>
+    </div>
+
+    <p class="ski-para">Different resorts and conditions, filmed as I go. Plans change on the mountain, and I'm used to that.</p>
+  
+    </div>
+    <div class="panel" id="p-marathon" hidden>
+      <div class="panel-head">
+        <div class="t">London Marathon 2026 <span class="sub">£1,647 raised for Marie Curie</span></div>
+        <button class="pclose" data-close type="button">close &times;</button>
+      </div>
+      <div class="run-note">
+      <div class="marie"><img loading="lazy" decoding="async" width="1000" height="1070" src="assets/marie-curie.jpg" alt="Marie Curie fundraising page: £1,647 raised, 66 percent of a £2,500 target, 64 donors"></div>
+      <div>
+        <p>For the 2026 London Marathon I ran for <span class="big">Marie Curie</span> and raised £1,647 from 64 donors, two thirds of the target, with a crowd of mates holding a "GO TIGGY" sign at the finish.</p>
+        <div class="rm"><img loading="lazy" decoding="async" src="assets/marathon.jpg" alt="Friends at the London Marathon finish holding GO TIGGY signs"></div>
+      </div>
+    </div>
+  
+    </div>
+    <div class="panel" id="p-play" hidden>
+      <div class="panel-head">
+        <div class="t">Off the mountain <span class="sub">surf, skate, climb and the rest</span></div>
+        <button class="pclose" data-close type="button">close &times;</button>
+      </div>
+      <p class="intro">Surf, skate, climb, Japanese, piano and guitar, chess, and I build my own PCs. I shoot most of this myself, so the photos are half the hobby. I like being outside and I like meeting people, which is most of this job.</p>
+      <div class="play-grid">
       <div class="artbox ratio-landscape"><img loading="lazy" decoding="async" src="assets/surf-cutback.jpg" alt="Surfer carving off the top of a wave, spray flying"></div>
       <div class="artbox ratio-landscape"><img loading="lazy" decoding="async" src="assets/beach.jpg" alt="Two people playing badminton on the beach as the sun sets over the sea"></div>
       <div class="artbox ratio-portrait"><img loading="lazy" decoding="async" src="assets/skate.jpg" alt="Skateboarding a rail at the local park"></div>
       <div class="artbox ratio-landscape"><img loading="lazy" decoding="async" src="assets/travel-cirque.jpg" alt="Three friends on a grassy ridge in front of a mountain cirque"></div>
       <div class="artbox ratio-landscape"><img loading="lazy" decoding="async" src="assets/surf.jpg" alt="Lone surfer riding a small wave under a pink dawn sky, shot from the water"></div>
     </div>
+  
+    </div>
+
   </section>
 
-  <!-- CONTACT -->
+  <!-- EDUCATION -->
+  <section id="education">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">06 · education &amp; awards</span>
+        <h2 class="serif-heading">The degrees behind it, <span class="italic">materials and energy</span></h2>
+      </div>
+      <p class="lead">A Master's in advanced materials on top of an engineering degree, with a couple of firsts along the way.</p>
+    </div>
+
+    <div class="cvlist">
+      <div class="cvitem">
+        <div class="h">
+          <div class="t">MSc Advanced Materials Science <span class="sub">University College London</span></div>
+          <span class="place">London · research year</span>
+          <p class="desc">The home of the PFAS free coating project above. Day to day it's synthesis in the lab and a lot of hours on the characterisation suite, SEM, TEM, FTIR, XRD and XPS.</p>
+        </div>
+        <div class="date">09/2025 – 09/2026</div>
+      </div>
+      <div class="cvitem">
+        <div class="h">
+          <div class="t">BEng Renewable Energy Engineering <span class="sub">University of Exeter, 2:1</span></div>
+          <span class="place">Exeter · mechanical and electrical grounding</span>
+          <p class="desc">My dissertation on redox flow batteries for renewable energy earned a first, and so did the field trip module, where I pitched wind turbine blade recycling to industry partners Nadara and ReBlade. One field trip, a day hiking a mountain near Oban, I turned into a vlog, shot and edited on the move.</p>
+        </div>
+        <div class="date">09/2022 – 07/2025</div>
+      </div>
+    </div>
+  </section>
+
+  
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">07 · experience beyond the studio</span>
+        <h2 class="serif-heading">Roles that were really about people, <span class="italic">and staying calm when it's busy</span></h2>
+      </div>
+      <p class="lead">Community building, teaching and customer facing work. Most of a social media role comes down to people, and these are the jobs where I've done that.</p>
+    </div>
+
+    <div class="cvlist">
+      <div class="cvitem">
+        <div class="h">
+          <div class="t">Run Club Founder &amp; President <span class="sub">Falmouth Running Society</span></div>
+          <span class="place">Started a club and grew a community</span>
+          <p class="desc">Founded and led a university running club, growing it to 200+ followers and weekly sessions of up to 25 runners in a single semester.</p>
+        </div>
+        <div class="date">01/2024 – 06/2024</div>
+      </div>
+      <div class="cvitem">
+        <div class="h">
+          <div class="t">Digital Hub Student Ambassador <span class="sub">University of Exeter</span></div>
+          <span class="place">Technical support, up to 100 students a day</span>
+          <p class="desc">Provided troubleshooting in the library IT department, helping up to a hundred students a day, calm and quick under pressure.</p>
+        </div>
+        <div class="date">09/2024 – 06/2025</div>
+      </div>
+      <div class="cvitem">
+        <div class="h">
+          <div class="t">Student Representative <span class="sub">University College London</span></div>
+          <span class="place">Relaying feedback in departmental meetings</span>
+          <p class="desc">Gathering and relaying course feedback, helping the department spot and address student concerns.</p>
+        </div>
+        <div class="date">09/2025 – present</div>
+      </div>
+      <div class="cvitem">
+        <div class="h">
+          <div class="t">Customer Facing Roles <span class="sub">cafés and a lettings office</span></div>
+          <span class="place">Drury 188-189 · Castle Beach Café · Frank Harris &amp; Co</span>
+          <p class="desc">Fast, accurate service across two café roles and a sales and lettings office, handling orders, enquiries and day to day admin while staying calm in busy settings.</p>
+        </div>
+        <div class="date">2023 – present</div>
+      </div>
+    </div>
+  </section>
+
+  
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">08 · the toolkit</span>
+        <h2 class="serif-heading">What I can do, <span class="italic">hands on and technical</span></h2>
+      </div>
+      <p class="lead">The creative tools I edit with, plus the technical and workshop skills behind the projects.</p>
+    </div>
+
+    <div class="skills-grid">
+      <div class="skillgroup"><span class="k">creative &amp; content</span><span class="v">Premiere Pro · Photoshop · DaVinci Resolve · Sony Vegas · CapCut · iPhone shooting</span></div>
+      <div class="skillgroup"><span class="k">cad &amp; design</span><span class="v">Onshape · SolidWorks · 3D Printing</span></div>
+      <div class="skillgroup"><span class="k">electronics &amp; prototyping</span><span class="v">Arduino · ESP32 · Ultrasonic Sensors · Soldering · MQTT · MODBUS</span></div>
+      <div class="skillgroup"><span class="k">workshop &amp; fabrication</span><span class="v">Lathe · Bandsaw · Hand Tools</span></div>
+      <div class="skillgroup"><span class="k">programming &amp; data</span><span class="v">Python · SQL · MATLAB · C++ · Git</span></div>
+      <div class="skillgroup"><span class="k">materials characterisation</span><span class="v">SEM · TEM · FTIR · XRD · XPS · UV/Vis · Optical Microscopy</span></div>
+    </div>
+  </section>
+
+  
+<!-- CONTACT -->
   <section class="contact" id="contact">
-    <span class="eyebrow">12 · let's talk</span>
+    <span class="eyebrow">09 · let's talk</span>
     <h2 class="serif-display">Talk to me about next winter.</h2>
     <p class="avail">From August to late November 2026 I'm at Curtin University in Perth, researching clean hydrogen. From mid September I can work online, and from December I'm available in person, whether that's London, Park City or a resort.</p>
 
@@ -1266,9 +1489,46 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
     </div>
   </section>
 
+
 </div>
 
 <script>
+(function(){
+  var doc=document;
+
+  /* expand a project card into its panel */
+  function labelReset(x){
+    x.classList.remove('active');x.setAttribute('aria-expanded','false');
+    var a=x.querySelector('.copen .a');if(a&&a.getAttribute('data-open'))a.textContent=a.getAttribute('data-open');
+  }
+  [].slice.call(doc.querySelectorAll('.card[data-panel]')).forEach(function(c){
+    c.setAttribute('role','button');
+    c.setAttribute('tabindex','0');
+    c.setAttribute('aria-expanded','false');
+    function toggle(){
+      var p=doc.getElementById(c.getAttribute('data-panel'));
+      if(!p)return;
+      var sec=c.closest('section');
+      var wasClosed=p.hidden;
+      [].slice.call(sec.querySelectorAll('.panel')).forEach(function(x){x.hidden=true;});
+      [].slice.call(sec.querySelectorAll('.card[data-panel]')).forEach(labelReset);
+      if(wasClosed){
+        p.hidden=false;c.classList.add('active');c.setAttribute('aria-expanded','true');
+        var a=c.querySelector('.copen .a');if(a)a.textContent='close';
+        p.scrollIntoView({block:'nearest'});
+      }
+    }
+    c.addEventListener('click',function(e){if(e.target.closest('a'))return;toggle();});
+    c.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle();}});
+  });
+  [].slice.call(doc.querySelectorAll('.panel [data-close]')).forEach(function(b){
+    b.addEventListener('click',function(){
+      var p=b.closest('.panel');p.hidden=true;
+      var c=p.closest('section').querySelector('.card[data-panel="'+p.id+'"]');
+      if(c){labelReset(c);c.scrollIntoView({block:'nearest'});}
+    });
+  });
+})();
 (function(){
   if(!('IntersectionObserver' in window))return;
   var doc=document;
@@ -1285,7 +1545,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
   vids.forEach(function(v){vo.observe(v);});
 
   /* underline the nav link for the section in view */
-  var map={story:'story',film:'film',ski:'ski',build:'build',collab:'collab',run:'run',education:'education',experience:'education',contact:'contact'};
+  var map={engineering:'engineering',research:'research',content:'content',aicode:'aicode',sport:'sport',education:'education',experience:'education',contact:'contact'};
   var links={};
   [].slice.call(doc.querySelectorAll('.navlinks a')).forEach(function(a){
     var id=(a.getAttribute('href')||'').slice(1);
@@ -1304,7 +1564,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
 
   /* gentle fade-up as things arrive; skipped for reduced motion */
   if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
-  var sel='.sec-head,.story-numbers,.story-grid>div,.timeline>div,.ski-grid .sv,.projects .p,.play-grid>div,.cvitem,.skillgroup,.run-grid>div,.run-note,.sem-pair figure,.ai-body>div,.pc-clients>div,.pc-band,.pc-server,.pc-sync,.pc-proof figure,.ledger .lrow,.contact-cols .row,.framing,.ski-para,.tools-row,.research-video,.wca-graph,.contact h2,.contact .avail,.footer-mark';
+  var sel='.sec-head,.story-numbers,.story-grid>div,.timeline>div,.ski-grid .sv,.cards>.card,.play-grid>div,.cvitem,.skillgroup,.run-grid>div,.run-note,.sem-pair figure,.ai-body>div,.pc-clients>div,.pc-band,.pc-server,.pc-sync,.pc-proof figure,.ledger .lrow,.contact-cols .row,.framing,.ski-para,.tools-row,.research-video,.wca-graph,.contact h2,.contact .avail,.footer-mark';
   var els=[].slice.call(doc.querySelectorAll(sel));
   doc.documentElement.classList.add('anim');
   var ro=new IntersectionObserver(function(entries){
