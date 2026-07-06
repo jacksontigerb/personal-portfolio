@@ -711,8 +711,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
 ::view-transition-group(pj-swap){animation-duration:.45s;animation-timing-function:cubic-bezier(.2,.8,.2,1);background:#f2f2f2;border:1px solid #292a2c;box-sizing:border-box;overflow:hidden;}
 ::view-transition-image-pair(pj-swap){isolation:auto;}
 ::view-transition-group(pj-img){animation-duration:.45s;animation-timing-function:cubic-bezier(.2,.8,.2,1);z-index:2;}
-::view-transition-image-pair(pj-img){isolation:auto;}
-::view-transition-old(pj-img),::view-transition-new(pj-img){height:100%;width:100%;object-fit:cover;animation:none;}
+::view-transition-old(pj-img),::view-transition-new(pj-img){height:100%;width:100%;object-fit:cover;animation-duration:.45s;}
 ::view-transition-old(pj-swap){animation:pj-out .1s ease both;}
 ::view-transition-new(pj-swap){animation:pj-in .24s ease .21s both;}
 @keyframes pj-out{to{opacity:0;}}
@@ -1043,8 +1042,8 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
           <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
         </div>
       </div>
-      <div class="card textonly" data-panel="p-redox" aria-controls="p-redox">
-        
+      <div class="card" data-panel="p-redox" aria-controls="p-redox">
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/redox-cover.jpg" alt="Dissertation cover: Redox Flow Batteries in Coupling Renewable Energy Sources, University of Exeter, April 2025"></div>
         <div class="cbody">
           <div class="ct">Redox flow batteries <span class="sub">BEng dissertation, awarded a first</span></div>
           <div class="ctags">energy storage / renewable energy / University of Exeter</div>
@@ -1093,7 +1092,10 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
         <div class="t">Redox flow batteries <span class="sub">BEng dissertation, awarded a first</span></div>
         <button class="pclose" data-close type="button">close &times;</button>
       </div>
-      <p class="intro">My BEng dissertation at the University of Exeter looked at redox flow batteries for storing renewable energy. It was awarded a first.</p>
+      <div class="panel-cols">
+        <p class="intro">My BEng dissertation at the University of Exeter, titled Redox Flow Batteries in Coupling Renewable Energy Sources and supervised by Xiaohong Li and David Trudgeon. It looked at how flow batteries pair with wind and solar to store what they generate, and it was awarded a first.</p>
+        <img loading="lazy" decoding="async" class="art-natural shot" width="926" height="1310" src="assets/redox-cover.jpg" alt="Dissertation cover: Redox Flow Batteries in Coupling Renewable Energy Sources, University of Exeter, April 2025">
+      </div>
     </div>
 
   </section>
