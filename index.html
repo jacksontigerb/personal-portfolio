@@ -198,28 +198,16 @@ nav{
 /* ---------- hero ---------- */
 .hero{margin-top:44px;}
 .hero-frame{position:relative;}
-.hero-copy{margin-top:44px;}
+.hero-copy{margin-top:32px;}
 .hero .positioning{
   font-family:var(--telegraf);
   font-size:24px;
   line-height:1.25;
   letter-spacing:0.6px;
   max-width:34ch;
-  margin-top:24px;
+  margin-top:18px;
 }
 .hero .positioning em{font-family:var(--ogg);font-style:italic;}
-.statline{
-  display:flex;
-  gap:0;
-  flex-wrap:wrap;
-  margin-top:44px;
-  font-family:var(--telegraf);
-  font-size:18px;
-  letter-spacing:0.38px;
-}
-.statline .stat{padding-right:22px;margin-right:22px;border-right:1px solid var(--ink);}
-.statline .stat:last-child{border-right:none;margin-right:0;padding-right:0;}
-.statline .stat b{font-family:var(--ogg);font-weight:400;font-size:24px;letter-spacing:-0.3px;}
 
 /* ---------- section header ---------- */
 .sec-head{
@@ -652,28 +640,14 @@ nav{
 .research-video{width:100%;display:block;aspect-ratio:16/9;object-fit:cover;background:var(--black);border:1px solid var(--ink);margin-top:44px;}
 .wca-graph{width:100%;display:block;border:1px solid var(--ink);margin-top:18px;background:#fff;}
 
-/* ---------- coming soon tile ---------- */
-.soon{
-  aspect-ratio:16/9;
-  border:1px solid var(--ink);
-  display:flex;
-  flex-direction:column;
-  align-items:flex-start;
-  justify-content:space-between;
-  padding:18px;
-}
-.soon .lab{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;}
-.soon .big{font-family:var(--ogg);font-size:26px;line-height:1.05;letter-spacing:-0.52px;}
-.soon .big .sub{font-style:italic;display:block;}
-
 /* ---------- zero-to ledger ---------- */
-.ledger{margin-top:44px;border-top:1px solid var(--ink);}
+.ledger{margin-top:32px;border-top:1px solid var(--ink);}
 .ledger .lrow{
   display:flex;
   justify-content:space-between;
   align-items:baseline;
   gap:18px;
-  padding:16px 0;
+  padding:12px 0;
   border-bottom:1px solid var(--ink);
   font-family:var(--telegraf);
   font-size:18px;
@@ -729,7 +703,6 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
   .ledger .lrow .out{text-align:left;max-width:100%;}
   .run-grid{grid-template-columns:1fr;}
   .hero-name{white-space:normal;}
-  .statline .stat{border-right:none;padding-right:0;margin-right:0;}
   .hero .positioning{font-size:20px;}
   body{font-size:17px;}
   .contact-cols{grid-template-columns:1fr;gap:0;max-width:none;}
@@ -752,6 +725,9 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
 
 /* ---------- project cards ---------- */
 [hidden]{display:none !important;}
+::view-transition-group(pj-swap){animation-duration:.45s;animation-timing-function:cubic-bezier(.22,.61,.36,1);}
+::view-transition-old(pj-swap),::view-transition-new(pj-swap){height:100%;}
+::view-transition-old(root),::view-transition-new(root){animation-duration:.4s;}
 .cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:44px;align-items:stretch;}
 .card{border:1px solid var(--ink);display:flex;flex-direction:column;cursor:pointer;min-width:0;}
 .card:hover,.card.active{box-shadow:0 0 0 1px var(--ink);}
@@ -766,14 +742,13 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
 .card:focus-visible{outline:2px solid var(--ink);outline-offset:3px;}
 .card.feature{grid-column:span 2;}
 .card.feature .cimg img{aspect-ratio:21/9;}
-.card.textonly .cbody{min-height:220px;}
 .card.soon{cursor:default;}
 .card.soon:hover{box-shadow:none;}
 
 /* ---------- expanded project panels ---------- */
 .panel{border:1px solid var(--ink);margin-top:44px;padding:clamp(18px,3vw,44px);}
 @media (prefers-reduced-motion:no-preference){
-  .panel:not([hidden]){animation:panelin .4s ease;}
+  html:not(.vt) .panel:not([hidden]){animation:panelin .4s ease;}
   @keyframes panelin{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:none;}}
 }
 .panel-head{display:flex;justify-content:space-between;align-items:baseline;gap:18px;margin-bottom:24px;}
@@ -828,12 +803,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
     </div>
     <div class="hero-copy">
       <p class="serif-display hero-ladder">I've skied since I was three, started a bike repair business at sixteen, and built a TikTok account that reached 89,000 followers.</p>
-      <p class="positioning">I'm Jackson. There isn't one job title that covers what I do, so this page just shows it: engineering, skiing, and the <em>projects I've started</em> along the way. Everything here is mine, whether I built it, filmed it, repaired it or grew it.</p>
-      <div class="statline">
-        <span class="stat"><b>millions</b> of views on @jacksontigerb</span>
-        <span class="stat"><b>15 years</b> behind a camera</span>
-        <span class="stat"><b>all terrain</b> on skis since three</span>
-      </div>
+      <p class="positioning">I'm Jackson. There isn't one job title that covers what I do, so this page just shows it. Everything here is mine, whether I built it, filmed it, repaired it or grew it.</p>
     </div>
   </header>
 
@@ -845,16 +815,13 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
         <span class="eyebrow">00 · the pattern</span>
         <h2 class="serif-heading">Things I've started, <span class="italic">and where they got to</span></h2>
       </div>
-      <p class="lead">The full CV is further down the page. This is the short version.</p>
     </div>
 
     <div class="ledger">
       <div class="lrow"><span>A Twitch channel in my gaming years</span><span class="out">→ 1.3k followers</span></div>
       <div class="lrow"><span>Brocklebikes, a repair business started at sixteen</span><span class="out">→ 495+ bikes fixed</span></div>
-      <div class="lrow"><span>A renewable energy degree at Exeter</span><span class="out">→ a 2:1, and a first for the dissertation</span></div>
       <div class="lrow"><span>A university run club, founded in January 2024</span><span class="out">→ 25 runners a week by June</span></div>
       <div class="lrow"><span>@jacksontigerb, started from nothing in 2024</span><span class="out">→ 89,000 followers in seven months</span></div>
-      <div class="lrow"><span>A materials science Master's at UCL</span><span class="out">→ the Finisterre collaboration, and a degree</span></div>
       <div class="lrow"><span>One speculative email to Curtin University</span><span class="out">→ a research position in Perth</span></div>
     </div>
   </section>
@@ -1500,31 +1467,54 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
 <script>
 (function(){
   var doc=document;
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var canVT=!reduce&&typeof doc.startViewTransition==='function';
+  var busy=false;
+  if(canVT)doc.documentElement.classList.add('vt');
 
-  /* a card expands to take over its section; close brings the grid back */
+  /* the card grid morphs into the panel and back; instant fallback elsewhere */
+  function swap(fromEl,toEl,mutate){
+    if(!canVT||busy){mutate();return;}
+    busy=true;
+    fromEl.style.viewTransitionName='pj-swap';
+    var vt=doc.startViewTransition(function(){
+      fromEl.style.viewTransitionName='';
+      mutate();
+      toEl.style.viewTransitionName='pj-swap';
+    });
+    vt.finished.finally(function(){
+      toEl.style.viewTransitionName='';
+      busy=false;
+    });
+  }
   function openPanel(c){
     var p=doc.getElementById(c.getAttribute('data-panel'));
-    if(!p)return;
+    if(!p||!p.hidden)return;
     var sec=c.closest('section');
     var grid=sec.querySelector('.cards');
     var tail=sec.querySelector('.framing');
-    grid.hidden=true;
-    if(tail)tail.hidden=true;
-    [].slice.call(sec.querySelectorAll('.panel')).forEach(function(x){x.hidden=true;});
-    p.hidden=false;
-    c.setAttribute('aria-expanded','true');
-    sec.scrollIntoView({block:'start'});
+    swap(grid,p,function(){
+      grid.hidden=true;
+      if(tail)tail.hidden=true;
+      [].slice.call(sec.querySelectorAll('.panel')).forEach(function(x){x.hidden=true;});
+      p.hidden=false;
+      c.setAttribute('aria-expanded','true');
+      sec.scrollIntoView({block:'start',behavior:canVT?'instant':'auto'});
+    });
   }
   function closePanel(p){
+    if(p.hidden)return;
     var sec=p.closest('section');
-    p.hidden=true;
     var grid=sec.querySelector('.cards');
     var tail=sec.querySelector('.framing');
-    grid.hidden=false;
-    if(tail)tail.hidden=false;
-    var c=sec.querySelector('.card[data-panel="'+p.id+'"]');
-    if(c)c.setAttribute('aria-expanded','false');
-    sec.scrollIntoView({block:'start'});
+    swap(p,grid,function(){
+      p.hidden=true;
+      grid.hidden=false;
+      if(tail)tail.hidden=false;
+      var c=sec.querySelector('.card[data-panel="'+p.id+'"]');
+      if(c)c.setAttribute('aria-expanded','false');
+      sec.scrollIntoView({block:'start',behavior:canVT?'instant':'auto'});
+    });
   }
   [].slice.call(doc.querySelectorAll('.card[data-panel]')).forEach(function(c){
     c.setAttribute('role','button');
