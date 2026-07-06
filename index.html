@@ -198,14 +198,13 @@ nav{
 /* ---------- hero ---------- */
 .hero{margin-top:44px;}
 .hero-frame{position:relative;}
-.hero-copy{margin-top:32px;}
+.hero-copy{margin-top:32px;display:grid;grid-template-columns:1.5fr 1fr;gap:24px 44px;align-items:end;}
 .hero .positioning{
   font-family:var(--telegraf);
   font-size:24px;
   line-height:1.25;
   letter-spacing:0.6px;
   max-width:34ch;
-  margin-top:18px;
 }
 .hero .positioning em{font-family:var(--ogg);font-style:italic;}
 
@@ -659,6 +658,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
   .footer-mark .big{font-size:40px;letter-spacing:-1.2px;}
   .bignum .n{font-size:40px;letter-spacing:-1.2px;}
   .sec-head{grid-template-columns:1fr;gap:24px;}
+  .hero-copy{grid-template-columns:1fr;}
   .story-grid{grid-template-columns:1fr 1fr;}
   .story-grid .offset-1,.story-grid .offset-2{margin-top:0;}
   .analytics-row{grid-template-columns:1fr;}
@@ -710,6 +710,9 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
 [hidden]{display:none !important;}
 ::view-transition-group(pj-swap){animation-duration:.45s;animation-timing-function:cubic-bezier(.2,.8,.2,1);background:#f2f2f2;border:1px solid #292a2c;box-sizing:border-box;overflow:hidden;}
 ::view-transition-image-pair(pj-swap){isolation:auto;}
+::view-transition-group(pj-img){animation-duration:.45s;animation-timing-function:cubic-bezier(.2,.8,.2,1);z-index:2;}
+::view-transition-image-pair(pj-img){isolation:auto;}
+::view-transition-old(pj-img),::view-transition-new(pj-img){height:100%;width:100%;object-fit:cover;animation:none;}
 ::view-transition-old(pj-swap){animation:pj-out .1s ease both;}
 ::view-transition-new(pj-swap){animation:pj-in .24s ease .21s both;}
 @keyframes pj-out{to{opacity:0;}}
@@ -1440,27 +1443,40 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
   var busy=false;
   if(canVT)doc.documentElement.classList.add('vt');
 
-  /* the card grid morphs into the panel and back; instant fallback elsewhere */
-  function swap(fromEl,toEl,mutate){
-    if(!canVT||busy){mutate();return;}
+    /* the card morphs into the panel and back; its picture glides to its new spot */
+  function swap(pairs,mutate){
+    pairs=pairs.filter(function(pr){return pr[0]&&pr[1];});
+    if(!canVT||busy||!pairs.length){mutate();return;}
     busy=true;
     var unlock=setTimeout(release,1000);
     function release(){
       clearTimeout(unlock);
-      fromEl.style.viewTransitionName='';
-      toEl.style.viewTransitionName='';
+      pairs.forEach(function(pr){
+        pr[0].style.viewTransitionName='';
+        pr[1].style.viewTransitionName='';
+      });
       busy=false;
     }
-    [].slice.call(doc.querySelectorAll('.card,.panel,.cards')).forEach(function(el){
-      if(el.style.viewTransitionName)el.style.viewTransitionName='';
+    [].slice.call(doc.querySelectorAll('[style*="view-transition-name"]')).forEach(function(el){
+      el.style.viewTransitionName='';
     });
-    fromEl.style.viewTransitionName='pj-swap';
+    pairs.forEach(function(pr){pr[0].style.viewTransitionName=pr[2];});
     var vt=doc.startViewTransition(function(){
-      fromEl.style.viewTransitionName='';
+      pairs.forEach(function(pr){pr[0].style.viewTransitionName='';});
       mutate();
-      toEl.style.viewTransitionName='pj-swap';
+      pairs.forEach(function(pr){pr[1].style.viewTransitionName=pr[2];});
     });
     vt.finished.finally(release);
+  }
+  function heroImg(c,p){
+    var im=c.querySelector('.cimg img');
+    if(!im)return null;
+    var file=(im.getAttribute('src')||'').split('/').pop();
+    var match=[].slice.call(p.querySelectorAll('img,video')).filter(function(el){
+      var s=(el.getAttribute('src')||el.getAttribute('poster')||'').split('/').pop();
+      return s===file;
+    })[0]||null;
+    return match?[im,match]:null;
   }
   function openPanel(c){
     var p=doc.getElementById(c.getAttribute('data-panel'));
@@ -1468,7 +1484,10 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
     var sec=c.closest('section');
     var grid=sec.querySelector('.cards');
     var tail=sec.querySelector('.framing');
-    swap(c,p,function(){
+    var img=heroImg(c,p);
+    var pairs=[[c,p,'pj-swap']];
+    if(img)pairs.push([img[0],img[1],'pj-img']);
+    swap(pairs,function(){
       grid.hidden=true;
       if(tail)tail.hidden=true;
       [].slice.call(sec.querySelectorAll('.panel')).forEach(function(x){x.hidden=true;});
@@ -1484,7 +1503,10 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
     var grid=sec.querySelector('.cards');
     var tail=sec.querySelector('.framing');
     var c=sec.querySelector('.card[data-panel="'+p.id+'"]');
-    swap(p,c||grid,function(){
+    var img=c?heroImg(c,p):null;
+    var pairs=[[p,c||grid,'pj-swap']];
+    if(img)pairs.push([img[1],img[0],'pj-img']);
+    swap(pairs,function(){
       p.hidden=true;
       grid.hidden=false;
       if(tail)tail.hidden=false;
