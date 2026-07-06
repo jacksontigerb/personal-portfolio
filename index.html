@@ -370,6 +370,103 @@ nav{
   letter-spacing:-0.52px;
 }
 
+/* ---------- pocket claude ---------- */
+.pc-clients{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+  margin-top:44px;
+  align-items:stretch;
+}
+.pc-node{
+  border:1px solid var(--ink);
+  padding:18px;
+  display:flex;
+  flex-direction:column;
+  gap:11px;
+}
+.pc-node .t{font-family:var(--ogg);font-size:26px;line-height:1.1;letter-spacing:-0.52px;}
+.pc-node .d{font-family:var(--telegraf);font-size:18px;line-height:1.5;letter-spacing:0.38px;}
+.pc-node .how{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;margin-top:auto;padding-top:11px;border-top:1px solid var(--ink);}
+.pc-connector{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px;
+  padding:22px 0;
+}
+.pc-connector .rule{width:1px;height:22px;background:var(--ink);}
+.pc-connector .tag{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;}
+.pc-band{
+  border:1px solid var(--ink);
+  padding:18px;
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  gap:18px;
+  flex-wrap:wrap;
+}
+.pc-band .t{font-family:var(--ogg);font-size:26px;line-height:1.1;letter-spacing:-0.52px;}
+.pc-band .d{font-family:var(--telegraf);font-size:18px;line-height:1.5;letter-spacing:0.38px;max-width:52ch;}
+.pc-server{border:1px solid var(--ink);padding:18px;}
+.pc-server .head{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  gap:18px;
+  flex-wrap:wrap;
+  margin-bottom:18px;
+}
+.pc-server .head .t{font-family:var(--ogg);font-size:26px;line-height:1.1;letter-spacing:-0.52px;}
+.pc-server .head .loc{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;}
+.pc-nest{border:1px dashed var(--ink);padding:14px;}
+.pc-nest .cap{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;margin-bottom:14px;}
+.pc-core{
+  background:var(--black);
+  color:#fff;
+  padding:14px 18px;
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  gap:18px;
+  flex-wrap:wrap;
+}
+.pc-core .t{font-family:var(--ogg);font-size:26px;letter-spacing:-0.52px;}
+.pc-core .s{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;}
+.pc-server .after{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;margin-top:14px;}
+.pc-sync{
+  border:1px solid var(--ink);
+  padding:18px;
+  margin-top:18px;
+}
+.pc-sync .head{display:flex;justify-content:space-between;align-items:baseline;gap:18px;flex-wrap:wrap;margin-bottom:14px;}
+.pc-sync .head .t{font-family:var(--ogg);font-size:26px;line-height:1.1;letter-spacing:-0.52px;}
+.pc-sync .head .meta{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;}
+.pc-paths{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.pc-path{
+  border:1px solid var(--ink);
+  padding:11px 14px;
+  font-family:var(--telegraf);
+  font-size:18px;
+  letter-spacing:0.38px;
+  flex:1 1 200px;
+  min-width:0;
+  overflow-x:auto;
+  white-space:nowrap;
+}
+.pc-path small{display:block;font-size:15px;letter-spacing:0.6px;opacity:0.6;margin-bottom:4px;}
+.pc-sym{font-family:var(--ogg);font-size:26px;flex:none;}
+.pc-proof{
+  display:grid;
+  grid-template-columns:1.2fr 1fr;
+  gap:18px;
+  margin-top:44px;
+  align-items:start;
+}
+.pc-proof figure{margin:0;}
+.pc-proof img{width:100%;display:block;border:1px solid var(--ink);}
+.pc-proof figcaption{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;margin-top:11px;}
+
 /* ---------- personality ---------- */
 .play-grid{
   display:grid;
@@ -616,6 +713,8 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
   .play-grid > *{grid-column:auto !important;margin-top:0;}
   .skills-grid{grid-template-columns:1fr 1fr;}
   .sem-pair{grid-template-columns:1fr;}
+  .pc-clients{grid-template-columns:1fr;}
+  .pc-proof{grid-template-columns:1fr;}
   .run-grid{grid-template-columns:1fr 1fr;}
   .run-grid .rv{grid-row:auto;}
   .run-note{grid-template-columns:1fr;gap:24px;}
@@ -1035,6 +1134,96 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
         <p class="ai-pull">This site was planned, designed and built with an AI agent I set up myself.</p>
       </div>
     </div>
+
+    <div class="sec-head" style="margin-top:88px;">
+      <div>
+        <span class="eyebrow">a small infrastructure project · july 2026</span>
+        <h2 class="serif-heading">Pocket Claude, <span class="italic">the same agent from my laptop, my phone or my voice</span></h2>
+      </div>
+      <p class="lead">I set up a small cloud server that runs a coding agent around the clock. My laptop, my phone's terminal and a voice shortcut all attach to the same live session, so work carries on wherever I am.</p>
+    </div>
+
+    <div class="pc-clients">
+      <div class="pc-node">
+        <div class="t">Laptop</div>
+        <p class="d">A full terminal at my desk, attached to the running session.</p>
+        <span class="how">ssh → tmux</span>
+      </div>
+      <div class="pc-node">
+        <div class="t">Phone terminal</div>
+        <p class="d">Termius on my iPhone. The same session, from anywhere.</p>
+        <span class="how">ssh → tmux</span>
+      </div>
+      <div class="pc-node">
+        <div class="t">Voice</div>
+        <p class="d">Press a button and speak. An iOS Shortcut types my words into the live session.</p>
+        <span class="how">dictate → ssh</span>
+      </div>
+    </div>
+
+    <div class="pc-connector">
+      <span class="rule"></span>
+      <span class="tag">encrypted · no public ports</span>
+      <span class="rule"></span>
+    </div>
+
+    <div class="pc-band">
+      <div class="t">Private mesh network</div>
+      <p class="d">Tailscale links every device over WireGuard, so access is by identity rather than by opening the server to the internet.</p>
+    </div>
+
+    <div class="pc-connector">
+      <span class="rule"></span>
+    </div>
+
+    <div class="pc-server">
+      <div class="head">
+        <div class="t">Cloud server</div>
+        <span class="loc">ubuntu · london · hardened</span>
+      </div>
+      <div class="pc-nest">
+        <div class="cap">tmux · a persistent session that survives every disconnect</div>
+        <div class="pc-core">
+          <span class="t">Claude Code</span>
+          <span class="s">always running</span>
+        </div>
+      </div>
+      <p class="after">a systemd service brings the session back automatically after any reboot</p>
+    </div>
+
+    <div class="pc-sync">
+      <div class="head">
+        <div class="t">Live file sync</div>
+        <span class="meta">mutagen · two way · about a second · over ssh</span>
+      </div>
+      <div class="pc-paths">
+        <div class="pc-path"><small>on my mac</small>~/Desktop/Work</div>
+        <span class="pc-sym">⇄</span>
+        <div class="pc-path"><small>on the server</small>~/Work</div>
+      </div>
+    </div>
+
+    <div class="pc-proof">
+      <figure>
+        <img loading="lazy" decoding="async" width="1206" height="897" src="assets/pocket-claude-phone.jpg" alt="iPhone voice shortcut mid dictation, showing the test phrase before it is sent to the server">
+        <figcaption>the voice shortcut on my phone, a test phrase spoken in the street</figcaption>
+      </figure>
+      <figure>
+        <img loading="lazy" decoding="async" width="894" height="518" src="assets/pocket-claude-terminal.png" alt="Terminal on the Mac showing the same dictated phrase arriving in the live Claude Code session, with the agent replying">
+        <figcaption>the same words landing in the live session, agent replying, next job queued</figcaption>
+      </figure>
+    </div>
+
+    <div class="skills-grid">
+      <div class="skillgroup"><span class="k">hardened</span><span class="v">Non root user, firewall and unattended security updates. No passwords, keys and network identity only.</span></div>
+      <div class="skillgroup"><span class="k">persistent</span><span class="v">Work carries on with every device closed. Any client reattaches to the exact same live state.</span></div>
+      <div class="skillgroup"><span class="k">low upkeep</span><span class="v">About six pounds a month, patches itself, and needs almost no attention once running.</span></div>
+    </div>
+
+    <div class="tools-row">
+      <span class="k">built with</span>
+      Ubuntu VPS / tmux / Tailscale / WireGuard / Mutagen / systemd / iOS Shortcuts
+    </div>
   </section>
 
   <!-- PERSONALITY -->
@@ -1115,7 +1304,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
 
   /* gentle fade-up as things arrive; skipped for reduced motion */
   if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
-  var sel='.sec-head,.story-numbers,.story-grid>div,.timeline>div,.ski-grid .sv,.projects .p,.play-grid>div,.cvitem,.skillgroup,.run-grid>div,.run-note,.sem-pair figure,.ai-body>div,.ledger .lrow,.contact-cols .row,.framing,.ski-para,.tools-row,.research-video,.wca-graph,.contact h2,.contact .avail,.footer-mark';
+  var sel='.sec-head,.story-numbers,.story-grid>div,.timeline>div,.ski-grid .sv,.projects .p,.play-grid>div,.cvitem,.skillgroup,.run-grid>div,.run-note,.sem-pair figure,.ai-body>div,.pc-clients>div,.pc-band,.pc-server,.pc-sync,.pc-proof figure,.ledger .lrow,.contact-cols .row,.framing,.ski-para,.tools-row,.research-video,.wca-graph,.contact h2,.contact .avail,.footer-mark';
   var els=[].slice.call(doc.querySelectorAll(sel));
   doc.documentElement.classList.add('anim');
   var ro=new IntersectionObserver(function(entries){
