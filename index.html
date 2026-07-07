@@ -545,6 +545,7 @@ nav{
 .cvitem .h .place{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;margin-top:11px;display:block;}
 .cvitem .h .desc{font-family:var(--telegraf);font-size:18px;line-height:1.5;letter-spacing:0.38px;margin-top:11px;max-width:56ch;}
 .cvitem .date{grid-column:2;font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;text-align:right;white-space:nowrap;}
+.cvitem .cv-photo{margin-top:18px;max-width:440px;border:1px solid var(--ink);}
 
 /* ---------- skills ---------- */
 .skills-grid{
@@ -775,6 +776,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
       <a href="#research">Research</a>
       <a href="#aicode">AI</a>
       <a href="#sport">Sport</a>
+      <a href="#travel">Travel</a>
       <a href="#education">CV</a>
       <a href="#contact">Contact</a>
     </div>
@@ -986,7 +988,13 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
       </div>
       <div class="panel-cols">
         <div class="artbox ratio-wide"><img loading="lazy" decoding="async" src="assets/maze-robot.jpg" alt="Arduino maze solving robot with breadboard wiring and yellow wheels"></div>
-        <p class="intro">An Arduino robot built to find its way through a maze on its own. Ultrasonic sensors, control logic and a lot of soldering.</p>
+        <p class="intro">An Arduino robot built to find its way through a maze on its own. Ultrasonic sensors, control logic and a lot of soldering, finished off with a 3D printed shell we designed for it.</p>
+      </div>
+      <div class="sem-pair" style="margin-top:18px;">
+        <figure>
+          <img loading="lazy" decoding="async" width="1200" height="1600" src="assets/maze-robot-shell.jpg" alt="The robot's 3D printed shell, painted in tiger stripes with a blue head and white beak on the front">
+          <figcaption>the shell it ended up with, tiger stripes and something of a duck about the face</figcaption>
+        </figure>
       </div>
     </div>
     <div class="panel" id="p-bridge" hidden>
@@ -1061,6 +1069,16 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
       <source src="assets/wca-coating.mp4" type="video/mp4">
     </video>
     <p class="tile-tags" style="margin-top:11px;">a water droplet holding its shape on my coated fabric, measured on the goniometer</p>
+
+    <div class="ai-body" style="margin-top:44px;">
+      <div>
+        <img loading="lazy" decoding="async" class="art-natural shot" style="max-width:420px;" width="900" height="1600" src="assets/wca-goniometer.jpg" alt="The contact angle rig: a droplet hanging from the needle above a clipped-down square of coated fabric, backlit in blue">
+        <p class="tile-tags" style="margin-top:11px;">the rig itself · a droplet going down onto a coated sample</p>
+      </div>
+      <div>
+        <p>Every sample gets judged the same way. A droplet goes onto the fabric from the needle, the backlight throws its profile into silhouette, and the contact angle is read from the shape it holds. The higher the angle, the harder the surface repels.</p>
+      </div>
+    </div>
 
     <div class="ai-body" style="margin-top:44px;">
       <div>
@@ -1247,6 +1265,14 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
           <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
         </div>
       </div>
+      <div class="card" data-panel="p-climb" aria-controls="p-climb">
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/climbing.jpg" alt="Bouldering up a sandstone outcrop under a blue sky"></div>
+        <div class="cbody">
+          <div class="ct">Climbing <span class="sub">plastic in the week, rock when I can</span></div>
+          <div class="ctags">bouldering / indoors and out</div>
+          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
       <div class="card" data-panel="p-marathon" aria-controls="p-marathon">
         <div class="cimg"><img loading="lazy" decoding="async" src="assets/marathon.jpg" alt="Friends at the London Marathon finish holding GO TIGGY signs"></div>
         <div class="cbody">
@@ -1258,8 +1284,8 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
       <div class="card" data-panel="p-play" aria-controls="p-play">
         <div class="cimg"><img loading="lazy" decoding="async" src="assets/surf-cutback.jpg" alt="Surfer carving off the top of a wave, spray flying"></div>
         <div class="cbody">
-          <div class="ct">Off the mountain <span class="sub">surf, skate, climb and the rest</span></div>
-          <div class="ctags">photography / travel / most of it shot myself</div>
+          <div class="ct">Surf &amp; skate <span class="sub">and the rest of an active life</span></div>
+          <div class="ctags">photography / most of it shot myself</div>
           <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
         </div>
       </div>
@@ -1282,6 +1308,16 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
     <p class="ski-para">Different resorts and conditions, filmed as I go. Plans change on the mountain, and I'm used to that.</p>
   
     </div>
+    <div class="panel" id="p-climb" hidden>
+      <div class="panel-head">
+        <div class="t">Climbing <span class="sub">plastic in the week, rock when I can</span></div>
+        <button class="pclose" data-close type="button">close &times;</button>
+      </div>
+      <div class="panel-cols">
+        <div class="artbox ratio-landscape"><img loading="lazy" decoding="async" src="assets/climbing.jpg" alt="Bouldering up a sandstone outcrop under a blue sky"></div>
+        <p class="intro">Mostly bouldering. The wall keeps it regular through the week, and when the weather and the company line up it moves outside onto real rock, which is where it's best.</p>
+      </div>
+    </div>
     <div class="panel" id="p-marathon" hidden>
       <div class="panel-head">
         <div class="t">London Marathon 2026 <span class="sub">£1,647 raised for Marie Curie</span></div>
@@ -1298,10 +1334,10 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
     </div>
     <div class="panel" id="p-play" hidden>
       <div class="panel-head">
-        <div class="t">Off the mountain <span class="sub">surf, skate, climb and the rest</span></div>
+        <div class="t">Surf &amp; skate <span class="sub">and the rest of an active life</span></div>
         <button class="pclose" data-close type="button">close &times;</button>
       </div>
-      <p class="intro">Surf, skate, climb, Japanese, piano and guitar, chess, and I build my own PCs. I shoot most of this myself, so the photos are half the hobby. I like being outside and I like meeting people, which is most of this job.</p>
+      <p class="intro">Surf, skate, Japanese, piano and guitar, chess, and I build my own PCs. I shoot most of this myself, so the photos are half the hobby. I like being outside and I like meeting people, which is most of this job.</p>
       <div class="play-grid">
       <div class="artbox ratio-landscape"><img loading="lazy" decoding="async" src="assets/surf-cutback.jpg" alt="Surfer carving off the top of a wave, spray flying"></div>
       <div class="artbox ratio-landscape"><img loading="lazy" decoding="async" src="assets/beach.jpg" alt="Two people playing badminton on the beach as the sun sets over the sea"></div>
@@ -1314,11 +1350,113 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
 
   </section>
 
+  <!-- TRAVEL -->
+  <section id="travel">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">06 · travel &amp; adventures</span>
+        <h2 class="serif-heading">Travel <span class="italic">&amp; adventures</span></h2>
+      </div>
+      <p class="lead">The trips that turned into stories, most of them shot on film.</p>
+    </div>
+    <div class="cards">
+      <div class="card feature" data-panel="p-senegal" aria-controls="p-senegal">
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/senegal-fishing.jpg" alt="Out on a wooden pirogue in Senegal, the fisherman behind me holding up the catch"></div>
+        <div class="cbody">
+          <div class="ct">Senegal <span class="sub">keeping a surf camp running</span></div>
+          <div class="ctags">surf camp / pirogue fishing / shot on film</div>
+          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+      <div class="card" data-panel="p-dolomites" aria-controls="p-dolomites">
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/dolomites-lake.jpg" alt="Mid backflip off a rock into an alpine lake in the Dolomites"></div>
+        <div class="cbody">
+          <div class="ct">The Dolomites <span class="sub">camping under the rock walls</span></div>
+          <div class="ctags">sunrise hikes / alpine lakes / italy</div>
+          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+      <div class="card" data-panel="p-newyork" aria-controls="p-newyork">
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/newyork-bridge.jpg" alt="Sat on a beam of the Brooklyn Bridge with the Manhattan Bridge behind"></div>
+        <div class="cbody">
+          <div class="ct">New York <span class="sub">a solo trip</span></div>
+          <div class="ctags">brooklyn bridge / film camera</div>
+          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="panel" id="p-senegal" hidden>
+      <div class="panel-head">
+        <div class="t">Senegal <span class="sub">keeping a surf camp running</span></div>
+        <button class="pclose" data-close type="button">close &times;</button>
+      </div>
+      <p class="intro">I spent a stretch in Senegal helping keep a surf camp running while the owner was away, guests, boards and whatever else the day brought. Around the work came everything else: out on a pirogue with the local fishermen, carrying the catch back along the beach, and a giraffe met along the way. Most of it shot on film.</p>
+      <div class="story-grid">
+        <div>
+          <div class="artbox ratio-landscape"><img loading="lazy" decoding="async" src="assets/senegal-fishing.jpg" alt="Out on a wooden pirogue in Senegal, the fisherman behind me holding up the catch"></div>
+          <div class="tile-tags" style="margin-top:11px;">out with the fishermen, handlines off a pirogue</div>
+        </div>
+        <div class="offset-1">
+          <div class="artbox ratio-portrait"><img loading="lazy" decoding="async" src="assets/senegal-flag.jpg" alt="Two of us on the wooden lookout tower, the Senegal flag flying against a deep blue sky"></div>
+          <div class="tile-tags" style="margin-top:11px;">the lookout above the camp</div>
+        </div>
+        <div class="offset-2">
+          <div class="artbox ratio-portrait"><img loading="lazy" decoding="async" src="assets/senegal-catch.jpg" alt="Carrying the catch along the beach, two fish in each hand"></div>
+          <div class="tile-tags" style="margin-top:11px;">carrying the catch back for the kitchen</div>
+        </div>
+        <div>
+          <div class="artbox ratio-portrait"><img loading="lazy" decoding="async" src="assets/senegal-alley.jpg" alt="A sandy lane between stone walls and bougainvillea"></div>
+          <div class="tile-tags" style="margin-top:11px;">the lane down to the water</div>
+        </div>
+        <div class="offset-1">
+          <div class="artbox ratio-portrait"><img loading="lazy" decoding="async" src="assets/senegal-boat.jpg" alt="Heading back in on the boat at the end of the day, the city across the water"></div>
+          <div class="tile-tags" style="margin-top:11px;">heading back in at the end of the day</div>
+        </div>
+        <div class="offset-2">
+          <div class="artbox ratio-landscape"><img loading="lazy" decoding="async" src="assets/senegal-giraffe.jpg" alt="A giraffe sitting on dry ground among acacia trees"></div>
+          <div class="tile-tags" style="margin-top:11px;">a giraffe, met along the way</div>
+        </div>
+      </div>
+    </div>
+    <div class="panel" id="p-dolomites" hidden>
+      <div class="panel-head">
+        <div class="t">The Dolomites <span class="sub">camping under the rock walls</span></div>
+        <button class="pclose" data-close type="button">close &times;</button>
+      </div>
+      <p class="intro">Camping in the Italian Dolomites. A chalet sat under the rock wall, an alarm set early for a sunrise hike, and an alpine lake cold enough to make the backflip a commitment.</p>
+      <div class="story-grid">
+        <div>
+          <div class="artbox ratio-landscape"><img loading="lazy" decoding="async" src="assets/dolomites-lake.jpg" alt="Mid backflip off a rock into an alpine lake in the Dolomites"></div>
+          <div class="tile-tags" style="margin-top:11px;">the lake, mid backflip</div>
+        </div>
+        <div class="offset-1">
+          <div class="artbox ratio-portrait"><img loading="lazy" decoding="async" src="assets/dolomites-chalet.jpg" alt="The campsite chalet in shadow beneath a huge rock face catching the last sun"></div>
+          <div class="tile-tags" style="margin-top:11px;">the campsite, under the wall</div>
+        </div>
+        <div class="offset-2">
+          <div class="artbox ratio-portrait"><img loading="lazy" decoding="async" src="assets/dolomites-sunrise.jpg" alt="Hooded silhouette looking out over the peaks just before sunrise"></div>
+          <div class="tile-tags" style="margin-top:11px;">first light on the sunrise hike</div>
+        </div>
+      </div>
+    </div>
+    <div class="panel" id="p-newyork" hidden>
+      <div class="panel-head">
+        <div class="t">New York <span class="sub">a solo trip</span></div>
+        <button class="pclose" data-close type="button">close &times;</button>
+      </div>
+      <div class="panel-cols">
+        <div class="artbox ratio-landscape"><img loading="lazy" decoding="async" src="assets/newyork-bridge.jpg" alt="Sat on a beam of the Brooklyn Bridge with the Manhattan Bridge behind"></div>
+        <p class="intro">A trip to New York on my own, planned and taken solo. This one is from the Brooklyn Bridge, the Manhattan Bridge behind, shot on film.</p>
+      </div>
+    </div>
+
+  </section>
+
   <!-- EDUCATION -->
   <section id="education">
     <div class="sec-head">
       <div>
-        <span class="eyebrow">06 · education &amp; awards</span>
+        <span class="eyebrow">07 · education &amp; awards</span>
         <h2 class="serif-heading">The degrees behind it, <span class="italic">materials and energy</span></h2>
       </div>
       <p class="lead">A Master's in advanced materials on top of an engineering degree, with a couple of firsts along the way.</p>
@@ -1338,6 +1476,8 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
           <div class="t">BEng Renewable Energy Engineering <span class="sub">University of Exeter, 2:1</span></div>
           <span class="place">Exeter · mechanical and electrical grounding</span>
           <p class="desc">My dissertation on redox flow batteries for renewable energy earned a first, and so did the field trip module, where I pitched wind turbine blade recycling to industry partners Nadara and ReBlade. One field trip, a day hiking a mountain near Oban, I turned into a vlog, shot and edited on the move.</p>
+          <img loading="lazy" decoding="async" class="cv-photo" width="1600" height="1080" src="assets/graduation.jpg" alt="Graduation day at Exeter, cap and gown on, with my family around me">
+          <p class="tile-tags" style="margin-top:11px;">graduation day at Exeter, family in tow</p>
         </div>
         <div class="date">09/2022 – 07/2025</div>
       </div>
@@ -1349,7 +1489,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
   <section id="experience">
     <div class="sec-head">
       <div>
-        <span class="eyebrow">07 · experience beyond the studio</span>
+        <span class="eyebrow">08 · experience beyond the studio</span>
         <h2 class="serif-heading">Roles that were really about people, <span class="italic">and staying calm when it's busy</span></h2>
       </div>
       <p class="lead">Community building, teaching and customer facing work. Most of a social media role comes down to people, and these are the jobs where I've done that.</p>
@@ -1396,7 +1536,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
   <section id="skills">
     <div class="sec-head">
       <div>
-        <span class="eyebrow">08 · the toolkit</span>
+        <span class="eyebrow">09 · the toolkit</span>
         <h2 class="serif-heading">What I can do, <span class="italic">hands on and technical</span></h2>
       </div>
       <p class="lead">The creative tools I edit with, plus the technical and workshop skills behind the projects.</p>
@@ -1415,7 +1555,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
   
 <!-- CONTACT -->
   <section class="contact" id="contact">
-    <span class="eyebrow">09 · let's talk</span>
+    <span class="eyebrow">10 · let's talk</span>
     <h2 class="serif-display">Talk to me about next winter.</h2>
     <p class="avail">From August to late November 2026 I'm at Curtin University in Perth, researching clean hydrogen. From mid September I can work online, and from December I'm available in person, whether that's London, Park City or a resort.</p>
 
@@ -1548,7 +1688,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
   vids.forEach(function(v){vo.observe(v);});
 
   /* underline the nav link for the section in view */
-  var map={engineering:'engineering',research:'research',content:'content',aicode:'aicode',sport:'sport',education:'education',experience:'education',contact:'contact'};
+  var map={engineering:'engineering',research:'research',content:'content',aicode:'aicode',sport:'sport',travel:'travel',education:'education',experience:'education',contact:'contact'};
   var links={};
   [].slice.call(doc.querySelectorAll('.navlinks a')).forEach(function(a){
     var id=(a.getAttribute('href')||'').slice(1);
