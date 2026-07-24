@@ -559,6 +559,68 @@ nav{
 .skillgroup .k{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;display:block;margin-bottom:11px;}
 .skillgroup .v{font-family:var(--telegraf);font-size:20px;line-height:1.33;letter-spacing:0.5px;}
 
+/* ---------- character sheet ---------- */
+.charsheet{
+  margin-top:44px;
+  border:1px solid var(--ink);
+  display:grid;
+  grid-template-columns:360px 1fr;
+}
+.cs-portrait{
+  border-right:1px solid var(--ink);
+  display:flex;
+  flex-direction:column;
+  padding:26px 26px 0;
+  overflow:hidden;
+}
+.cs-portrait .tag{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;display:block;}
+.cs-portrait .name{font-family:var(--ogg);font-size:26px;line-height:1.1;letter-spacing:-0.52px;margin-top:16px;}
+.cs-meta{margin-top:22px;display:grid;gap:11px;}
+.cs-meta .row{display:grid;grid-template-columns:92px 1fr;gap:12px;align-items:baseline;}
+.cs-meta .k{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;}
+.cs-meta .v{font-family:var(--telegraf);font-size:18px;line-height:1.4;letter-spacing:0.38px;}
+/* the figure bleeds to the panel edges so he reads as the character, not a thumbnail */
+.cs-fig{margin:auto -26px 0;padding-top:34px;}
+.cs-fig img{width:100%;max-width:none;display:block;}
+
+.cs-body{padding:26px;display:flex;flex-direction:column;}
+.cs-cols{display:grid;grid-template-columns:1fr 1fr;gap:34px 44px;}
+.cs-inv{margin-top:auto;padding-top:26px;}
+.statgroup .gk{
+  font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;
+  display:block;margin-bottom:17px;padding-bottom:11px;border-bottom:1px solid var(--ink);
+}
+.stat{display:grid;grid-template-columns:1fr 118px 22px;gap:14px;align-items:center;margin-bottom:13px;}
+.stat:last-child{margin-bottom:0;}
+.stat .sn{font-family:var(--telegraf);font-size:18px;line-height:1.3;letter-spacing:0.38px;}
+.stat .sv{font-family:var(--telegraf);font-size:18px;letter-spacing:0.38px;text-align:right;font-variant-numeric:tabular-nums;}
+.sbar{position:relative;height:13px;border:1px solid var(--ink);overflow:hidden;}
+.sbar .fill{
+  position:absolute;top:0;left:0;bottom:0;width:100%;background:var(--ink);
+  transform:scaleX(calc(var(--v) / 10));transform-origin:left center;
+}
+.sbar .ticks{
+  position:absolute;inset:0;
+  background-image:repeating-linear-gradient(90deg,transparent 0 calc(10% - 1px),var(--vellum) calc(10% - 1px) 10%);
+}
+
+.cs-traits{grid-column:1 / -1;border-top:1px solid var(--ink);display:grid;grid-template-columns:1fr 1fr;}
+.cs-traits > div{padding:26px;border-right:1px solid var(--ink);}
+.cs-traits > div:last-child{border-right:0;}
+.cs-traits .k,.cs-inv .k{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;display:block;margin-bottom:15px;}
+.cs-traits ul{list-style:none;}
+.cs-traits li{
+  font-family:var(--telegraf);font-size:18px;line-height:1.5;letter-spacing:0.38px;
+  margin-bottom:9px;padding-left:18px;position:relative;
+}
+.cs-traits li:last-child{margin-bottom:0;}
+.cs-traits li::before{content:"";position:absolute;left:0;top:0.6em;width:7px;height:7px;background:var(--ink);}
+.inv{font-family:var(--telegraf);font-size:18px;line-height:1.6;letter-spacing:0.38px;}
+
+/* bars fill as the sheet comes into view */
+html.anim .sbar .fill{transform:scaleX(0);transition:transform .8s cubic-bezier(0.23,1,0.32,1);transition-delay:calc(var(--d,0) * 70ms);}
+html.anim .charsheet.in .sbar .fill{transform:scaleX(calc(var(--v) / 10));}
+
 /* ---------- real artwork ---------- */
 .artbox{width:100%;overflow:hidden;}
 .artbox img,.artbox video{width:100%;height:100%;object-fit:cover;display:block;}
@@ -650,6 +712,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto;}
   html.anim .reveal{opacity:1;transform:none;transition:none;}
+  html.anim .sbar .fill{transform:scaleX(calc(var(--v) / 10));transition:none;}
 }
 
 /* ---------- responsive ---------- */
@@ -672,6 +735,13 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
   .play-grid{grid-template-columns:1fr 1fr;}
   .play-grid > *{grid-column:auto !important;margin-top:0;}
   .skills-grid{grid-template-columns:1fr 1fr;}
+  .charsheet{grid-template-columns:1fr;}
+  .cs-portrait{border-right:0;border-bottom:1px solid var(--ink);}
+  .cs-fig{margin:34px auto 0;padding-top:0;}
+  .cs-fig img{max-width:260px;margin:0 auto;}
+  .cs-traits{grid-template-columns:1fr;}
+  .cs-traits > div{border-right:0;border-bottom:1px solid var(--ink);}
+  .cs-traits > div:last-child{border-bottom:0;}
   .sem-pair{grid-template-columns:1fr;}
   .pc-clients{grid-template-columns:1fr;}
   .pc-proof{grid-template-columns:1fr;}
@@ -682,6 +752,10 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
 }
 @media (max-width:560px){
   .story-grid,.timeline,.ski-grid,.play-grid,.skills-grid{grid-template-columns:1fr;}
+  .cs-cols{grid-template-columns:1fr;}
+  .stat{grid-template-columns:1fr 88px 20px;gap:10px;}
+  .cs-portrait,.cs-body,.cs-traits > div{padding:22px;}
+  .cs-portrait{padding-bottom:0;}
   .timeline .span2{grid-column:auto;}
   .cvitem{grid-template-columns:1fr;}
   .cvitem .date{grid-column:1;text-align:left;}
@@ -1538,10 +1612,85 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
 
   
   <!-- SKILLS -->
+  <!-- CHARACTER SHEET -->
+  <section id="stats">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">10 · the character sheet</span>
+        <h2 class="serif-heading">If I were a <span class="italic">video game character</span></h2>
+      </div>
+      <p class="lead">Everything I do, rated out of ten. The high ones I stand by, the low ones are just true.</p>
+    </div>
+
+    <div class="charsheet">
+      <div class="cs-portrait">
+        <span class="tag">player one</span>
+        <div class="name ogg">Jackson Tiger Brocklebank</div>
+        <div class="cs-meta">
+          <div class="row"><span class="k">class</span><span class="v">Materials engineer</span></div>
+          <div class="row"><span class="k">level</span><span class="v">22</span></div>
+          <div class="row"><span class="k">base</span><span class="v">London now, Perth from August</span></div>
+          <div class="row"><span class="k">quest</span><span class="v">Splitting water for clean hydrogen</span></div>
+        </div>
+        <div class="cs-fig">
+          <img loading="lazy" decoding="async" width="880" height="761" src="assets/character.png" alt="Jackson in a hood, black and white cutout">
+        </div>
+      </div>
+
+      <div class="cs-body">
+        <div class="cs-cols">
+          <div class="statgroup">
+            <span class="gk">lab &amp; workshop</span>
+            <div class="stat" style="--v:8;--d:0"><span class="sn">materials characterisation</span><span class="sbar" role="img" aria-label="8 out of 10"><span class="fill"></span><span class="ticks"></span></span><span class="sv">8</span></div>
+            <div class="stat" style="--v:9;--d:1"><span class="sn">workshop &amp; fabrication</span><span class="sbar" role="img" aria-label="9 out of 10"><span class="fill"></span><span class="ticks"></span></span><span class="sv">9</span></div>
+            <div class="stat" style="--v:7;--d:2"><span class="sn">cad &amp; 3D printing</span><span class="sbar" role="img" aria-label="7 out of 10"><span class="fill"></span><span class="ticks"></span></span><span class="sv">7</span></div>
+            <div class="stat" style="--v:6;--d:3"><span class="sn">code &amp; data</span><span class="sbar" role="img" aria-label="6 out of 10"><span class="fill"></span><span class="ticks"></span></span><span class="sv">6</span></div>
+            <div class="stat" style="--v:7;--d:4"><span class="sn">writing it up</span><span class="sbar" role="img" aria-label="7 out of 10"><span class="fill"></span><span class="ticks"></span></span><span class="sv">7</span></div>
+            <div class="stat" style="--v:4;--d:5"><span class="sn">admin &amp; paperwork</span><span class="sbar" role="img" aria-label="4 out of 10"><span class="fill"></span><span class="ticks"></span></span><span class="sv">4</span></div>
+          </div>
+          <div class="statgroup">
+            <span class="gk">out there</span>
+            <div class="stat" style="--v:9;--d:1"><span class="sn">skiing</span><span class="sbar" role="img" aria-label="9 out of 10"><span class="fill"></span><span class="ticks"></span></span><span class="sv">9</span></div>
+            <div class="stat" style="--v:8;--d:2"><span class="sn">camera &amp; editing</span><span class="sbar" role="img" aria-label="8 out of 10"><span class="fill"></span><span class="ticks"></span></span><span class="sv">8</span></div>
+            <div class="stat" style="--v:7;--d:3"><span class="sn">endurance</span><span class="sbar" role="img" aria-label="7 out of 10"><span class="fill"></span><span class="ticks"></span></span><span class="sv">7</span></div>
+            <div class="stat" style="--v:6;--d:4"><span class="sn">surfing</span><span class="sbar" role="img" aria-label="6 out of 10"><span class="fill"></span><span class="ticks"></span></span><span class="sv">6</span></div>
+            <div class="stat" style="--v:6;--d:5"><span class="sn">climbing</span><span class="sbar" role="img" aria-label="6 out of 10"><span class="fill"></span><span class="ticks"></span></span><span class="sv">6</span></div>
+            <div class="stat" style="--v:4;--d:6"><span class="sn">japanese</span><span class="sbar" role="img" aria-label="4 out of 10"><span class="fill"></span><span class="ticks"></span></span><span class="sv">4</span></div>
+          </div>
+        </div>
+
+        <div class="cs-inv">
+          <span class="k">inventory</span>
+          <p class="inv">SEM · goniometer · lathe · Onshape · Premiere Pro · a Sony camera · skis · a surfboard · one very well used multitool</p>
+        </div>
+      </div>
+
+      <div class="cs-traits">
+        <div>
+          <span class="k">perks</span>
+          <ul>
+            <li>Will fix almost anything given a hex key and an afternoon</li>
+            <li>Calm when a build goes wrong the night before a deadline</li>
+            <li>Happy to be the one who asks the obvious question</li>
+          </ul>
+        </div>
+        <div>
+          <span class="k">flaws</span>
+          <ul>
+            <li>Always optimistic about how long a build will take</li>
+            <li>Cannot walk past a bike that needs fixing</li>
+            <li>Paperwork gets done last, if it gets done</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
   <section id="skills">
     <div class="sec-head">
       <div>
-        <span class="eyebrow">10 · the toolkit</span>
+        <span class="eyebrow">11 · the toolkit</span>
         <h2 class="serif-heading">What I can do, <span class="italic">hands on and technical</span></h2>
       </div>
       <p class="lead">The creative tools I edit with, plus the technical and workshop skills behind the projects.</p>
@@ -1560,7 +1709,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
   
 <!-- CONTACT -->
   <section class="contact" id="contact">
-    <span class="eyebrow">11 · let's talk</span>
+    <span class="eyebrow">12 · let's talk</span>
     <h2 class="serif-display">Talk to me about next winter.</h2>
     <p class="avail">From August to late November 2026 I'm at Curtin University in Perth, researching clean hydrogen. From mid September I can work online, and from December I'm available in person, whether that's London, Park City or a resort.</p>
 
@@ -1712,7 +1861,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
 
   /* gentle fade-up as things arrive; skipped for reduced motion */
   if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
-  var sel='.sec-head,.story-numbers,.story-grid>div,.timeline>div,.ski-grid .sv,.cards>.card,.play-grid>div,.cvitem,.skillgroup,.run-grid>div,.run-note,.sem-pair figure,.ai-body>div,.pc-clients>div,.pc-band,.pc-server,.pc-sync,.pc-proof figure,.contact-cols .row,.framing,.ski-para,.tools-row,.research-video,.wca-graph,.contact h2,.contact .avail,.footer-mark';
+  var sel='.sec-head,.story-numbers,.story-grid>div,.timeline>div,.ski-grid .sv,.cards>.card,.play-grid>div,.cvitem,.skillgroup,.run-grid>div,.run-note,.sem-pair figure,.ai-body>div,.pc-clients>div,.pc-band,.pc-server,.pc-sync,.pc-proof figure,.contact-cols .row,.framing,.ski-para,.tools-row,.research-video,.wca-graph,.contact h2,.contact .avail,.footer-mark,.charsheet';
   var els=[].slice.call(doc.querySelectorAll(sel));
   doc.documentElement.classList.add('anim');
   var ro=new IntersectionObserver(function(entries){
