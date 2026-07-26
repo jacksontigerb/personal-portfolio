@@ -1,0 +1,1155 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jackson Brocklebank — v2 mockup</title>
+<meta name="description" content="Engineering, skiing, film and the projects I've started along the way.">
+<meta name="theme-color" content="#f2f2f2">
+<link rel="canonical" href="https://jacksontigerb.github.io/personal-portfolio/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Jackson Brocklebank">
+<meta property="og:description" content="Engineering, skiing, film and the projects I've started along the way.">
+<meta property="og:url" content="https://jacksontigerb.github.io/personal-portfolio/">
+<meta property="og:image" content="https://jacksontigerb.github.io/personal-portfolio/assets/ski-hero.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='%23292a2c'/><text x='32' y='47' font-family='Georgia,serif' font-size='42' font-style='italic' text-anchor='middle' fill='%23f2f2f2'>J</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@0;1&family=Inter:wght@400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#292a2c;
+  --vellum:#f2f2f2;
+  --black:#000000;
+  --ogg:'Playfair Display', Georgia, serif;
+  --telegraf:'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --section-gap:120px;
+  --margin:64px;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;border-radius:0;}
+
+html{scroll-behavior:smooth;}
+
+body{
+  background:var(--vellum);
+  color:var(--ink);
+  font-family:var(--telegraf);
+  font-weight:400;
+  font-size:20px;
+  line-height:1.33;
+  letter-spacing:0.5px;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:clip;
+}
+
+img{max-width:100%;height:auto;display:block;}
+
+/* ---------- shared type ---------- */
+.ogg{font-family:var(--ogg);font-weight:400;}
+.serif-display{
+  font-family:var(--ogg);
+  font-weight:400;
+  font-size:55px;
+  line-height:1.08;
+  letter-spacing:-1.98px;
+}
+.serif-heading{
+  font-family:var(--ogg);
+  font-weight:400;
+  font-size:26px;
+  line-height:1.1;
+  letter-spacing:-0.52px;
+}
+.italic{font-style:italic;}
+.meta{
+  font-family:var(--telegraf);
+  font-size:15px;
+  line-height:1.67;
+  letter-spacing:0.6px;
+}
+.eyebrow{
+  font-family:var(--telegraf);
+  font-size:15px;
+  letter-spacing:0.6px;
+  text-transform:lowercase;
+  color:var(--ink);
+  display:block;
+  margin-bottom:18px;
+}
+
+/* ---------- layout scaffold ---------- */
+.page{
+  max-width:1440px;
+  margin:0 auto;
+  padding:0 var(--margin);
+  position:relative;
+}
+section{margin-top:var(--section-gap);}
+
+/* ---------- vertical running strip ---------- */
+.rail{
+  position:fixed;
+  right:14px;
+  top:50%;
+  transform:translateY(-50%) rotate(180deg);
+  writing-mode:vertical-rl;
+  font-family:var(--telegraf);
+  font-size:15px;
+  letter-spacing:0.6px;
+  color:var(--black);
+  z-index:50;
+  pointer-events:none;
+  mix-blend-mode:difference;
+  color:#fff;
+}
+
+/* ---------- nav ---------- */
+nav{
+  position:sticky;
+  top:0;
+  z-index:60;
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  padding:16px 0;
+  gap:18px;
+  flex-wrap:wrap;
+  background:var(--vellum);
+  border-bottom:1px solid var(--ink);
+}
+.wordmark{
+  font-family:var(--ogg);
+  font-size:26px;
+  letter-spacing:-0.52px;
+  color:var(--ink);
+  text-decoration:none;
+}
+.wordmark sup{font-size:0.5em;vertical-align:super;}
+.navlinks{display:flex;gap:32px;flex-wrap:wrap;}
+.navlinks a{
+  font-family:var(--telegraf);
+  font-size:18px;
+  letter-spacing:0.38px;
+  color:var(--ink);
+  text-decoration:none;
+  padding-bottom:2px;
+  border-bottom:1px solid transparent;
+}
+.navlinks a:hover{border-bottom:1px solid var(--black);}
+
+/* ---------- inline links ---------- */
+.link{
+  color:var(--ink);
+  text-decoration:none;
+  border-bottom:1px solid var(--black);
+  padding-bottom:1px;
+}
+.link:hover{border-bottom-width:2px;}
+
+/* ---------- placeholder blocks ---------- */
+.ph{
+  position:relative;
+  width:100%;
+  background:
+    repeating-linear-gradient(135deg,
+      rgba(41,42,44,0.035) 0 2px,
+      transparent 2px 22px),
+    var(--vellum);
+  border:1px solid var(--ink);
+  display:flex;
+  align-items:flex-end;
+  justify-content:flex-start;
+  color:var(--ink);
+  overflow:hidden;
+}
+.ph .tag{
+  font-family:var(--telegraf);
+  font-size:15px;
+  letter-spacing:0.6px;
+  padding:11px 14px;
+}
+.ph .corner{
+  position:absolute;
+  top:11px;
+  right:14px;
+  font-family:var(--telegraf);
+  font-size:15px;
+  letter-spacing:0.6px;
+  opacity:0.55;
+}
+.ph.dark{
+  background:
+    repeating-linear-gradient(135deg,
+      rgba(255,255,255,0.05) 0 2px,
+      transparent 2px 22px),
+    var(--black);
+  border-color:var(--black);
+  color:#fff;
+}
+.ratio-hero{aspect-ratio:21/9;}
+.ratio-wide{aspect-ratio:16/9;}
+.ratio-landscape{aspect-ratio:4/3;}
+.ratio-square{aspect-ratio:1/1;}
+.ratio-portrait{aspect-ratio:2/3;}
+.ratio-vertical{aspect-ratio:9/16;}
+
+/* ---------- hero ---------- */
+.hero{margin-top:44px;}
+.hero-frame{position:relative;}
+.hero-copy{margin-top:44px;}
+.hero .positioning{
+  font-family:var(--telegraf);
+  font-size:24px;
+  line-height:1.25;
+  letter-spacing:0.6px;
+  max-width:34ch;
+  margin-top:24px;
+}
+.hero .positioning em{font-family:var(--ogg);font-style:italic;}
+.statline{
+  display:flex;
+  gap:0;
+  flex-wrap:wrap;
+  margin-top:44px;
+  font-family:var(--telegraf);
+  font-size:18px;
+  letter-spacing:0.38px;
+}
+.statline .stat{padding-right:22px;margin-right:22px;border-right:1px solid var(--ink);}
+.statline .stat:last-child{border-right:none;margin-right:0;padding-right:0;}
+.statline .stat b{font-family:var(--ogg);font-weight:400;font-size:24px;letter-spacing:-0.3px;}
+
+/* ---------- section header ---------- */
+.sec-head{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:44px;
+  align-items:start;
+}
+.sec-head .num{
+  font-family:var(--telegraf);
+  font-size:15px;
+  letter-spacing:0.6px;
+}
+.sec-head .lead{
+  font-family:var(--telegraf);
+  font-size:20px;
+  line-height:1.33;
+  letter-spacing:0.5px;
+}
+.sec-head .lead em{font-family:var(--ogg);font-style:italic;}
+
+/* ---------- story / case study ---------- */
+.story-numbers{
+  display:flex;
+  flex-wrap:wrap;
+  gap:44px;
+  margin-top:44px;
+  align-items:flex-end;
+}
+.bignum{line-height:1;}
+.bignum .n{
+  font-family:var(--ogg);
+  font-size:55px;
+  letter-spacing:-1.98px;
+  display:block;
+}
+.bignum .l{
+  font-family:var(--telegraf);
+  font-size:15px;
+  letter-spacing:0.6px;
+  display:block;
+  margin-top:11px;
+}
+.story-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+  margin-top:44px;
+  align-items:start;
+}
+.story-grid .offset-1{margin-top:44px;}
+.story-grid .offset-2{margin-top:88px;}
+.analytics-row{
+  display:grid;
+  grid-template-columns:1.4fr 1fr;
+  gap:18px;
+  margin-top:18px;
+}
+
+/* ---------- project heading block ---------- */
+.tile-title{margin-top:18px;}
+.tile-title .t{
+  font-family:var(--ogg);
+  font-size:26px;
+  line-height:1.1;
+  letter-spacing:-0.52px;
+}
+.tile-title .t .sub{font-style:italic;display:block;margin-top:2px;}
+.tile-tags{
+  font-family:var(--telegraf);
+  font-size:15px;
+  letter-spacing:0.6px;
+  margin-top:11px;
+}
+
+/* ---------- timeline ---------- */
+.timeline{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px;
+  margin-top:44px;
+  align-items:start;
+}
+.tools-row{
+  margin-top:44px;
+  font-family:var(--telegraf);
+  font-size:18px;
+  letter-spacing:0.38px;
+  border-top:1px solid var(--ink);
+  padding-top:18px;
+}
+.tools-row .k{font-size:15px;letter-spacing:0.6px;display:block;margin-bottom:11px;}
+
+/* ---------- skiing grid ---------- */
+.ski-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+  margin-top:44px;
+  align-items:start;
+}
+.ski-grid .sv{aspect-ratio:9/16;overflow:hidden;}
+.ski-grid .sv video{width:100%;height:100%;object-fit:cover;display:block;background:var(--black);}
+.ski-grid > div:nth-child(2){margin-top:66px;}
+.ski-grid > div:nth-child(3){margin-top:28px;}
+.ski-grid > div:nth-child(4){margin-top:-28px;}
+.ski-grid > div:nth-child(5){margin-top:33px;}
+.ski-grid > div:nth-child(7){margin-top:-22px;}
+.ski-para{
+  max-width:40ch;
+  margin-top:44px;
+  font-size:20px;
+  line-height:1.33;
+}
+
+/* ---------- build / projects ---------- */
+.projects{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:44px 18px;
+  margin-top:44px;
+  align-items:start;
+}
+.projects .p:nth-child(even){margin-top:44px;}
+.framing{
+  margin-top:44px;
+  font-family:var(--ogg);
+  font-size:26px;
+  line-height:1.1;
+  letter-spacing:-0.52px;
+  max-width:26ch;
+}
+
+/* ---------- ai ---------- */
+.ai-body{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:44px;
+  margin-top:44px;
+  align-items:start;
+}
+.ai-body p{font-size:20px;line-height:1.33;}
+.ai-pull{
+  font-family:var(--ogg);
+  font-style:italic;
+  font-size:26px;
+  line-height:1.1;
+  letter-spacing:-0.52px;
+}
+
+/* ---------- pocket claude ---------- */
+.pc-clients{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+  margin-top:44px;
+  align-items:stretch;
+}
+.pc-node{
+  border:1px solid var(--ink);
+  padding:18px;
+  display:flex;
+  flex-direction:column;
+  gap:11px;
+}
+.pc-node .t{font-family:var(--ogg);font-size:26px;line-height:1.1;letter-spacing:-0.52px;}
+.pc-node .d{font-family:var(--telegraf);font-size:18px;line-height:1.5;letter-spacing:0.38px;}
+.pc-node .how{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;margin-top:auto;padding-top:11px;border-top:1px solid var(--ink);}
+.pc-connector{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px;
+  padding:22px 0;
+}
+.pc-connector .rule{width:1px;height:22px;background:var(--ink);}
+.pc-connector .tag{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;}
+.pc-band{
+  border:1px solid var(--ink);
+  padding:18px;
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  gap:18px;
+  flex-wrap:wrap;
+}
+.pc-band .t{font-family:var(--ogg);font-size:26px;line-height:1.1;letter-spacing:-0.52px;}
+.pc-band .d{font-family:var(--telegraf);font-size:18px;line-height:1.5;letter-spacing:0.38px;max-width:52ch;}
+.pc-server{border:1px solid var(--ink);padding:18px;}
+.pc-server .head{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  gap:18px;
+  flex-wrap:wrap;
+  margin-bottom:18px;
+}
+.pc-server .head .t{font-family:var(--ogg);font-size:26px;line-height:1.1;letter-spacing:-0.52px;}
+.pc-server .head .loc{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;}
+.pc-nest{border:1px dashed var(--ink);padding:14px;}
+.pc-nest .cap{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;margin-bottom:14px;}
+.pc-core{
+  background:var(--black);
+  color:#fff;
+  padding:14px 18px;
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  gap:18px;
+  flex-wrap:wrap;
+}
+.pc-core .t{font-family:var(--ogg);font-size:26px;letter-spacing:-0.52px;}
+.pc-core .s{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;}
+.pc-server .after{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;margin-top:14px;}
+.pc-sync{
+  border:1px solid var(--ink);
+  padding:18px;
+  margin-top:18px;
+}
+.pc-sync .head{display:flex;justify-content:space-between;align-items:baseline;gap:18px;flex-wrap:wrap;margin-bottom:14px;}
+.pc-sync .head .t{font-family:var(--ogg);font-size:26px;line-height:1.1;letter-spacing:-0.52px;}
+.pc-sync .head .meta{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;}
+.pc-paths{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.pc-path{
+  border:1px solid var(--ink);
+  padding:11px 14px;
+  font-family:var(--telegraf);
+  font-size:18px;
+  letter-spacing:0.38px;
+  flex:1 1 200px;
+  min-width:0;
+  overflow-x:auto;
+  white-space:nowrap;
+}
+.pc-path small{display:block;font-size:15px;letter-spacing:0.6px;opacity:0.6;margin-bottom:4px;}
+.pc-sym{font-family:var(--ogg);font-size:26px;flex:none;}
+.pc-proof{
+  display:grid;
+  grid-template-columns:1.2fr 1fr;
+  gap:18px;
+  margin-top:44px;
+  align-items:start;
+}
+.pc-proof figure{margin:0;}
+.pc-proof img{width:100%;display:block;border:1px solid var(--ink);}
+.pc-proof figcaption{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;margin-top:11px;}
+
+/* ---------- personality ---------- */
+.play-grid{
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  gap:18px;
+  margin-top:44px;
+  align-items:start;
+}
+.play-grid > *{overflow:hidden;}
+.play-grid > *:nth-child(1){grid-column:span 3;}
+.play-grid > *:nth-child(2){grid-column:span 3;}
+.play-grid > *:nth-child(3){grid-column:span 2;}
+.play-grid > *:nth-child(4){grid-column:span 2;margin-top:22px;}
+.play-grid > *:nth-child(5){grid-column:span 2;}
+
+/* ---------- contact ---------- */
+.contact{
+  margin-top:var(--section-gap);
+  border-top:1px solid var(--ink);
+  padding:44px 0 88px;
+}
+.contact h2{max-width:16ch;}
+.contact .avail{
+  max-width:44ch;
+  margin-top:24px;
+  font-size:20px;
+  line-height:1.33;
+}
+.contact-cols{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:18px 44px;
+  margin-top:44px;
+  max-width:640px;
+}
+.contact-cols .row{
+  display:flex;
+  justify-content:space-between;
+  gap:18px;
+  border-bottom:1px solid var(--ink);
+  padding-bottom:11px;
+}
+.contact-cols .row .k{font-size:15px;letter-spacing:0.6px;flex-shrink:0;}
+.contact-cols .row a{overflow-wrap:anywhere;text-align:right;}
+.contact-cols .row a.email{font-size:15px;letter-spacing:0.6px;}
+
+.footer-mark{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  margin-top:88px;
+  flex-wrap:wrap;
+  gap:18px;
+}
+.footer-mark .big{
+  font-family:var(--ogg);
+  font-size:55px;
+  letter-spacing:-1.98px;
+  line-height:1;
+}
+
+/* ---------- mockup banner ---------- */
+.mock-banner{
+  border:1px solid var(--ink);
+  padding:11px 14px;
+  margin-top:24px;
+  font-family:var(--telegraf);
+  font-size:15px;
+  letter-spacing:0.6px;
+  display:flex;
+  justify-content:space-between;
+  gap:18px;
+  flex-wrap:wrap;
+}
+
+/* ---------- ledger lists (education / experience) ---------- */
+.cvlist{margin-top:44px;border-top:1px solid var(--ink);}
+.cvitem{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:11px 44px;
+  padding:24px 0;
+  border-bottom:1px solid var(--ink);
+  align-items:baseline;
+}
+.cvitem .h{grid-column:1;}
+.cvitem .h .t{font-family:var(--ogg);font-size:26px;line-height:1.1;letter-spacing:-0.52px;}
+.cvitem .h .t .sub{font-style:italic;display:block;margin-top:2px;}
+.cvitem .h .place{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;margin-top:11px;display:block;}
+.cvitem .h .desc{font-family:var(--telegraf);font-size:18px;line-height:1.5;letter-spacing:0.38px;margin-top:11px;max-width:56ch;}
+.cvitem .date{grid-column:2;font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;text-align:right;white-space:nowrap;}
+
+/* ---------- skills ---------- */
+.skills-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:44px;
+  margin-top:44px;
+  border-top:1px solid var(--ink);
+  padding-top:44px;
+}
+.skillgroup .k{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;display:block;margin-bottom:11px;}
+.skillgroup .v{font-family:var(--telegraf);font-size:20px;line-height:1.33;letter-spacing:0.5px;}
+
+/* ---------- real artwork ---------- */
+.artbox{width:100%;overflow:hidden;}
+.artbox img,.artbox video{width:100%;height:100%;object-fit:cover;display:block;}
+.art-natural{width:100%;height:auto;display:block;}
+.shot{border:1px solid var(--ink);}
+.art--top{object-position:top;}
+.hero-video{width:100%;display:block;aspect-ratio:848/480;object-fit:cover;background:var(--black);}
+.hero-frame{position:relative;overflow:hidden;}
+.hero-name{
+  position:absolute;
+  top:2.6%;
+  left:3.5%;
+  width:93%;
+  height:auto;
+  display:block;
+  filter:drop-shadow(0 2px 12px rgba(0,0,0,0.4));
+}
+.hero-name text{
+  font-family:var(--ogg);
+  font-weight:400;
+  fill:#fff;
+  font-size:82px;
+  letter-spacing:-0.01em;
+}
+.hero-ladder{max-width:22ch;}
+
+/* ---------- film text cards ---------- */
+.timeline .span2{grid-column:span 2;}
+.textcard{border-top:1px solid var(--ink);padding-top:14px;}
+.textcard .tile-title{margin-top:0;}
+.tl-desc{font-family:var(--telegraf);font-size:18px;line-height:1.5;letter-spacing:0.38px;margin-top:11px;}
+
+/* ---------- film box (padding + bg matched to the screenshot #0f0f0f) ---------- */
+.filmbox-dark{
+  background:#0f0f0f;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:26px 22px;
+}
+.filmbox-dark img{width:100%;max-width:440px;height:auto;display:block;}
+
+/* ---------- run club ---------- */
+.run-grid{
+  display:grid;
+  grid-template-columns:0.8fr 1fr 1fr;
+  gap:18px;
+  margin-top:44px;
+  align-items:start;
+}
+.run-grid .rv{aspect-ratio:9/16;overflow:hidden;grid-row:span 2;}
+.run-grid .rv video{width:100%;height:100%;object-fit:cover;display:block;background:var(--black);}
+.run-grid .rp{overflow:hidden;}
+.run-grid .rp img{width:100%;height:100%;object-fit:cover;display:block;}
+.run-grid .tall{aspect-ratio:3/4;}
+.run-note{
+  margin-top:18px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:32px;
+  align-items:start;
+}
+.run-note .marie img{width:100%;height:auto;border:1px solid var(--ink);display:block;}
+.run-note p{font-size:18px;line-height:1.4;letter-spacing:0.38px;}
+.run-note p .big{font-family:var(--ogg);font-size:24px;letter-spacing:-0.4px;font-style:italic;}
+.run-note .rm{overflow:hidden;aspect-ratio:16/10;margin-top:18px;}
+.run-note .rm img{width:100%;height:100%;object-fit:cover;display:block;}
+
+/* ---------- research evidence ---------- */
+.sem-pair{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+  margin-top:18px;
+}
+.sem-pair figure{margin:0;}
+.sem-pair img{width:100%;display:block;border:1px solid var(--ink);}
+.sem-pair figcaption{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;margin-top:11px;}
+.research-video{width:100%;display:block;aspect-ratio:16/9;object-fit:cover;background:var(--black);border:1px solid var(--ink);margin-top:44px;}
+.wca-graph{width:100%;display:block;border:1px solid var(--ink);margin-top:18px;background:#fff;}
+
+/* ---------- coming soon tile ---------- */
+.soon{
+  aspect-ratio:16/9;
+  border:1px solid var(--ink);
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:space-between;
+  padding:18px;
+}
+.soon .lab{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;}
+.soon .big{font-family:var(--ogg);font-size:26px;line-height:1.05;letter-spacing:-0.52px;}
+.soon .big .sub{font-style:italic;display:block;}
+
+/* ---------- zero-to ledger ---------- */
+.ledger{margin-top:44px;border-top:1px solid var(--ink);}
+.ledger .lrow{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  gap:18px;
+  padding:16px 0;
+  border-bottom:1px solid var(--ink);
+  font-family:var(--telegraf);
+  font-size:18px;
+  letter-spacing:0.38px;
+  line-height:1.5;
+}
+.ledger .lrow .out{text-align:right;flex-shrink:0;max-width:50%;}
+
+/* ---------- motion, focus & anchors ---------- */
+[id]{scroll-margin-top:76px;}
+.navlinks a.active{border-bottom:1px solid var(--black);}
+.link:focus-visible,.navlinks a:focus-visible,.wordmark:focus-visible{outline:2px solid var(--ink);outline-offset:3px;}
+html.anim .reveal{opacity:0;transform:translateY(14px);transition:opacity .55s ease,transform .55s ease;}
+html.anim .reveal.in{opacity:1;transform:translateY(0);}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto;}
+  html.anim .reveal{opacity:1;transform:none;transition:none;}
+}
+
+/* ---------- responsive ---------- */
+@media (max-width:900px){
+  :root{--margin:28px;--section-gap:88px;}
+  .serif-display{font-size:40px;letter-spacing:-1.2px;}
+  .footer-mark .big{font-size:40px;letter-spacing:-1.2px;}
+  .bignum .n{font-size:40px;letter-spacing:-1.2px;}
+  .sec-head{grid-template-columns:1fr;gap:24px;}
+  .story-grid{grid-template-columns:1fr 1fr;}
+  .story-grid .offset-1,.story-grid .offset-2{margin-top:0;}
+  .analytics-row{grid-template-columns:1fr;}
+  .timeline{grid-template-columns:1fr 1fr;}
+  .projects{grid-template-columns:1fr;}
+  .projects .p:nth-child(n){margin-top:0;}
+  .ai-body{grid-template-columns:1fr;}
+  .ski-grid{grid-template-columns:1fr 1fr;}
+  .ski-grid > div{margin-top:0;}
+  .play-grid{grid-template-columns:1fr 1fr;}
+  .play-grid > *{grid-column:auto !important;margin-top:0;}
+  .skills-grid{grid-template-columns:1fr 1fr;}
+  .sem-pair{grid-template-columns:1fr;}
+  .pc-clients{grid-template-columns:1fr;}
+  .pc-proof{grid-template-columns:1fr;}
+  .run-grid{grid-template-columns:1fr 1fr;}
+  .run-grid .rv{grid-row:auto;}
+  .run-note{grid-template-columns:1fr;gap:24px;}
+  .rail{display:none;}
+}
+@media (max-width:560px){
+  .story-grid,.timeline,.ski-grid,.play-grid,.skills-grid{grid-template-columns:1fr;}
+  .timeline .span2{grid-column:auto;}
+  .cvitem{grid-template-columns:1fr;}
+  .cvitem .date{grid-column:1;text-align:left;}
+  .ledger .lrow{flex-direction:column;gap:4px;}
+  .ledger .lrow .out{text-align:left;max-width:100%;}
+  .run-grid{grid-template-columns:1fr;}
+  .hero-name{white-space:normal;}
+  .statline .stat{border-right:none;padding-right:0;margin-right:0;}
+  .hero .positioning{font-size:20px;}
+  body{font-size:17px;}
+  .contact-cols{grid-template-columns:1fr;gap:0;max-width:none;}
+  /* keep the sticky nav a single tidy row that scrolls sideways
+     instead of wrapping into a tall bar stuck over the content */
+  nav{padding:12px 0;flex-wrap:nowrap;gap:14px;align-items:center;}
+  .wordmark{flex:0 0 auto;}
+  .navlinks{
+    flex:1 1 auto;
+    min-width:0;
+    flex-wrap:nowrap;
+    gap:18px;
+    overflow-x:auto;
+    scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
+  }
+  .navlinks::-webkit-scrollbar{display:none;}
+  .navlinks a{font-size:15px;white-space:nowrap;padding-bottom:0;}
+}
+
+/* ---------- v2 project cards ---------- */
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:44px;align-items:stretch;}
+.card{border:1px solid var(--ink);display:flex;flex-direction:column;cursor:pointer;min-width:0;}
+.card:hover{box-shadow:0 0 0 1px var(--ink);}
+.card .cimg{border-bottom:1px solid var(--ink);font-size:0;}
+.card .cimg img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block;}
+.card .cbody{padding:18px;display:flex;flex-direction:column;gap:11px;flex:1;}
+.card .ct{font-family:var(--ogg);font-size:26px;line-height:1.1;letter-spacing:-0.52px;}
+.card .ct .sub{font-style:italic;display:block;margin-top:2px;font-size:20px;}
+.card .ctags{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;}
+.card .copen{margin-top:auto;padding-top:14px;border-top:1px solid var(--ink);font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;display:flex;justify-content:space-between;gap:11px;}
+.card:hover .copen .a{text-decoration:underline;}
+.card.feature{grid-column:span 2;}
+.card.feature .cimg img{aspect-ratio:21/9;}
+.card.textonly .cbody{min-height:220px;}
+.card.soon{cursor:default;}
+.card.soon:hover{box-shadow:none;}
+@media (max-width:900px){
+  .cards{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .card.feature{grid-column:span 2;}
+}
+@media (max-width:560px){
+  .cards{grid-template-columns:minmax(0,1fr);}
+  .card.feature{grid-column:auto;}
+  .card.feature .cimg img{aspect-ratio:16/10;}
+}
+</style>
+</head>
+<body>
+
+<div class="rail">LONDON 51.5°N &middot; PERTH FROM AUGUST ✳ 2026</div>
+
+<div class="page">
+
+  <!-- NAV -->
+  <nav>
+    <a class="wordmark" href="#top">JTB<sup>&reg;</sup></a>
+    <div class="navlinks">
+      <a href="#engineering">Engineering</a>
+      <a href="#research">Research</a>
+      <a href="#content">Content</a>
+      <a href="#aicode">AI</a>
+      <a href="#sport">Sport</a>
+      <a href="#education">CV</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <div class="mock-banner"><span>v2 mockup &middot; layout only</span><span>each card will expand in place</span></div>
+
+  <!-- HERO -->
+  <header class="hero" id="top">
+    <div class="hero-frame">
+      <video class="hero-video" autoplay muted loop playsinline poster="assets/ski-hero.jpg" aria-label="Skiing down an alpine piste into low golden sun">
+        <source src="assets/ski-hero.mp4" type="video/mp4">
+      </video>
+      <svg class="hero-name" viewBox="0 0 1000 96" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Jackson Tiger Brocklebank">
+        <text x="500" y="76" text-anchor="middle" textLength="1000" lengthAdjust="spacingAndGlyphs">Jackson Tiger Brocklebank</text>
+      </svg>
+    </div>
+    <div class="hero-copy">
+      <p class="serif-display hero-ladder">I've skied since I was three, started a bike repair business at sixteen, and built a TikTok account that reached 89,000 followers.</p>
+      <p class="positioning">I'm Jackson. There isn't one job title that covers what I do, so this page just shows it: engineering, skiing, and the <em>projects I've started</em> along the way. Everything here is mine, whether I built it, filmed it, repaired it or grew it.</p>
+      <div class="statline">
+        <span class="stat"><b>millions</b> of views on @jacksontigerb</span>
+        <span class="stat"><b>15 years</b> behind a camera</span>
+        <span class="stat"><b>all terrain</b> on skis since three</span>
+      </div>
+    </div>
+  </header>
+
+  
+  <!-- PATTERN -->
+  <section id="pattern">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">00 · the pattern</span>
+        <h2 class="serif-heading">Things I've started, <span class="italic">and where they got to</span></h2>
+      </div>
+      <p class="lead">The full CV is further down the page. This is the short version.</p>
+    </div>
+
+    <div class="ledger">
+      <div class="lrow"><span>A Twitch channel in my gaming years</span><span class="out">→ 1.3k followers</span></div>
+      <div class="lrow"><span>Brocklebikes, a repair business started at sixteen</span><span class="out">→ 495+ bikes fixed</span></div>
+      <div class="lrow"><span>A renewable energy degree at Exeter</span><span class="out">→ a 2:1, and a first for the dissertation</span></div>
+      <div class="lrow"><span>A university run club, founded in January 2024</span><span class="out">→ 25 runners a week by June</span></div>
+      <div class="lrow"><span>@jacksontigerb, started from nothing in 2024</span><span class="out">→ 89,000 followers in seven months</span></div>
+      <div class="lrow"><span>A materials science Master's at UCL</span><span class="out">→ the Finisterre collaboration, and a degree</span></div>
+      <div class="lrow"><span>One speculative email to Curtin University</span><span class="out">→ a research position in Perth</span></div>
+    </div>
+  </section>
+
+  
+  <section id="engineering">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">01 · engineering &amp; build</span>
+        <h2 class="serif-heading">Things I’ve <span class="italic">designed and built</span></h2>
+      </div>
+      <p class="lead">From an idea, through the workshop, to something tested in the real world. Each card opens into the full story.</p>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="cimg"><img decoding="async" src="assets/solar-boat.jpg" alt="The solar boat team working on the hull in the workshop"></div>
+        <div class="cbody">
+          <div class="ct">Solar racing boat <span class="sub">designed, machined, raced</span></div>
+          <div class="ctags">CAD / fabrication / raced in the Netherlands</div>
+          <div class="copen"><span class="a">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="cimg"><img decoding="async" src="assets/maze-robot.jpg" alt="Arduino maze solving robot with breadboard wiring"></div>
+        <div class="cbody">
+          <div class="ct">Maze solving robot <span class="sub">sensors and soldering</span></div>
+          <div class="ctags">electronics / control logic / Arduino</div>
+          <div class="copen"><span class="a">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="cimg"><img decoding="async" src="assets/bridge.jpg" alt="Building the balsa bridge in the workshop"></div>
+        <div class="cbody">
+          <div class="ct">The balsa bridge <span class="sub">the only one to hold under full load</span></div>
+          <div class="ctags">team project / spotted the flaw before test day</div>
+          <div class="copen"><span class="a">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="cimg"><img decoding="async" src="assets/hydroturbine.jpg" alt="Hydroturbine built from an orange pipe, tested in a stream"></div>
+        <div class="cbody">
+          <div class="ct">A £50 hydroturbine <span class="sub">tested in a real stream</span></div>
+          <div class="ctags">design to field test / renewable energy</div>
+          <div class="copen"><span class="a">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="cimg"><img decoding="async" src="assets/brocklebikes.jpg" alt="A bike on the repair stand in the garden"></div>
+        <div class="cbody">
+          <div class="ct">Brocklebikes <span class="sub">a business I started at sixteen</span></div>
+          <div class="ctags">495+ repairs / self taught / customer facing</div>
+          <div class="copen"><span class="a">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+      <div class="card textonly soon">
+        
+        <div class="cbody">
+          <div class="ct">Photocatalytic water splitting <span class="sub">clean hydrogen at Curtin University</span></div>
+          <div class="ctags">visiting research associate / Perth / from August 2026</div>
+          <div class="copen"><span class="a">coming soon</span><span></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="research">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">02 · research &amp; materials</span>
+        <h2 class="serif-heading">The lab work, <span class="italic">up close</span></h2>
+      </div>
+      <p class="lead">Materials science with a purpose, coatings, energy storage and clean hydrogen.</p>
+    </div>
+    <div class="cards">
+      <div class="card feature">
+        <div class="cimg"><img decoding="async" src="assets/wca-coating.jpg" alt="A water droplet beading on the coated fabric under the goniometer"></div>
+        <div class="cbody">
+          <div class="ct">A PFAS free waterproof coating <span class="sub">in collaboration with Finisterre</span></div>
+          <div class="ctags">SEM / contact angle / nanoparticle synthesis / my Master’s project</div>
+          <div class="copen"><span class="a">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+      <div class="card">
+        
+        <div class="cbody">
+          <div class="ct">Redox flow batteries <span class="sub">BEng dissertation, awarded a first</span></div>
+          <div class="ctags">energy storage / modelling / University of Exeter</div>
+          <div class="copen"><span class="a">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="content">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">03 · content &amp; community</span>
+        <h2 class="serif-heading">Things I’ve <span class="italic">grown</span></h2>
+      </div>
+      <p class="lead">Audiences and communities, built one post or one Tuesday evening run at a time.</p>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="cimg"><img decoding="async" src="assets/tiktok-profile.jpg" alt="TikTok profile for @jacksontigerb with 80.9 thousand followers"></div>
+        <div class="cbody">
+          <div class="ct">@jacksontigerb <span class="sub">zero to 89,000 followers in seven months</span></div>
+          <div class="ctags">2.5m likes / one video at 1.2m views / run solo</div>
+          <div class="copen"><span class="a">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="cimg"><img decoding="async" src="assets/twitch.jpg" alt="Twitch channel jacksontig3r with 1.3 thousand followers"></div>
+        <div class="cbody">
+          <div class="ct">Film &amp; editing <span class="sub">fifteen years behind a camera</span></div>
+          <div class="ctags">scooter edits / gaming videos / a Twitch channel</div>
+          <div class="copen"><span class="a">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="cimg"><img decoding="async" src="assets/runclub-street.jpg" alt="Run club running down a pastel terraced street at dusk"></div>
+        <div class="cbody">
+          <div class="ct">Falmouth Running Society <span class="sub">founded in January, 25 a week by June</span></div>
+          <div class="ctags">community / weekly sessions / 200+ followers</div>
+          <div class="copen"><span class="a">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="aicode">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">04 · ai &amp; code</span>
+        <h2 class="serif-heading">How I <span class="italic">work with AI</span></h2>
+      </div>
+      <p class="lead">Not a chatbot on the side, infrastructure I designed and run myself.</p>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="cimg"><img decoding="async" src="assets/pocket-claude-terminal.png" alt="Terminal showing a dictated phrase arriving in the live Claude Code session"></div>
+        <div class="cbody">
+          <div class="ct">Pocket Claude <span class="sub">one agent, from my laptop, my phone or my voice</span></div>
+          <div class="ctags">Ubuntu VPS / tmux / Tailscale / iOS Shortcuts</div>
+          <div class="copen"><span class="a">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+      <div class="card">
+        
+        <div class="cbody">
+          <div class="ct">This website <span class="sub">planned, designed and built with an AI agent I run myself</span></div>
+          <div class="ctags">design system / GitHub Pages / no frameworks</div>
+          <div class="copen"><span class="a">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="sport">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">05 · sport &amp; outdoors</span>
+        <h2 class="serif-heading">Where I am <span class="italic">when I’m not working</span></h2>
+      </div>
+      <p class="lead">The active life behind the projects.</p>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="cimg"><img decoding="async" src="assets/ski-montage.jpg" alt="Carving down a sunlit piste, filmed while riding"></div>
+        <div class="cbody">
+          <div class="ct">Skiing <span class="sub">on skis since I was three</span></div>
+          <div class="ctags">all terrain / filmed while I ride</div>
+          <div class="copen"><span class="a">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="cimg"><img decoding="async" src="assets/marathon.jpg" alt="Friends at the London Marathon finish holding GO TIGGY signs"></div>
+        <div class="cbody">
+          <div class="ct">London Marathon 2026 <span class="sub">£1,647 raised for Marie Curie</span></div>
+          <div class="ctags">64 donors / run for charity</div>
+          <div class="copen"><span class="a">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="cimg"><img decoding="async" src="assets/surf-cutback.jpg" alt="Surfer carving off the top of a wave"></div>
+        <div class="cbody">
+          <div class="ct">Off the mountain <span class="sub">surf, skate, climb and the rest</span></div>
+          <div class="ctags">photography / travel / most of it shot myself</div>
+          <div class="copen"><span class="a">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">06 · education &amp; awards</span>
+        <h2 class="serif-heading">The degrees behind it, <span class="italic">materials and energy</span></h2>
+      </div>
+      <p class="lead">A Master's in advanced materials on top of an engineering degree, with a couple of firsts along the way.</p>
+    </div>
+
+    <div class="cvlist">
+      <div class="cvitem">
+        <div class="h">
+          <div class="t">MSc Advanced Materials Science <span class="sub">University College London</span></div>
+          <span class="place">London · research year</span>
+          <p class="desc">The home of the PFAS free coating project above. Day to day it's synthesis in the lab and a lot of hours on the characterisation suite, SEM, TEM, FTIR, XRD and XPS.</p>
+        </div>
+        <div class="date">09/2025 – 09/2026</div>
+      </div>
+      <div class="cvitem">
+        <div class="h">
+          <div class="t">BEng Renewable Energy Engineering <span class="sub">University of Exeter, 2:1</span></div>
+          <span class="place">Exeter · mechanical and electrical grounding</span>
+          <p class="desc">My dissertation on redox flow batteries for renewable energy earned a first, and so did the field trip module, where I pitched wind turbine blade recycling to industry partners Nadara and ReBlade. One field trip, a day hiking a mountain near Oban, I turned into a vlog, shot and edited on the move.</p>
+        </div>
+        <div class="date">09/2022 – 07/2025</div>
+      </div>
+    </div>
+  </section>
+
+  
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">07 · experience beyond the studio</span>
+        <h2 class="serif-heading">Roles that were really about people, <span class="italic">and staying calm when it's busy</span></h2>
+      </div>
+      <p class="lead">Community building, teaching and customer facing work. Most of a social media role comes down to people, and these are the jobs where I've done that.</p>
+    </div>
+
+    <div class="cvlist">
+      <div class="cvitem">
+        <div class="h">
+          <div class="t">Run Club Founder &amp; President <span class="sub">Falmouth Running Society</span></div>
+          <span class="place">Started a club and grew a community</span>
+          <p class="desc">Founded and led a university running club, growing it to 200+ followers and weekly sessions of up to 25 runners in a single semester.</p>
+        </div>
+        <div class="date">01/2024 – 06/2024</div>
+      </div>
+      <div class="cvitem">
+        <div class="h">
+          <div class="t">Digital Hub Student Ambassador <span class="sub">University of Exeter</span></div>
+          <span class="place">Technical support, up to 100 students a day</span>
+          <p class="desc">Provided troubleshooting in the library IT department, helping up to a hundred students a day, calm and quick under pressure.</p>
+        </div>
+        <div class="date">09/2024 – 06/2025</div>
+      </div>
+      <div class="cvitem">
+        <div class="h">
+          <div class="t">Student Representative <span class="sub">University College London</span></div>
+          <span class="place">Relaying feedback in departmental meetings</span>
+          <p class="desc">Gathering and relaying course feedback, helping the department spot and address student concerns.</p>
+        </div>
+        <div class="date">09/2025 – present</div>
+      </div>
+      <div class="cvitem">
+        <div class="h">
+          <div class="t">Customer Facing Roles <span class="sub">cafés and a lettings office</span></div>
+          <span class="place">Drury 188-189 · Castle Beach Café · Frank Harris &amp; Co</span>
+          <p class="desc">Fast, accurate service across two café roles and a sales and lettings office, handling orders, enquiries and day to day admin while staying calm in busy settings.</p>
+        </div>
+        <div class="date">2023 – present</div>
+      </div>
+    </div>
+  </section>
+
+  
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">08 · the toolkit</span>
+        <h2 class="serif-heading">What I can do, <span class="italic">hands on and technical</span></h2>
+      </div>
+      <p class="lead">The creative tools I edit with, plus the technical and workshop skills behind the projects.</p>
+    </div>
+
+    <div class="skills-grid">
+      <div class="skillgroup"><span class="k">creative &amp; content</span><span class="v">Premiere Pro · Photoshop · DaVinci Resolve · Sony Vegas · CapCut · iPhone shooting</span></div>
+      <div class="skillgroup"><span class="k">cad &amp; design</span><span class="v">Onshape · SolidWorks · 3D Printing</span></div>
+      <div class="skillgroup"><span class="k">electronics &amp; prototyping</span><span class="v">Arduino · ESP32 · Ultrasonic Sensors · Soldering · MQTT · MODBUS</span></div>
+      <div class="skillgroup"><span class="k">workshop &amp; fabrication</span><span class="v">Lathe · Bandsaw · Hand Tools</span></div>
+      <div class="skillgroup"><span class="k">programming &amp; data</span><span class="v">Python · SQL · MATLAB · C++ · Git</span></div>
+      <div class="skillgroup"><span class="k">materials characterisation</span><span class="v">SEM · TEM · FTIR · XRD · XPS · UV/Vis · Optical Microscopy</span></div>
+    </div>
+  </section>
+
+  
+<!-- CONTACT -->
+  <section class="contact" id="contact">
+    <span class="eyebrow">09 · let's talk</span>
+    <h2 class="serif-display">Talk to me about next winter.</h2>
+    <p class="avail">From August to late November 2026 I'm at Curtin University in Perth, researching clean hydrogen. From mid September I can work online, and from December I'm available in person, whether that's London, Park City or a resort.</p>
+
+    <div class="contact-cols">
+      <div class="row"><span class="k">email</span><a class="link email" href="mailto:jackson.brocklebank.25@ucl.ac.uk">jackson.brocklebank.25@ucl.ac.uk</a></div>
+      <div class="row"><span class="k">phone</span><a class="link" href="tel:+447999754655">+44 7999 754655</a></div>
+      <div class="row"><span class="k">tiktok</span><a class="link" href="https://www.tiktok.com/@jacksontigerb" target="_blank" rel="noopener">@jacksontigerb</a></div>
+      <div class="row"><span class="k">linkedin</span><a class="link" href="https://www.linkedin.com/in/jacksontigerb" target="_blank" rel="noopener">/in/jacksontigerb</a></div>
+      <div class="row"><span class="k">cv</span><a class="link" href="assets/Jackson-Brocklebank-CV.pdf" download="Jackson Brocklebank CV.pdf">download PDF</a></div>
+      <div class="row"><span class="k">based</span><span>London now · Perth from August</span></div>
+    </div>
+
+    <div class="footer-mark">
+      <span class="big">JTB<sup style="font-size:0.3em;vertical-align:super;">®</sup></span>
+      <span class="meta">All footage and photography my own · <a class="link" href="#top">back to top</a></span>
+    </div>
+  </section>
+
+
+</div>
+
+</body>
+</html>

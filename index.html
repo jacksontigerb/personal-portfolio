@@ -16,7 +16,7 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='%23292a2c'/><text x='32' y='47' font-family='Georgia,serif' font-size='42' font-style='italic' text-anchor='middle' fill='%23f2f2f2'>J</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@0;1&family=Inter:wght@400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@0;1&family=Inter:wght@400;600&display=swap" rel="stylesheet">
 <style>
 :root{
   --ink:#292a2c;
@@ -559,67 +559,150 @@ nav{
 .skillgroup .k{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;display:block;margin-bottom:11px;}
 .skillgroup .v{font-family:var(--telegraf);font-size:20px;line-height:1.33;letter-spacing:0.5px;}
 
-/* ---------- character sheet ---------- */
-.charsheet{
-  margin-top:44px;
-  border:1px solid var(--ink);
+/* ---------- character select, the hero ---------- */
+.cselect{
+  --accent:#46607d;
+  --accent-rgb:70,96,125;
+  margin-top:0;
+  /* fixed height so the roster is always on screen; the side panels take up any slack */
+  height:100svh;
+  min-height:600px;
   display:grid;
-  grid-template-columns:360px 1fr;
+  grid-template-columns:minmax(0,1fr) 320px 420px;
+  grid-template-rows:auto minmax(0,1fr);
+  grid-template-areas:"top top top" "stage info roster";
+  border-bottom:1px solid var(--ink);
 }
-.cs-portrait{
-  border-right:1px solid var(--ink);
-  display:flex;
-  flex-direction:column;
-  padding:26px 26px 0;
-  overflow:hidden;
+.cs-top{
+  grid-area:top;display:flex;align-items:center;justify-content:space-between;
+  gap:20px;flex-wrap:wrap;padding:18px 0 14px;border-bottom:1px solid var(--ink);
 }
-.cs-portrait .tag{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;display:block;}
-.cs-portrait .name{font-family:var(--ogg);font-size:26px;line-height:1.1;letter-spacing:-0.52px;margin-top:16px;}
-.cs-meta{margin-top:22px;display:grid;gap:11px;}
-.cs-meta .row{display:grid;grid-template-columns:92px 1fr;gap:12px;align-items:baseline;}
-.cs-meta .k{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;}
-.cs-meta .v{font-family:var(--telegraf);font-size:18px;line-height:1.4;letter-spacing:0.38px;}
-/* the figure bleeds to the panel edges so he reads as the character, not a thumbnail */
-.cs-fig{margin:auto -26px 0;padding-top:34px;}
-.cs-fig img{width:100%;max-width:none;display:block;}
+.cs-player{font-family:var(--ogg);font-size:clamp(30px,5vw,58px);line-height:1;letter-spacing:-1.8px;}
+.cs-nameplate{
+  background:var(--accent);color:#fff;padding:8px 20px;
+  font-family:var(--ogg);font-size:26px;line-height:1.2;letter-spacing:-0.52px;
+  transition:background .45s ease;
+}
 
-.cs-body{padding:26px;display:flex;flex-direction:column;}
-.cs-cols{display:grid;grid-template-columns:1fr 1fr;gap:34px 44px;}
-.cs-inv{margin-top:auto;padding-top:26px;}
-.statgroup .gk{
-  font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;
-  display:block;margin-bottom:17px;padding-bottom:11px;border-bottom:1px solid var(--ink);
+.cs-info{
+  grid-area:info;padding:18px 24px;
+  border-left:1px solid var(--ink);border-right:1px solid var(--ink);
+  min-height:0;overflow-y:auto;scrollbar-width:thin;
 }
-.stat{display:grid;grid-template-columns:1fr 118px 22px;gap:14px;align-items:center;margin-bottom:13px;}
+.cs-info .k{
+  font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;display:block;margin-bottom:12px;
+}
+.cs-block{margin-bottom:15px;}
+.cs-block:last-child{margin-bottom:0;}
+.cs-block .v{font-family:var(--telegraf);font-size:18px;line-height:1.45;letter-spacing:0.38px;}
+.cs-info ul{list-style:none;}
+.cs-info li{
+  font-family:var(--telegraf);font-size:17px;line-height:1.45;letter-spacing:0.38px;
+  margin-bottom:8px;padding-left:16px;position:relative;
+}
+.cs-info li:last-child{margin-bottom:0;}
+.cs-info li::before{content:"";position:absolute;left:0;top:0.58em;width:6px;height:6px;background:var(--accent);transition:background .45s ease;}
+
+/* the stage */
+.cs-stage{grid-area:stage;position:relative;display:flex;align-items:flex-end;justify-content:center;overflow:hidden;min-height:0;}
+.cs-wash{
+  position:absolute;left:50%;bottom:-6%;width:min(660px,96%);aspect-ratio:1/1;
+  transform:translateX(-50%);pointer-events:none;
+  background:radial-gradient(circle at 50% 60%, rgba(var(--accent-rgb),0.30) 0%, rgba(var(--accent-rgb),0.10) 42%, rgba(var(--accent-rgb),0) 70%);
+  transition:background .45s ease;
+}
+.cs-ghost{
+  position:absolute;left:50%;top:17%;transform:translate(-50%,-50%);
+  font-family:var(--ogg);font-size:clamp(80px,15vw,220px);line-height:1;white-space:nowrap;
+  color:var(--accent);opacity:.14;pointer-events:none;transition:color .45s ease;
+}
+.cs-fig3d{position:relative;height:100%;min-height:0;display:flex;align-items:flex-end;justify-content:center;padding-top:14px;}
+.cs-fig3d canvas{height:100%;width:auto;max-width:100%;display:block;image-rendering:pixelated;}
+.cs-fig3d img{height:100%;width:auto;max-width:100%;object-fit:contain;object-position:bottom center;display:block;image-rendering:pixelated;}
+.cs-fig3d .nofig{
+  display:flex;align-items:flex-end;justify-content:center;height:100%;min-height:230px;
+  font-family:var(--ogg);font-size:clamp(90px,13vw,170px);line-height:1;color:var(--accent);opacity:.3;
+  transition:color .45s ease;
+}
+.cs-hint{
+  position:absolute;left:0;bottom:14px;font-family:var(--telegraf);font-size:15px;
+  letter-spacing:0.6px;opacity:.5;
+}
+
+/* abilities */
+.abil{margin-bottom:15px;}
+.stat{display:grid;grid-template-columns:1fr 84px 20px;gap:10px;align-items:center;margin-bottom:6px;}
 .stat:last-child{margin-bottom:0;}
-.stat .sn{font-family:var(--telegraf);font-size:18px;line-height:1.3;letter-spacing:0.38px;}
-.stat .sv{font-family:var(--telegraf);font-size:18px;letter-spacing:0.38px;text-align:right;font-variant-numeric:tabular-nums;}
-.sbar{position:relative;height:13px;border:1px solid var(--ink);overflow:hidden;}
+.stat .sn{font-family:var(--telegraf);font-size:16px;line-height:1.25;letter-spacing:0.38px;}
+.stat .sv{font-family:var(--telegraf);font-size:16px;letter-spacing:0.38px;text-align:right;font-variant-numeric:tabular-nums;}
+.sbar{position:relative;height:12px;border:1px solid var(--ink);overflow:hidden;}
 .sbar .fill{
-  position:absolute;top:0;left:0;bottom:0;width:100%;background:var(--ink);
+  position:absolute;top:0;left:0;bottom:0;width:100%;background:var(--accent);
   transform:scaleX(calc(var(--v) / 10));transform-origin:left center;
+  transition:background .45s ease;
 }
 .sbar .ticks{
   position:absolute;inset:0;
   background-image:repeating-linear-gradient(90deg,transparent 0 calc(10% - 1px),var(--vellum) calc(10% - 1px) 10%);
 }
-
-.cs-traits{grid-column:1 / -1;border-top:1px solid var(--ink);display:grid;grid-template-columns:1fr 1fr;}
-.cs-traits > div{padding:26px;border-right:1px solid var(--ink);}
-.cs-traits > div:last-child{border-right:0;}
-.cs-traits .k,.cs-inv .k{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;display:block;margin-bottom:15px;}
-.cs-traits ul{list-style:none;}
-.cs-traits li{
-  font-family:var(--telegraf);font-size:18px;line-height:1.5;letter-spacing:0.38px;
-  margin-bottom:9px;padding-left:18px;position:relative;
+.stat.raisable .sn::after{
+  content:"+";margin-left:7px;color:var(--accent);font-weight:400;transition:color .45s ease;
 }
-.cs-traits li:last-child{margin-bottom:0;}
-.cs-traits li::before{content:"";position:absolute;left:0;top:0.6em;width:7px;height:7px;background:var(--ink);}
-.inv{font-family:var(--telegraf);font-size:18px;line-height:1.6;letter-spacing:0.38px;}
+.inv{font-family:var(--telegraf);font-size:16px;line-height:1.45;letter-spacing:0.38px;}
 
-/* bars fill as the sheet comes into view */
-html.anim .sbar .fill{transform:scaleX(0);transition:transform .8s cubic-bezier(0.23,1,0.32,1);transition-delay:calc(var(--d,0) * 70ms);}
-html.anim .charsheet.in .sbar .fill{transform:scaleX(calc(var(--v) / 10));}
+/* the skill point pitch */
+.cs-sp{border-top:1px solid var(--ink);padding-top:13px;margin-top:14px;}
+.cs-sp .spnum{font-family:var(--ogg);font-size:32px;line-height:1;color:var(--accent);transition:color .45s ease;}
+.cs-sp .spcopy{font-family:var(--telegraf);font-size:15px;line-height:1.4;letter-spacing:0.38px;margin-top:8px;}
+.cs-sp .spbtn{
+  display:inline-block;margin-top:11px;background:var(--accent);color:#fff;
+  padding:10px 18px;font-family:var(--telegraf);font-size:16px;letter-spacing:0.38px;
+  text-decoration:none;transition:background .45s ease,opacity .2s ease;
+}
+.cs-sp .spbtn:hover{opacity:.86;}
+/* sits over the figure on narrow screens, so it carries its own background */
+.cs-go{
+  position:absolute;right:0;bottom:14px;z-index:2;
+  background:var(--vellum);padding:3px 0 3px 12px;
+  font-family:var(--telegraf);font-size:17px;letter-spacing:0.38px;
+}
+
+/* the roster */
+.cs-roster{
+  grid-area:roster;
+  display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);
+  gap:1px;background:var(--ink);min-height:0;
+}
+.rtile--empty{background:var(--vellum);cursor:default;}
+.rtile{
+  position:relative;background:var(--vellum);font:inherit;color:var(--ink);
+  text-align:left;padding:0;cursor:pointer;display:flex;flex-direction:column;
+  -webkit-appearance:none;appearance:none;border:0;
+}
+.rtile .rbar{height:4px;background:var(--tint);opacity:.3;transition:opacity .25s ease;}
+.rtile .rnum{position:absolute;top:9px;left:10px;font-size:15px;letter-spacing:0.6px;z-index:2;}
+.rtile .rart{
+  flex:1 1 auto;min-height:0;overflow:hidden;display:block;padding:0;
+}
+.rtile .rart img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;opacity:.55;transition:opacity .25s ease;image-rendering:pixelated;}
+.rtile .lock{
+  position:absolute;left:0;right:0;top:40%;text-align:center;
+  font-family:var(--ogg);font-size:40px;line-height:1;opacity:.22;
+}
+.rtile .rname{
+  display:block;flex:0 0 auto;border-top:1px solid var(--ink);
+  padding:9px 10px;font-size:16px;font-weight:600;letter-spacing:0.2px;
+}
+.rtile[aria-selected="true"] .rbar{opacity:1;}
+.rtile[aria-selected="true"] .rart img{opacity:1;}
+.rtile[aria-selected="true"] .rname{background:var(--tint);color:#fff;}
+.rtile[aria-selected="true"] .lock{opacity:.5;color:var(--tint);}
+.rtile:focus-visible{outline:2px solid var(--ink);outline-offset:-3px;z-index:3;}
+@media (hover:hover){.rtile:hover .rart img{opacity:.8;}}
+
+/* bars load in, and reload on every character swap */
+html.anim .sbar .fill{transform:scaleX(0);transition:transform .7s cubic-bezier(0.23,1,0.32,1),background .45s ease;transition-delay:calc(var(--d,0) * 55ms),0s;}
+html.anim .cselect.armed .sbar .fill{transform:scaleX(calc(var(--v) / 10));}
 
 /* ---------- real artwork ---------- */
 .artbox{width:100%;overflow:hidden;}
@@ -704,15 +787,22 @@ html.anim .charsheet.in .sbar .fill{transform:scaleX(calc(var(--v) / 10));}
 
 
 /* ---------- motion, focus & anchors ---------- */
-[id]{scroll-margin-top:76px;}
+[id]{scroll-margin-top:0;}
 .navlinks a.active{border-bottom:1px solid var(--black);}
 .link:focus-visible,.navlinks a:focus-visible,.wordmark:focus-visible{outline:2px solid var(--ink);outline-offset:3px;}
+/* the page below follows whichever character is picked */
+.sec-off{display:none;}
+.navlinks a.nav-off{opacity:.3;}
+@media (prefers-reduced-motion:no-preference){
+  .sec-on{animation:secIn .45s ease both;}
+  @keyframes secIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+}
 html.anim .reveal{opacity:0;transform:translateY(14px);transition:opacity .55s ease,transform .55s ease;}
 html.anim .reveal.in{opacity:1;transform:translateY(0);}
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto;}
   html.anim .reveal{opacity:1;transform:none;transition:none;}
-  html.anim .sbar .fill{transform:scaleX(calc(var(--v) / 10));transition:none;}
+  html.anim .sbar .fill,html.anim .cselect.armed .sbar .fill{transform:scaleX(calc(var(--v) / 10));transition:none;}
 }
 
 /* ---------- responsive ---------- */
@@ -735,13 +825,19 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
   .play-grid{grid-template-columns:1fr 1fr;}
   .play-grid > *{grid-column:auto !important;margin-top:0;}
   .skills-grid{grid-template-columns:1fr 1fr;}
-  .charsheet{grid-template-columns:1fr;}
-  .cs-portrait{border-right:0;border-bottom:1px solid var(--ink);}
-  .cs-fig{margin:34px auto 0;padding-top:0;}
-  .cs-fig img{max-width:260px;margin:0 auto;}
-  .cs-traits{grid-template-columns:1fr;}
-  .cs-traits > div{border-right:0;border-bottom:1px solid var(--ink);}
-  .cs-traits > div:last-child{border-bottom:0;}
+  .cselect{
+    height:auto;min-height:0;
+    grid-template-columns:1fr;
+    grid-template-rows:auto auto auto auto;
+    grid-template-areas:"top" "stage" "roster" "info";
+    min-height:0;
+  }
+  .cs-info{border:0;border-top:1px solid var(--ink);padding:24px 0;}
+  .cs-roster{grid-template-rows:auto;}
+  .cs-stage{min-height:52vh;}
+  .cs-fig3d{max-height:48vh;}
+  .cs-roster{grid-template-columns:repeat(4,1fr);}
+  .cs-hint{display:none;}
   .sem-pair{grid-template-columns:1fr;}
   .pc-clients{grid-template-columns:1fr;}
   .pc-proof{grid-template-columns:1fr;}
@@ -752,10 +848,10 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
 }
 @media (max-width:560px){
   .story-grid,.timeline,.ski-grid,.play-grid,.skills-grid{grid-template-columns:1fr;}
-  .cs-cols{grid-template-columns:1fr;}
-  .stat{grid-template-columns:1fr 88px 20px;gap:10px;}
-  .cs-portrait,.cs-body,.cs-traits > div{padding:22px;}
-  .cs-portrait{padding-bottom:0;}
+  .cs-roster{grid-template-columns:repeat(2,1fr);}
+  .stat{grid-template-columns:1fr 70px 18px;gap:8px;}
+  .cs-nameplate{font-size:20px;padding:7px 14px;}
+  .cs-top{flex-wrap:wrap;gap:12px;}
   .timeline .span2{grid-column:auto;}
   .cvitem{grid-template-columns:1fr;}
   .cvitem .date{grid-column:1;text-align:left;}
@@ -848,39 +944,117 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
 <div class="page">
 
   <!-- NAV -->
-  <nav>
-    <a class="wordmark" href="#top">JTB<sup>&reg;</sup></a>
-    <div class="navlinks">
-      <a href="#content">Content</a>
-      <a href="#skiing">Skiing</a>
-      <a href="#engineering">Engineering</a>
-      <a href="#research">Research</a>
-      <a href="#aicode">AI</a>
-      <a href="#sport">Sport</a>
-      <a href="#travel">Travel</a>
-      <a href="#education">CV</a>
-      <a href="#contact">Contact</a>
-    </div>
-  </nav>
 
-  <!-- HERO -->
-  <header class="hero" id="top">
-    <div class="hero-frame">
-      <video class="hero-video" autoplay muted loop playsinline poster="assets/ski-hero.jpg" aria-label="Skiing down an alpine piste into low golden sun">
-        <source src="assets/ski-hero.mp4" type="video/mp4">
-      </video>
-      <svg class="hero-name" viewBox="0 0 1000 96" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Jackson Tiger Brocklebank">
-        <text x="500" y="76" text-anchor="middle" textLength="1000" lengthAdjust="spacingAndGlyphs">Jackson Tiger Brocklebank</text>
-      </svg>
+  <!-- CHARACTER SELECT, the hero -->
+  <section class="cselect" id="top" style="--accent:#46607d;--accent-rgb:70,96,125">
+    <div class="cs-top">
+      <span class="cs-player">Jackson Character Selection</span>
+      <span class="cs-nameplate" id="cs-name">Jack of All Trades</span>
     </div>
-    <div class="hero-copy">
-      <p class="serif-display hero-ladder">I've skied since I was three, started a bike repair business at sixteen, and built a TikTok account that reached 89,000 followers.</p>
-      <p class="positioning">I'm Jackson. There isn't one job title that covers what I do, so this page just shows it. Everything here is mine, whether I built it, filmed it, repaired it or grew it.</p>
-    </div>
-  </header>
 
-  
-  <!-- CONTENT & COMMUNITY -->
+    <div class="cs-stage">
+      <span class="cs-wash" aria-hidden="true"></span>
+      <span class="cs-ghost" id="cs-ghost" aria-hidden="true">01</span>
+      <div class="cs-fig3d" id="cs-fig">
+        <img loading="eager" decoding="async" src="assets/char-allrounder.png" alt="The Allrounder">
+      </div>
+      <span class="cs-hint">pick one on the right</span>
+      <a class="link cs-go" id="cs-go" href="#content">see everything &rarr;</a>
+    </div>
+
+    <div class="cs-info" id="cs-panel" role="tabpanel" aria-labelledby="rt-allrounder">
+      <div class="cs-block"><span class="k">class</span><p class="v" id="cs-class">Materials and energy engineer</p></div>
+      <div class="cs-block"><span class="k">quest</span><p class="v" id="cs-quest">Open to research, engineering and design</p></div>
+      <div class="abil">
+        <span class="k">key skills</span>
+          <div class="stat" style="--v:9;--d:0"><span class="sn">workshop & fabrication</span><span class="sbar" role="img" aria-label="9 out of 10"><span class="fill"></span><span class="ticks"></span></span><span class="sv">9</span></div>
+          <div class="stat" style="--v:8;--d:1"><span class="sn">materials characterisation</span><span class="sbar" role="img" aria-label="8 out of 10"><span class="fill"></span><span class="ticks"></span></span><span class="sv">8</span></div>
+          <div class="stat" style="--v:8;--d:2"><span class="sn">cad & design</span><span class="sbar" role="img" aria-label="8 out of 10"><span class="fill"></span><span class="ticks"></span></span><span class="sv">8</span></div>
+          <div class="stat" style="--v:7;--d:3"><span class="sn">python & data</span><span class="sbar" role="img" aria-label="7 out of 10"><span class="fill"></span><span class="ticks"></span></span><span class="sv">7</span></div>
+      </div>
+      <div class="cs-sp">
+        <a class="spbtn" id="cs-spend" href="mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Jack%20of%20All%20Trades&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Jack%20of%20All%20Trades.%0D%0A%0D%0A">get in touch &rarr;</a>
+      </div>
+    </div>
+
+    <div class="cs-roster" role="tablist" aria-label="Choose a character">
+      <button class="rtile" type="button" role="tab" id="rt-allrounder" data-char="allrounder"
+              style="--tint:#46607d" aria-selected="true" aria-controls="cs-panel"
+              tabindex="0">
+        <span class="rbar" aria-hidden="true"></span>
+        <span class="rnum">01</span>
+        <span class="rart"><img loading="lazy" decoding="async" src="assets/face-allrounder.png" alt=""></span>
+        <span class="rname">Jack of All Trades</span>
+      </button>
+      <button class="rtile" type="button" role="tab" id="rt-master" data-char="master"
+              style="--tint:#3a3f45" aria-selected="false" aria-controls="cs-panel"
+              tabindex="-1">
+        <span class="rbar" aria-hidden="true"></span>
+        <span class="rnum">02</span>
+        <span class="rart"><img loading="lazy" decoding="async" src="assets/face-master.png" alt=""></span>
+        <span class="rname">Master of One</span>
+      </button>
+      <button class="rtile" type="button" role="tab" id="rt-researcher" data-char="researcher"
+              style="--tint:#14807b" aria-selected="false" aria-controls="cs-panel"
+              tabindex="-1">
+        <span class="rbar" aria-hidden="true"></span>
+        <span class="rnum">03</span>
+        <span class="rart"><img loading="lazy" decoding="async" src="assets/face-researcher.png" alt=""></span>
+        <span class="rname">Researcher</span>
+      </button>
+      <button class="rtile" type="button" role="tab" id="rt-builder" data-char="builder"
+              style="--tint:#7d6a1a" aria-selected="false" aria-controls="cs-panel"
+              tabindex="-1">
+        <span class="rbar" aria-hidden="true"></span>
+        <span class="rnum">04</span>
+        <span class="rart"><img loading="lazy" decoding="async" src="assets/face-builder.png" alt=""></span>
+        <span class="rname">Engineer</span>
+      </button>
+      <button class="rtile" type="button" role="tab" id="rt-operator" data-char="operator"
+              style="--tint:#2f7d4a" aria-selected="false" aria-controls="cs-panel"
+              tabindex="-1">
+        <span class="rbar" aria-hidden="true"></span>
+        <span class="rnum">05</span>
+        <span class="rart"><img loading="lazy" decoding="async" src="assets/face-operator.png" alt=""></span>
+        <span class="rname">Computer Guy</span>
+      </button>
+      <button class="rtile" type="button" role="tab" id="rt-creator" data-char="creator"
+              style="--tint:#b23a48" aria-selected="false" aria-controls="cs-panel"
+              tabindex="-1">
+        <span class="rbar" aria-hidden="true"></span>
+        <span class="rnum">06</span>
+        <span class="rart"><img loading="lazy" decoding="async" src="assets/face-creator.png" alt=""></span>
+        <span class="rname">Content Creator</span>
+      </button>
+      <button class="rtile" type="button" role="tab" id="rt-rider" data-char="rider"
+              style="--tint:#a85414" aria-selected="false" aria-controls="cs-panel"
+              tabindex="-1">
+        <span class="rbar" aria-hidden="true"></span>
+        <span class="rnum">07</span>
+        <span class="rart"><img loading="lazy" decoding="async" src="assets/face-rider.png" alt=""></span>
+        <span class="rname">Athlete</span>
+      </button>
+      <button class="rtile" type="button" role="tab" id="rt-wanderer" data-char="wanderer"
+              style="--tint:#6f5aa8" aria-selected="false" aria-controls="cs-panel"
+              tabindex="-1">
+        <span class="rbar" aria-hidden="true"></span>
+        <span class="rnum">08</span>
+        <span class="rart"><img loading="lazy" decoding="async" src="assets/face-wanderer.png" alt=""></span>
+        <span class="rname">Explorer</span>
+      </button>
+      <button class="rtile" type="button" role="tab" id="rt-skier" data-char="skier"
+              style="--tint:#2a6f9e" aria-selected="false" aria-controls="cs-panel"
+              tabindex="-1">
+        <span class="rbar" aria-hidden="true"></span>
+        <span class="rnum">09</span>
+        <span class="rart"><img loading="lazy" decoding="async" src="assets/face-skier.png" alt=""></span>
+        <span class="rname">Skier</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- SKI INTRO -->
+<!-- CONTENT & COMMUNITY -->
   <section id="content">
     <div class="sec-head">
       <div>
@@ -1612,85 +1786,10 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
 
   
   <!-- SKILLS -->
-  <!-- CHARACTER SHEET -->
-  <section id="stats">
-    <div class="sec-head">
-      <div>
-        <span class="eyebrow">10 · the character sheet</span>
-        <h2 class="serif-heading">If I were a <span class="italic">video game character</span></h2>
-      </div>
-      <p class="lead">Everything I do, rated out of ten. The high ones I stand by, the low ones are just true.</p>
-    </div>
-
-    <div class="charsheet">
-      <div class="cs-portrait">
-        <span class="tag">player one</span>
-        <div class="name ogg">Jackson Tiger Brocklebank</div>
-        <div class="cs-meta">
-          <div class="row"><span class="k">class</span><span class="v">Materials engineer</span></div>
-          <div class="row"><span class="k">level</span><span class="v">22</span></div>
-          <div class="row"><span class="k">base</span><span class="v">London now, Perth from August</span></div>
-          <div class="row"><span class="k">quest</span><span class="v">Splitting water for clean hydrogen</span></div>
-        </div>
-        <div class="cs-fig">
-          <img loading="lazy" decoding="async" width="880" height="761" src="assets/character.png" alt="Jackson in a hood, black and white cutout">
-        </div>
-      </div>
-
-      <div class="cs-body">
-        <div class="cs-cols">
-          <div class="statgroup">
-            <span class="gk">lab &amp; workshop</span>
-            <div class="stat" style="--v:8;--d:0"><span class="sn">materials characterisation</span><span class="sbar" role="img" aria-label="8 out of 10"><span class="fill"></span><span class="ticks"></span></span><span class="sv">8</span></div>
-            <div class="stat" style="--v:9;--d:1"><span class="sn">workshop &amp; fabrication</span><span class="sbar" role="img" aria-label="9 out of 10"><span class="fill"></span><span class="ticks"></span></span><span class="sv">9</span></div>
-            <div class="stat" style="--v:7;--d:2"><span class="sn">cad &amp; 3D printing</span><span class="sbar" role="img" aria-label="7 out of 10"><span class="fill"></span><span class="ticks"></span></span><span class="sv">7</span></div>
-            <div class="stat" style="--v:6;--d:3"><span class="sn">code &amp; data</span><span class="sbar" role="img" aria-label="6 out of 10"><span class="fill"></span><span class="ticks"></span></span><span class="sv">6</span></div>
-            <div class="stat" style="--v:7;--d:4"><span class="sn">writing it up</span><span class="sbar" role="img" aria-label="7 out of 10"><span class="fill"></span><span class="ticks"></span></span><span class="sv">7</span></div>
-            <div class="stat" style="--v:4;--d:5"><span class="sn">admin &amp; paperwork</span><span class="sbar" role="img" aria-label="4 out of 10"><span class="fill"></span><span class="ticks"></span></span><span class="sv">4</span></div>
-          </div>
-          <div class="statgroup">
-            <span class="gk">out there</span>
-            <div class="stat" style="--v:9;--d:1"><span class="sn">skiing</span><span class="sbar" role="img" aria-label="9 out of 10"><span class="fill"></span><span class="ticks"></span></span><span class="sv">9</span></div>
-            <div class="stat" style="--v:8;--d:2"><span class="sn">camera &amp; editing</span><span class="sbar" role="img" aria-label="8 out of 10"><span class="fill"></span><span class="ticks"></span></span><span class="sv">8</span></div>
-            <div class="stat" style="--v:7;--d:3"><span class="sn">endurance</span><span class="sbar" role="img" aria-label="7 out of 10"><span class="fill"></span><span class="ticks"></span></span><span class="sv">7</span></div>
-            <div class="stat" style="--v:6;--d:4"><span class="sn">surfing</span><span class="sbar" role="img" aria-label="6 out of 10"><span class="fill"></span><span class="ticks"></span></span><span class="sv">6</span></div>
-            <div class="stat" style="--v:6;--d:5"><span class="sn">climbing</span><span class="sbar" role="img" aria-label="6 out of 10"><span class="fill"></span><span class="ticks"></span></span><span class="sv">6</span></div>
-            <div class="stat" style="--v:4;--d:6"><span class="sn">japanese</span><span class="sbar" role="img" aria-label="4 out of 10"><span class="fill"></span><span class="ticks"></span></span><span class="sv">4</span></div>
-          </div>
-        </div>
-
-        <div class="cs-inv">
-          <span class="k">inventory</span>
-          <p class="inv">SEM · goniometer · lathe · Onshape · Premiere Pro · a Sony camera · skis · a surfboard · one very well used multitool</p>
-        </div>
-      </div>
-
-      <div class="cs-traits">
-        <div>
-          <span class="k">perks</span>
-          <ul>
-            <li>Will fix almost anything given a hex key and an afternoon</li>
-            <li>Calm when a build goes wrong the night before a deadline</li>
-            <li>Happy to be the one who asks the obvious question</li>
-          </ul>
-        </div>
-        <div>
-          <span class="k">flaws</span>
-          <ul>
-            <li>Always optimistic about how long a build will take</li>
-            <li>Cannot walk past a bike that needs fixing</li>
-            <li>Paperwork gets done last, if it gets done</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-
   <section id="skills">
     <div class="sec-head">
       <div>
-        <span class="eyebrow">11 · the toolkit</span>
+        <span class="eyebrow">10 · the toolkit</span>
         <h2 class="serif-heading">What I can do, <span class="italic">hands on and technical</span></h2>
       </div>
       <p class="lead">The creative tools I edit with, plus the technical and workshop skills behind the projects.</p>
@@ -1709,7 +1808,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
   
 <!-- CONTACT -->
   <section class="contact" id="contact">
-    <span class="eyebrow">12 · let's talk</span>
+    <span class="eyebrow">11 · let's talk</span>
     <h2 class="serif-display">Talk to me about next winter.</h2>
     <p class="avail">From August to late November 2026 I'm at Curtin University in Perth, researching clean hydrogen. From mid September I can work online, and from December I'm available in person, whether that's London, Park City or a resort.</p>
 
@@ -1861,7 +1960,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
 
   /* gentle fade-up as things arrive; skipped for reduced motion */
   if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
-  var sel='.sec-head,.story-numbers,.story-grid>div,.timeline>div,.ski-grid .sv,.cards>.card,.play-grid>div,.cvitem,.skillgroup,.run-grid>div,.run-note,.sem-pair figure,.ai-body>div,.pc-clients>div,.pc-band,.pc-server,.pc-sync,.pc-proof figure,.contact-cols .row,.framing,.ski-para,.tools-row,.research-video,.wca-graph,.contact h2,.contact .avail,.footer-mark,.charsheet';
+  var sel='.sec-head,.story-numbers,.story-grid>div,.timeline>div,.ski-grid .sv,.cards>.card,.play-grid>div,.cvitem,.skillgroup,.run-grid>div,.run-note,.sem-pair figure,.ai-body>div,.pc-clients>div,.pc-band,.pc-server,.pc-sync,.pc-proof figure,.contact-cols .row,.framing,.ski-para,.tools-row,.research-video,.wca-graph,.contact h2,.contact .avail,.footer-mark';
   var els=[].slice.call(doc.querySelectorAll(sel));
   doc.documentElement.classList.add('anim');
   var ro=new IntersectionObserver(function(entries){
@@ -1871,6 +1970,192 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
   },{rootMargin:'0px 0px -7% 0px',threshold:0.08});
   els.forEach(function(el){el.classList.add('reveal');ro.observe(el);});
 })();
+/* character select: colour arrives with the character, and the bars reload on every swap */
+(function(){
+  var CHARS={"allrounder":{"n":"Jack of All Trades","art":"assets/char-allrounder.png","hex":"#46607d","rgb":"70,96,125","cls":"Materials and energy engineer","quest":"Open to research, engineering and design","stats":[["workshop & fabrication",9],["materials characterisation",8],["cad & design",8],["python & data",7]],"raise_":"","href":"#content","go":"see everything","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Jack%20of%20All%20Trades&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Jack%20of%20All%20Trades.%0D%0A%0D%0A"},"master":{"n":"Master of One","art":"assets/char-master.png","hex":"#3a3f45","rgb":"58,63,69","cls":"MSc Advanced Materials Science","quest":"UCL 2026, after renewable energy at Exeter","stats":[["materials characterisation",9],["energy systems",8],["writing it up",8],["project planning",7]],"raise_":"","href":"#education","go":"see the education","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Master%20of%20One&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Master%20of%20One.%0D%0A%0D%0A"},"researcher":{"n":"Researcher","art":"assets/char-researcher.png","hex":"#14807b","rgb":"20,128,123","cls":"Materials scientist","quest":"A fluorine free coating that beats the shop bought one","stats":[["materials characterisation",9],["sample prep",8],["patience",8],["writing it up",7]],"raise_":"","href":"#research","go":"see the research","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Researcher&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Researcher.%0D%0A%0D%0A"},"builder":{"n":"Engineer","art":"assets/char-builder.png","hex":"#7d6a1a","rgb":"125,106,26","cls":"Hardware and prototyping","quest":"Sketch to something that actually runs","stats":[["workshop & fabrication",9],["improvising a fix",8],["cad & 3D printing",7],["electronics",7]],"raise_":"","href":"#engineering","go":"see the builds","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Engineer&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Engineer.%0D%0A%0D%0A"},"operator":{"n":"Computer Guy","art":"assets/char-operator.png","hex":"#2f7d4a","rgb":"47,125,74","cls":"Data and tooling","quest":"Predicting battery life before it fails","stats":[["shell & tooling",7],["wiring services together",7],["debugging late at night",7],["python",6]],"raise_":"","href":"#aicode","go":"see the code","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Computer%20Guy&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Computer%20Guy.%0D%0A%0D%0A"},"creator":{"n":"Content Creator","art":"assets/char-creator.png","hex":"#b23a48","rgb":"178,58,72","cls":"Filmmaker and editor","quest":"89,000 followers from a standing start","stats":[["camera & editing",8],["pacing a story",8],["shooting on a phone",8],["reading an audience",7]],"raise_":"","href":"#content","go":"see the content work","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Content%20Creator&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Content%20Creator.%0D%0A%0D%0A"},"rider":{"n":"Athlete","art":"assets/char-rider.png","hex":"#a85414","rgb":"168,84,20","cls":"Runner, climber, surfer","quest":"London Marathon, and whatever is next","stats":[["nerve",8],["endurance",7],["skateboarding",7],["climbing",6]],"raise_":"","href":"#sport","go":"see the sport","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Athlete&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Athlete.%0D%0A%0D%0A"},"wanderer":{"n":"Explorer","art":"assets/char-wanderer.png","hex":"#6f5aa8","rgb":"111,90,168","cls":"Goes and finds out","quest":"Perth next, ideally near water","stats":[["saying yes",9],["adapting quickly",8],["packing light",7]],"raise_":"","href":"#travel","go":"see the travels","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Explorer&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Explorer.%0D%0A%0D%0A"},"skier":{"n":"Skier","art":"assets/char-skier.png","hex":"#2a6f9e","rgb":"42,111,158","cls":"On skis since I was three","quest":"A season in the mountains this winter","stats":[["skiing",9],["reading a mountain",8],["cold tolerance",8],["filming while riding",7]],"raise_":"","href":"#skiing","go":"see the skiing","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Skier&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Skier.%0D%0A%0D%0A"}};
+  var ORDER=["allrounder", "master", "researcher", "builder", "operator", "creator", "rider", "wanderer", "skier"];
+  var root=document.querySelector('.cselect');
+  var roster=root&&root.querySelector('.cs-roster');
+  if(!root||!roster)return;
+  var tiles=[].slice.call(roster.querySelectorAll('.rtile'));
+  var el={};
+  ['cs-name','cs-ghost','cs-fig','cs-class','cs-quest',
+   'cs-spend','cs-go','cs-panel'].forEach(function(id){el[id]=document.getElementById(id);});
+  var abil=root.querySelector('.abil');
+
+  /* the hero fills exactly what the sticky nav leaves, at any breakpoint */
+  var seen=false,current='allrounder';
+
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function list(a){return a.map(function(x){return '<li>'+esc(x)+'</li>';}).join('');}
+
+  function statsHTML(c){
+    return c.stats.map(function(s,i){
+      var raise=(s[0]===c.raise_)?' raisable':'';
+      return '<div class="stat'+raise+'" style="--v:'+s[1]+';--d:'+i+'">'+
+        '<span class="sn">'+esc(s[0])+'</span>'+
+        '<span class="sbar" role="img" aria-label="'+s[1]+' out of 10">'+
+        '<span class="fill"></span><span class="ticks"></span></span>'+
+        '<span class="sv">'+s[1]+'</span></div>';
+    }).join('');
+  }
+
+  function arm(){
+    if(!seen)return;
+    root.classList.remove('armed');
+    requestAnimationFrame(function(){requestAnimationFrame(function(){
+      root.classList.add('armed');});});
+  }
+
+  /* the figure lives on a canvas so the swap can jitter the pixels in
+     horizontal bands, dissolving one character into the next */
+  var CW=537,CH=840;
+  var fcan=document.createElement('canvas');
+  fcan.width=CW;fcan.height=CH;fcan.setAttribute('role','img');
+  var fctx=fcan.getContext('2d');fctx.imageSmoothingEnabled=false;
+  el['cs-fig'].innerHTML='';el['cs-fig'].appendChild(fcan);
+
+  var ART={},curImg=null,shakeT=null;
+  Object.keys(CHARS).forEach(function(k){
+    var im=new Image();im.decoding='async';im.src=CHARS[k].art;ART[k]=im;
+  });
+  var lessMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function drawClean(img){
+    fctx.clearRect(0,0,CW,CH);
+    if(img&&img.complete&&img.naturalWidth)fctx.drawImage(img,0,0,CW,CH);
+  }
+
+  function shakeTo(key,label){
+    var img=ART[key];
+    fcan.setAttribute('aria-label',label);
+    if(shakeT){clearInterval(shakeT);shakeT=null;}
+    var from=curImg;curImg=img;
+    var settle=function(){drawClean(img);};
+    if(!img.complete||!img.naturalWidth){img.addEventListener('load',function(){if(curImg===img)settle();},{once:true});}
+    if(lessMotion||!from||!from.complete||!from.naturalWidth){settle();return;}
+    var FRAMES=13,BAND=20,i=0;
+    shakeT=setInterval(function(){
+      i++;
+      var p=i/FRAMES;
+      var amp=34*(1-Math.abs(p-0.5)*2);       /* builds, then settles */
+      fctx.clearRect(0,0,CW,CH);
+      for(var y=0;y<CH;y+=BAND){
+        var h=Math.min(BAND,CH-y);
+        var useNew=img.complete&&img.naturalWidth&&Math.random()<p;
+        var src=useNew?img:from;
+        var dx=Math.round((Math.random()*2-1)*amp);
+        fctx.drawImage(src,0,y,CW,h,dx,y,CW,h);
+      }
+      if(i>=FRAMES){clearInterval(shakeT);shakeT=null;settle();}
+    },30);
+  }
+
+  /* which sections of the page belong to which character. The CV spine
+     (intro, education, experience, skills, contact) always stays put. */
+  var FILTERABLE=['content','skiing','engineering','research','aicode','sport','travel'];
+  var SECT={
+    allrounder:FILTERABLE,
+    master:[],
+    creator:['content'],
+    rider:['sport'],
+    researcher:['research'],
+    builder:['engineering'],
+    operator:['aicode'],
+    wanderer:['travel'],
+    skier:['skiing']
+  };
+  var navFor={};
+  FILTERABLE.forEach(function(id){
+    navFor[id]=document.querySelector('.navlinks a[href="#'+id+'"]');
+  });
+  function ownerOf(id){
+    var found=null;
+    Object.keys(SECT).forEach(function(k){
+      if(k!=='allrounder'&&SECT[k].indexOf(id)>-1)found=k;
+    });
+    return found;
+  }
+  function applyFilter(key,animate){
+    var on=SECT[key]||FILTERABLE;
+    FILTERABLE.forEach(function(id){
+      var sec=document.getElementById(id);
+      if(!sec)return;
+      var show=on.indexOf(id)>-1;
+      var was=!sec.classList.contains('sec-off');
+      sec.classList.toggle('sec-off',!show);
+      if(navFor[id])navFor[id].classList.toggle('nav-off',!show);
+      sec.classList.remove('sec-on');
+      if(show&&!was&&animate){void sec.offsetWidth;sec.classList.add('sec-on');}
+    });
+  }
+  /* a dimmed nav link still works: it switches to the character that owns it */
+  FILTERABLE.forEach(function(id){
+    var a=navFor[id];
+    if(!a)return;
+    a.addEventListener('click',function(){
+      if(!a.classList.contains('nav-off'))return;
+      var owner=ownerOf(id);
+      if(owner)select(owner,false);
+    });
+  });
+
+  var initTile=document.querySelector('.rtile[aria-selected="true"]');
+  var initKey=initTile?initTile.getAttribute('data-char'):'allrounder';
+  curImg=ART[initKey];
+  fcan.setAttribute('aria-label',CHARS[initKey].n);
+  applyFilter(initKey,false);
+  if(curImg.complete&&curImg.naturalWidth)drawClean(curImg);
+  else curImg.addEventListener('load',function(){drawClean(ART[initKey]);},{once:true});
+
+  function select(key,focus){
+    var c=CHARS[key];if(!c)return;
+    current=key;
+    root.style.setProperty('--accent',c.hex);
+    root.style.setProperty('--accent-rgb',c.rgb);
+    el['cs-name'].textContent=c.n;
+    el['cs-ghost'].textContent=('0'+(ORDER.indexOf(key)+1)).slice(-2);
+    shakeTo(key,c.n);
+    applyFilter(key,true);
+    el['cs-class'].textContent=c.cls;
+    el['cs-quest'].textContent=c.quest;
+    el['cs-spend'].setAttribute('href',c.mail);
+    el['cs-go'].setAttribute('href',c.href);
+    el['cs-go'].innerHTML=esc(c.go)+' \u2192';
+    abil.innerHTML='<span class="k">key skills</span>'+statsHTML(c);
+    el['cs-panel'].setAttribute('aria-labelledby','rt-'+key);
+    tiles.forEach(function(t){
+      var on=t.getAttribute('data-char')===key;
+      t.setAttribute('aria-selected',on?'true':'false');
+      t.tabIndex=on?0:-1;
+      if(on&&focus)t.focus();
+    });
+    arm();
+  }
+
+  tiles.forEach(function(t){
+    t.addEventListener('click',function(){select(t.getAttribute('data-char'),false);});
+  });
+
+  roster.addEventListener('keydown',function(e){
+    var i=ORDER.indexOf(current),n=null;
+    if(e.key==='ArrowRight'||e.key==='ArrowDown')n=(i+1)%ORDER.length;
+    else if(e.key==='ArrowLeft'||e.key==='ArrowUp')n=(i-1+ORDER.length)%ORDER.length;
+    else if(e.key==='Home')n=0;
+    else if(e.key==='End')n=ORDER.length-1;
+    if(n===null)return;
+    e.preventDefault();select(ORDER[n],true);
+  });
+
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(en){if(en.isIntersecting){seen=true;arm();io.unobserve(en.target);}});
+    },{threshold:0.05});
+    io.observe(root);
+  }else{seen=true;arm();}
+})();
+
 </script>
 </body>
 </html>
