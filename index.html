@@ -22,6 +22,9 @@
   --ink:#292a2c;
   --vellum:#f2f2f2;
   --black:#000000;
+  /* the selected character's colour, carried through the whole page */
+  --accent:#46607d;
+  --accent-rgb:70,96,125;
   --ogg:'Playfair Display', Georgia, serif;
   --telegraf:'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
   --section-gap:120px;
@@ -74,9 +77,15 @@ img{max-width:100%;height:auto;display:block;}
   font-size:15px;
   letter-spacing:0.6px;
   text-transform:lowercase;
-  color:var(--ink);
+  color:var(--accent);
   display:block;
   margin-bottom:18px;
+  transition:color .45s ease;
+}
+.eyebrow::before{
+  content:"";display:inline-block;width:8px;height:8px;
+  margin-right:9px;vertical-align:baseline;
+  background:var(--accent);transition:background .45s ease;
 }
 
 /* ---------- layout scaffold ---------- */
@@ -143,8 +152,9 @@ nav{
 .link{
   color:var(--ink);
   text-decoration:none;
-  border-bottom:1px solid var(--black);
+  border-bottom:1px solid var(--accent);
   padding-bottom:1px;
+  transition:border-color .45s ease;
 }
 .link:hover{border-bottom-width:2px;}
 
@@ -214,6 +224,9 @@ nav{
   grid-template-columns:1fr 1fr;
   gap:44px;
   align-items:start;
+  border-top:3px solid var(--accent);
+  padding-top:24px;
+  transition:border-color .45s ease;
 }
 .sec-head .num{
   font-family:var(--telegraf);
@@ -242,6 +255,8 @@ nav{
   font-size:55px;
   letter-spacing:-1.98px;
   display:block;
+  color:var(--accent);
+  transition:color .45s ease;
 }
 .bignum .l{
   font-family:var(--telegraf);
@@ -472,8 +487,9 @@ nav{
 /* ---------- contact ---------- */
 .contact{
   margin-top:var(--section-gap);
-  border-top:1px solid var(--ink);
+  border-top:4px solid var(--accent);
   padding:44px 0 88px;
+  transition:border-color .45s ease;
 }
 .contact h2{max-width:16ch;}
 .contact .avail{
@@ -496,7 +512,7 @@ nav{
   border-bottom:1px solid var(--ink);
   padding-bottom:11px;
 }
-.contact-cols .row .k{font-size:15px;letter-spacing:0.6px;flex-shrink:0;}
+.contact-cols .row .k{font-size:15px;letter-spacing:0.6px;flex-shrink:0;color:var(--accent);transition:color .45s ease;}
 .contact-cols .row a{overflow-wrap:anywhere;text-align:right;}
 .contact-cols .row a.email{font-size:15px;letter-spacing:0.6px;}
 
@@ -561,8 +577,6 @@ nav{
 
 /* ---------- character select, the hero ---------- */
 .cselect{
-  --accent:#46607d;
-  --accent-rgb:70,96,125;
   margin-top:0;
   /* fixed height so the roster is always on screen; the side panels take up any slack */
   height:100svh;
@@ -590,7 +604,11 @@ nav{
   min-height:0;overflow-y:auto;scrollbar-width:thin;
 }
 .cs-info .k{
-  font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;display:block;margin-bottom:12px;
+  font-family:var(--telegraf);font-size:13px;font-weight:600;
+  letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);
+  display:block;margin-bottom:9px;padding-bottom:5px;
+  border-bottom:1px solid var(--accent);
+  transition:color .45s ease,border-color .45s ease;
 }
 .cs-block{margin-bottom:15px;}
 .cs-block:last-child{margin-bottom:0;}
@@ -616,17 +634,13 @@ nav{
   font-family:var(--ogg);font-size:clamp(80px,15vw,220px);line-height:1;white-space:nowrap;
   color:var(--accent);opacity:.14;pointer-events:none;transition:color .45s ease;
 }
-.cs-fig3d{position:relative;height:100%;min-height:0;display:flex;align-items:flex-end;justify-content:center;padding-top:14px;}
+.cs-fig3d{position:relative;height:100%;min-height:0;display:flex;align-items:flex-end;justify-content:center;padding:14px 0 76px;}
 .cs-fig3d canvas{height:100%;width:auto;max-width:100%;display:block;image-rendering:pixelated;}
 .cs-fig3d img{height:100%;width:auto;max-width:100%;object-fit:contain;object-position:bottom center;display:block;image-rendering:pixelated;}
 .cs-fig3d .nofig{
   display:flex;align-items:flex-end;justify-content:center;height:100%;min-height:230px;
   font-family:var(--ogg);font-size:clamp(90px,13vw,170px);line-height:1;color:var(--accent);opacity:.3;
   transition:color .45s ease;
-}
-.cs-hint{
-  position:absolute;left:0;bottom:14px;font-family:var(--telegraf);font-size:15px;
-  letter-spacing:0.6px;opacity:.5;
 }
 
 /* abilities */
@@ -660,11 +674,21 @@ nav{
   text-decoration:none;transition:background .45s ease,opacity .2s ease;
 }
 .cs-sp .spbtn:hover{opacity:.86;}
-/* sits over the figure on narrow screens, so it carries its own background */
+/* the scroll cue: the one obvious way down into the rest of the page */
 .cs-go{
-  position:absolute;right:0;bottom:14px;z-index:2;
-  background:var(--vellum);padding:3px 0 3px 12px;
+  position:absolute;left:50%;bottom:16px;transform:translateX(-50%);z-index:3;
+  display:inline-flex;align-items:center;gap:11px;white-space:nowrap;
+  background:var(--accent);color:#fff;text-decoration:none;
+  border:1px solid var(--ink);padding:12px 22px;
   font-family:var(--telegraf);font-size:17px;letter-spacing:0.38px;
+  box-shadow:4px 4px 0 0 var(--ink);
+  transition:background .45s ease,transform .18s ease,box-shadow .18s ease;
+}
+.cs-go .chev{display:block;font-size:15px;line-height:1;}
+.cs-go:hover{transform:translateX(-50%) translate(2px,2px);box-shadow:2px 2px 0 0 var(--ink);}
+@media (prefers-reduced-motion:no-preference){
+  .cs-go .chev{animation:cs-bob 1.9s ease-in-out infinite;}
+  @keyframes cs-bob{0%,100%{transform:translateY(-2px);}50%{transform:translateY(3px);}}
 }
 
 /* the roster */
@@ -684,7 +708,14 @@ nav{
 .rtile .rart{
   flex:1 1 auto;min-height:0;overflow:hidden;display:block;padding:0;
 }
-.rtile .rart img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;opacity:.55;transition:opacity .25s ease;image-rendering:pixelated;}
+/* everything unpicked reads as greyed out, so the live one is unmistakable */
+.rtile .rart img{
+  width:100%;height:100%;object-fit:cover;object-position:top center;display:block;
+  filter:grayscale(1) contrast(.92);opacity:.42;
+  transition:opacity .25s ease,filter .25s ease;image-rendering:pixelated;
+}
+.rtile .rname{color:#8b8d90;transition:color .25s ease,background .25s ease;}
+.rtile .rnum{color:#9a9c9f;transition:color .25s ease;}
 .rtile .lock{
   position:absolute;left:0;right:0;top:40%;text-align:center;
   font-family:var(--ogg);font-size:40px;line-height:1;opacity:.22;
@@ -694,11 +725,16 @@ nav{
   padding:9px 10px;font-size:16px;font-weight:600;letter-spacing:0.2px;
 }
 .rtile[aria-selected="true"] .rbar{opacity:1;}
-.rtile[aria-selected="true"] .rart img{opacity:1;}
+.rtile[aria-selected="true"] .rart img{filter:none;opacity:1;}
 .rtile[aria-selected="true"] .rname{background:var(--tint);color:#fff;}
+.rtile[aria-selected="true"] .rnum{color:var(--ink);}
 .rtile[aria-selected="true"] .lock{opacity:.5;color:var(--tint);}
 .rtile:focus-visible{outline:2px solid var(--ink);outline-offset:-3px;z-index:3;}
-@media (hover:hover){.rtile:hover .rart img{opacity:.8;}}
+@media (hover:hover){
+  .rtile:hover .rart img{filter:grayscale(.35);opacity:.8;}
+  .rtile:hover .rname,.rtile:hover .rnum{color:var(--ink);}
+  .rtile[aria-selected="true"]:hover .rname{color:#fff;}
+}
 
 /* bars load in, and reload on every character swap */
 html.anim .sbar .fill{transform:scaleX(0);transition:transform .7s cubic-bezier(0.23,1,0.32,1),background .45s ease;transition-delay:calc(var(--d,0) * 55ms),0s;}
@@ -837,7 +873,6 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
   .cs-stage{min-height:52vh;}
   .cs-fig3d{max-height:48vh;}
   .cs-roster{grid-template-columns:repeat(4,1fr);}
-  .cs-hint{display:none;}
   .sem-pair{grid-template-columns:1fr;}
   .pc-clients{grid-template-columns:1fr;}
   .pc-proof{grid-template-columns:1fr;}
@@ -946,7 +981,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
   <!-- NAV -->
 
   <!-- CHARACTER SELECT, the hero -->
-  <section class="cselect" id="top" style="--accent:#46607d;--accent-rgb:70,96,125">
+  <section class="cselect" id="top">
     <div class="cs-top">
       <span class="cs-player">Jackson Character Selection</span>
       <span class="cs-nameplate" id="cs-name">Jack of All Trades</span>
@@ -958,13 +993,13 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
       <div class="cs-fig3d" id="cs-fig">
         <img loading="eager" decoding="async" src="assets/char-allrounder.png" alt="The Allrounder">
       </div>
-      <span class="cs-hint">pick one on the right</span>
-      <a class="link cs-go" id="cs-go" href="#content">see everything &rarr;</a>
+      <a class="cs-go" id="cs-go" href="#content">see everything <span class="chev" aria-hidden="true">&#9660;</span></a>
     </div>
 
     <div class="cs-info" id="cs-panel" role="tabpanel" aria-labelledby="rt-allrounder">
       <div class="cs-block"><span class="k">class</span><p class="v" id="cs-class">Materials and energy engineer</p></div>
       <div class="cs-block"><span class="k">quest</span><p class="v" id="cs-quest">Open to research, engineering and design</p></div>
+      <div class="cs-block"><span class="k">weakness</span><p class="v" id="cs-weak">Cannot walk past a skip without having a look in it</p></div>
       <div class="abil">
         <span class="k">key skills</span>
           <div class="stat" style="--v:9;--d:0"><span class="sn">workshop & fabrication</span><span class="sbar" role="img" aria-label="9 out of 10"><span class="fill"></span><span class="ticks"></span></span><span class="sv">9</span></div>
@@ -1809,7 +1844,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
 <!-- CONTACT -->
   <section class="contact" id="contact">
     <span class="eyebrow">11 · let's talk</span>
-    <h2 class="serif-display">Talk to me about next winter.</h2>
+    <h2 class="serif-display">Get in touch.</h2>
     <p class="avail">From August to late November 2026 I'm at Curtin University in Perth, researching clean hydrogen. From mid September I can work online, and from December I'm available in person, whether that's London, Park City or a resort.</p>
 
     <div class="contact-cols">
@@ -1972,14 +2007,14 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
 })();
 /* character select: colour arrives with the character, and the bars reload on every swap */
 (function(){
-  var CHARS={"allrounder":{"n":"Jack of All Trades","art":"assets/char-allrounder.png","hex":"#46607d","rgb":"70,96,125","cls":"Materials and energy engineer","quest":"Open to research, engineering and design","stats":[["workshop & fabrication",9],["materials characterisation",8],["cad & design",8],["python & data",7]],"raise_":"","href":"#content","go":"see everything","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Jack%20of%20All%20Trades&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Jack%20of%20All%20Trades.%0D%0A%0D%0A"},"master":{"n":"Master of One","art":"assets/char-master.png","hex":"#3a3f45","rgb":"58,63,69","cls":"MSc Advanced Materials Science","quest":"UCL 2026, after renewable energy at Exeter","stats":[["materials characterisation",9],["energy systems",8],["writing it up",8],["project planning",7]],"raise_":"","href":"#education","go":"see the education","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Master%20of%20One&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Master%20of%20One.%0D%0A%0D%0A"},"researcher":{"n":"Researcher","art":"assets/char-researcher.png","hex":"#14807b","rgb":"20,128,123","cls":"Materials scientist","quest":"A fluorine free coating that beats the shop bought one","stats":[["materials characterisation",9],["sample prep",8],["patience",8],["writing it up",7]],"raise_":"","href":"#research","go":"see the research","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Researcher&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Researcher.%0D%0A%0D%0A"},"builder":{"n":"Engineer","art":"assets/char-builder.png","hex":"#7d6a1a","rgb":"125,106,26","cls":"Hardware and prototyping","quest":"Sketch to something that actually runs","stats":[["workshop & fabrication",9],["improvising a fix",8],["cad & 3D printing",7],["electronics",7]],"raise_":"","href":"#engineering","go":"see the builds","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Engineer&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Engineer.%0D%0A%0D%0A"},"operator":{"n":"Computer Guy","art":"assets/char-operator.png","hex":"#2f7d4a","rgb":"47,125,74","cls":"Data and tooling","quest":"Predicting battery life before it fails","stats":[["shell & tooling",7],["wiring services together",7],["debugging late at night",7],["python",6]],"raise_":"","href":"#aicode","go":"see the code","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Computer%20Guy&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Computer%20Guy.%0D%0A%0D%0A"},"creator":{"n":"Content Creator","art":"assets/char-creator.png","hex":"#b23a48","rgb":"178,58,72","cls":"Filmmaker and editor","quest":"89,000 followers from a standing start","stats":[["camera & editing",8],["pacing a story",8],["shooting on a phone",8],["reading an audience",7]],"raise_":"","href":"#content","go":"see the content work","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Content%20Creator&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Content%20Creator.%0D%0A%0D%0A"},"rider":{"n":"Athlete","art":"assets/char-rider.png","hex":"#a85414","rgb":"168,84,20","cls":"Runner, climber, surfer","quest":"London Marathon, and whatever is next","stats":[["nerve",8],["endurance",7],["skateboarding",7],["climbing",6]],"raise_":"","href":"#sport","go":"see the sport","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Athlete&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Athlete.%0D%0A%0D%0A"},"wanderer":{"n":"Explorer","art":"assets/char-wanderer.png","hex":"#6f5aa8","rgb":"111,90,168","cls":"Goes and finds out","quest":"Perth next, ideally near water","stats":[["saying yes",9],["adapting quickly",8],["packing light",7]],"raise_":"","href":"#travel","go":"see the travels","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Explorer&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Explorer.%0D%0A%0D%0A"},"skier":{"n":"Skier","art":"assets/char-skier.png","hex":"#2a6f9e","rgb":"42,111,158","cls":"On skis since I was three","quest":"A season in the mountains this winter","stats":[["skiing",9],["reading a mountain",8],["cold tolerance",8],["filming while riding",7]],"raise_":"","href":"#skiing","go":"see the skiing","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Skier&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Skier.%0D%0A%0D%0A"}};
+  var CHARS={"allrounder":{"n":"Jack of All Trades","art":"assets/char-allrounder.png","hex":"#46607d","rgb":"70,96,125","cls":"Materials and energy engineer","quest":"Open to research, engineering and design","weak":"Cannot walk past a skip without having a look in it","stats":[["workshop & fabrication",9],["materials characterisation",8],["cad & design",8],["python & data",7]],"raise_":"","href":"#content","go":"see everything","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Jack%20of%20All%20Trades&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Jack%20of%20All%20Trades.%0D%0A%0D%0A"},"master":{"n":"Master of One","art":"assets/char-master.png","hex":"#3a3f45","rgb":"58,63,69","cls":"MSc Advanced Materials Science","quest":"UCL 2026, after renewable energy at Exeter","weak":"Will bring up contact angles at a party, unprompted","stats":[["materials characterisation",9],["energy systems",8],["writing it up",8],["project planning",7]],"raise_":"","href":"#education","go":"see the education","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Master%20of%20One&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Master%20of%20One.%0D%0A%0D%0A"},"researcher":{"n":"Researcher","art":"assets/char-researcher.png","hex":"#14807b","rgb":"20,128,123","cls":"Materials scientist","quest":"A fluorine free coating that beats the shop bought one","weak":"Reruns a perfectly good sample because the first one looked untidy","stats":[["materials characterisation",9],["sample prep",8],["patience",8],["writing it up",7]],"raise_":"","href":"#research","go":"see the research","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Researcher&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Researcher.%0D%0A%0D%0A"},"builder":{"n":"Engineer","art":"assets/char-builder.png","hex":"#7d6a1a","rgb":"125,106,26","cls":"Hardware and prototyping","quest":"Sketch to something that actually runs","weak":"Owns four sets of allen keys and can never find one","stats":[["workshop & fabrication",9],["improvising a fix",8],["cad & 3D printing",7],["electronics",7]],"raise_":"","href":"#engineering","go":"see the builds","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Engineer&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Engineer.%0D%0A%0D%0A"},"operator":{"n":"Computer Guy","art":"assets/char-operator.png","hex":"#2f7d4a","rgb":"47,125,74","cls":"Data and tooling","quest":"Predicting battery life before it fails","weak":"Will spend an afternoon automating a two minute job","stats":[["shell & tooling",7],["wiring services together",7],["debugging late at night",7],["python",6]],"raise_":"","href":"#aicode","go":"see the code","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Computer%20Guy&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Computer%20Guy.%0D%0A%0D%0A"},"creator":{"n":"Content Creator","art":"assets/char-creator.png","hex":"#b23a48","rgb":"178,58,72","cls":"Filmmaker and editor","quest":"89,000 followers from a standing start","weak":"Films the sunset instead of watching it","stats":[["camera & editing",8],["pacing a story",8],["shooting on a phone",8],["reading an audience",7]],"raise_":"","href":"#content","go":"see the content work","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Content%20Creator&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Content%20Creator.%0D%0A%0D%0A"},"rider":{"n":"Athlete","art":"assets/char-rider.png","hex":"#a85414","rgb":"168,84,20","cls":"Runner, climber, surfer","quest":"London Marathon, and whatever is next","weak":"Signs up for the race before checking how far it is","stats":[["nerve",8],["endurance",7],["skateboarding",7],["climbing",6]],"raise_":"","href":"#sport","go":"see the sport","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Athlete&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Athlete.%0D%0A%0D%0A"},"wanderer":{"n":"Explorer","art":"assets/char-wanderer.png","hex":"#6f5aa8","rgb":"111,90,168","cls":"Goes and finds out","quest":"Perth next, ideally near water","weak":"Packs light, then buys it all again when he lands","stats":[["saying yes",9],["adapting quickly",8],["packing light",7]],"raise_":"","href":"#travel","go":"see the travels","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Explorer&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Explorer.%0D%0A%0D%0A"},"skier":{"n":"Skier","art":"assets/char-skier.png","hex":"#2a6f9e","rgb":"42,111,158","cls":"On skis since I was three","quest":"A season in the mountains this winter","weak":"First lift every morning, whatever happened the night before","stats":[["skiing",9],["reading a mountain",8],["cold tolerance",8],["filming while riding",7]],"raise_":"","href":"#skiing","go":"see the skiing","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Skier&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Skier.%0D%0A%0D%0A"}};
   var ORDER=["allrounder", "master", "researcher", "builder", "operator", "creator", "rider", "wanderer", "skier"];
   var root=document.querySelector('.cselect');
   var roster=root&&root.querySelector('.cs-roster');
   if(!root||!roster)return;
   var tiles=[].slice.call(roster.querySelectorAll('.rtile'));
   var el={};
-  ['cs-name','cs-ghost','cs-fig','cs-class','cs-quest',
+  ['cs-name','cs-ghost','cs-fig','cs-class','cs-quest','cs-weak',
    'cs-spend','cs-go','cs-panel'].forEach(function(id){el[id]=document.getElementById(id);});
   var abil=root.querySelector('.abil');
 
@@ -2112,17 +2147,19 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
   function select(key,focus){
     var c=CHARS[key];if(!c)return;
     current=key;
-    root.style.setProperty('--accent',c.hex);
-    root.style.setProperty('--accent-rgb',c.rgb);
+    /* on the document, not the section, so the colour carries down the page */
+    document.documentElement.style.setProperty('--accent',c.hex);
+    document.documentElement.style.setProperty('--accent-rgb',c.rgb);
     el['cs-name'].textContent=c.n;
     el['cs-ghost'].textContent=('0'+(ORDER.indexOf(key)+1)).slice(-2);
     shakeTo(key,c.n);
     applyFilter(key,true);
     el['cs-class'].textContent=c.cls;
     el['cs-quest'].textContent=c.quest;
+    el['cs-weak'].textContent=c.weak;
     el['cs-spend'].setAttribute('href',c.mail);
     el['cs-go'].setAttribute('href',c.href);
-    el['cs-go'].innerHTML=esc(c.go)+' \u2192';
+    el['cs-go'].innerHTML=esc(c.go)+' <span class="chev" aria-hidden="true">\u25bc</span>';
     abil.innerHTML='<span class="k">key skills</span>'+statsHTML(c);
     el['cs-panel'].setAttribute('aria-labelledby','rt-'+key);
     tiles.forEach(function(t){
