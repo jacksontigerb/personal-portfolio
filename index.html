@@ -869,7 +869,11 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
     min-height:0;
   }
   .cs-info{border:0;border-top:1px solid var(--ink);padding:24px 0;}
-  .cs-roster{grid-template-rows:auto;}
+  /* Nine tiles never fill a 2 or 4 column grid, so the leftover cells used to
+     show the roster's dark background as a black block. Draw the grid lines on
+     the tiles instead and let the empty cells stay on the page colour. */
+  .cs-roster{grid-template-rows:auto;background:var(--vellum);gap:0;}
+  .cs-roster .rtile{box-shadow:0 0 0 1px var(--ink);}
   .cs-stage{min-height:52vh;}
   .cs-fig3d{max-height:48vh;}
   .cs-roster{grid-template-columns:repeat(4,1fr);}
