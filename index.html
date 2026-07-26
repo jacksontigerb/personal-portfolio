@@ -974,7 +974,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
 </head>
 <body>
 
-<div class="rail">LONDON 51.5°N · PARK CITY 40.6°N ✳ WINTER 26/27</div>
+<div class="rail">LONDON 51.5°N · PERTH 31.9°S ✳ OPEN FROM EARLY 2027</div>
 
 <div class="page">
 
@@ -1845,7 +1845,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
   <section class="contact" id="contact">
     <span class="eyebrow">11 · let's talk</span>
     <h2 class="serif-display">Get in touch.</h2>
-    <p class="avail">From August to late November 2026 I'm at Curtin University in Perth, researching clean hydrogen. From mid September I can work online, and from December I'm available in person, whether that's London, Park City or a resort.</p>
+    <p class="avail">From August to late November 2026 I'm at Curtin University in Perth, researching clean hydrogen. I can work online from mid September and I'm free in person from December, so most of what I'm looking at starts in early 2027. Happy to move anywhere for the right role.</p>
 
     <div class="contact-cols">
       <div class="row"><span class="k">email</span><a class="link email" href="mailto:jackson.brocklebank.25@ucl.ac.uk">jackson.brocklebank.25@ucl.ac.uk</a></div>
@@ -2070,18 +2070,25 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
     var settle=function(){drawClean(img);};
     if(!img.complete||!img.naturalWidth){img.addEventListener('load',function(){if(curImg===img)settle();},{once:true});}
     if(lessMotion||!from||!from.complete||!from.naturalWidth){settle();return;}
+    /* One horizontal band, offset sideways by dx. The nine argument drawImage
+       reads its source rect in the image's own pixels, not the canvas's, so
+       the band has to be scaled by the art's natural size. Passing canvas
+       coordinates straight through crops the art and blows it up mid shake. */
+    function band(src,y,h,dx){
+      var k=src.naturalHeight/CH;
+      fctx.drawImage(src,0,y*k,src.naturalWidth,h*k,dx,y,CW,h);
+    }
     var FRAMES=13,BAND=20,i=0;
     shakeT=setInterval(function(){
       i++;
       var p=i/FRAMES;
-      var amp=34*(1-Math.abs(p-0.5)*2);       /* builds, then settles */
+      var amp=13*(1-Math.abs(p-0.5)*2);       /* builds, then settles */
       fctx.clearRect(0,0,CW,CH);
       for(var y=0;y<CH;y+=BAND){
         var h=Math.min(BAND,CH-y);
         var useNew=img.complete&&img.naturalWidth&&Math.random()<p;
         var src=useNew?img:from;
-        var dx=Math.round((Math.random()*2-1)*amp);
-        fctx.drawImage(src,0,y,CW,h,dx,y,CW,h);
+        band(src,y,h,Math.round((Math.random()*2-1)*amp));
       }
       if(i>=FRAMES){clearInterval(shakeT);shakeT=null;settle();}
     },30);
