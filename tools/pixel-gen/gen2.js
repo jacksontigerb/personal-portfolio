@@ -65,6 +65,21 @@ for(let y=0;y<GH;y++){ROLE.push([]);
 for(const k in STAT){const a=STAT[k].sort((p,q)=>p-q);
   STAT[k]={lo:a[Math.floor(a.length*0.05)],hi:a[Math.ceil(a.length*0.95)-1]};}
 
+// The reference is wearing a tie, and it is dark enough that recolouring it
+// still leaves a tie shape. For the characters that shouldn't have one, each
+// tie cell borrows the colour and role of the nearest shirt cell in its row,
+// so the whole collar opening shades as a single garment.
+const NOTIE=[];
+for(let y=0;y<GH;y++){NOTIE.push([]);
+  for(let x=0;x<GW;x++){
+    if(ROLE[y][x]!=="tie"){NOTIE[y].push(null);continue;}
+    let src=null;
+    for(let d=1;d<GW&&!src;d++)for(const nx of [x-d,x+d]){
+      if(nx<0||nx>=GW)continue;
+      const r=ROLE[y][nx];
+      if(r==="shirt"||r==="stoleG"){src={c:T.grid[y][nx],r:r};break;}}
+    NOTIE[y].push(src);}}
+
 // recolour a cell into a garment target, mapping the reference's own
 // lightness range onto the target's range so every fold survives
 function remap(c,role,hex,range){
@@ -141,13 +156,27 @@ const ACC={
       if(!T.grid[y][x])continue;
       if(y<=7||isHair(x,y))paint(g,x,y,H,[8,34]);}
     hspan(g,12,8,35,H,[6,18]);},
+  // the pads that come down over the ears, following the head's own outline.
+  // the range is deliberately tight so they stay dark over skin as well as hair
+  earpads(g){const H="#20242B";
+    for(let y=11;y<=20;y++){
+      let mn=99,mx=-1;
+      for(let x=0;x<GW;x++)if(T.grid[y]&&T.grid[y][x]){if(x<mn)mn=x;if(x>mx)mx=x;}
+      if(mx<0)continue;
+      for(let i=-1;i<=1;i++){paint(g,mn+i,y,H,[7,17]);paint(g,mx+i,y,H,[5,14]);}}},
   goggles(g){const F="#14181C";      // mirrored lens, bright top-left
-    hspan(g,12,10,33,F,[4,10]);hspan(g,18,10,33,F,[4,10]);
-    for(let y=13;y<=17;y++){paint(g,10,y,F,[4,10]);paint(g,33,y,F,[4,10]);}
-    for(let y=13;y<=17;y++)for(let x=11;x<=32;x++){
-      const n=Math.max(0,Math.min(1,
-        0.95-0.45*((x-11)/21)-0.3*((y-13)/4)+jit(x,y,4)/100));
-      g[y][x+M]={c:rgb(193,62,12+n*46),ref:false};}},
+    // a rounded lozenge rather than a rectangle: the ends step in top and bottom
+    const SPAN={12:[13,29],13:[11,31],14:[10,32],15:[10,32],16:[10,32],
+                17:[11,31],18:[13,29]};
+    for(let y=12;y<=18;y++){const [a,b]=SPAN[y];
+      if(y===12||y===18){hspan(g,y,a,b,F,[4,10]);continue;}
+      paint(g,a,y,F,[4,10]);paint(g,b,y,F,[4,10]);
+      for(let x=a+1;x<=b-1;x++){
+        const n=Math.max(0,Math.min(1,
+          0.95-0.45*((x-11)/21)-0.3*((y-13)/4)+jit(x,y,4)/100));
+        // a diagonal sheen, so the lens reads as glass rather than a flat panel
+        const s=Math.max(0,1-Math.abs((x-12)-(y-13)*2.6)/4.5);
+        g[y][x+M]={c:rgb(193,62,Math.min(72,12+n*46+s*15)),ref:false};}}},
   headphones(g){const B="#1A1E22";
     hspan(g,0,13,29,B,[8,18]);hspan(g,1,11,31,B,[6,16]);
     for(let y=2;y<=10;y++){                    // band hugs the hair outline
@@ -156,7 +185,7 @@ const ACC={
       if(mx<0)continue;
       paint(g,mn,y,B,[6,14]);paint(g,mn+1,y,B,[8,18]);
       paint(g,mx-1,y,B,[6,14]);paint(g,mx,y,B,[4,12]);}
-    [[5,false],[34,true]].forEach(([xs,right])=>{
+    [[5,false],[33,true]].forEach(([xs,right])=>{
       for(let y=11;y<=19;y++)for(let i=0;i<5;i++){
         if((y===11||y===19)&&(i===0||i===4))continue;   // rounded corners
         const x=xs+i;
@@ -165,40 +194,63 @@ const ACC={
         const n=Math.max(0,Math.min(1,
           0.8-0.05*(right?4-i:i)-0.07*(y-11)+jit(x,y,3)/100));
         g[y][x+M]={c:rgb(348,56,16+n*34),ref:false};}});},
-  skis(g){const COLS=[["#3E7FC1",[26,50]],["#23282E",[13,25]],
-      ["#B15CD8",[30,54]],["#E8558F",[34,58]]];
-    [[-9,-6],[-4,-1]].forEach(([x0,x1])=>{
-      hspan(g,10,x0+1,x1-1,"#C9D2DA",[46,60]);            // curved tip
-      for(let y=11;y<=96;y++){
-        let hex,range;
-        if(y<=13){hex="#C9D2DA";range=[36,54];}
-        else if(y>=50&&y<=54){const top=y===50;            // toe piece
-          hex=top?"#8A939E":"#23272E";range=top?[34,50]:[8,22];}
-        else if(y>=60&&y<=64){const heel=y===64;           // heel piece
-          hex=heel?"#8A939E":"#23272E";range=heel?[30,46]:[8,22];}
-        else if(y>=95){hex="#173F46";range=[10,22];}
-        else{const c=COLS[((y-14)>>3)%4];hex=c[0];range=c[1];}
-        for(let x=x0;x<=x1;x++)paint(g,x,y,hex,range,x0,x1);}
+  // wider skis, and the topsheet colours run into each other like poured ink
+  // rather than sitting in flat bands
+  skis(g){
+    const LIQ=[[62,127,193],[110,86,205],[177,92,216],[232,85,143],[36,40,48]];
+    const mix=t=>{const n=LIQ.length,u=((t%n)+n)%n,i=Math.floor(u),f=u-i,
+      a=LIQ[i],b=LIQ[(i+1)%n];
+      return [a[0]+(b[0]-a[0])*f,a[1]+(b[1]-a[1])*f,a[2]+(b[2]-a[2])*f];};
+    const put=(x,y,c)=>{const o=x+M;if(y<0||y>=GH||o<0||o>=W2)return;
+      g[y][o]={c:[Math.max(0,Math.min(255,Math.round(c[0]))),
+                  Math.max(0,Math.min(255,Math.round(c[1]))),
+                  Math.max(0,Math.min(255,Math.round(c[2])))],ref:false};};
+    [[-9,-5],[-3,1]].forEach(([x0,x1])=>{
+      hspan(g,9,x0+1,x1-1,"#C9D2DA",[50,64]);              // curved tip
+      for(let y=10;y<=96;y++){
+        for(let x=x0;x<=x1;x++){
+          if(y<=13){paint(g,x,y,"#C9D2DA",[36,56],x0,x1);continue;}
+          if(y>=50&&y<=54){const top=y===50;               // toe piece
+            paint(g,x,y,top?"#8A939E":"#23272E",top?[34,50]:[8,22],x0,x1);continue;}
+          if(y>=60&&y<=64){const heel=y===64;              // heel piece
+            paint(g,x,y,heel?"#8A939E":"#23272E",heel?[30,46]:[8,22],x0,x1);continue;}
+          if(y>=95){paint(g,x,y,"#173F46",[10,22],x0,x1);continue;}
+          // the flow: bands drift down the ski, tilted across it and wobbled
+          const t=(y-14)*0.21+(x-x0)*0.52+1.3*Math.sin(y*0.13)+0.4*Math.sin(y*0.37);
+          const c=mix(t);
+          const k=1.14-0.30*((x-x0)/Math.max(1,x1-x0))+jit(x,y,4)/100;  // lit from the left
+          put(x,y,[c[0]*k,c[1]*k,c[2]*k]);}}
       for(let y=55;y<=59;y++){paint(g,x0+1,y,"#3A4046",[12,24]);
         paint(g,x0+2,y,"#3A4046",[10,20]);}});},           // binding rail
-  surfboard(g){const B="#3E7FC1";
-    const prof=y=>y===28?[-5,-5]:y===29?[-6,-4]:y===30?[-7,-3]:y===31?[-8,-2]
-      :y<=75?[-9,-1]:y<=85?[-8,-2]:y<=93?[-7,-3]:[-6,-4];
-    for(let y=28;y<=96;y++){const p=prof(y);
-      for(let x=p[0];x<=p[1];x++)paint(g,x,y,B,[24,52],-9,-1);}
-    for(let y=30;y<=95;y++)paint(g,-5,y,"#EDF2F6",[52,74]);   // stringer
-    paint(g,-5,29,"#8FB8DC",[44,58]);},
-  pole(g){const P="#6B4F30";
-    hspan(g,38,-4,-2,P,[22,40]);
-    for(let y=39;y<=92;y++)paint(g,-3,y,P,[18,38]);
-    paint(g,-3,93,"#3A3430",[10,20]);},
+  surfboard(g){const B="#2E6FB8";
+    const y0=30,y1=88,cx=-5;                     // nose at the top, tail down
+    for(let y=y0;y<=y1;y++){
+      const t=(y-y0)/(y1-y0);
+      const hw=Math.round(4*Math.pow(Math.sin(Math.PI*Math.pow(t,0.72)),0.60));
+      for(let x=cx-hw;x<=cx+hw;x++)paint(g,x,y,B,[24,52],cx-4,cx+4);}
+    for(let y=y0+3;y<=y1-3;y++)paint(g,cx,y,"#EDF2F6",[52,74]);   // stringer
+    for(let y=y1-4;y<=y1-1;y++)paint(g,cx+1,y,"#1C4C86",[10,24]);},// fin
   headband(g){for(let y=8;y<=9;y++)for(let x=9;x<=34;x++)
       if(T.grid[y]&&T.grid[y][x])paint(g,x,y,"#EDF2F6",[52,82]);},
 };
 
+// A plain jacket. The reference is wearing academic dress, so the stole, the
+// shirt front and the tie are separate garments draped over the chest. Folding
+// the stole into the jacket and everything inside the collar into one dark top
+// loses the drapes and the tie: it reads as a jacket over a plain layer.
+function jacket(hex,lo,hi,uHex,uLo,uHi){
+  const d=hi-lo;
+  return {gown:[hex,[lo,hi]],
+    stoleB:[hex,[lo+d*0.22,hi+d*0.06]],      // the shoulders catch the light
+    stoleG:[uHex,[uLo,uHi]],
+    shirt:[uHex,[uLo,uHi]],
+    tie:[uHex,[uLo,uHi]]};
+}
+
 // ---- the nine outfits ----------------------------------------------------
 // each garment: [hex, [Llo,Lhi]] — hue and saturation from hex, lightness
-// remapped from the reference's own range so the shading survives
+// remapped from the reference's own range so the shading survives.
+// trim:true cuts the jacket off at the hands, so nothing hangs below them
 const CHARS=[
  {k:"allrounder",hem:65,o:{gown:["#5A7E96",[16,52]],stoleB:["#C9A24E",[36,68]],
    stoleG:["#B8BEC4",[46,78]],tie:["#C9A24E",[26,52]],trous:["#3A3F45",[16,40]]}},
@@ -206,25 +258,25 @@ const CHARS=[
  {k:"researcher",hem:78,o:{gown:["#E8EDEE",[56,92]],stoleB:["#CBD4D9",[52,84]],
    stoleG:["#BFC7CC",[46,78]],trous:["#3A3F45",[16,40]],hand:["#5FD3C6",[38,66]]},
    acc:[ACC.labgoggles]},
- {k:"builder",hem:65,o:{gown:["#33506E",[10,44]],stoleB:["#F0B429",[46,78]],
-   stoleG:["#C0C6CC",[52,84]],tie:["#2A3138",[8,28]],trous:["#5A6068",[22,48]],
-   shoe:["#6B4A2A",[22,48]]},acc:[ACC.hardhat]},
- {k:"operator",hem:65,o:{gown:["#23282E",[6,30]],stoleB:["#3A424C",[14,38]],
-   stoleG:["#E8EAEC",[58,86]],shirt:["#39413C",[14,36]],tie:["#2F7D4A",[16,42]],
-   trous:["#2E3742",[12,36]],shoe:["#D8DCE0",[42,78]]},acc:[ACC.glasses]},
- {k:"creator",hem:65,o:{gown:["#7A2E3A",[10,42]],stoleB:["#23262B",[8,28]],
-   stoleG:["#4A5058",[18,40]],tie:["#23262B",[6,26]],trous:["#2E3338",[12,36]],
-   shoe:["#2A2A2E",[8,28]]},acc:[ACC.headphones]},
- {k:"rider",hem:65,o:{gown:["#C05020",[14,48]],stoleB:["#EDF2F6",[54,84]],
-   stoleG:["#D8DCE0",[46,76]],tie:["#262C34",[8,28]],trous:["#2E3742",[12,36]],
-   shoe:["#E4E8EC",[46,82]]},acc:[ACC.surfboard,ACC.headband]},
- {k:"wanderer",hem:65,o:{gown:["#556B3A",[12,44]],stoleB:["#8A6B42",[22,48]],
-   stoleG:["#4A3820",[12,34]],tie:["#6B4F30",[14,38]],trous:["#77694C",[24,50]],
-   shoe:["#5A4128",[16,42]]},acc:[ACC.brimhat,ACC.pole]},
- {k:"skier",hem:65,o:{gown:["#2E5FA0",[14,50]],stoleB:["#E8EEF4",[54,84]],
-   stoleG:["#C8D2DC",[44,74]],shirt:["#3A424C",[12,34]],tie:["#14181C",[4,20]],
-   trous:["#1E2226",[6,26]],shoe:["#2A2E36",[8,30]],hand:["#1E2226",[8,26]]},
-   acc:[ACC.helmet,ACC.goggles,ACC.skis]},
+ {k:"builder",hem:63,trim:true,acc:[ACC.hardhat],
+   o:Object.assign(jacket("#33506E",10,44,"#1B1F25",5,20),
+     {trous:["#5A6068",[22,48]],shoe:["#6B4A2A",[22,48]]})},
+ {k:"operator",hem:63,trim:true,acc:[ACC.glasses],
+   o:Object.assign(jacket("#23282E",6,30,"#254236",10,28),
+     {trous:["#2E3742",[12,36]],shoe:["#D8DCE0",[42,78]]})},
+ {k:"creator",hem:63,trim:true,acc:[ACC.headphones],
+   o:Object.assign(jacket("#7A2E3A",10,42,"#1D1F24",5,20),
+     {trous:["#2E3338",[12,36]],shoe:["#2A2A2E",[8,28]]})},
+ // a wetsuit: same cut, but the whole thing is one black neoprene layer
+ {k:"rider",hem:63,trim:true,acc:[ACC.surfboard,ACC.headband],
+   o:Object.assign(jacket("#191C21",4,24,"#242A31",8,26),
+     {belt:["#1E2228",[6,20]],trous:["#191C21",[4,22]],shoe:["#2A2E34",[8,26]]})},
+ {k:"wanderer",hem:63,trim:true,acc:[ACC.brimhat],
+   o:Object.assign(jacket("#556B3A",12,44,"#3B3227",9,26),
+     {trous:["#77694C",[24,50]],shoe:["#5A4128",[16,42]]})},
+ {k:"skier",hem:63,trim:true,acc:[ACC.helmet,ACC.earpads,ACC.goggles,ACC.skis],
+   o:Object.assign(jacket("#24548F",8,36,"#17325A",7,22),
+     {trous:["#1E2226",[6,26]],shoe:["#2A2E36",[8,30]],hand:["#1E2226",[8,26]]})},
 ];
 
 // cut the gown into a jacket: below the hem, keep sleeves, hands and shoes,
@@ -249,7 +301,9 @@ function derobe(g,spec){
   for(let y=spec.hem+1;y<GH;y++)for(let x=0;x<GW;x++){
     const u=g[y][x+M];if(!u)continue;
     if(y<=71&&(x<=12||x>=33)){                  // sleeve cuffs and hands
-      if(x<=4||x>=40)g[y][x+M]=null;            // tucked under slimmed cuffs
+      if(x<=4||x>=40){g[y][x+M]=null;continue;} // tucked under slimmed cuffs
+      // a hip length jacket stops at the hands: nothing hangs below them
+      if(spec.trim&&y>65&&ROLE[y][x]!=="hand")g[y][x+M]=null;
       continue;}
     const leg=(x>=14&&x<=20)||(x>=25&&x<=31);
     if(!leg){g[y][x+M]=null;continue;}
@@ -263,8 +317,9 @@ const ASSETS=process.env.OUT||path.resolve(__dirname,"../../assets");
 function compose(spec){
   const g=[];
   for(let y=0;y<GH;y++){g.push(new Array(W2).fill(null));
-    for(let x=0;x<GW;x++){const c=T.grid[y][x];if(!c)continue;
-      const r=ROLE[y][x];
+    for(let x=0;x<GW;x++){let c=T.grid[y][x];if(!c)continue;
+      let r=ROLE[y][x];
+      if(spec.trim&&r==="tie"&&NOTIE[y][x]){c=NOTIE[y][x].c;r=NOTIE[y][x].r;}
       const t=spec.o[r];
       g[y][x+M]={c:t?remap(c,r,t[0],t[1]):c.slice(),ref:true};}}
   if(spec.hem)derobe(g,spec);
