@@ -20,7 +20,9 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='%23292a2c'/><text x='32' y='47' font-family='Georgia,serif' font-size='42' font-style='italic' text-anchor='middle' fill='%23f2f2f2'>J</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@0;1&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@0;1&family=Inter:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@0;1&family=Inter:wght@400;600&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@0;1&family=Inter:wght@400;600&display=swap"></noscript>
 <style>
 :root{
   --ink:#292a2c;
@@ -846,6 +848,49 @@ html:not(.js) .card .copen,html:not(.js) .pclose,html:not(.js) .cs-roster{displa
   .card.feature .cimg img{aspect-ratio:16/10;}
   .panel-head{flex-direction:column;gap:8px;}
 }
+/* ---------- print: a short summary rather than the whole scrapbook ---------- */
+@media print{
+  @page{margin:14mm 14mm;}
+  body{background:#fff;font-size:10.5pt;}
+  .page{padding:0;max-width:none;}
+  nav,.rail,.cs-stage,.cs-roster,.cs-card,.cs-cta,#outside,#tools,.panel,video,.vplay,.card .cimg,.card .copen,.links-row,.footer-mark .big{display:none !important;}
+  html.anim .reveal{opacity:1 !important;transform:none !important;}
+  section{margin-top:18px !important;break-inside:auto;}
+  .cselect{display:block;padding-top:0;border:0;}
+  .cs-player{font-size:26pt;}
+  .cs-intro{font-size:11pt;max-width:none;}
+  .sec-head{grid-template-columns:1fr;gap:4px;padding-top:8px;border-top-width:1px;}
+  .sec-head .lead{font-size:10.5pt;}
+  .serif-heading{font-size:15pt;}
+  .sub-head{margin-top:14px;}
+  .cards{grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;}
+  .card,.card.feature{grid-column:auto;break-inside:avoid;}
+  .card .cbody{padding:8px 10px;gap:4px;}
+  .card .ct{font-size:12pt;}
+  .card .ct .sub{font-size:10pt;}
+  .card .cres,.card .ctags{font-size:9.5pt;}
+  .cvlist{margin-top:10px;}
+  .cvitem{padding:8px 0;break-inside:avoid;}
+  .cvitem .h .t{font-size:12pt;}
+  .cvitem .cv-photo,.cvitem .tile-tags{display:none;}
+  .skills-grid{grid-template-columns:1fr 1fr;gap:6px;margin-top:10px;}
+  .skillgroup .v{font-size:10pt;}
+  .contact{padding:14px 0 0;border-top-width:1px;}
+  .contact .serif-display{font-size:18pt;}
+  .contact-cols{margin-top:10px;gap:4px 24px;}
+  .footer-mark{margin-top:14px;}
+  .footer-mark .meta::after{content:" · jacksontigerb.github.io/personal-portfolio";}
+  .cvitem .h .desc,.cvitem .h .place,.cvitem .date,.contact .avail,.contact-cols .row,.contact-cols .row a,.footer-mark .meta{font-size:9.5pt !important;line-height:1.35;}
+  .cvitem .h .desc{margin-top:3px;}
+  .cvitem .h .place{margin-top:2px;}
+  .cvitem{gap:4px 16px;}
+  .skillgroup{padding:4px 0;}
+  .skillgroup .k,.skillgroup .v{font-size:9.5pt !important;}
+  .contact .avail{margin-top:6px;max-width:none;}
+  .contact-cols .row{padding-bottom:3px;}
+  .sec-head{break-after:avoid;}
+  a{color:var(--ink);}
+}
 </style>
 </head>
 <body>
@@ -902,63 +947,63 @@ html:not(.js) .card .copen,html:not(.js) .pclose,html:not(.js) .cs-roster{displa
         <input class="vh" type="radio" name="character" value="allrounder" checked>
         <span class="rbar" aria-hidden="true"></span>
         <span class="rnum" aria-hidden="true">01</span>
-        <span class="rart" aria-hidden="true"><img loading="lazy" decoding="async" src="assets/face-allrounder.png" alt=""></span>
+        <span class="rart" aria-hidden="true"><img loading="lazy" decoding="async" width="240" height="240" src="assets/face-allrounder.webp" alt=""></span>
         <span class="rname">Jack of All Trades</span>
       </label>
       <label class="rtile" style="--tint:#3a3f45">
         <input class="vh" type="radio" name="character" value="master">
         <span class="rbar" aria-hidden="true"></span>
         <span class="rnum" aria-hidden="true">02</span>
-        <span class="rart" aria-hidden="true"><img loading="lazy" decoding="async" src="assets/face-master.png" alt=""></span>
+        <span class="rart" aria-hidden="true"><img loading="lazy" decoding="async" width="240" height="240" src="assets/face-master.webp" alt=""></span>
         <span class="rname">Master of One</span>
       </label>
       <label class="rtile" style="--tint:#137975">
         <input class="vh" type="radio" name="character" value="researcher">
         <span class="rbar" aria-hidden="true"></span>
         <span class="rnum" aria-hidden="true">03</span>
-        <span class="rart" aria-hidden="true"><img loading="lazy" decoding="async" src="assets/face-researcher.png" alt=""></span>
+        <span class="rart" aria-hidden="true"><img loading="lazy" decoding="async" width="240" height="240" src="assets/face-researcher.webp" alt=""></span>
         <span class="rname">Researcher</span>
       </label>
       <label class="rtile" style="--tint:#7d6a1a">
         <input class="vh" type="radio" name="character" value="builder">
         <span class="rbar" aria-hidden="true"></span>
         <span class="rnum" aria-hidden="true">04</span>
-        <span class="rart" aria-hidden="true"><img loading="lazy" decoding="async" src="assets/face-builder.png" alt=""></span>
+        <span class="rart" aria-hidden="true"><img loading="lazy" decoding="async" width="240" height="240" src="assets/face-builder.webp" alt=""></span>
         <span class="rname">Engineer</span>
       </label>
       <label class="rtile" style="--tint:#2f7d4a">
         <input class="vh" type="radio" name="character" value="operator">
         <span class="rbar" aria-hidden="true"></span>
         <span class="rnum" aria-hidden="true">05</span>
-        <span class="rart" aria-hidden="true"><img loading="lazy" decoding="async" src="assets/face-operator.png" alt=""></span>
+        <span class="rart" aria-hidden="true"><img loading="lazy" decoding="async" width="240" height="240" src="assets/face-operator.webp" alt=""></span>
         <span class="rname">Computer Guy</span>
       </label>
       <label class="rtile" style="--tint:#b23a48">
         <input class="vh" type="radio" name="character" value="creator">
         <span class="rbar" aria-hidden="true"></span>
         <span class="rnum" aria-hidden="true">06</span>
-        <span class="rart" aria-hidden="true"><img loading="lazy" decoding="async" src="assets/face-creator.png" alt=""></span>
+        <span class="rart" aria-hidden="true"><img loading="lazy" decoding="async" width="240" height="240" src="assets/face-creator.webp" alt=""></span>
         <span class="rname">Content Creator</span>
       </label>
       <label class="rtile" style="--tint:#a85414">
         <input class="vh" type="radio" name="character" value="rider">
         <span class="rbar" aria-hidden="true"></span>
         <span class="rnum" aria-hidden="true">07</span>
-        <span class="rart" aria-hidden="true"><img loading="lazy" decoding="async" src="assets/face-rider.png" alt=""></span>
+        <span class="rart" aria-hidden="true"><img loading="lazy" decoding="async" width="240" height="240" src="assets/face-rider.webp" alt=""></span>
         <span class="rname">Athlete</span>
       </label>
       <label class="rtile" style="--tint:#6f5aa8">
         <input class="vh" type="radio" name="character" value="wanderer">
         <span class="rbar" aria-hidden="true"></span>
         <span class="rnum" aria-hidden="true">08</span>
-        <span class="rart" aria-hidden="true"><img loading="lazy" decoding="async" src="assets/face-wanderer.png" alt=""></span>
+        <span class="rart" aria-hidden="true"><img loading="lazy" decoding="async" width="240" height="240" src="assets/face-wanderer.webp" alt=""></span>
         <span class="rname">Explorer</span>
       </label>
       <label class="rtile" style="--tint:#2a6f9e">
         <input class="vh" type="radio" name="character" value="skier">
         <span class="rbar" aria-hidden="true"></span>
         <span class="rnum" aria-hidden="true">09</span>
-        <span class="rart" aria-hidden="true"><img loading="lazy" decoding="async" src="assets/face-skier.png" alt=""></span>
+        <span class="rart" aria-hidden="true"><img loading="lazy" decoding="async" width="240" height="240" src="assets/face-skier.webp" alt=""></span>
         <span class="rname">Skier</span>
       </label>
     </fieldset>
@@ -975,7 +1020,7 @@ html:not(.js) .card .copen,html:not(.js) .pclose,html:not(.js) .cs-roster{displa
     </div>
     <div class="cards">
       <div class="card feature" data-panel="p-pfas" aria-controls="p-pfas">
-        <div class="cimg"><img loading="lazy" decoding="async" src="assets/wca-coating.jpg" alt="A water droplet beading up on the coated fabric under the contact angle goniometer"></div>
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/wca-coating.jpg" srcset="assets/cards/wca-coating-800.webp 800w, assets/wca-coating.jpg 960w" sizes="(max-width:900px) 100vw, 66vw" alt="A water droplet beading up on the coated fabric under the contact angle goniometer"></div>
         <div class="cbody">
           <div class="ct">A PFAS free water repellent coating <span class="sub">in collaboration with Finisterre</span></div>
           <div class="cres">132 to 135&deg; water contact angle on cotton. Finisterre&#8217;s commercial finish gives 132&deg; on its own fabric</div>
@@ -1102,7 +1147,7 @@ html:not(.js) .card .copen,html:not(.js) .pclose,html:not(.js) .cs-roster{displa
     </div>
     <div class="cards">
       <div class="card" data-panel="p-solar" aria-controls="p-solar">
-        <div class="cimg"><img loading="lazy" decoding="async" src="assets/solar-boat.jpg" alt="The solar boat team in blue lab coats working on the hull in the workshop"></div>
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/solar-boat.jpg" srcset="assets/cards/solar-boat-800.webp 800w, assets/solar-boat.jpg 1400w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" alt="The solar boat team in blue lab coats working on the hull in the workshop"></div>
         <div class="cbody">
           <div class="ct">Solar racing boat <span class="sub">designed, machined, raced</span></div>
           <div class="ctags">CAD / fabrication / raced in the Netherlands</div>
@@ -1110,7 +1155,7 @@ html:not(.js) .card .copen,html:not(.js) .pclose,html:not(.js) .cs-roster{displa
         </div>
       </div>
       <div class="card" data-panel="p-hydro" aria-controls="p-hydro">
-        <div class="cimg"><img loading="lazy" decoding="async" src="assets/hydroturbine.jpg" alt="Hydroturbine built from an orange pipe, tested in a real stream"></div>
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/hydroturbine.jpg" srcset="assets/cards/hydroturbine-800.webp 800w, assets/hydroturbine.jpg 900w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" alt="Hydroturbine built from an orange pipe, tested in a real stream"></div>
         <div class="cbody">
           <div class="ct">A £50 hydroturbine <span class="sub">tested in a real stream</span></div>
           <div class="ctags">design to field test / renewable energy</div>
@@ -1118,7 +1163,7 @@ html:not(.js) .card .copen,html:not(.js) .pclose,html:not(.js) .cs-roster{displa
         </div>
       </div>
       <div class="card" data-panel="p-bridge" aria-controls="p-bridge">
-        <div class="cimg"><img loading="lazy" decoding="async" src="assets/bridge.jpg" alt="Building the balsa bridge in the workshop with two teammates"></div>
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/bridge.jpg" srcset="assets/cards/bridge-800.webp 800w, assets/bridge.jpg 1400w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" alt="Building the balsa bridge in the workshop with two teammates"></div>
         <div class="cbody">
           <div class="ct">The balsa bridge <span class="sub">the only one to hold under full load</span></div>
           <div class="ctags">team project / spotted the flaw before test day</div>
@@ -1126,7 +1171,7 @@ html:not(.js) .card .copen,html:not(.js) .pclose,html:not(.js) .cs-roster{displa
         </div>
       </div>
       <div class="card" data-panel="p-maze" aria-controls="p-maze">
-        <div class="cimg"><img loading="lazy" decoding="async" src="assets/maze-robot.jpg" alt="Arduino maze solving robot with breadboard wiring and yellow wheels"></div>
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/maze-robot.jpg" srcset="assets/cards/maze-robot-800.webp 800w, assets/maze-robot.jpg 1400w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" alt="Arduino maze solving robot with breadboard wiring and yellow wheels"></div>
         <div class="cbody">
           <div class="ct">Maze solving robot <span class="sub">sensors and soldering</span></div>
           <div class="ctags">electronics / control logic / Arduino</div>
@@ -1134,7 +1179,7 @@ html:not(.js) .card .copen,html:not(.js) .pclose,html:not(.js) .cs-roster{displa
         </div>
       </div>
       <div class="card" data-panel="p-bikes" aria-controls="p-bikes">
-        <div class="cimg"><img loading="lazy" decoding="async" src="assets/brocklebikes.jpg" alt="A bike on the repair stand in the garden"></div>
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/brocklebikes.jpg" srcset="assets/cards/brocklebikes-800.webp 800w, assets/brocklebikes.jpg 1200w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" alt="A bike on the repair stand in the garden"></div>
         <div class="cbody">
           <div class="ct">Brocklebikes <span class="sub">a business I started at sixteen</span></div>
           <div class="ctags">495+ repairs / self taught / customer facing</div>
@@ -1232,7 +1277,7 @@ html:not(.js) .card .copen,html:not(.js) .pclose,html:not(.js) .cs-roster{displa
     <div class="group">
     <div class="cards">
       <div class="card" data-panel="p-redox" aria-controls="p-redox">
-        <div class="cimg"><img loading="lazy" decoding="async" src="assets/redox-cover.jpg" alt="Dissertation cover: Redox Flow Batteries in Coupling Renewable Energy Sources, University of Exeter, April 2025"></div>
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/redox-cover.jpg" srcset="assets/cards/redox-cover-800.webp 800w, assets/redox-cover.jpg 926w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" alt="Dissertation cover: Redox Flow Batteries in Coupling Renewable Energy Sources, University of Exeter, April 2025"></div>
         <div class="cbody">
           <div class="ct">Redox flow batteries <span class="sub">BEng dissertation, awarded a first</span></div>
           <div class="ctags">energy storage / expert interviews / University of Exeter</div>
@@ -1327,7 +1372,7 @@ html:not(.js) .card .copen,html:not(.js) .pclose,html:not(.js) .cs-roster{displa
     </div>
     <div class="cards">
       <div class="card" data-panel="p-pocket" aria-controls="p-pocket">
-        <div class="cimg"><img loading="lazy" decoding="async" src="assets/pocket-claude-terminal.png" alt="Terminal on the Mac showing a dictated phrase arriving in the live Claude Code session"></div>
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/pocket-claude-terminal.png" srcset="assets/cards/pocket-claude-terminal-800.webp 800w, assets/pocket-claude-terminal.png 894w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" alt="Terminal on the Mac showing a dictated phrase arriving in the live Claude Code session"></div>
         <div class="cbody">
           <div class="ct">Pocket Claude <span class="sub">one agent, from my laptop, my phone or my voice</span></div>
           <div class="ctags">Ubuntu VPS / tmux / Tailscale / iOS Shortcuts</div>
@@ -1481,7 +1526,7 @@ html:not(.js) .card .copen,html:not(.js) .pclose,html:not(.js) .cs-roster{displa
     </div>
     <div class="cards">
       <div class="card" data-panel="p-climb" aria-controls="p-climb">
-        <div class="cimg"><img loading="lazy" decoding="async" src="assets/climbing.jpg" alt="Bouldering up a sandstone outcrop under a blue sky"></div>
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/climbing.jpg" srcset="assets/cards/climbing-800.webp 800w, assets/climbing.jpg 1600w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" alt="Bouldering up a sandstone outcrop under a blue sky"></div>
         <div class="cbody">
           <div class="ct">Climbing <span class="sub">on rock when I can</span></div>
           <div class="ctags">bouldering / indoors and out</div>
@@ -1489,7 +1534,7 @@ html:not(.js) .card .copen,html:not(.js) .pclose,html:not(.js) .cs-roster{displa
         </div>
       </div>
       <div class="card" data-panel="p-marathon" aria-controls="p-marathon">
-        <div class="cimg"><img loading="lazy" decoding="async" src="assets/marathon.jpg" alt="Friends at the London Marathon finish holding GO TIGGY signs"></div>
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/marathon.jpg" srcset="assets/cards/marathon-800.webp 800w, assets/marathon.jpg 1400w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" alt="Friends at the London Marathon finish holding GO TIGGY signs"></div>
         <div class="cbody">
           <div class="ct">London Marathon 2026 <span class="sub">£1,647 raised for Marie Curie</span></div>
           <div class="ctags">64 donors / run for charity</div>
@@ -1497,7 +1542,7 @@ html:not(.js) .card .copen,html:not(.js) .pclose,html:not(.js) .cs-roster{displa
         </div>
       </div>
       <div class="card" data-panel="p-play" aria-controls="p-play">
-        <div class="cimg"><img loading="lazy" decoding="async" src="assets/surf-cutback.jpg" alt="Surfer carving off the top of a wave, spray flying"></div>
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/surf-cutback.jpg" srcset="assets/cards/surf-cutback-800.webp 800w, assets/surf-cutback.jpg 1600w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" alt="Surfer carving off the top of a wave, spray flying"></div>
         <div class="cbody">
           <div class="ct">Surf &amp; skate <span class="sub">and the rest of an active life</span></div>
           <div class="ctags">photography / most of it shot myself</div>
@@ -1554,7 +1599,7 @@ html:not(.js) .card .copen,html:not(.js) .pclose,html:not(.js) .cs-roster{displa
     </div>
     <div class="cards">
       <div class="card feature" data-panel="p-senegal" aria-controls="p-senegal">
-        <div class="cimg"><img loading="lazy" decoding="async" src="assets/senegal-fishing.jpg" alt="Out on a wooden pirogue in Senegal, the fisherman behind me holding up the catch"></div>
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/senegal-fishing.jpg" srcset="assets/cards/senegal-fishing-800.webp 800w, assets/senegal-fishing.jpg 1600w" sizes="(max-width:900px) 100vw, 66vw" alt="Out on a wooden pirogue in Senegal, the fisherman behind me holding up the catch"></div>
         <div class="cbody">
           <div class="ct">Senegal <span class="sub">keeping a surf camp running</span></div>
           <div class="ctags">surf camp / pirogue fishing / shot on film</div>
@@ -1562,7 +1607,7 @@ html:not(.js) .card .copen,html:not(.js) .pclose,html:not(.js) .cs-roster{displa
         </div>
       </div>
       <div class="card" data-panel="p-dolomites" aria-controls="p-dolomites">
-        <div class="cimg"><img loading="lazy" decoding="async" src="assets/dolomites-lake.jpg" alt="Mid backflip off a rock into an alpine lake in the Dolomites"></div>
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/dolomites-lake.jpg" srcset="assets/cards/dolomites-lake-800.webp 800w, assets/dolomites-lake.jpg 1600w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" alt="Mid backflip off a rock into an alpine lake in the Dolomites"></div>
         <div class="cbody">
           <div class="ct">The Dolomites <span class="sub">camping in the mountains</span></div>
           <div class="ctags">sunrise hikes / alpine lakes / italy</div>
@@ -1570,7 +1615,7 @@ html:not(.js) .card .copen,html:not(.js) .pclose,html:not(.js) .cs-roster{displa
         </div>
       </div>
       <div class="card" data-panel="p-newyork" aria-controls="p-newyork">
-        <div class="cimg"><img loading="lazy" decoding="async" src="assets/newyork-bridge.jpg" alt="Sat on a beam of the Brooklyn Bridge with the Manhattan Bridge behind"></div>
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/newyork-bridge.jpg" srcset="assets/cards/newyork-bridge-800.webp 800w, assets/newyork-bridge.jpg 1600w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" alt="Sat on a beam of the Brooklyn Bridge with the Manhattan Bridge behind"></div>
         <div class="cbody">
           <div class="ct">New York <span class="sub">a solo trip</span></div>
           <div class="ctags">brooklyn bridge / film camera</div>
@@ -1652,7 +1697,7 @@ html:not(.js) .card .copen,html:not(.js) .pclose,html:not(.js) .cs-roster{displa
     </div>
     <div class="cards">
       <div class="card" data-panel="p-tiktok" aria-controls="p-tiktok">
-        <div class="cimg"><img loading="lazy" decoding="async" src="assets/tiktok-profile.jpg" alt="TikTok profile for @jacksontigerb: 80.9 thousand followers and 2.5 million likes"></div>
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/tiktok-profile.jpg" srcset="assets/cards/tiktok-profile-800.webp 800w, assets/tiktok-profile.jpg 900w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" alt="TikTok profile for @jacksontigerb: 80.9 thousand followers and 2.5 million likes"></div>
         <div class="cbody">
           <div class="ct">@jacksontigerb <span class="sub">89,000 followers in seven months</span></div>
           <div class="ctags">2.5m likes / one video at 1.2m views / run solo</div>
@@ -1660,7 +1705,7 @@ html:not(.js) .card .copen,html:not(.js) .pclose,html:not(.js) .cs-roster{displa
         </div>
       </div>
       <div class="card" data-panel="p-film" aria-controls="p-film">
-        <div class="cimg"><img loading="lazy" decoding="async" src="assets/twitch.jpg" alt="Twitch channel jacksontig3r with 1.3 thousand followers"></div>
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/twitch.jpg" srcset="assets/cards/twitch-800.webp 800w, assets/twitch.jpg 1000w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" alt="Twitch channel jacksontig3r with 1.3 thousand followers"></div>
         <div class="cbody">
           <div class="ct">Film &amp; editing <span class="sub">fifteen years behind a camera</span></div>
           <div class="ctags">scooter edits / gaming videos / a Twitch channel</div>
@@ -1668,7 +1713,7 @@ html:not(.js) .card .copen,html:not(.js) .pclose,html:not(.js) .cs-roster{displa
         </div>
       </div>
       <div class="card" data-panel="p-runclub" aria-controls="p-runclub">
-        <div class="cimg"><img loading="lazy" decoding="async" src="assets/runclub-street.jpg" alt="Run club running down a pastel terraced street at dusk"></div>
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/runclub-street.jpg" srcset="assets/cards/runclub-street-800.webp 800w, assets/runclub-street.jpg 1000w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" alt="Run club running down a pastel terraced street at dusk"></div>
         <div class="cbody">
           <div class="ct">Falmouth Running Society <span class="sub">founded in January, 25 a week by June</span></div>
           <div class="ctags">community / weekly sessions / 200+ followers</div>
