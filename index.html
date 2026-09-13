@@ -12,10 +12,10 @@
 <meta property="og:title" content="Jackson Brocklebank">
 <meta property="og:description" content="Materials science and engineering by Jackson Brocklebank: a PFAS free water repellent coating made with Finisterre, battery lifetime modelling, and the things I have built along the way.">
 <meta property="og:url" content="https://jacksontigerb.github.io/personal-portfolio/">
-<meta property="og:image" content="https://jacksontigerb.github.io/personal-portfolio/assets/wca-coating.jpg">
-<meta property="og:image:width" content="960">
-<meta property="og:image:height" content="540">
-<meta property="og:image:alt" content="A water droplet hanging from the goniometer needle above a coated fabric sample">
+<meta property="og:image" content="https://jacksontigerb.github.io/personal-portfolio/assets/pfas/c-a1-droplet.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A water droplet sitting on cotton coated with the binder only bath, seen side on in the goniometer">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='%23292a2c'/><text x='32' y='47' font-family='Georgia,serif' font-size='42' font-style='italic' text-anchor='middle' fill='%23f2f2f2'>J</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -610,6 +610,7 @@ nav{
 .vh{position:absolute !important;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0;}
 
 /* the lines a selected piece of work leads with */
+.links-row{display:flex;flex-wrap:wrap;gap:12px;margin:0 0 8px;}
 .card .cres{font-family:var(--telegraf);font-size:18px;line-height:1.4;letter-spacing:0.3px;}
 
 /* sub-sections inside a section: a lighter rule than the section head */
@@ -978,7 +979,7 @@ html:not(.js) .card .copen,html:not(.js) .pclose,html:not(.js) .cs-roster{displa
         <div class="cbody">
           <div class="ct">A PFAS free water repellent coating <span class="sub">in collaboration with Finisterre</span></div>
           <div class="cres">132 to 135&deg; water contact angle on cotton. Finisterre&#8217;s commercial finish gives 132&deg; on its own fabric</div>
-          <div class="ctags">SEM / contact angle / nanoparticle synthesis / my Master&#8217;s project</div>
+          <div class="ctags">SEM / contact angle / roll off and wear testing / my Master&#8217;s project</div>
           <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
         </div>
       </div>
@@ -997,10 +998,11 @@ html:not(.js) .card .copen,html:not(.js) .pclose,html:not(.js) .cs-roster{displa
         <button class="pclose" data-close type="button">close &times;</button>
       </div>
       <p class="intro">My Master's project, supervised by Prospero Taroni-Junior and run with Abbie Spence at <span class="italic">Finisterre</span>. I synthesised a PFAS free water repellent coating for outdoor textiles and tested it against the commercial one they already use.</p>
+      <div class="links-row"><a class="btn btn-solid" href="work/pfas-coating/">Read the full case study</a><a class="btn" href="https://jacksontigerb.github.io/fluorine-free-DWR/results.html" target="_blank" rel="noopener">Interactive results</a></div>
       <video class="research-video" controls muted loop playsinline preload="none" poster="assets/wca-coating.jpg" aria-label="A water droplet beading up on the coated fabric under the contact angle goniometer">
       <source src="assets/wca-coating.mp4" type="video/mp4">
     </video>
-    <p class="tile-tags" style="margin-top:11px;">a water droplet holding its shape on my coated fabric, measured on the goniometer</p>
+    <p class="tile-tags" style="margin-top:11px;">a droplet going onto a coated sample in the goniometer</p>
 
     <div class="ai-body" style="margin-top:44px;">
       <div>
@@ -1017,7 +1019,7 @@ html:not(.js) .card .copen,html:not(.js) .pclose,html:not(.js) .cs-roster{displa
         <p>PFAS are the fluorine chemistry behind most waterproof gear, and they're increasingly linked to risks to human health and the environment. The hard part is finding a fluorine free version that still beads water once it has been washed and worn.</p>
       </div>
       <div>
-        <p>Finisterre already make their kit with PFAS free chemistry, so the coating had to work on fabric they already sell. <a class="link" href="https://jacksontigerb.github.io/fluorine-free-DWR/" target="_blank" rel="noopener">Read more about the project</a>, the nanoparticle side and how I make the coating.</p>
+        <p>Finisterre already make their kit with PFAS free chemistry, so their own finish on their own fabric was the benchmark. My coating went onto cotton, and onto the same Finisterre fabric supplied without a finish.</p>
       </div>
     </div>
 
@@ -1027,16 +1029,19 @@ html:not(.js) .card .copen,html:not(.js) .pclose,html:not(.js) .cs-roster{displa
         <figcaption>Unmodified TiO₂, sitting in clumps on the fibres</figcaption>
       </figure>
       <figure>
-        <img loading="lazy" decoding="async" width="1200" height="900" src="assets/sem-dispersed.jpg" alt="SEM image of surface modified titanium dioxide spread evenly across the fibres">
-        <figcaption>Surface modified TiO₂, spread evenly across the fibres</figcaption>
+        <img loading="lazy" decoding="async" width="1200" height="900" src="assets/sem-dispersed.jpg" alt="SEM image of surface modified titanium dioxide in finer clusters across the fibres">
+        <figcaption>Surface modified TiO₂, in finer clusters across the fibres</figcaption>
       </figure>
     </div>
-    <p class="tile-tags" style="margin-top:11px;">SEM at ×2,000 · I modified the particle surface to stop the TiO₂ clumping, so the coating sits even and repels better</p>
+    <p class="tile-tags" style="margin-top:11px;">SEM at ×2,000 · modifying the particle surface broke up the clumps, but it did not make the coating repel or shed water any better</p>
 
-    <img loading="lazy" decoding="async" class="wca-graph" width="1600" height="848" src="assets/wca-graph.jpg" alt="Graph of water contact angle by coating, showing my emulsions on cotton reaching a similar contact angle to the commercial PFAS free DWR on its own fabric">
-    <p class="tile-tags" style="margin-top:11px;">water contact angle by coating · on scoured cotton my emulsions reach 132 to 135°, close to the commercial PFAS free DWR at 132° on Finisterre&#8217;s own fabric, while the uncoated fabric absorbs down to 32°</p>
+    <img loading="lazy" decoding="async" class="wca-graph" width="2000" height="786" src="assets/pfas/wca-baseline.jpg" alt="Two panel chart of static water contact angle before wear: 134, 135 and 132 degrees for the three cotton coatings, 108 for the binder on Finisterre fabric and 132 for the commercial finish on its own fabric">
+    <p class="tile-tags" style="margin-top:11px;">static contact angle before wear · 132 to 135° for my coatings on cotton and 132° for the commercial finish on Finisterre&#8217;s fabric, while uncoated cotton wets out at 38.8°</p>
 
-    <p style="margin-top:44px;">These coatings tend to lose their repellency after a few washes, so I put the coated samples through 20 wash cycles and 200 abrasion cycles, measuring the contact angle again at each stage.</p>
+    <p style="margin-top:44px;">Contact angle put every coating level, so I tilted the samples and measured the roll off angle too, then put them through 200 sandpaper abrasion cycles and 20 wash cycles. Washing is where they separated. The commercial finish went from 24 to 78° roll off, losing most of its shedding, while my coatings on cotton ended close to where they started. Contact angle stayed above 120° on every sample and missed almost all of it.</p>
+
+    <img loading="lazy" decoding="async" class="wca-graph" width="2000" height="862" src="assets/pfas/durability-rolloff.jpg" alt="Two panel chart of roll off angle through abrasion and washing. Under washing every sample rises, the commercial finish most steeply from 24 to 78 degrees, while the cotton coatings end near 50 degrees">
+    <p class="tile-tags" style="margin-top:11px;">roll off angle through abrasion and washing, lower is better · error bars are standard error, n = 3 · <a class="link" href="work/pfas-coating/#results">the full results, and what did not work</a></p>
   
     </div>
     <div class="panel" id="p-huawei">

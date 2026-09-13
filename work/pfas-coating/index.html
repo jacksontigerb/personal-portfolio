@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A PFAS free water repellent coating for cotton · Jackson Brocklebank</title>
+<meta name="description" content="My MSc project at UCL with Finisterre: a fluorine free coating for cotton, measured against a commercial finish through 200 abrasion cycles and 20 wash cycles.">
+<meta name="theme-color" content="#f2f2f2">
+<link rel="canonical" href="https://jacksontigerb.github.io/personal-portfolio/work/pfas-coating/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="A PFAS free water repellent coating for cotton">
+<meta property="og:description" content="My MSc project at UCL with Finisterre: a fluorine free coating for cotton, measured against a commercial finish through 200 abrasion cycles and 20 wash cycles.">
+<meta property="og:url" content="https://jacksontigerb.github.io/personal-portfolio/work/pfas-coating/">
+<meta property="og:image" content="https://jacksontigerb.github.io/personal-portfolio/assets/pfas/c-a1-droplet.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A water droplet sitting on cotton coated with the binder only bath, seen side on in the goniometer">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='%23292a2c'/><text x='32' y='47' font-family='Georgia,serif' font-size='42' font-style='italic' text-anchor='middle' fill='%23f2f2f2'>J</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@0;1&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#292a2c;--vellum:#f2f2f2;--paper:#fbfbfa;--muted:#5d5f62;
+  --accent:#137975;
+  --ogg:'Playfair Display', Georgia, serif;
+  --sans:'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --margin:64px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--vellum);color:var(--ink);font-family:var(--sans);font-size:18px;line-height:1.55;letter-spacing:0.2px;-webkit-font-smoothing:antialiased;}
+img{max-width:100%;height:auto;display:block;}
+a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--accent);}
+a:hover{border-bottom-width:2px;}
+a:focus-visible{outline:2px solid var(--ink);outline-offset:3px;}
+.page{max-width:1120px;margin:0 auto;padding:0 var(--margin) 96px;}
+
+nav{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0;background:var(--vellum);border-bottom:1px solid var(--ink);}
+nav .back{font-family:var(--ogg);font-size:22px;border:0;}
+nav .back span{font-family:var(--sans);font-size:16px;margin-right:6px;}
+nav .cv{font-size:16px;border:1px solid var(--ink);padding:3px 12px;}
+nav .cv:hover{background:var(--ink);color:var(--vellum);}
+
+header{padding:48px 0 32px;border-bottom:3px solid var(--accent);}
+.eyebrow{font-size:15px;letter-spacing:0.6px;color:var(--accent);display:block;margin-bottom:14px;}
+.eyebrow::before{content:"";display:inline-block;width:8px;height:8px;margin-right:9px;background:var(--accent);}
+h1{font-family:var(--ogg);font-weight:400;font-size:clamp(34px,5vw,56px);line-height:1.05;letter-spacing:-1.2px;max-width:18ch;}
+.standfirst{font-size:21px;line-height:1.45;max-width:58ch;margin-top:20px;}
+
+/* the one line that matters, stated first */
+.finding{margin-top:32px;padding:20px 24px;border:1px solid var(--ink);background:var(--paper);box-shadow:4px 4px 0 0 var(--ink);max-width:70ch;}
+.finding .k{font-size:13px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:6px;}
+
+/* spec card: the character sheet idea, carrying real parameters */
+.spec{margin-top:40px;border:1px solid var(--ink);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));background:var(--paper);}
+.spec div{padding:14px 18px;border-bottom:1px solid var(--ink);}
+.spec div:nth-child(odd){border-right:1px solid var(--ink);}
+.spec div:nth-last-child(-n+2){border-bottom:0;}
+.spec dt{font-size:13px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);}
+.spec dd{margin-top:4px;font-size:16px;line-height:1.45;}
+
+section{margin-top:72px;scroll-margin-top:72px;}
+h2{font-family:var(--ogg);font-weight:400;font-size:32px;line-height:1.1;letter-spacing:-0.6px;padding-top:18px;border-top:1px solid var(--ink);display:flex;gap:14px;align-items:baseline;}
+h2 .n{font-family:var(--sans);font-size:15px;letter-spacing:0.6px;color:var(--accent);}
+h3{font-family:var(--ogg);font-weight:400;font-size:24px;line-height:1.2;margin-top:36px;}
+section p{max-width:68ch;margin-top:16px;}
+section ul{max-width:68ch;margin-top:16px;padding-left:20px;}
+section li{margin-top:8px;}
+.num{font-variant-numeric:tabular-nums;}
+
+figure{margin-top:28px;}
+figure img{border:1px solid var(--ink);background:#fff;width:100%;}
+figcaption{font-size:15px;line-height:1.5;letter-spacing:0.3px;color:var(--muted);margin-top:10px;max-width:80ch;}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:28px;}
+.pair figure{margin-top:0;}
+
+.table-wrap{overflow-x:auto;margin-top:24px;border:1px solid var(--ink);background:var(--paper);}
+table{border-collapse:collapse;width:100%;min-width:620px;font-size:15px;font-variant-numeric:tabular-nums;}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid #cfd0d2;vertical-align:top;}
+th{font-weight:600;font-size:13px;letter-spacing:0.6px;text-transform:uppercase;color:var(--accent);border-bottom:1px solid var(--ink);}
+tr:last-child td{border-bottom:0;}
+.note{font-size:15px;color:var(--muted);}
+
+.links{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px;}
+.btn{display:inline-flex;align-items:center;font-size:17px;padding:11px 18px;border:1px solid var(--ink);background:var(--paper);box-shadow:3px 3px 0 0 var(--ink);}
+.btn.solid{background:var(--accent);color:#fff;}
+.btn:hover{border-bottom-width:1px;transform:translate(2px,2px);box-shadow:1px 1px 0 0 var(--ink);}
+
+footer{margin-top:88px;padding-top:24px;border-top:3px solid var(--accent);font-size:16px;}
+
+@media (max-width:760px){
+  :root{--margin:22px;}
+  body{font-size:17px;}
+  .standfirst{font-size:19px;}
+  .spec{grid-template-columns:1fr;}
+  .spec div:nth-child(odd){border-right:0;}
+  .spec div:nth-last-child(2){border-bottom:1px solid var(--ink);}
+  .pair{grid-template-columns:1fr;}
+  h2{font-size:27px;}
+}
+@media print{
+  nav,.links,.btn{display:none;}
+  body{background:#fff;font-size:11pt;}
+  .page{max-width:none;padding:0;}
+  .finding,.spec{box-shadow:none;background:#fff;}
+  section{margin-top:28px;break-inside:auto;}
+  figure,table,.spec{break-inside:avoid;}
+  figure img{width:72%;}
+  .pair{grid-template-columns:1fr 1fr;}
+  h1{font-size:28pt;}
+  .standfirst{font-size:13pt;}
+  h2{font-size:18pt;}
+  h3{font-size:14pt;margin-top:18px;}
+  figcaption,.note,table{font-size:9pt;}
+  a{border:0;}
+  footer::after{content:"jacksontigerb.github.io/personal-portfolio/work/pfas-coating/";display:block;margin-top:6px;}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<nav>
+  <a class="back" href="../../#p-pfas"><span aria-hidden="true">&larr;</span>Jackson Brocklebank</a>
+  <a class="cv" href="../../assets/Jackson-Brocklebank-CV.pdf" download="Jackson Brocklebank CV.pdf">CV</a>
+</nav>
+
+<main>
+<header>
+  <span class="eyebrow">case study · MSc Advanced Materials Science, UCL, 2026</span>
+  <h1>A PFAS free water repellent coating for cotton</h1>
+  <p class="standfirst">My Master&#8217;s project, run with Finisterre. I made a fluorine free coating, put it on cotton, and measured it against Finisterre&#8217;s commercial finish through sandpaper abrasion and washing.</p>
+  <p class="finding"><span class="k">The finding</span>Static contact angle could not tell any of the coatings apart, or tell them from the commercial finish. Roll off angle could, and after 20 wash cycles it showed the commercial finish losing most of its shedding while the coatings on cotton ended close to where they began.</p>
+
+  <dl class="spec">
+    <div><dt>Coating</dt><dd>Stearyl acrylate, vinyl terminated PDMS and glycidyl methacrylate emulsion, crosslinked with a blocked isocyanate</dd></div>
+    <div><dt>Variants</dt><dd>Binder alone, plus 3 wt% bare anatase TiO&#8322;, plus 3 wt% TiO&#8322; modified with vinyltrimethoxysilane</dd></div>
+    <div><dt>Fabrics</dt><dd>Plain woven cotton; Finisterre technical fabric, unfinished and with its factory finish</dd></div>
+    <div><dt>Samples</dt><dd>Three swatches per condition, cut from one coated batch per bath</dd></div>
+    <div><dt>Instruments</dt><dd>ATR-FTIR, XRF, SEM-EDX, TGA, goniometer, tilting stage</dd></div>
+    <div><dt>Wear</dt><dd>200 sandpaper abrasion cycles; 20 wash cycles</dd></div>
+    <div><dt>Contact angle on cotton</dt><dd class="num">132 to 135&deg;, against 132 &plusmn; 5&deg; for the commercial finish on its own fabric</dd></div>
+    <div><dt>Status</dt><dd>Lab work finished July 2026, dissertation submitted</dd></div>
+  </dl>
+</header>
+
+<section id="question">
+  <h2><span class="n">01</span>The question</h2>
+  <p>PFAS finishes are being regulated out of outdoor clothing. They repel water very well, but the same carbon fluorine bond that makes them work means they never break down. Fluorine free finishes exist, and on a fresh fabric many of them give a high contact angle. The complaint from industry is durability: they lose repellency faster under abrasion and washing, and cotton, which absorbs water and swells, is the hardest fabric to make them work on.</p>
+  <p>The project asked two things. Does adding silane modified titania to a fluorine free binder make it better on cotton? And how does the finish behave once it has been rubbed and washed, measured by how water actually leaves the fabric rather than by contact angle alone?</p>
+</section>
+
+<section id="part">
+  <h2><span class="n">02</span>My part</h2>
+  <p>This was my MSc research project at UCL, supervised by Prospero Taroni-Junior, with Abbie Spence at Finisterre supplying the fabric and their commercial finish as the benchmark. I synthesised the binder emulsion, modified the titania, coated every sample, ran the characterisation and the wear testing, and did the analysis.</p>
+</section>
+
+<section id="method">
+  <h2><span class="n">03</span>Method</h2>
+  <p>One binder, three pad baths, so that any difference between them comes from the particles and not from the chemistry or the process. The titania modification went through three iterations and the second was used. Swatches were dipped for 60 seconds, padded by hand and cured at 150&deg;C for 3 minutes. Hand padding gave a wet pickup of 96 to 131%, well above the 70% I was aiming for, which matters later.</p>
+  <p>ATR-FTIR, XRF and SEM-EDX confirmed the binder and titania were on the fibres before anything was tested for performance. Static contact angle is the median over 2 to 10 seconds after the drop lands. Roll off angle is the tilt at which a drop starts to move, on a stage that goes to 90&deg;.</p>
+  <p>Wear was two separate routes on separate coupons, measured on the same coupons at every stage, so each one is its own control:</p>
+  <ul>
+    <li><strong>Abrasion:</strong> one cycle is a single 10 cm hand pass across 1000 grit paper under about 6.8 kPa, out to 200 cycles.</li>
+    <li><strong>Washing:</strong> one cycle is 10 minutes in a stirred detergent bath at 40&deg;C, out to 20 cycles.</li>
+  </ul>
+  <p class="note">Neither is a textile standard, so the cycle counts compare within this study and not with others.</p>
+</section>
+
+<section id="results">
+  <h2><span class="n">04</span>Results</h2>
+
+  <h3>Contact angle put every coating level</h3>
+  <p>On cotton the three baths gave 134 &plusmn; 2, 135 &plusmn; 10 and 132 &plusmn; 2&deg; (mean &plusmn; SD, n = 3), statistically indistinguishable from each other. Finisterre&#8217;s commercial finish gave 132 &plusmn; 5&deg; on its own fabric. The binder on that same unfinished fabric was lower, at 108 &plusmn; 10&deg;. Uncoated cotton wets out, reading 38.8&deg;, so the coating lifts it by roughly 95&deg;.</p>
+  <figure>
+    <img loading="lazy" decoding="async" width="2000" height="786" src="../../assets/pfas/wca-baseline.jpg" alt="Two panel chart. Contact angle against time stays flat near 130 degrees for all three cotton coatings and the commercial finish, and near 108 degrees for the binder on Finisterre fabric. The right panel shows representative angles of 134, 135, 132, 108 and 132 degrees.">
+    <figcaption>Static water contact angle before wear. C = cotton, F = Finisterre fabric. A1 binder only, B3 with bare titania, C3 with silane modified titania, DWR the commercial finish. The uncoated controls wet out and are left off so the coatings resolve.</figcaption>
+  </figure>
+
+  <h3>Tilting the sample did not</h3>
+  <p>With small drops, none of my coatings released a drop at any tilt up to 90&deg;, on either fabric. The commercial finish shed eight of nine drops at 42 to 78&deg;. Since the binder and the commercial finish shared the same Finisterre fabric, that difference is in the coating. A high static angle with complete pinning means large contact angle hysteresis: the back edge of the drop is catching on something.</p>
+  <p>With larger drops of approximately 32 mg, every coating released: 37 to 59&deg; across my coatings, against 24&deg; for the commercial finish. So the coatings are not absolutely pinned, and roll off depends heavily on drop size.</p>
+
+  <h3>Washing and abrasion pulled in opposite directions</h3>
+  <div class="table-wrap">
+    <table>
+      <caption class="note" style="caption-side:bottom;text-align:left;padding:10px 12px;">Roll off angle in degrees, lower is better, replicate means. &dagger; one coupon stopped releasing and is left out of the mean, so that value flatters the sample.</caption>
+      <thead><tr><th>Sample</th><th>Before wear</th><th>After 200 abrasion cycles</th><th>After 20 wash cycles</th><th>Wash trend per cycle</th></tr></thead>
+      <tbody>
+        <tr><td>Cotton, binder only</td><td>43.3</td><td>27.8</td><td>50.7</td><td>+0.35 (p = 0.23)</td></tr>
+        <tr><td>Cotton, bare titania</td><td>37.0</td><td>25.0</td><td>53.6</td><td>+0.69 (p = 0.045)</td></tr>
+        <tr><td>Cotton, modified titania</td><td>49.3</td><td>20.2</td><td>50.6</td><td>+0.21 (p = 0.48)</td></tr>
+        <tr><td>Finisterre fabric, binder only</td><td>59.0</td><td>27.4</td><td>78.7 &dagger;</td><td>+0.68 (p = 0.23)</td></tr>
+        <tr><td>Finisterre fabric, commercial finish</td><td>24.4</td><td>31.1</td><td>77.8 &dagger;</td><td>+2.64 (p &lt; 0.001, R&sup2; = 0.92)</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>Washing</strong> is the result that stands. The commercial finish went from 24.4 to 77.8&deg; over 20 wash cycles, the steadiest trend in the data, and one of its coupons stopped releasing altogether, so that figure understates the loss. The coatings on cotton ended 20 cycles close to their starting values, though the bare titania bath rose by half. This survives correction for multiple testing, and it runs against what regression to the mean would predict for a sample that started with the lowest angle, so noise cannot explain it.</p>
+  <p><strong>Abrasion</strong> needs more care. Roll off fell on every one of my coatings as they were abraded, and on the one comparison that uses the same fabric, the gap to the commercial finish went from clear before wear (59.0 against 24.4&deg;, p = 0.025) to indistinguishable after 200 cycles (27.4 against 31.1&deg;, p = 0.743). But the samples that started worst improved most (r = 0.97), which is what noise alone produces against a floor near 13&deg;. So I read it as abrasion closing the gap on matched fabric, not as the coating getting better, and I don&#8217;t claim a mechanism.</p>
+  <figure>
+    <img loading="lazy" decoding="async" width="2000" height="862" src="../../assets/pfas/durability-rolloff.jpg" alt="Two panel chart of roll off angle. Under abrasion the lab coatings fall towards 20 to 30 degrees while the commercial finish stays near 25 to 31. Under washing every sample rises, the commercial finish most steeply from 24 to 78 degrees.">
+    <figcaption>Roll off angle through the wear programme. Error bars are standard error, n = 3, or n = 2 where a coupon stopped releasing (marked on the chart).</figcaption>
+  </figure>
+
+  <h3>Contact angle missed almost all of it</h3>
+  <p>Every sample stayed above 120&deg; through both wear routes. Abrasion raised contact angle rather than lowering it, and washing took it down by 8.0 to 12.4&deg; on the cotton coatings. Over the same samples roll off moved by 20 to 50&deg; and reversed the ranking. A screen built on contact angle alone would have called every coating, the commercial one included, essentially unchanged.</p>
+  <p>Infrared on the worn coupons, ratioed against a band from the fabric itself so that contact pressure cancels, found the silicone markers on the cotton coatings at 100 to 124% of their starting level after both wear routes. The repellent chemistry was still there while the shedding changed.</p>
+  <figure>
+    <img loading="lazy" decoding="async" width="2000" height="863" src="../../assets/pfas/durability-wca.jpg" alt="Two panel chart of static contact angle through washing and abrasion. All samples stay between about 110 and 145 degrees throughout.">
+    <figcaption>Static contact angle through the same wear programme. Error bars are standard error, n = 3.</figcaption>
+  </figure>
+</section>
+
+<section id="didnt-work">
+  <h2><span class="n">05</span>What did not work</h2>
+  <p><strong>The particle hypothesis was not supported.</strong> Under the microscope the silane modified titania was visibly better dispersed than the bare powder, which sat in large agglomerates. But no performance measure separated the two: not add on, not infrared, not contact angle, and not roll off before or after wear. At 3 wt% on this binder the particle treatment did not change performance. The one hint of a difference is that the modified particles seemed to lose less titanium in washing, but that rests on single EDX scans.</p>
+  <div class="pair">
+    <figure>
+      <img loading="lazy" decoding="async" width="1200" height="900" src="../../assets/sem-clumped.jpg" alt="SEM image of unmodified titanium dioxide sitting in large clumps on the fibres">
+      <figcaption>Bare titania on cotton, in large agglomerates. SEM, &times;2000.</figcaption>
+    </figure>
+    <figure>
+      <img loading="lazy" decoding="async" width="1200" height="900" src="../../assets/sem-dispersed.jpg" alt="SEM image of surface modified titanium dioxide in finer clusters across the fibres">
+      <figcaption>Silane modified titania, in finer clusters. Better dispersed, but it did not repel or shed any better.</figcaption>
+    </figure>
+  </div>
+  <p><strong>Small drops pinned on every lab coating.</strong> The best contact angles sit around 135&deg;, so this is not superhydrophobic and I don&#8217;t claim it is. Four explanations fit the process record, none of them established: surfactant collecting at the film surface; too much coating, since the pickup ran about 30% over target and a thicker film buries the fibre texture that shedding needs; uneven emulsion quality; and the drop size sensitivity of the roll off test itself.</p>
+  <p><strong>The static angle is behind the published version.</strong> The closest published system uses almost exactly the same chemistry and reports 161&deg;. It was made with a high shear disperser, a pickup held to 70 to 80% and a 60 second cure at 170&deg;C, so the gap looks like process maturity rather than chemistry. That paper didn&#8217;t test washing, which is where the clearest result here came from.</p>
+</section>
+
+<section id="limits">
+  <h2><span class="n">06</span>Limits</h2>
+  <ul>
+    <li>Three coupons per condition were cut from one coated batch per bath, cured in one run. They show variation within a batch, so for any comparison between baths the effective replication is one.</li>
+    <li>The abrasion and wash methods are lab screens, not textile standards.</li>
+    <li>One commercial benchmark, on one fabric. Three of the four comparisons with it cross fabrics, which is why the matched fabric result is the one quoted.</li>
+    <li>Worn coupon EDX and infrared are single coupons per condition, so they only resolve large effects.</li>
+    <li>The wear series ran over a fortnight without a time matched untreated control.</li>
+  </ul>
+</section>
+
+<section id="next">
+  <h2><span class="n">07</span>What I would do next</h2>
+  <ul>
+    <li>Measure add on, surface composition by XPS and roll off on the same coupons before and after a short abrasion series. That separates removing mass, removing surfactant and changing texture, and would turn the abrasion observation into a mechanism or rule it out.</li>
+    <li>Fix the drop volume and record the tilt ramp, and add a spray test to ISO 4920, so the shedding numbers can be compared with published work.</li>
+    <li>Close the process gap in one batch: high shear emulsification, pickup held to 70 to 80% on a lab padder, and a 60 second cure at 170&deg;C.</li>
+    <li>Replicate the worn coupon EDX and infrared to confirm or dismiss the titanium retention hint.</li>
+  </ul>
+  <p>The broader point I&#8217;d take into any coatings work: rank fluorine free candidates on how the drop leaves the surface, and on washing, not on static contact angle and abrasion alone. Static angle would have passed every coating here.</p>
+  <div class="links">
+    <a class="btn solid" href="https://jacksontigerb.github.io/fluorine-free-DWR/assets/docs/brocklebank-2026-fluorine-free-dwr-dissertation.pdf">Read the dissertation (PDF, 17 MB)</a>
+    <a class="btn" href="https://jacksontigerb.github.io/fluorine-free-DWR/results.html">Interactive results and methods</a>
+  </div>
+</section>
+</main>
+
+<footer>
+  <p>Every number on this page is from my dissertation, <em>Fluorine-Free Durable Water Repellent Nanocomposite Coatings for Cotton Textiles</em> (UCL Institute for Materials Discovery, 2026). Written 13 September 2026.</p>
+  <p style="margin-top:10px;"><a href="../../">Back to the portfolio</a> · <a href="mailto:jackson.brocklebank.25@ucl.ac.uk?subject=PFAS%20coating%20case%20study">jackson.brocklebank.25@ucl.ac.uk</a></p>
+</footer>
+
+</div>
+</body>
+</html>
