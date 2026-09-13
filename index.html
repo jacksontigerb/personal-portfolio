@@ -101,6 +101,7 @@ img{max-width:100%;height:auto;display:block;}
   position:relative;
 }
 section{margin-top:var(--section-gap);}
+.cselect + section{margin-top:48px;}
 
 /* ---------- vertical running strip ---------- */
 .rail{
@@ -125,7 +126,7 @@ nav{
   top:0;
   z-index:60;
   display:flex;
-  align-items:baseline;
+  align-items:center;
   justify-content:space-between;
   padding:16px 0;
   gap:18px;
@@ -141,7 +142,7 @@ nav{
   text-decoration:none;
 }
 .wordmark sup{font-size:0.5em;vertical-align:super;}
-.navlinks{display:flex;gap:32px;flex-wrap:wrap;}
+.navlinks{display:flex;gap:28px;flex-wrap:wrap;margin-left:auto;}
 .navlinks a{
   font-family:var(--telegraf);
   font-size:18px;
@@ -152,8 +153,9 @@ nav{
   border-bottom:1px solid transparent;
 }
 .navlinks a:hover{border-bottom:1px solid var(--black);}
-.navlinks a.nav-cv{border:1px solid var(--ink);padding:3px 12px;}
-.navlinks a.nav-cv:hover{background:var(--ink);color:var(--vellum);}
+.nav-cv{font-family:var(--telegraf);font-size:18px;letter-spacing:0.38px;color:var(--ink);text-decoration:none;border:1px solid var(--ink);padding:3px 12px;flex:0 0 auto;}
+.nav-cv:hover{background:var(--ink);color:var(--vellum);}
+.nav-cv:focus-visible{outline:2px solid var(--ink);outline-offset:3px;}
 
 /* ---------- inline links ---------- */
 .link{
@@ -583,149 +585,119 @@ nav{
 .skillgroup .v{font-family:var(--telegraf);font-size:20px;line-height:1.33;letter-spacing:0.5px;}
 
 /* ---------- character select, the hero ---------- */
+/* sized to its content, so the first piece of work is in view on a laptop */
 .cselect{
   margin-top:0;
-  /* fixed height so the roster is always on screen; the side panels take up any slack */
-  height:calc(100svh - var(--nav-h));
-  min-height:600px;
   display:grid;
-  /* the side columns were fixed at 320+420, which left the stage about 72px wide
-     between 901px and 1150px. They give ground now instead. */
-  grid-template-columns:minmax(0,1fr) clamp(240px,22vw,320px) clamp(300px,30vw,420px);
-  grid-template-rows:auto minmax(0,1fr);
-  grid-template-areas:"top top top" "stage info roster";
+  grid-template-columns:minmax(0,1fr) clamp(170px,16vw,240px) clamp(270px,25vw,360px);
+  grid-template-rows:auto 1fr;
+  grid-template-areas:"ident stage roster" "card stage roster";
+  column-gap:clamp(20px,2.4vw,36px);
+  padding:32px 0 0;
   border-bottom:1px solid var(--ink);
 }
-.cs-top{
-  grid-area:top;display:flex;align-items:flex-start;justify-content:space-between;
-  gap:20px;flex-wrap:wrap;padding:18px 0 16px;border-bottom:1px solid var(--ink);
+.cs-ident{grid-area:ident;display:flex;flex-direction:column;gap:14px;min-width:0;}
+.cs-player{font-family:var(--ogg);font-weight:400;font-size:clamp(34px,4.2vw,56px);line-height:1;letter-spacing:-1.4px;}
+.cs-intro{font-family:var(--telegraf);font-size:17px;line-height:1.45;letter-spacing:0.2px;max-width:62ch;}
+.cs-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:4px;}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  font-family:var(--telegraf);font-size:17px;letter-spacing:0.38px;line-height:1.2;
+  padding:12px 20px;border:1px solid var(--ink);color:var(--ink);background:var(--vellum);
+  text-decoration:none;box-shadow:3px 3px 0 0 var(--ink);
+  transition:transform .15s ease,box-shadow .15s ease,background .45s ease;
 }
-.cs-ident{display:flex;flex-direction:column;gap:7px;min-width:0;flex:1 1 520px;}
-.cs-kicker{font-family:var(--telegraf);font-size:13px;letter-spacing:1.5px;text-transform:uppercase;opacity:.68;}
-.cs-player{font-family:var(--ogg);font-weight:400;font-size:clamp(28px,4vw,48px);line-height:1;letter-spacing:-1.4px;}
-.cs-intro{font-family:var(--telegraf);font-size:16px;line-height:1.45;letter-spacing:0.2px;max-width:84ch;}
+.btn-solid{background:var(--accent);color:#fff;}
+.btn:hover{transform:translate(2px,2px);box-shadow:1px 1px 0 0 var(--ink);}
+.btn:focus-visible{outline:2px solid var(--ink);outline-offset:3px;}
+
+/* what this side of me did, and where on the page it lives */
+.cs-card{
+  grid-area:card;align-self:end;
+  margin:18px 0 20px;padding-top:14px;border-top:1px solid var(--ink);
+  display:flex;flex-direction:column;gap:8px;align-items:flex-start;
+}
+.cs-card-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;}
 .cs-nameplate{
-  background:var(--accent);color:#fff;padding:8px 20px;
-  font-family:var(--ogg);font-size:26px;line-height:1.2;letter-spacing:-0.52px;
+  background:var(--accent);color:#fff;padding:5px 14px;
+  font-family:var(--ogg);font-size:22px;line-height:1.2;letter-spacing:-0.4px;
   transition:background .45s ease;
 }
+.cs-class{font-family:var(--telegraf);font-size:14px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);transition:color .45s ease;}
+.cs-quest{font-family:var(--telegraf);font-size:18px;line-height:1.4;letter-spacing:0.3px;}
+.cs-weak{font-family:var(--telegraf);font-size:16px;line-height:1.4;letter-spacing:0.3px;}
+.cs-weak .k{font-size:13px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);margin-right:6px;}
+.cs-go{
+  font-family:var(--telegraf);font-size:17px;letter-spacing:0.38px;color:var(--ink);
+  text-decoration:none;border-bottom:1px solid var(--accent);padding-bottom:1px;
+}
+.cs-go:hover{border-bottom-width:2px;}
+.cs-go:focus-visible{outline:2px solid var(--ink);outline-offset:3px;}
 
-.cs-info{
-  grid-area:info;padding:18px 24px;
-  border-left:1px solid var(--ink);border-right:1px solid var(--ink);
-  min-height:0;overflow-y:auto;scrollbar-width:thin;
-}
-.cs-info .k{
-  font-family:var(--telegraf);font-size:13px;font-weight:600;
-  letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);
-  display:block;margin-bottom:9px;padding-bottom:5px;
-  border-bottom:1px solid var(--accent);
-  transition:color .45s ease,border-color .45s ease;
-}
-.cs-block{margin-bottom:15px;}
-.cs-block:last-child{margin-bottom:0;}
-.cs-block .v{font-family:var(--telegraf);font-size:18px;line-height:1.45;letter-spacing:0.38px;}
-.cs-info ul{list-style:none;}
-.cs-info li{
-  font-family:var(--telegraf);font-size:17px;line-height:1.45;letter-spacing:0.38px;
-  margin-bottom:8px;padding-left:16px;position:relative;
-}
-.cs-info li:last-child{margin-bottom:0;}
-.cs-info li::before{content:"";position:absolute;left:0;top:0.58em;width:6px;height:6px;background:var(--accent);transition:background .45s ease;}
-
-/* the stage */
-.cs-stage{grid-area:stage;position:relative;display:flex;align-items:flex-end;justify-content:center;overflow:hidden;min-height:0;}
+/* the stage: a fixed box, and the figure always keeps the art's own proportions */
+.cs-stage{grid-area:stage;position:relative;height:clamp(330px,50vh,440px);align-self:end;overflow:hidden;}
 .cs-wash{
-  position:absolute;left:50%;bottom:-6%;width:min(660px,96%);aspect-ratio:1/1;
+  position:absolute;left:50%;bottom:0;width:100%;height:85%;
   transform:translateX(-50%);pointer-events:none;
-  background:radial-gradient(circle at 50% 60%, rgba(var(--accent-rgb),0.30) 0%, rgba(var(--accent-rgb),0.10) 42%, rgba(var(--accent-rgb),0) 70%);
+  background:radial-gradient(closest-side at 50% 60%, rgba(var(--accent-rgb),0.30) 0%, rgba(var(--accent-rgb),0.10) 55%, rgba(var(--accent-rgb),0) 100%);
   transition:background .45s ease;
 }
 .cs-ghost{
-  position:absolute;left:50%;top:17%;transform:translate(-50%,-50%);
-  font-family:var(--ogg);font-size:clamp(80px,15vw,220px);line-height:1;white-space:nowrap;
+  position:absolute;left:50%;top:18%;transform:translate(-50%,-50%);
+  font-family:var(--ogg);font-size:clamp(80px,11vw,170px);line-height:1;white-space:nowrap;
   color:var(--accent);opacity:.14;pointer-events:none;transition:color .45s ease;
 }
-.cs-fig3d{position:relative;height:100%;min-height:0;display:flex;align-items:flex-end;justify-content:center;padding:14px 0 76px;}
-.cs-fig3d canvas{height:100%;width:auto;max-width:100%;display:block;image-rendering:pixelated;}
-.cs-fig3d img{height:100%;width:auto;max-width:100%;object-fit:contain;object-position:bottom center;display:block;image-rendering:pixelated;}
-.cs-fig3d .nofig{
-  display:flex;align-items:flex-end;justify-content:center;height:100%;min-height:230px;
-  font-family:var(--ogg);font-size:clamp(90px,13vw,170px);line-height:1;color:var(--accent);opacity:.3;
-  transition:color .45s ease;
+.cs-fig3d{position:relative;height:100%;display:flex;align-items:flex-end;justify-content:center;padding-top:12px;}
+.cs-fig3d canvas,.cs-fig3d img{
+  display:block;width:auto;height:auto;max-width:100%;max-height:100%;
+  image-rendering:pixelated;
 }
 
-/* the skill point pitch */
-.cs-sp{border-top:1px solid var(--ink);padding-top:13px;margin-top:14px;}
-.cs-sp .spnum{font-family:var(--ogg);font-size:32px;line-height:1;color:var(--accent);transition:color .45s ease;}
-.cs-sp .spcopy{font-family:var(--telegraf);font-size:15px;line-height:1.4;letter-spacing:0.38px;margin-top:8px;}
-.cs-sp .spbtn{
-  display:inline-block;margin-top:11px;background:var(--accent);color:#fff;
-  padding:10px 18px;font-family:var(--telegraf);font-size:16px;letter-spacing:0.38px;
-  text-decoration:none;transition:background .45s ease,opacity .2s ease;
-}
-.cs-sp .spbtn:hover{opacity:.86;}
-/* the scroll cue: the one obvious way down into the rest of the page */
-.cs-go{
-  position:absolute;left:50%;bottom:16px;transform:translateX(-50%);z-index:3;
-  display:inline-flex;align-items:center;gap:11px;white-space:nowrap;
-  background:var(--accent);color:#fff;text-decoration:none;
-  border:1px solid var(--ink);padding:12px 22px;
-  font-family:var(--telegraf);font-size:17px;letter-spacing:0.38px;
-  box-shadow:4px 4px 0 0 var(--ink);
-  transition:background .45s ease,transform .18s ease,box-shadow .18s ease;
-}
-.cs-go .chev{display:block;font-size:15px;line-height:1;}
-.cs-go:hover{transform:translateX(-50%) translate(2px,2px);box-shadow:2px 2px 0 0 var(--ink);}
-@media (prefers-reduced-motion:no-preference){
-  .cs-go .chev{animation:cs-bob 1.9s ease-in-out infinite;}
-  @keyframes cs-bob{0%,100%{transform:translateY(-2px);}50%{transform:translateY(3px);}}
-}
-
-/* the roster */
+/* the roster: a radio group, so arrow keys and screen readers already know how it works */
 .cs-roster{
-  grid-area:roster;
-  display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);
-  gap:1px;background:var(--ink);min-height:0;
+  grid-area:roster;align-self:end;
+  border:0;margin:0;padding:0;min-width:0;
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:1px;background:var(--ink);border-top:1px solid var(--ink);
 }
-.rtile--empty{background:var(--vellum);cursor:default;}
-.rtile{
-  position:relative;background:var(--vellum);font:inherit;color:var(--ink);
-  text-align:left;padding:0;cursor:pointer;display:flex;flex-direction:column;
-  -webkit-appearance:none;appearance:none;border:0;
-}
+.rtile{position:relative;background:var(--vellum);color:var(--ink);cursor:pointer;display:flex;flex-direction:column;min-width:0;}
 .rtile .rbar{height:4px;background:var(--tint);opacity:.3;transition:opacity .25s ease;}
-.rtile .rnum{position:absolute;top:9px;left:10px;font-size:15px;letter-spacing:0.6px;z-index:2;}
-.rtile .rart{
-  flex:1 1 auto;min-height:0;overflow:hidden;display:block;padding:0;
-}
+.rtile .rnum{position:absolute;top:8px;left:9px;font-size:13px;letter-spacing:0.6px;z-index:2;color:#9a9c9f;transition:color .25s ease;}
+.rtile .rart{display:block;aspect-ratio:5/4;overflow:hidden;}
 /* everything unpicked reads as greyed out, so the live one is unmistakable */
 .rtile .rart img{
   width:100%;height:100%;object-fit:cover;object-position:top center;display:block;
   filter:grayscale(1) contrast(.92);opacity:.42;
   transition:opacity .25s ease,filter .25s ease;image-rendering:pixelated;
 }
-.rtile .rname{color:#8b8d90;transition:color .25s ease,background .25s ease;}
-.rtile .rnum{color:#9a9c9f;transition:color .25s ease;}
-.rtile .lock{
-  position:absolute;left:0;right:0;top:40%;text-align:center;
-  font-family:var(--ogg);font-size:40px;line-height:1;opacity:.22;
-}
 .rtile .rname{
-  display:block;flex:0 0 auto;border-top:1px solid var(--ink);
-  padding:9px 10px;font-size:16px;font-weight:600;letter-spacing:0.2px;
+  display:block;border-top:1px solid var(--ink);padding:6px 8px;
+  font-size:14px;font-weight:600;letter-spacing:0.2px;line-height:1.2;
+  color:#6f7174;transition:color .25s ease,background .25s ease;
 }
-.rtile[aria-selected="true"] .rbar{opacity:1;}
-.rtile[aria-selected="true"] .rart img{filter:none;opacity:1;}
-.rtile[aria-selected="true"] .rname{background:var(--tint);color:#fff;}
-.rtile[aria-selected="true"] .rnum{color:var(--ink);}
-.rtile[aria-selected="true"] .lock{opacity:.5;color:var(--tint);}
-.rtile:focus-visible{outline:2px solid var(--ink);outline-offset:-3px;z-index:3;}
+.rtile:has(input:checked) .rbar{opacity:1;}
+.rtile:has(input:checked) .rart img{filter:none;opacity:1;}
+.rtile:has(input:checked) .rname{background:var(--tint);color:#fff;}
+.rtile:has(input:checked) .rnum{color:var(--ink);}
+.rtile:has(input:focus-visible){outline:2px solid var(--ink);outline-offset:-3px;z-index:3;}
 @media (hover:hover){
   .rtile:hover .rart img{filter:grayscale(.35);opacity:.8;}
   .rtile:hover .rname,.rtile:hover .rnum{color:var(--ink);}
-  .rtile[aria-selected="true"]:hover .rname{color:#fff;}
+  .rtile:has(input:checked):hover .rname{color:#fff;}
 }
+
+/* visually hidden, still read out and still focusable */
+.vh{position:absolute !important;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0;}
+
+/* the lines a selected piece of work leads with */
+.card .cres{font-family:var(--telegraf);font-size:18px;line-height:1.4;letter-spacing:0.3px;}
+
+/* sub-sections inside a section: a lighter rule than the section head */
+.sub-head{border-top-width:1px;margin-top:88px;}
+/* straight after a section head, a sub-section needs less air */
+.sec-head + .group > .sub-head:first-child{margin-top:44px;}
+.group > .cvlist:first-child{margin-top:0;}
 
 /* ---------- real artwork ---------- */
 .artbox{width:100%;overflow:hidden;}
@@ -835,6 +807,24 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
 
 /* ---------- responsive ---------- */
 @media (max-width:900px){
+  /* stacked: who first, then the figure beside the roster so a pick is always visible */
+  .cselect{
+    grid-template-columns:minmax(0,2fr) minmax(0,3fr);
+    grid-template-rows:auto auto auto;
+    grid-template-areas:"ident ident" "stage roster" "card card";
+    padding-top:24px;
+  }
+  .cs-ident{margin-bottom:24px;}
+  /* one tidy nav row from tablet width down: the links scroll sideways, the CV stays put */
+  nav{flex-wrap:nowrap;gap:16px;}
+  .wordmark{flex:0 0 auto;}
+  .navlinks{flex:1 1 auto;min-width:0;flex-wrap:nowrap;gap:22px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+  .navlinks::-webkit-scrollbar{display:none;}
+  .navlinks a{font-size:16px;white-space:nowrap;}
+  .cs-stage{height:auto;align-self:stretch;min-height:240px;}
+  .cs-fig3d{position:absolute;inset:0;}
+  .cs-card{align-self:start;}
+  .cselect + section{margin-top:56px;}
   :root{--margin:28px;--section-gap:88px;}
   .serif-display{font-size:40px;letter-spacing:-1.2px;}
   .footer-mark .big{font-size:40px;letter-spacing:-1.2px;}
@@ -853,22 +843,6 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
   .play-grid{grid-template-columns:1fr 1fr;}
   .play-grid > *{grid-column:auto !important;margin-top:0;}
   .skills-grid{grid-template-columns:1fr 1fr;}
-  .cselect{
-    height:auto;min-height:0;
-    grid-template-columns:1fr;
-    grid-template-rows:auto auto auto auto;
-    grid-template-areas:"top" "stage" "roster" "info";
-    min-height:0;
-  }
-  .cs-info{border:0;border-top:1px solid var(--ink);padding:24px 0;}
-  /* Nine tiles never fill a 2 or 4 column grid, so the leftover cells used to
-     show the roster's dark background as a black block. Draw the grid lines on
-     the tiles instead and let the empty cells stay on the page colour. */
-  .cs-roster{grid-template-rows:auto;background:var(--vellum);gap:0;}
-  .cs-roster .rtile{box-shadow:0 0 0 1px var(--ink);}
-  .cs-stage{min-height:52vh;}
-  .cs-fig3d{max-height:48vh;}
-  .cs-roster{grid-template-columns:repeat(4,1fr);}
   .sem-pair{grid-template-columns:1fr;}
   .pc-clients{grid-template-columns:1fr;}
   .pc-proof{grid-template-columns:1fr;}
@@ -878,10 +852,15 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
   .rail{display:none;}
 }
 @media (max-width:560px){
+  .cs-intro{font-size:17px;}
+  .cs-cta .btn{flex:1 1 100%;}
+  .cselect{grid-template-columns:minmax(0,1fr) minmax(0,2fr);}
+  .rtile .rname{font-size:11px;letter-spacing:0;padding:4px 4px;}
+  .rtile .rnum{font-size:11px;top:5px;left:5px;}
+  .cs-nameplate{font-size:20px;}
+  .sub-head{margin-top:64px;}
+  .nav-cv{font-size:15px;padding:2px 10px;}
   .story-grid,.timeline,.ski-grid,.play-grid,.skills-grid{grid-template-columns:1fr;}
-  .cs-roster{grid-template-columns:repeat(2,1fr);}
-  .cs-nameplate{font-size:20px;padding:7px 14px;}
-  .cs-top{flex-wrap:wrap;gap:12px;}
   .timeline .span2{grid-column:auto;}
   .cvitem{grid-template-columns:1fr;}
   .cvitem .date{grid-column:1;text-align:left;}
@@ -905,6 +884,11 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
   }
   .navlinks::-webkit-scrollbar{display:none;}
   .navlinks a{font-size:15px;white-space:nowrap;padding-bottom:0;}
+}
+
+/* the narrowest phones: faces only in the roster, names still read out, the card below names the pick */
+@media (max-width:360px){
+  .rtile .rname{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0;}
 }
 
 /* ---------- project cards ---------- */
@@ -977,145 +961,137 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
   <nav>
     <a class="wordmark" href="#top">JTB</a>
     <div class="navlinks">
-      <a href="#research">Research</a>
+      <a href="#work">Work</a>
       <a href="#engineering">Engineering</a>
-      <a href="#aicode">AI</a>
       <a href="#education">Education</a>
-      <a href="#content">Content</a>
-      <a href="#sport">Sport</a>
+      <a href="#skills">Toolkit</a>
+      <a href="#outside">Outside work</a>
       <a href="#contact">Contact</a>
-      <a class="nav-cv" href="assets/Jackson-Brocklebank-CV.pdf" download="Jackson Brocklebank CV.pdf">CV</a>
     </div>
+    <a class="nav-cv" href="assets/Jackson-Brocklebank-CV.pdf" download="Jackson Brocklebank CV.pdf">CV</a>
   </nav>
 
-  <!-- CHARACTER SELECT, the hero -->
+  <!-- HERO: who, what, when, and the two things a recruiter came for -->
   <section class="cselect" id="top">
-    <div class="cs-top">
-      <div class="cs-ident">
-        <span class="cs-kicker">Jackson Character Selection</span>
-        <h1 class="cs-player">Jackson Brocklebank</h1>
-        <p class="cs-intro">I'm Jackson. I've just finished an MSc in Advanced Materials Science at UCL, after renewable energy engineering at Exeter. My Master's project was a PFAS free water repellent coating, made with Finisterre and tested on their own fabric. I'm at Curtin in Perth until November, and looking for work in London from May 2027.</p>
+    <div class="cs-ident">
+      <h1 class="cs-player">Jackson Brocklebank</h1>
+      <p class="cs-intro">I'm Jackson. I've just finished an MSc in Advanced Materials Science at UCL, after renewable energy engineering at Exeter. My Master's project was a PFAS free water repellent coating, made with Finisterre and tested on their own fabric. I'm at Curtin in Perth until November, and looking for work in London from May 2027.</p>
+      <div class="cs-cta">
+        <a class="btn btn-solid" href="assets/Jackson-Brocklebank-CV.pdf" download="Jackson Brocklebank CV.pdf">Download CV (PDF)</a>
+        <a class="btn" href="mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry">Email me</a>
       </div>
-      <span class="cs-nameplate" id="cs-name">Jack of All Trades</span>
     </div>
 
     <div class="cs-stage">
       <span class="cs-wash" aria-hidden="true"></span>
       <span class="cs-ghost" id="cs-ghost" aria-hidden="true">01</span>
       <div class="cs-fig3d" id="cs-fig">
-        <img loading="eager" decoding="async" src="assets/char-allrounder.png" alt="The Allrounder">
-      </div>
-      <a class="cs-go" id="cs-go" href="#research">see everything <span class="chev" aria-hidden="true">&#9660;</span></a>
-    </div>
-
-    <div class="cs-info" id="cs-panel" role="tabpanel" aria-labelledby="rt-allrounder">
-      <div class="cs-block"><span class="k">class</span><p class="v" id="cs-class">Materials and energy engineer</p></div>
-      <div class="cs-block"><span class="k">quest</span><p class="v" id="cs-quest">Open to research, engineering and design</p></div>
-      <div class="cs-block" id="cs-weakblock" hidden><span class="k">weakness</span><p class="v" id="cs-weak"></p></div>
-      <div class="cs-sp">
-        <a class="spbtn" id="cs-spend" href="mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Jack%20of%20All%20Trades&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Jack%20of%20All%20Trades.%0D%0A%0D%0A">get in touch &rarr;</a>
+        <img loading="eager" decoding="async" width="537" height="840" src="assets/char-allrounder.png" alt="Pixel art of Jackson as the Jack of All Trades">
       </div>
     </div>
 
-    <div class="cs-roster" role="tablist" aria-label="Choose a character">
-      <button class="rtile" type="button" role="tab" id="rt-allrounder" data-char="allrounder"
-              style="--tint:#46607d" aria-selected="true" aria-controls="cs-panel"
-              tabindex="0">
+    <div class="cs-card" id="cs-panel">
+      <div class="cs-card-head">
+        <span class="cs-nameplate" id="cs-name">Jack of All Trades</span>
+        <span class="cs-class" id="cs-class">Materials and energy engineer</span>
+      </div>
+      <p class="cs-quest" id="cs-quest">Open to research, engineering and design</p>
+      <p class="cs-weak" id="cs-weakblock" hidden><span class="k">weakness</span> <span id="cs-weak"></span></p>
+      <a class="cs-go" id="cs-go" href="#work">see everything <span aria-hidden="true">&darr;</span></a>
+    </div>
+
+    <fieldset class="cs-roster">
+      <legend class="vh">Pick a character</legend>
+      <label class="rtile" style="--tint:#46607d">
+        <input class="vh" type="radio" name="character" value="allrounder" checked>
         <span class="rbar" aria-hidden="true"></span>
-        <span class="rnum">01</span>
-        <span class="rart"><img loading="lazy" decoding="async" src="assets/face-allrounder.png" alt=""></span>
+        <span class="rnum" aria-hidden="true">01</span>
+        <span class="rart" aria-hidden="true"><img loading="lazy" decoding="async" src="assets/face-allrounder.png" alt=""></span>
         <span class="rname">Jack of All Trades</span>
-      </button>
-      <button class="rtile" type="button" role="tab" id="rt-master" data-char="master"
-              style="--tint:#3a3f45" aria-selected="false" aria-controls="cs-panel"
-              tabindex="-1">
+      </label>
+      <label class="rtile" style="--tint:#3a3f45">
+        <input class="vh" type="radio" name="character" value="master">
         <span class="rbar" aria-hidden="true"></span>
-        <span class="rnum">02</span>
-        <span class="rart"><img loading="lazy" decoding="async" src="assets/face-master.png" alt=""></span>
+        <span class="rnum" aria-hidden="true">02</span>
+        <span class="rart" aria-hidden="true"><img loading="lazy" decoding="async" src="assets/face-master.png" alt=""></span>
         <span class="rname">Master of One</span>
-      </button>
-      <button class="rtile" type="button" role="tab" id="rt-researcher" data-char="researcher"
-              style="--tint:#14807b" aria-selected="false" aria-controls="cs-panel"
-              tabindex="-1">
+      </label>
+      <label class="rtile" style="--tint:#14807b">
+        <input class="vh" type="radio" name="character" value="researcher">
         <span class="rbar" aria-hidden="true"></span>
-        <span class="rnum">03</span>
-        <span class="rart"><img loading="lazy" decoding="async" src="assets/face-researcher.png" alt=""></span>
+        <span class="rnum" aria-hidden="true">03</span>
+        <span class="rart" aria-hidden="true"><img loading="lazy" decoding="async" src="assets/face-researcher.png" alt=""></span>
         <span class="rname">Researcher</span>
-      </button>
-      <button class="rtile" type="button" role="tab" id="rt-builder" data-char="builder"
-              style="--tint:#7d6a1a" aria-selected="false" aria-controls="cs-panel"
-              tabindex="-1">
+      </label>
+      <label class="rtile" style="--tint:#7d6a1a">
+        <input class="vh" type="radio" name="character" value="builder">
         <span class="rbar" aria-hidden="true"></span>
-        <span class="rnum">04</span>
-        <span class="rart"><img loading="lazy" decoding="async" src="assets/face-builder.png" alt=""></span>
+        <span class="rnum" aria-hidden="true">04</span>
+        <span class="rart" aria-hidden="true"><img loading="lazy" decoding="async" src="assets/face-builder.png" alt=""></span>
         <span class="rname">Engineer</span>
-      </button>
-      <button class="rtile" type="button" role="tab" id="rt-operator" data-char="operator"
-              style="--tint:#2f7d4a" aria-selected="false" aria-controls="cs-panel"
-              tabindex="-1">
+      </label>
+      <label class="rtile" style="--tint:#2f7d4a">
+        <input class="vh" type="radio" name="character" value="operator">
         <span class="rbar" aria-hidden="true"></span>
-        <span class="rnum">05</span>
-        <span class="rart"><img loading="lazy" decoding="async" src="assets/face-operator.png" alt=""></span>
+        <span class="rnum" aria-hidden="true">05</span>
+        <span class="rart" aria-hidden="true"><img loading="lazy" decoding="async" src="assets/face-operator.png" alt=""></span>
         <span class="rname">Computer Guy</span>
-      </button>
-      <button class="rtile" type="button" role="tab" id="rt-creator" data-char="creator"
-              style="--tint:#b23a48" aria-selected="false" aria-controls="cs-panel"
-              tabindex="-1">
+      </label>
+      <label class="rtile" style="--tint:#b23a48">
+        <input class="vh" type="radio" name="character" value="creator">
         <span class="rbar" aria-hidden="true"></span>
-        <span class="rnum">06</span>
-        <span class="rart"><img loading="lazy" decoding="async" src="assets/face-creator.png" alt=""></span>
+        <span class="rnum" aria-hidden="true">06</span>
+        <span class="rart" aria-hidden="true"><img loading="lazy" decoding="async" src="assets/face-creator.png" alt=""></span>
         <span class="rname">Content Creator</span>
-      </button>
-      <button class="rtile" type="button" role="tab" id="rt-rider" data-char="rider"
-              style="--tint:#a85414" aria-selected="false" aria-controls="cs-panel"
-              tabindex="-1">
+      </label>
+      <label class="rtile" style="--tint:#a85414">
+        <input class="vh" type="radio" name="character" value="rider">
         <span class="rbar" aria-hidden="true"></span>
-        <span class="rnum">07</span>
-        <span class="rart"><img loading="lazy" decoding="async" src="assets/face-rider.png" alt=""></span>
+        <span class="rnum" aria-hidden="true">07</span>
+        <span class="rart" aria-hidden="true"><img loading="lazy" decoding="async" src="assets/face-rider.png" alt=""></span>
         <span class="rname">Athlete</span>
-      </button>
-      <button class="rtile" type="button" role="tab" id="rt-wanderer" data-char="wanderer"
-              style="--tint:#6f5aa8" aria-selected="false" aria-controls="cs-panel"
-              tabindex="-1">
+      </label>
+      <label class="rtile" style="--tint:#6f5aa8">
+        <input class="vh" type="radio" name="character" value="wanderer">
         <span class="rbar" aria-hidden="true"></span>
-        <span class="rnum">08</span>
-        <span class="rart"><img loading="lazy" decoding="async" src="assets/face-wanderer.png" alt=""></span>
+        <span class="rnum" aria-hidden="true">08</span>
+        <span class="rart" aria-hidden="true"><img loading="lazy" decoding="async" src="assets/face-wanderer.png" alt=""></span>
         <span class="rname">Explorer</span>
-      </button>
-      <button class="rtile" type="button" role="tab" id="rt-skier" data-char="skier"
-              style="--tint:#2a6f9e" aria-selected="false" aria-controls="cs-panel"
-              tabindex="-1">
+      </label>
+      <label class="rtile" style="--tint:#2a6f9e">
+        <input class="vh" type="radio" name="character" value="skier">
         <span class="rbar" aria-hidden="true"></span>
-        <span class="rnum">09</span>
-        <span class="rart"><img loading="lazy" decoding="async" src="assets/face-skier.png" alt=""></span>
+        <span class="rnum" aria-hidden="true">09</span>
+        <span class="rart" aria-hidden="true"><img loading="lazy" decoding="async" src="assets/face-skier.png" alt=""></span>
         <span class="rname">Skier</span>
-      </button>
-    </div>
+      </label>
+    </fieldset>
   </section>
 
-  <!-- RESEARCH -->
-  <section id="research">
+  <!-- SELECTED WORK -->
+  <section id="work">
     <div class="sec-head">
       <div>
-        <span class="eyebrow">01 · research &amp; materials</span>
-        <h2 class="serif-heading">Work <span class="italic">in the lab</span></h2>
+        <span class="eyebrow">01 · selected work</span>
+        <h2 class="serif-heading">Selected <span class="italic">work</span></h2>
       </div>
-      <p class="lead">Coatings, energy storage and CO&#8322; conversion. Characterisation runs through all of it.</p>
+      <p class="lead">The two pieces with results to show: a coating measured against a commercial finish, and a battery ageing model scored on operating conditions it had never seen.</p>
     </div>
     <div class="cards">
       <div class="card feature" data-panel="p-pfas" aria-controls="p-pfas">
         <div class="cimg"><img loading="lazy" decoding="async" src="assets/wca-coating.jpg" alt="A water droplet beading up on the coated fabric under the contact angle goniometer"></div>
         <div class="cbody">
           <div class="ct">A PFAS free water repellent coating <span class="sub">in collaboration with Finisterre</span></div>
+          <div class="cres">132 to 135&deg; water contact angle on cotton, level with the commercial PFAS free finish at 132&deg;</div>
           <div class="ctags">SEM / contact angle / nanoparticle synthesis / my Master&#8217;s project</div>
           <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
         </div>
       </div>
-      <div class="card" data-panel="p-redox" aria-controls="p-redox">
-        <div class="cimg"><img loading="lazy" decoding="async" src="assets/redox-cover.jpg" alt="Dissertation cover: Redox Flow Batteries in Coupling Renewable Energy Sources, University of Exeter, April 2025"></div>
+      <div class="card textonly" data-panel="p-huawei" aria-controls="p-huawei">
         <div class="cbody">
-          <div class="ct">Redox flow batteries <span class="sub">BEng dissertation, awarded a first</span></div>
-          <div class="ctags">energy storage / expert interviews / University of Exeter</div>
+          <div class="ct">Predicting battery life <span class="sub">Huawei Tech Arena 2026, grid storage</span></div>
+          <div class="cres">0.711 against the baseline&#8217;s 1.000 on held out operating conditions, lower is better</div>
+          <div class="ctags">LFP cells / lifetime modelling / Python</div>
           <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
         </div>
       </div>
@@ -1168,30 +1144,57 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
     <p style="margin-top:44px;">These coatings tend to lose their repellency after a few washes, so I put the coated samples through 20 wash cycles and 200 abrasion cycles, measuring the contact angle again at each stage.</p>
   
     </div>
-    <div class="panel" id="p-redox" hidden>
+    <div class="panel" id="p-huawei" hidden>
       <div class="panel-head">
-        <div class="t">Redox flow batteries <span class="sub">BEng dissertation, awarded a first</span></div>
+        <div class="t">Predicting battery life <span class="sub">Huawei Tech Arena 2026, Digital Power</span></div>
         <button class="pclose" data-close type="button">close &times;</button>
       </div>
-      <div class="panel-cols">
-        <div class="stack">
-          <p class="intro">My BEng dissertation at Exeter, supervised by Xiaohong Li and David Trudgeon. Wind and solar generate when the weather allows, so the grid needs storage that can hold several hours and give it back slowly. Flow batteries keep the energy in external electrolyte tanks and the power in a separate stack, so the two can be sized independently.</p>
-          <p>I compared five chemistries: zinc bromine, iron chromium, metal air, lithium based and vanadium. Vanadium came out ahead for grid scale. All four of its oxidation states dissolve in the same acid, so electrolyte crossing between the half cells only self discharges instead of contaminating them, and a stack takes 10,000 to 20,000 deep cycles before the capacity noticeably fades. The electrolyte is water based, so there is no thermal runaway to design around.</p>
-          <p>I also ran my own interviews. Seven invitations went out to people working on vanadium flow batteries in industry and research, four agreed, and three recordings survived a fault that lost the fourth. Twelve questions each, twenty to forty minutes, transcribed and then corrected by hand.</p>
-          <p>They agreed on the barriers. Perfluorinated membranes such as Nafion are expensive, pumps and power electronics pull real round trip efficiency down to about 75%, and market rules reward fast response rather than the eight hour discharge vanadium is suited to. The Energy Superhub Oxford case study showed the pairing that gets used in practice: the vanadium system absorbs the daily deep cycling so the lithium pack next to it can take the short high power calls and last longer.</p>
-          <p>None of those is a scientific problem. Vanadium already meets the technical requirement for coupling with wind and solar, and what is left is cost and regulation.</p>
-        </div>
-        <img loading="lazy" decoding="async" class="art-natural shot" width="926" height="1310" src="assets/redox-cover.jpg" alt="Dissertation cover: Redox Flow Batteries in Coupling Renewable Energy Sources, University of Exeter, April 2025">
+      <p class="intro">A grid storage battery fades slowly for years and then turns a corner, and the pack is finished shortly after. The competition asked for the whole curve down through that knee to 70% state of health, for temperatures and charge rates the model had never seen, from nothing but the temperature and the C rate. No sensor traces, because the cells being scored had none.</p>
+      <p style="margin-top:18px;">The organisers' baseline fades as n to the power 0.8. That exponent is below one, so the fade rate falls as the cell ages, and a knee is the opposite: fade that accelerates. The baseline could not represent the thing the task was asking for. That is where the improvement came from, so fade and knee got separate models and the knee was allowed to fit to zero where there was not one.</p>
+      <p style="margin-top:18px;">Two findings made the difference. The knee does not follow the Arrhenius law the fade does, and the dominant ageing mechanism in these cells changes somewhere around 35 to 45&deg;C, so one temperature law across both was never going to hold. And none of the open datasets carried the condition dependence the six unseen operating points needed, so it had to come from the target data, with the open data used only as a prior on curve shape.</p>
+      <p style="margin-top:18px;">Validation held out whole operating conditions rather than cells, which is how the real scoring works. Against the baseline at 1.000, lower being better, it scored 0.711. The error at the 70% end of life point fell from 64% to 36%.</p>
+      <div class="tools-row" style="margin-top:26px;">
+        <span class="k">built with</span>
+        Python / NumPy / SciPy / pytest / Make
       </div>
     </div>
+  </section>
 
+  <!-- CURRENT RESEARCH -->
+  <section id="current">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">02 · current research</span>
+        <h2 class="serif-heading">In <span class="italic">progress</span></h2>
+      </div>
+      <p class="lead">At Curtin in Perth until November 2026. There are no results yet, so this is what the work is rather than what it found.</p>
+    </div>
+    <div class="cards">
+      <div class="card textonly" data-panel="p-curtin" aria-controls="p-curtin">
+        <div class="cbody">
+          <div class="ct">Iron oxide catalysts for CO&#8322; conversion <span class="sub">visiting research associate at Curtin</span></div>
+          <div class="ctags">sol gel synthesis / Curtin University, Perth / until November 2026</div>
+          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="panel" id="p-curtin" hidden>
+      <div class="panel-head">
+        <div class="t">Iron oxide catalysts for CO&#8322; conversion <span class="sub">visiting research associate, Curtin University</span></div>
+        <button class="pclose" data-close type="button">close &times;</button>
+      </div>
+      <p class="intro">I am in Perth until November 2026, in a group working on CO&#8322; removal and conversion. Capturing the CO&#8322; is one half of the problem and turning it into a fuel or a chemical is the other. My project is on the conversion side.</p>
+      <p style="margin-top:18px;">My part is the catalyst. I make iron oxide by a sol gel route from iron nitrate: dissolve it, heat and stir until the solution condenses into a gel, dry that, then calcine it to crystallise the oxide. The precursor is cheap and abundant, and the temperatures are low next to solid state synthesis.</p>
+      <p style="margin-top:18px;">Which phase comes out of the calcination matters more than anything else. Hematite and maghemite have different structures and reduce at different rates, and maghemite derived catalysts tend to convert more CO&#8322;. Calcination temperature and time decide the balance, so the synthesis conditions and the catalytic behaviour are one question rather than two. The plan after the synthesis is XRD for the phase, electron microscopy and surface area for the morphology, then reactor testing.</p>
+      <p style="margin-top:18px;">The placement runs to November, so there is nothing to report yet.</p>
+    </div>
   </section>
 
   <!-- ENGINEERING -->
   <section id="engineering">
     <div class="sec-head">
       <div>
-        <span class="eyebrow">02 · engineering &amp; prototyping</span>
+        <span class="eyebrow">03 · engineering &amp; prototyping</span>
         <h2 class="serif-heading">Made <span class="italic">and tested</span></h2>
       </div>
       <p class="lead">Things I've designed, built and tested. Each card opens up.</p>
@@ -1205,11 +1208,11 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
           <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
         </div>
       </div>
-      <div class="card" data-panel="p-maze" aria-controls="p-maze">
-        <div class="cimg"><img loading="lazy" decoding="async" src="assets/maze-robot.jpg" alt="Arduino maze solving robot with breadboard wiring and yellow wheels"></div>
+      <div class="card" data-panel="p-hydro" aria-controls="p-hydro">
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/hydroturbine.jpg" alt="Hydroturbine built from an orange pipe, tested in a real stream"></div>
         <div class="cbody">
-          <div class="ct">Maze solving robot <span class="sub">sensors and soldering</span></div>
-          <div class="ctags">electronics / control logic / Arduino</div>
+          <div class="ct">A £50 hydroturbine <span class="sub">tested in a real stream</span></div>
+          <div class="ctags">design to field test / renewable energy</div>
           <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
         </div>
       </div>
@@ -1221,11 +1224,11 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
           <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
         </div>
       </div>
-      <div class="card" data-panel="p-hydro" aria-controls="p-hydro">
-        <div class="cimg"><img loading="lazy" decoding="async" src="assets/hydroturbine.jpg" alt="Hydroturbine built from an orange pipe, tested in a real stream"></div>
+      <div class="card" data-panel="p-maze" aria-controls="p-maze">
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/maze-robot.jpg" alt="Arduino maze solving robot with breadboard wiring and yellow wheels"></div>
         <div class="cbody">
-          <div class="ct">A £50 hydroturbine <span class="sub">tested in a real stream</span></div>
-          <div class="ctags">design to field test / renewable energy</div>
+          <div class="ct">Maze solving robot <span class="sub">sensors and soldering</span></div>
+          <div class="ctags">electronics / control logic / Arduino</div>
           <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
         </div>
       </div>
@@ -1237,23 +1240,6 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
           <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
         </div>
       </div>
-      <div class="card textonly" data-panel="p-curtin" aria-controls="p-curtin">
-        <div class="cbody">
-          <div class="ct">Iron oxide catalysts for CO&#8322; conversion <span class="sub">visiting research associate at Curtin</span></div>
-          <div class="ctags">sol gel synthesis / XRD and electron microscopy / Perth, until November 2026</div>
-          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
-        </div>
-      </div>
-    </div>
-    <div class="panel" id="p-curtin" hidden>
-      <div class="panel-head">
-        <div class="t">Iron oxide catalysts for CO&#8322; conversion <span class="sub">visiting research associate, Curtin University</span></div>
-        <button class="pclose" data-close type="button">close &times;</button>
-      </div>
-      <p class="intro">I am in Perth until November 2026, in a group working on CO&#8322; removal and conversion. Capturing the CO&#8322; is one half of the problem and turning it into a fuel or a chemical is the other. My project is on the conversion side.</p>
-      <p style="margin-top:18px;">My part is the catalyst. I make iron oxide by a sol gel route from iron nitrate: dissolve it, heat and stir until the solution condenses into a gel, dry that, then calcine it to crystallise the oxide. The precursor is cheap and abundant, and the temperatures are low next to solid state synthesis.</p>
-      <p style="margin-top:18px;">Which phase comes out of the calcination matters more than anything else. Hematite and maghemite have different structures and reduce at different rates, and maghemite derived catalysts tend to convert more CO&#8322;. Calcination temperature and time decide the balance, so the synthesis conditions and the catalytic behaviour are one question rather than two. XRD for the phase, electron microscopy and surface area for the morphology, then reactor testing.</p>
-      <p style="margin-top:18px;">The placement runs to November, so there is nothing to report yet.</p>
     </div>
     <div class="panel" id="p-solar" hidden>
       <div class="panel-head">
@@ -1263,6 +1249,26 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
       <div class="panel-cols">
         <div class="artbox ratio-wide"><img loading="lazy" decoding="async" src="assets/solar-boat.jpg" alt="The solar boat team in blue lab coats working on the hull in the workshop"></div>
         <p class="intro">A university team project to design, machine and race a solar powered boat. I worked on the CAD and the fabrication in the workshop, and we raced the finished boat in the Netherlands. We did not win, but it was eight months from a drawing to something that got in the water and held together.</p>
+      </div>
+    </div>
+    <div class="panel" id="p-hydro" hidden>
+      <div class="panel-head">
+        <div class="t">A £50 hydroturbine <span class="sub">tested in a real stream</span></div>
+        <button class="pclose" data-close type="button">close &times;</button>
+      </div>
+      <div class="panel-cols">
+        <div class="artbox ratio-wide"><img loading="lazy" decoding="async" src="assets/hydroturbine.jpg" alt="Hydroturbine built from an orange pipe, tested in a real stream"></div>
+        <p class="intro">A hydroturbine designed and made for around £50, then taken outside and tested in a real stream. It generated enough to light a bulb from stream flow alone.</p>
+      </div>
+    </div>
+    <div class="panel" id="p-bridge" hidden>
+      <div class="panel-head">
+        <div class="t">The balsa bridge <span class="sub">the only one to hold under full load</span></div>
+        <button class="pclose" data-close type="button">close &times;</button>
+      </div>
+      <div class="panel-cols">
+        <div class="artbox ratio-wide"><img loading="lazy" decoding="async" src="assets/bridge.jpg" alt="Building the balsa bridge in the workshop with two teammates"></div>
+        <p class="intro">A team project to build a bridge from balsa wood. We spotted the flaw in our design before test day and fixed it. On test day it carried a large radio controlled car, and ours was the only bridge in the group that held.</p>
       </div>
     </div>
     <div class="panel" id="p-maze" hidden>
@@ -1281,26 +1287,6 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
         </figure>
       </div>
     </div>
-    <div class="panel" id="p-bridge" hidden>
-      <div class="panel-head">
-        <div class="t">The balsa bridge <span class="sub">the only one to hold under full load</span></div>
-        <button class="pclose" data-close type="button">close &times;</button>
-      </div>
-      <div class="panel-cols">
-        <div class="artbox ratio-wide"><img loading="lazy" decoding="async" src="assets/bridge.jpg" alt="Building the balsa bridge in the workshop with two teammates"></div>
-        <p class="intro">A team project to build a bridge from balsa wood. We spotted the flaw in our design before test day and fixed it. On test day it carried a large radio controlled car, and ours was the only bridge in the group that held.</p>
-      </div>
-    </div>
-    <div class="panel" id="p-hydro" hidden>
-      <div class="panel-head">
-        <div class="t">A £50 hydroturbine <span class="sub">tested in a real stream</span></div>
-        <button class="pclose" data-close type="button">close &times;</button>
-      </div>
-      <div class="panel-cols">
-        <div class="artbox ratio-wide"><img loading="lazy" decoding="async" src="assets/hydroturbine.jpg" alt="Hydroturbine built from an orange pipe, tested in a real stream"></div>
-        <p class="intro">A hydroturbine designed and made for around £50, then taken outside and tested in a real stream. It generated enough to light a bulb from stream flow alone.</p>
-      </div>
-    </div>
     <div class="panel" id="p-bikes" hidden>
       <div class="panel-head">
         <div class="t">Brocklebikes <span class="sub">a business I started at sixteen</span></div>
@@ -1311,26 +1297,134 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
         <p class="intro">The bike repair business I started at sixteen. Self taught, customer facing, and more than 495 bikes fixed.</p>
       </div>
     </div>
-
   </section>
 
-  <!-- AI & CODE -->
-  <section id="aicode">
+  <!-- EDUCATION AND EXPERIENCE -->
+  <section id="education">
     <div class="sec-head">
       <div>
-        <span class="eyebrow">03 · ai in practice</span>
-        <h2 class="serif-heading">AI, <span class="italic">day to day</span></h2>
+        <span class="eyebrow">04 · education &amp; experience</span>
+        <h2 class="serif-heading">Two degrees, <span class="italic">materials and energy</span></h2>
+      </div>
+      <p class="lead">An MSc in advanced materials at UCL, on top of renewable energy engineering at Exeter. Two firsts along the way, the dissertation and the field trip module.</p>
+    </div>
+    <div class="cvlist">
+      <div class="cvitem">
+        <div class="h">
+          <div class="t">MSc Advanced Materials Science <span class="sub">University College London</span></div>
+          <span class="place">London · research year</span>
+          <p class="desc">The home of the PFAS free coating project. Day to day it's synthesis in the lab and a lot of hours on the characterisation suite, SEM, TEM, FTIR, XRD and XPS.</p>
+        </div>
+        <div class="date">09/2025 – 09/2026</div>
+      </div>
+      <div class="cvitem">
+        <div class="h">
+          <div class="t">BEng Renewable Energy Engineering <span class="sub">University of Exeter, 2:1</span></div>
+          <span class="place">Exeter · mechanical and electrical grounding</span>
+          <p class="desc">My dissertation on redox flow batteries for renewable energy earned a first, and so did the field trip module, where I pitched wind turbine blade recycling to industry partners Nadara and ReBlade. One field trip, a day hiking a mountain near Oban, I turned into a vlog, shot and edited on the move.</p>
+          <img loading="lazy" decoding="async" class="cv-photo" width="1600" height="1080" src="assets/graduation.jpg" alt="Graduation day at Exeter, cap and gown on, with my family around me">
+          <p class="tile-tags" style="margin-top:11px;">graduation day at Exeter, family in tow</p>
+        </div>
+        <div class="date">09/2022 – 07/2025</div>
+      </div>
+    </div>
+    <div class="group">
+    <div class="cards">
+      <div class="card" data-panel="p-redox" aria-controls="p-redox">
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/redox-cover.jpg" alt="Dissertation cover: Redox Flow Batteries in Coupling Renewable Energy Sources, University of Exeter, April 2025"></div>
+        <div class="cbody">
+          <div class="ct">Redox flow batteries <span class="sub">BEng dissertation, awarded a first</span></div>
+          <div class="ctags">energy storage / expert interviews / University of Exeter</div>
+          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="panel" id="p-redox" hidden>
+      <div class="panel-head">
+        <div class="t">Redox flow batteries <span class="sub">BEng dissertation, awarded a first</span></div>
+        <button class="pclose" data-close type="button">close &times;</button>
+      </div>
+      <div class="panel-cols">
+        <div class="stack">
+          <p class="intro">My BEng dissertation at Exeter, supervised by Xiaohong Li and David Trudgeon. Wind and solar generate when the weather allows, so the grid needs storage that can hold several hours and give it back slowly. Flow batteries keep the energy in external electrolyte tanks and the power in a separate stack, so the two can be sized independently.</p>
+          <p>I compared five chemistries: zinc bromine, iron chromium, metal air, lithium based and vanadium. Vanadium came out ahead for grid scale. All four of its oxidation states dissolve in the same acid, so electrolyte crossing between the half cells only self discharges instead of contaminating them, and a stack takes 10,000 to 20,000 deep cycles before the capacity noticeably fades. The electrolyte is water based, so there is no thermal runaway to design around.</p>
+          <p>I also ran my own interviews. Seven invitations went out to people working on vanadium flow batteries in industry and research, four agreed, and three recordings survived a fault that lost the fourth. Twelve questions each, twenty to forty minutes, transcribed and then corrected by hand.</p>
+          <p>They agreed on the barriers. Perfluorinated membranes such as Nafion are expensive, pumps and power electronics pull real round trip efficiency down to about 75%, and market rules reward fast response rather than the eight hour discharge vanadium is suited to. The Energy Superhub Oxford case study showed the pairing that gets used in practice: the vanadium system absorbs the daily deep cycling so the lithium pack next to it can take the short high power calls and last longer.</p>
+          <p>None of those is a scientific problem. Vanadium already meets the technical requirement for coupling with wind and solar, and what is left is cost and regulation.</p>
+        </div>
+        <img loading="lazy" decoding="async" class="art-natural shot" width="926" height="1310" src="assets/redox-cover.jpg" alt="Dissertation cover: Redox Flow Batteries in Coupling Renewable Energy Sources, University of Exeter, April 2025">
+      </div>
+    </div>
+    </div>
+    <div class="group" id="experience">
+    <div class="sec-head sub-head">
+      <div>
+        <h3 class="serif-heading">Work <span class="italic">outside the lab</span></h3>
+      </div>
+      <p class="lead">Alongside university: library IT support, student rep, caf&eacute; and lettings work, and a running club I started.</p>
+    </div>
+    <div class="cvlist">
+      <div class="cvitem">
+        <div class="h">
+          <div class="t">Run Club Founder &amp; President <span class="sub">Falmouth Running Society</span></div>
+          <span class="place">Started a club and grew a community</span>
+          <p class="desc">Founded and led a university running club, growing it to 200+ followers and weekly sessions of up to 25 runners in a single semester.</p>
+        </div>
+        <div class="date">01/2024 – 06/2024</div>
+      </div>
+      <div class="cvitem">
+        <div class="h">
+          <div class="t">Digital Hub Student Ambassador <span class="sub">University of Exeter</span></div>
+          <span class="place">Technical support, up to 100 students a day</span>
+          <p class="desc">Provided troubleshooting in the library IT department, helping up to a hundred students a day.</p>
+        </div>
+        <div class="date">09/2024 – 06/2025</div>
+      </div>
+      <div class="cvitem">
+        <div class="h">
+          <div class="t">Student Representative <span class="sub">University College London</span></div>
+          <span class="place">Relaying feedback in departmental meetings</span>
+          <p class="desc">Gathering and relaying course feedback, helping the department spot and address student concerns.</p>
+        </div>
+        <div class="date">09/2025 – present</div>
+      </div>
+      <div class="cvitem">
+        <div class="h">
+          <div class="t">Customer Facing Roles <span class="sub">cafés and a lettings office</span></div>
+          <span class="place">Drury 188-189 · Castle Beach Café · Frank Harris &amp; Co</span>
+          <p class="desc">Fast, accurate service across two café roles and a sales and lettings office, handling orders, enquiries and day to day admin.</p>
+        </div>
+        <div class="date">2023 – present</div>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <!-- TOOLKIT -->
+  <section id="skills">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">05 · the toolkit</span>
+        <h2 class="serif-heading">The <span class="italic">toolkit</span></h2>
+      </div>
+      <p class="lead">Characterisation instruments, workshop machines and the software I edit and model in.</p>
+    </div>
+    <div class="skills-grid">
+      <div class="skillgroup"><span class="k">creative &amp; content</span><span class="v">Premiere Pro · Photoshop · DaVinci Resolve · Sony Vegas · CapCut · iPhone shooting</span></div>
+      <div class="skillgroup"><span class="k">cad &amp; design</span><span class="v">Onshape · SolidWorks · 3D Printing</span></div>
+      <div class="skillgroup"><span class="k">electronics &amp; prototyping</span><span class="v">Arduino · ESP32 · Ultrasonic Sensors · Soldering · MQTT · MODBUS</span></div>
+      <div class="skillgroup"><span class="k">workshop &amp; fabrication</span><span class="v">Lathe · Bandsaw · Hand Tools</span></div>
+      <div class="skillgroup"><span class="k">modelling &amp; data</span><span class="v">Python · MATLAB · PVsyst · SQL · C++ · Git</span></div>
+      <div class="skillgroup"><span class="k">materials characterisation</span><span class="v">SEM · TEM · FTIR · XRD · XPS · UV/Vis · Optical Microscopy</span></div>
+    </div>
+    <div class="group" id="tools">
+    <div class="sec-head sub-head">
+      <div>
+        <h3 class="serif-heading">Tools I built <span class="italic">for myself</span></h3>
       </div>
       <p class="lead">Research, planning and the repetitive jobs I would rather not do twice.</p>
     </div>
     <div class="cards">
-      <div class="card textonly" data-panel="p-huawei" aria-controls="p-huawei">
-        <div class="cbody">
-          <div class="ct">Predicting battery life <span class="sub">Huawei Tech Arena 2026, grid storage</span></div>
-          <div class="ctags">LFP cells / lifetime modelling / Python</div>
-          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
-        </div>
-      </div>
       <div class="card" data-panel="p-pocket" aria-controls="p-pocket">
         <div class="cimg"><img loading="lazy" decoding="async" src="assets/pocket-claude-terminal.png" alt="Terminal on the Mac showing a dictated phrase arriving in the live Claude Code session"></div>
         <div class="cbody">
@@ -1346,20 +1440,6 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
           <div class="ctags">design system / GitHub Pages / no frameworks</div>
           <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
         </div>
-      </div>
-    </div>
-    <div class="panel" id="p-huawei" hidden>
-      <div class="panel-head">
-        <div class="t">Predicting battery life <span class="sub">Huawei Tech Arena 2026, Digital Power</span></div>
-        <button class="pclose" data-close type="button">close &times;</button>
-      </div>
-      <p class="intro">A grid storage battery fades slowly for years and then turns a corner, and the pack is finished shortly after. The competition asked for the whole curve down through that knee to 70% state of health, for temperatures and charge rates the model had never seen, from nothing but the temperature and the C rate. No sensor traces, because the cells being scored had none.</p>
-      <p style="margin-top:18px;">The organisers' baseline fades as n to the power 0.8. That exponent is below one, so the fade rate falls as the cell ages, and a knee is the opposite: fade that accelerates. The baseline could not represent the thing the task was asking for. That is where the improvement came from, so fade and knee got separate models and the knee was allowed to fit to zero where there was not one.</p>
-      <p style="margin-top:18px;">Two findings made the difference. The knee does not follow the Arrhenius law the fade does, and the dominant ageing mechanism in these cells changes somewhere around 35 to 45&deg;C, so one temperature law across both was never going to hold. And none of the open datasets carried the condition dependence the six unseen operating points needed, so it had to come from the target data, with the open data used only as a prior on curve shape.</p>
-      <p style="margin-top:18px;">Validation held out whole operating conditions rather than cells, which is how the real scoring works. Against the baseline at 1.000, lower being better, it scored 0.711. The error at the 70% end of life point fell from 64% to 36%.</p>
-      <div class="tools-row" style="margin-top:26px;">
-        <span class="k">built with</span>
-        Python / NumPy / SciPy / pytest / Make
       </div>
     </div>
     <div class="panel" id="p-pocket" hidden>
@@ -1461,113 +1541,211 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
         <div><p>I use Claude Code with MCP connectors and a handful of skills I've added, run in Ghostty so I can keep a few sessions going at once and hand jobs off to separate agents. It helps with content research and ideas, with turning a rough idea into something I can test quickly, and with the dull jobs like logging, tracking and reporting.</p></div>
       </div>
     </div>
-
-  </section>
-
-  <!-- EDUCATION -->
-  <section id="education">
-    <div class="sec-head">
-      <div>
-        <span class="eyebrow">04 · education &amp; awards</span>
-        <h2 class="serif-heading">Two degrees, <span class="italic">materials and energy</span></h2>
-      </div>
-      <p class="lead">An MSc in advanced materials at UCL, on top of renewable energy engineering at Exeter. Two firsts along the way, the dissertation and the field trip module.</p>
-    </div>
-
-    <div class="cvlist">
-      <div class="cvitem">
-        <div class="h">
-          <div class="t">MSc Advanced Materials Science <span class="sub">University College London</span></div>
-          <span class="place">London · research year</span>
-          <p class="desc">The home of the PFAS free coating project. Day to day it's synthesis in the lab and a lot of hours on the characterisation suite, SEM, TEM, FTIR, XRD and XPS.</p>
-        </div>
-        <div class="date">09/2025 – 09/2026</div>
-      </div>
-      <div class="cvitem">
-        <div class="h">
-          <div class="t">BEng Renewable Energy Engineering <span class="sub">University of Exeter, 2:1</span></div>
-          <span class="place">Exeter · mechanical and electrical grounding</span>
-          <p class="desc">My dissertation on redox flow batteries for renewable energy earned a first, and so did the field trip module, where I pitched wind turbine blade recycling to industry partners Nadara and ReBlade. One field trip, a day hiking a mountain near Oban, I turned into a vlog, shot and edited on the move.</p>
-          <img loading="lazy" decoding="async" class="cv-photo" width="1600" height="1080" src="assets/graduation.jpg" alt="Graduation day at Exeter, cap and gown on, with my family around me">
-          <p class="tile-tags" style="margin-top:11px;">graduation day at Exeter, family in tow</p>
-        </div>
-        <div class="date">09/2022 – 07/2025</div>
-      </div>
     </div>
   </section>
 
-  <!-- EXPERIENCE -->
-  <section id="experience">
+  <!-- OUTSIDE WORK -->
+  <section id="outside">
     <div class="sec-head">
       <div>
-        <span class="eyebrow">05 · experience</span>
-        <h2 class="serif-heading">Work <span class="italic">outside the lab</span></h2>
+        <span class="eyebrow">06 · outside work</span>
+        <h2 class="serif-heading">Outside <span class="italic">work</span></h2>
       </div>
-      <p class="lead">Alongside university: library IT support, student rep, caf&eacute; and lettings work, and a running club I started.</p>
+      <p class="lead">Skiing, sport, travel, and the audiences I built along the way.</p>
     </div>
-
-    <div class="cvlist">
-      <div class="cvitem">
-        <div class="h">
-          <div class="t">Run Club Founder &amp; President <span class="sub">Falmouth Running Society</span></div>
-          <span class="place">Started a club and grew a community</span>
-          <p class="desc">Founded and led a university running club, growing it to 200+ followers and weekly sessions of up to 25 runners in a single semester.</p>
-        </div>
-        <div class="date">01/2024 – 06/2024</div>
-      </div>
-      <div class="cvitem">
-        <div class="h">
-          <div class="t">Digital Hub Student Ambassador <span class="sub">University of Exeter</span></div>
-          <span class="place">Technical support, up to 100 students a day</span>
-          <p class="desc">Provided troubleshooting in the library IT department, helping up to a hundred students a day.</p>
-        </div>
-        <div class="date">09/2024 – 06/2025</div>
-      </div>
-      <div class="cvitem">
-        <div class="h">
-          <div class="t">Student Representative <span class="sub">University College London</span></div>
-          <span class="place">Relaying feedback in departmental meetings</span>
-          <p class="desc">Gathering and relaying course feedback, helping the department spot and address student concerns.</p>
-        </div>
-        <div class="date">09/2025 – present</div>
-      </div>
-      <div class="cvitem">
-        <div class="h">
-          <div class="t">Customer Facing Roles <span class="sub">cafés and a lettings office</span></div>
-          <span class="place">Drury 188-189 · Castle Beach Café · Frank Harris &amp; Co</span>
-          <p class="desc">Fast, accurate service across two café roles and a sales and lettings office, handling orders, enquiries and day to day admin.</p>
-        </div>
-        <div class="date">2023 – present</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SKILLS -->
-  <section id="skills">
-    <div class="sec-head">
+    <div class="group" id="skiing">
+    <div class="sec-head sub-head">
       <div>
-        <span class="eyebrow">06 · the toolkit</span>
-        <h2 class="serif-heading">The <span class="italic">toolkit</span></h2>
+        <h3 class="serif-heading">On skis <span class="italic">since I was three</span></h3>
       </div>
-      <p class="lead">Characterisation instruments, workshop machines and the software I edit and model in.</p>
+      <p class="lead">All terrain, piste or freeride, usually with a camera running. Every clip below is my own.</p>
+    </div>
+    <div class="ski-grid">
+      <div class="sv"><video controls muted loop playsinline preload="none" poster="assets/ski-montage.jpg" aria-label="Carving down a sunlit piste, filmed while riding"><source src="assets/ski-montage.mp4" type="video/mp4"></video></div>
+      <div class="sv"><video controls muted loop playsinline preload="none" poster="assets/ski-jump.jpg" aria-label="Launching off a kicker in slow motion"><source src="assets/ski-jump.mp4" type="video/mp4"></video></div>
+      <div class="sv"><video controls muted loop playsinline preload="none" poster="assets/ski-park-air.jpg" aria-label="Airborne off a snow park kicker in slow motion"><source src="assets/ski-park-air.mp4" type="video/mp4"></video></div>
+      <div class="sv"><video controls muted loop playsinline preload="none" poster="assets/ski-cliff.jpg" aria-label="Dropping into powder off a small cliff"><source src="assets/ski-cliff.mp4" type="video/mp4"></video></div>
+      <div class="sv"><video controls muted loop playsinline preload="none" poster="assets/ski-offpiste.jpg" aria-label="Off piste in a snowstorm beside the trees"><source src="assets/ski-offpiste.mp4" type="video/mp4"></video></div>
+      <div class="sv"><video controls muted loop playsinline preload="none" poster="assets/ski-pov.jpg" aria-label="Following a friend down a sunny piste, filmed while skiing"><source src="assets/ski-pov.mp4" type="video/mp4"></video></div>
     </div>
 
-    <div class="skills-grid">
-      <div class="skillgroup"><span class="k">creative &amp; content</span><span class="v">Premiere Pro · Photoshop · DaVinci Resolve · Sony Vegas · CapCut · iPhone shooting</span></div>
-      <div class="skillgroup"><span class="k">cad &amp; design</span><span class="v">Onshape · SolidWorks · 3D Printing</span></div>
-      <div class="skillgroup"><span class="k">electronics &amp; prototyping</span><span class="v">Arduino · ESP32 · Ultrasonic Sensors · Soldering · MQTT · MODBUS</span></div>
-      <div class="skillgroup"><span class="k">workshop &amp; fabrication</span><span class="v">Lathe · Bandsaw · Hand Tools</span></div>
-      <div class="skillgroup"><span class="k">modelling &amp; data</span><span class="v">Python · MATLAB · PVsyst · SQL · C++ · Git</span></div>
-      <div class="skillgroup"><span class="k">materials characterisation</span><span class="v">SEM · TEM · FTIR · XRD · XPS · UV/Vis · Optical Microscopy</span></div>
+    <p class="ski-para">Different resorts and conditions, filmed as I go.</p>
     </div>
-  </section>
-
-<!-- CONTENT & COMMUNITY -->
-  <section id="content">
-    <div class="sec-head">
+    <div class="group" id="sport">
+    <div class="sec-head sub-head">
       <div>
-        <span class="eyebrow">07 · content &amp; community</span>
-        <h2 class="serif-heading">Audiences and <span class="italic">communities</span></h2>
+        <h3 class="serif-heading">Sport <span class="italic">&amp; outdoors</span></h3>
+      </div>
+      <p class="lead">Running, climbing, surfing and skating, most weeks of the year.</p>
+    </div>
+    <div class="cards">
+      <div class="card" data-panel="p-climb" aria-controls="p-climb">
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/climbing.jpg" alt="Bouldering up a sandstone outcrop under a blue sky"></div>
+        <div class="cbody">
+          <div class="ct">Climbing <span class="sub">on rock when I can</span></div>
+          <div class="ctags">bouldering / indoors and out</div>
+          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+      <div class="card" data-panel="p-marathon" aria-controls="p-marathon">
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/marathon.jpg" alt="Friends at the London Marathon finish holding GO TIGGY signs"></div>
+        <div class="cbody">
+          <div class="ct">London Marathon 2026 <span class="sub">£1,647 raised for Marie Curie</span></div>
+          <div class="ctags">64 donors / run for charity</div>
+          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+      <div class="card" data-panel="p-play" aria-controls="p-play">
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/surf-cutback.jpg" alt="Surfer carving off the top of a wave, spray flying"></div>
+        <div class="cbody">
+          <div class="ct">Surf &amp; skate <span class="sub">and the rest of an active life</span></div>
+          <div class="ctags">photography / most of it shot myself</div>
+          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="panel" id="p-climb" hidden>
+      <div class="panel-head">
+        <div class="t">Climbing <span class="sub">on rock when I can</span></div>
+        <button class="pclose" data-close type="button">close &times;</button>
+      </div>
+      <div class="panel-cols">
+        <div class="artbox ratio-landscape"><img loading="lazy" decoding="async" src="assets/climbing.jpg" alt="Bouldering up a sandstone outcrop under a blue sky"></div>
+        <p class="intro">Mostly bouldering. The wall keeps it regular through the week, and when the weather and the company line up it moves outside onto real rock.</p>
+      </div>
+    </div>
+    <div class="panel" id="p-marathon" hidden>
+      <div class="panel-head">
+        <div class="t">London Marathon 2026 <span class="sub">£1,647 raised for Marie Curie</span></div>
+        <button class="pclose" data-close type="button">close &times;</button>
+      </div>
+      <div class="run-note">
+      <div class="marie"><img loading="lazy" decoding="async" width="1000" height="1070" src="assets/marie-curie.jpg" alt="Marie Curie fundraising page: £1,647 raised, 66 percent of a £2,500 target, 64 donors"></div>
+      <div>
+        <p>For the 2026 London Marathon I ran for <span class="big">Marie Curie</span> and raised £1,647 from 64 donors, two thirds of the target, with a crowd of mates holding a "GO TIGGY" sign at the finish.</p>
+        <div class="rm"><img loading="lazy" decoding="async" src="assets/marathon.jpg" alt="Friends at the London Marathon finish holding GO TIGGY signs"></div>
+      </div>
+    </div>
+  
+    </div>
+    <div class="panel" id="p-play" hidden>
+      <div class="panel-head">
+        <div class="t">Surf &amp; skate <span class="sub">and the rest of an active life</span></div>
+        <button class="pclose" data-close type="button">close &times;</button>
+      </div>
+      <p class="intro">Surf, skate, Japanese, piano and guitar, chess, and I put my own PCs together. I shoot most of this myself, so the photos are half the hobby.</p>
+      <div class="play-grid">
+      <div class="artbox ratio-landscape"><img loading="lazy" decoding="async" src="assets/surf-cutback.jpg" alt="Surfer carving off the top of a wave, spray flying"></div>
+      <div class="artbox ratio-landscape"><img loading="lazy" decoding="async" src="assets/beach.jpg" alt="Two people playing badminton on the beach as the sun sets over the sea"></div>
+      <div class="artbox ratio-portrait"><img loading="lazy" decoding="async" src="assets/skate.jpg" alt="Skateboarding a rail at the local park"></div>
+      <div class="artbox ratio-landscape"><img loading="lazy" decoding="async" src="assets/travel-cirque.jpg" alt="Three friends on a grassy ridge in front of a mountain cirque"></div>
+      <div class="artbox ratio-landscape"><img loading="lazy" decoding="async" src="assets/surf.jpg" alt="Lone surfer riding a small wave under a pink dawn sky, shot from the water"></div>
+    </div>
+  
+    </div>
+    </div>
+    <div class="group" id="travel">
+    <div class="sec-head sub-head">
+      <div>
+        <h3 class="serif-heading">Travel <span class="italic">&amp; adventures</span></h3>
+      </div>
+      <p class="lead">Senegal, the Dolomites and New York, mostly shot on film.</p>
+    </div>
+    <div class="cards">
+      <div class="card feature" data-panel="p-senegal" aria-controls="p-senegal">
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/senegal-fishing.jpg" alt="Out on a wooden pirogue in Senegal, the fisherman behind me holding up the catch"></div>
+        <div class="cbody">
+          <div class="ct">Senegal <span class="sub">keeping a surf camp running</span></div>
+          <div class="ctags">surf camp / pirogue fishing / shot on film</div>
+          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+      <div class="card" data-panel="p-dolomites" aria-controls="p-dolomites">
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/dolomites-lake.jpg" alt="Mid backflip off a rock into an alpine lake in the Dolomites"></div>
+        <div class="cbody">
+          <div class="ct">The Dolomites <span class="sub">camping in the mountains</span></div>
+          <div class="ctags">sunrise hikes / alpine lakes / italy</div>
+          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+      <div class="card" data-panel="p-newyork" aria-controls="p-newyork">
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/newyork-bridge.jpg" alt="Sat on a beam of the Brooklyn Bridge with the Manhattan Bridge behind"></div>
+        <div class="cbody">
+          <div class="ct">New York <span class="sub">a solo trip</span></div>
+          <div class="ctags">brooklyn bridge / film camera</div>
+          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="panel" id="p-senegal" hidden>
+      <div class="panel-head">
+        <div class="t">Senegal <span class="sub">keeping a surf camp running</span></div>
+        <button class="pclose" data-close type="button">close &times;</button>
+      </div>
+      <p class="intro">I spent a stretch in Senegal helping keep a surf camp running while the owner was away, guests, boards and whatever else the day brought. Around the work came everything else: out on a pirogue with the local fishermen, carrying the catch back along the beach, and a giraffe met along the way. Most of it shot on film.</p>
+      <div class="story-grid">
+        <div>
+          <div class="artbox ratio-landscape"><img loading="lazy" decoding="async" src="assets/senegal-fishing.jpg" alt="Out on a wooden pirogue in Senegal, the fisherman behind me holding up the catch"></div>
+          <div class="tile-tags" style="margin-top:11px;">out with the fishermen, handlines off a pirogue</div>
+        </div>
+        <div class="offset-1">
+          <div class="artbox ratio-portrait"><img loading="lazy" decoding="async" src="assets/senegal-flag.jpg" alt="Two of us on the wooden lookout tower, the Senegal flag flying against a deep blue sky"></div>
+          <div class="tile-tags" style="margin-top:11px;">the lookout above the camp</div>
+        </div>
+        <div class="offset-2">
+          <div class="artbox ratio-portrait"><img loading="lazy" decoding="async" src="assets/senegal-catch.jpg" alt="Carrying the catch along the beach, two fish in each hand"></div>
+          <div class="tile-tags" style="margin-top:11px;">carrying the catch back for the kitchen</div>
+        </div>
+        <div>
+          <div class="artbox ratio-portrait"><img loading="lazy" decoding="async" src="assets/senegal-alley.jpg" alt="A sandy lane between stone walls and bougainvillea"></div>
+          <div class="tile-tags" style="margin-top:11px;">the lane down to the water</div>
+        </div>
+        <div class="offset-1">
+          <div class="artbox ratio-portrait"><img loading="lazy" decoding="async" src="assets/senegal-boat.jpg" alt="Heading back in on the boat at the end of the day, the city across the water"></div>
+          <div class="tile-tags" style="margin-top:11px;">heading back in at the end of the day</div>
+        </div>
+        <div class="offset-2">
+          <div class="artbox ratio-landscape"><img loading="lazy" decoding="async" src="assets/senegal-giraffe.jpg" alt="A giraffe sitting on dry ground among acacia trees"></div>
+          <div class="tile-tags" style="margin-top:11px;">a giraffe, met along the way</div>
+        </div>
+      </div>
+    </div>
+    <div class="panel" id="p-dolomites" hidden>
+      <div class="panel-head">
+        <div class="t">The Dolomites <span class="sub">camping in the mountains</span></div>
+        <button class="pclose" data-close type="button">close &times;</button>
+      </div>
+      <p class="intro">A few days camping in the Italian Dolomites. A chalet down in the valley, an alarm set early for a sunrise hike, and an alpine lake cold enough to make the backflip a commitment.</p>
+      <div class="story-grid">
+        <div>
+          <div class="artbox ratio-landscape"><img loading="lazy" decoding="async" src="assets/dolomites-lake.jpg" alt="Mid backflip off a rock into an alpine lake in the Dolomites"></div>
+          <div class="tile-tags" style="margin-top:11px;">the lake, mid backflip</div>
+        </div>
+        <div class="offset-1">
+          <div class="artbox ratio-portrait"><img loading="lazy" decoding="async" src="assets/dolomites-chalet.jpg" alt="The campsite chalet in shadow beneath a huge rock face catching the last sun"></div>
+          <div class="tile-tags" style="margin-top:11px;">the campsite, under the wall</div>
+        </div>
+        <div class="offset-2">
+          <div class="artbox ratio-portrait"><img loading="lazy" decoding="async" src="assets/dolomites-sunrise.jpg" alt="Hooded silhouette looking out over the peaks just before sunrise"></div>
+          <div class="tile-tags" style="margin-top:11px;">first light on the sunrise hike</div>
+        </div>
+      </div>
+    </div>
+    <div class="panel" id="p-newyork" hidden>
+      <div class="panel-head">
+        <div class="t">New York <span class="sub">a solo trip</span></div>
+        <button class="pclose" data-close type="button">close &times;</button>
+      </div>
+      <div class="panel-cols">
+        <div class="artbox ratio-landscape"><img loading="lazy" decoding="async" src="assets/newyork-bridge.jpg" alt="Sat on a beam of the Brooklyn Bridge with the Manhattan Bridge behind"></div>
+        <p class="intro">A trip to New York on my own, planned and taken solo. This one is from the Brooklyn Bridge, the Manhattan Bridge behind, shot on film.</p>
+      </div>
+    </div>
+    </div>
+    <div class="group" id="content">
+    <div class="sec-head sub-head">
+      <div>
+        <h3 class="serif-heading">Audiences and <span class="italic">communities</span></h3>
       </div>
       <p class="lead">A TikTok account, a university running club and a Twitch channel, all three started on my own.</p>
     </div>
@@ -1675,214 +1853,12 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
 
 
     </div>
-
+    </div>
   </section>
 
-  <!-- SKIING -->
-  <section id="skiing">
-    <div class="sec-head">
-      <div>
-        <span class="eyebrow">08 · skiing</span>
-        <h2 class="serif-heading">On skis <span class="italic">since I was three</span></h2>
-      </div>
-      <p class="lead">All terrain, piste or freeride, usually with a camera running. Every clip below is my own.</p>
-    </div>
-    <div class="ski-grid">
-      <div class="sv"><video controls muted loop playsinline preload="none" poster="assets/ski-montage.jpg" aria-label="Carving down a sunlit piste, filmed while riding"><source src="assets/ski-montage.mp4" type="video/mp4"></video></div>
-      <div class="sv"><video controls muted loop playsinline preload="none" poster="assets/ski-jump.jpg" aria-label="Launching off a kicker in slow motion"><source src="assets/ski-jump.mp4" type="video/mp4"></video></div>
-      <div class="sv"><video controls muted loop playsinline preload="none" poster="assets/ski-park-air.jpg" aria-label="Airborne off a snow park kicker in slow motion"><source src="assets/ski-park-air.mp4" type="video/mp4"></video></div>
-      <div class="sv"><video controls muted loop playsinline preload="none" poster="assets/ski-cliff.jpg" aria-label="Dropping into powder off a small cliff"><source src="assets/ski-cliff.mp4" type="video/mp4"></video></div>
-      <div class="sv"><video controls muted loop playsinline preload="none" poster="assets/ski-offpiste.jpg" aria-label="Off piste in a snowstorm beside the trees"><source src="assets/ski-offpiste.mp4" type="video/mp4"></video></div>
-      <div class="sv"><video controls muted loop playsinline preload="none" poster="assets/ski-pov.jpg" aria-label="Following a friend down a sunny piste, filmed while skiing"><source src="assets/ski-pov.mp4" type="video/mp4"></video></div>
-    </div>
-
-    <p class="ski-para">Different resorts and conditions, filmed as I go.</p>
-  </section>
-
-  <!-- SPORT & OUTDOORS -->
-  <section id="sport">
-    <div class="sec-head">
-      <div>
-        <span class="eyebrow">09 · sport &amp; outdoors</span>
-        <h2 class="serif-heading">Sport <span class="italic">&amp; outdoors</span></h2>
-      </div>
-      <p class="lead">Running, climbing, surfing and skating, most weeks of the year.</p>
-    </div>
-    <div class="cards">
-      <div class="card" data-panel="p-climb" aria-controls="p-climb">
-        <div class="cimg"><img loading="lazy" decoding="async" src="assets/climbing.jpg" alt="Bouldering up a sandstone outcrop under a blue sky"></div>
-        <div class="cbody">
-          <div class="ct">Climbing <span class="sub">on rock when I can</span></div>
-          <div class="ctags">bouldering / indoors and out</div>
-          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
-        </div>
-      </div>
-      <div class="card" data-panel="p-marathon" aria-controls="p-marathon">
-        <div class="cimg"><img loading="lazy" decoding="async" src="assets/marathon.jpg" alt="Friends at the London Marathon finish holding GO TIGGY signs"></div>
-        <div class="cbody">
-          <div class="ct">London Marathon 2026 <span class="sub">£1,647 raised for Marie Curie</span></div>
-          <div class="ctags">64 donors / run for charity</div>
-          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
-        </div>
-      </div>
-      <div class="card" data-panel="p-play" aria-controls="p-play">
-        <div class="cimg"><img loading="lazy" decoding="async" src="assets/surf-cutback.jpg" alt="Surfer carving off the top of a wave, spray flying"></div>
-        <div class="cbody">
-          <div class="ct">Surf &amp; skate <span class="sub">and the rest of an active life</span></div>
-          <div class="ctags">photography / most of it shot myself</div>
-          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
-        </div>
-      </div>
-    </div>
-    <div class="panel" id="p-climb" hidden>
-      <div class="panel-head">
-        <div class="t">Climbing <span class="sub">on rock when I can</span></div>
-        <button class="pclose" data-close type="button">close &times;</button>
-      </div>
-      <div class="panel-cols">
-        <div class="artbox ratio-landscape"><img loading="lazy" decoding="async" src="assets/climbing.jpg" alt="Bouldering up a sandstone outcrop under a blue sky"></div>
-        <p class="intro">Mostly bouldering. The wall keeps it regular through the week, and when the weather and the company line up it moves outside onto real rock.</p>
-      </div>
-    </div>
-    <div class="panel" id="p-marathon" hidden>
-      <div class="panel-head">
-        <div class="t">London Marathon 2026 <span class="sub">£1,647 raised for Marie Curie</span></div>
-        <button class="pclose" data-close type="button">close &times;</button>
-      </div>
-      <div class="run-note">
-      <div class="marie"><img loading="lazy" decoding="async" width="1000" height="1070" src="assets/marie-curie.jpg" alt="Marie Curie fundraising page: £1,647 raised, 66 percent of a £2,500 target, 64 donors"></div>
-      <div>
-        <p>For the 2026 London Marathon I ran for <span class="big">Marie Curie</span> and raised £1,647 from 64 donors, two thirds of the target, with a crowd of mates holding a "GO TIGGY" sign at the finish.</p>
-        <div class="rm"><img loading="lazy" decoding="async" src="assets/marathon.jpg" alt="Friends at the London Marathon finish holding GO TIGGY signs"></div>
-      </div>
-    </div>
-  
-    </div>
-    <div class="panel" id="p-play" hidden>
-      <div class="panel-head">
-        <div class="t">Surf &amp; skate <span class="sub">and the rest of an active life</span></div>
-        <button class="pclose" data-close type="button">close &times;</button>
-      </div>
-      <p class="intro">Surf, skate, Japanese, piano and guitar, chess, and I put my own PCs together. I shoot most of this myself, so the photos are half the hobby.</p>
-      <div class="play-grid">
-      <div class="artbox ratio-landscape"><img loading="lazy" decoding="async" src="assets/surf-cutback.jpg" alt="Surfer carving off the top of a wave, spray flying"></div>
-      <div class="artbox ratio-landscape"><img loading="lazy" decoding="async" src="assets/beach.jpg" alt="Two people playing badminton on the beach as the sun sets over the sea"></div>
-      <div class="artbox ratio-portrait"><img loading="lazy" decoding="async" src="assets/skate.jpg" alt="Skateboarding a rail at the local park"></div>
-      <div class="artbox ratio-landscape"><img loading="lazy" decoding="async" src="assets/travel-cirque.jpg" alt="Three friends on a grassy ridge in front of a mountain cirque"></div>
-      <div class="artbox ratio-landscape"><img loading="lazy" decoding="async" src="assets/surf.jpg" alt="Lone surfer riding a small wave under a pink dawn sky, shot from the water"></div>
-    </div>
-  
-    </div>
-
-  </section>
-
-  <!-- TRAVEL -->
-  <section id="travel">
-    <div class="sec-head">
-      <div>
-        <span class="eyebrow">10 · travel &amp; adventures</span>
-        <h2 class="serif-heading">Travel <span class="italic">&amp; adventures</span></h2>
-      </div>
-      <p class="lead">Senegal, the Dolomites and New York, mostly shot on film.</p>
-    </div>
-    <div class="cards">
-      <div class="card feature" data-panel="p-senegal" aria-controls="p-senegal">
-        <div class="cimg"><img loading="lazy" decoding="async" src="assets/senegal-fishing.jpg" alt="Out on a wooden pirogue in Senegal, the fisherman behind me holding up the catch"></div>
-        <div class="cbody">
-          <div class="ct">Senegal <span class="sub">keeping a surf camp running</span></div>
-          <div class="ctags">surf camp / pirogue fishing / shot on film</div>
-          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
-        </div>
-      </div>
-      <div class="card" data-panel="p-dolomites" aria-controls="p-dolomites">
-        <div class="cimg"><img loading="lazy" decoding="async" src="assets/dolomites-lake.jpg" alt="Mid backflip off a rock into an alpine lake in the Dolomites"></div>
-        <div class="cbody">
-          <div class="ct">The Dolomites <span class="sub">camping in the mountains</span></div>
-          <div class="ctags">sunrise hikes / alpine lakes / italy</div>
-          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
-        </div>
-      </div>
-      <div class="card" data-panel="p-newyork" aria-controls="p-newyork">
-        <div class="cimg"><img loading="lazy" decoding="async" src="assets/newyork-bridge.jpg" alt="Sat on a beam of the Brooklyn Bridge with the Manhattan Bridge behind"></div>
-        <div class="cbody">
-          <div class="ct">New York <span class="sub">a solo trip</span></div>
-          <div class="ctags">brooklyn bridge / film camera</div>
-          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
-        </div>
-      </div>
-    </div>
-    <div class="panel" id="p-senegal" hidden>
-      <div class="panel-head">
-        <div class="t">Senegal <span class="sub">keeping a surf camp running</span></div>
-        <button class="pclose" data-close type="button">close &times;</button>
-      </div>
-      <p class="intro">I spent a stretch in Senegal helping keep a surf camp running while the owner was away, guests, boards and whatever else the day brought. Around the work came everything else: out on a pirogue with the local fishermen, carrying the catch back along the beach, and a giraffe met along the way. Most of it shot on film.</p>
-      <div class="story-grid">
-        <div>
-          <div class="artbox ratio-landscape"><img loading="lazy" decoding="async" src="assets/senegal-fishing.jpg" alt="Out on a wooden pirogue in Senegal, the fisherman behind me holding up the catch"></div>
-          <div class="tile-tags" style="margin-top:11px;">out with the fishermen, handlines off a pirogue</div>
-        </div>
-        <div class="offset-1">
-          <div class="artbox ratio-portrait"><img loading="lazy" decoding="async" src="assets/senegal-flag.jpg" alt="Two of us on the wooden lookout tower, the Senegal flag flying against a deep blue sky"></div>
-          <div class="tile-tags" style="margin-top:11px;">the lookout above the camp</div>
-        </div>
-        <div class="offset-2">
-          <div class="artbox ratio-portrait"><img loading="lazy" decoding="async" src="assets/senegal-catch.jpg" alt="Carrying the catch along the beach, two fish in each hand"></div>
-          <div class="tile-tags" style="margin-top:11px;">carrying the catch back for the kitchen</div>
-        </div>
-        <div>
-          <div class="artbox ratio-portrait"><img loading="lazy" decoding="async" src="assets/senegal-alley.jpg" alt="A sandy lane between stone walls and bougainvillea"></div>
-          <div class="tile-tags" style="margin-top:11px;">the lane down to the water</div>
-        </div>
-        <div class="offset-1">
-          <div class="artbox ratio-portrait"><img loading="lazy" decoding="async" src="assets/senegal-boat.jpg" alt="Heading back in on the boat at the end of the day, the city across the water"></div>
-          <div class="tile-tags" style="margin-top:11px;">heading back in at the end of the day</div>
-        </div>
-        <div class="offset-2">
-          <div class="artbox ratio-landscape"><img loading="lazy" decoding="async" src="assets/senegal-giraffe.jpg" alt="A giraffe sitting on dry ground among acacia trees"></div>
-          <div class="tile-tags" style="margin-top:11px;">a giraffe, met along the way</div>
-        </div>
-      </div>
-    </div>
-    <div class="panel" id="p-dolomites" hidden>
-      <div class="panel-head">
-        <div class="t">The Dolomites <span class="sub">camping in the mountains</span></div>
-        <button class="pclose" data-close type="button">close &times;</button>
-      </div>
-      <p class="intro">A few days camping in the Italian Dolomites. A chalet down in the valley, an alarm set early for a sunrise hike, and an alpine lake cold enough to make the backflip a commitment.</p>
-      <div class="story-grid">
-        <div>
-          <div class="artbox ratio-landscape"><img loading="lazy" decoding="async" src="assets/dolomites-lake.jpg" alt="Mid backflip off a rock into an alpine lake in the Dolomites"></div>
-          <div class="tile-tags" style="margin-top:11px;">the lake, mid backflip</div>
-        </div>
-        <div class="offset-1">
-          <div class="artbox ratio-portrait"><img loading="lazy" decoding="async" src="assets/dolomites-chalet.jpg" alt="The campsite chalet in shadow beneath a huge rock face catching the last sun"></div>
-          <div class="tile-tags" style="margin-top:11px;">the campsite, under the wall</div>
-        </div>
-        <div class="offset-2">
-          <div class="artbox ratio-portrait"><img loading="lazy" decoding="async" src="assets/dolomites-sunrise.jpg" alt="Hooded silhouette looking out over the peaks just before sunrise"></div>
-          <div class="tile-tags" style="margin-top:11px;">first light on the sunrise hike</div>
-        </div>
-      </div>
-    </div>
-    <div class="panel" id="p-newyork" hidden>
-      <div class="panel-head">
-        <div class="t">New York <span class="sub">a solo trip</span></div>
-        <button class="pclose" data-close type="button">close &times;</button>
-      </div>
-      <div class="panel-cols">
-        <div class="artbox ratio-landscape"><img loading="lazy" decoding="async" src="assets/newyork-bridge.jpg" alt="Sat on a beam of the Brooklyn Bridge with the Manhattan Bridge behind"></div>
-        <p class="intro">A trip to New York on my own, planned and taken solo. This one is from the Brooklyn Bridge, the Manhattan Bridge behind, shot on film.</p>
-      </div>
-    </div>
-
-  </section>
-
-
-  
 <!-- CONTACT -->
   <section class="contact" id="contact">
-    <span class="eyebrow">11 · let's talk</span>
+    <span class="eyebrow">07 · let's talk</span>
     <h2 class="serif-display">Get in touch.</h2>
     <p class="avail">I'm at Curtin University in Perth until November 2026, working on iron oxide catalysts for CO&#8322; conversion. After that I'm doing a ski season in Hakuba. I'm looking for work in London from May 2027.</p>
 
@@ -1950,8 +1926,9 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
   function openPanel(c){
     var p=doc.getElementById(c.getAttribute('data-panel'));
     if(!p||!p.hidden)return;
-    var sec=c.closest('section');
-    var grid=sec.querySelector('.cards');
+    /* a section can hold several card grids now, so work within the nearest group */
+    var sec=c.closest('.group')||c.closest('section');
+    var grid=sec.querySelector(':scope > .cards');
     var tail=sec.querySelector('.framing');
     var img=heroImg(c,p);
     var pairs=[[c,p,'pj-swap']];
@@ -1959,7 +1936,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
     swap(pairs,function(){
       grid.hidden=true;
       if(tail)tail.hidden=true;
-      [].slice.call(sec.querySelectorAll('.panel')).forEach(function(x){x.hidden=true;});
+      [].slice.call(sec.querySelectorAll(':scope > .panel')).forEach(function(x){x.hidden=true;});
       p.hidden=false;
       [].slice.call(p.querySelectorAll('.reveal')).forEach(function(el){el.classList.add('in');});
       c.setAttribute('aria-expanded','true');
@@ -1968,8 +1945,8 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
   }
   function closePanel(p){
     if(p.hidden)return;
-    var sec=p.closest('section');
-    var grid=sec.querySelector('.cards');
+    var sec=p.closest('.group')||p.closest('section');
+    var grid=sec.querySelector(':scope > .cards');
     var tail=sec.querySelector('.framing');
     var c=sec.querySelector('.card[data-panel="'+p.id+'"]');
     var img=c?heroImg(c,p):null;
@@ -2043,7 +2020,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
   });
 
   /* underline the nav link for the section in view */
-  var map={engineering:'engineering',research:'research',content:'content',skiing:'skiing',aicode:'aicode',sport:'sport',travel:'travel',education:'education',experience:'education',contact:'contact'};
+  var map={work:'work',current:'work',engineering:'engineering',education:'education',skills:'skills',outside:'outside',contact:'contact'};
   var links={};
   [].slice.call(doc.querySelectorAll('.navlinks a')).forEach(function(a){
     var href=a.getAttribute('href')||'';
@@ -2076,15 +2053,15 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
 })();
 /* character select: colour arrives with the character. It never hides any of the page */
 (function(){
-  var CHARS={"allrounder":{"n":"Jack of All Trades","art":"assets/char-allrounder.png","hex":"#46607d","rgb":"70,96,125","cls":"Materials and energy engineer","quest":"Open to research, engineering and design","weak":"","href":"#research","go":"see everything","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Jack%20of%20All%20Trades&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Jack%20of%20All%20Trades.%0D%0A%0D%0A"},"master":{"n":"Master of One","art":"assets/char-master.png","hex":"#3a3f45","rgb":"58,63,69","cls":"MSc Advanced Materials Science","quest":"UCL 2026, after renewable energy at Exeter","weak":"","href":"#education","go":"see the education","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Master%20of%20One&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Master%20of%20One.%0D%0A%0D%0A"},"researcher":{"n":"Researcher","art":"assets/char-researcher.png","hex":"#14807b","rgb":"20,128,123","cls":"Scientist, lab based","quest":"Taking PFAS out of waterproof clothing","weak":"","href":"#research","go":"see the research","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Researcher&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Researcher.%0D%0A%0D%0A"},"builder":{"n":"Engineer","art":"assets/char-builder.png","hex":"#7d6a1a","rgb":"125,106,26","cls":"Hardware and prototyping","quest":"A design taken through to a working build","weak":"","href":"#engineering","go":"see the projects","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Engineer&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Engineer.%0D%0A%0D%0A"},"operator":{"n":"Computer Guy","art":"assets/char-operator.png","hex":"#2f7d4a","rgb":"47,125,74","cls":"Data and tooling","quest":"Predicting battery life before it fails","weak":"","href":"#aicode","go":"see the code","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Computer%20Guy&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Computer%20Guy.%0D%0A%0D%0A"},"creator":{"n":"Content Creator","art":"assets/char-creator.png","hex":"#b23a48","rgb":"178,58,72","cls":"Filmmaker and editor","quest":"89,000 followers in seven months","weak":"Films the sunset instead of watching it","href":"#content","go":"see the content work","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Content%20Creator&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Content%20Creator.%0D%0A%0D%0A"},"rider":{"n":"Athlete","art":"assets/char-rider.png","hex":"#a85414","rgb":"168,84,20","cls":"Runner, climber, surfer","quest":"London Marathon, and whatever is next","weak":"Signs up for the race before checking how far it is","href":"#sport","go":"see the sport","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Athlete&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Athlete.%0D%0A%0D%0A"},"wanderer":{"n":"Explorer","art":"assets/char-wanderer.png","hex":"#6f5aa8","rgb":"111,90,168","cls":"Goes and finds out","quest":"Perth until November","weak":"Packs light, then buys it all again when he lands","href":"#travel","go":"see the travels","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Explorer&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Explorer.%0D%0A%0D%0A"},"skier":{"n":"Skier","art":"assets/char-skier.png","hex":"#2a6f9e","rgb":"42,111,158","cls":"On skis since I was three","quest":"A season in Hakuba this winter","weak":"First lift every morning, asleep on the chair by three","href":"#skiing","go":"see the skiing","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Skier&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Skier.%0D%0A%0D%0A"}};
+  var CHARS={"allrounder":{"n":"Jack of All Trades","art":"assets/char-allrounder.png","hex":"#46607d","rgb":"70,96,125","cls":"Materials and energy engineer","quest":"Open to research, engineering and design","weak":"","href":"#work","go":"see everything"},"master":{"n":"Master of One","art":"assets/char-master.png","hex":"#3a3f45","rgb":"58,63,69","cls":"MSc Advanced Materials Science","quest":"UCL 2026, after renewable energy at Exeter","weak":"","href":"#education","go":"see the education"},"researcher":{"n":"Researcher","art":"assets/char-researcher.png","hex":"#14807b","rgb":"20,128,123","cls":"Scientist, lab based","quest":"Taking PFAS out of waterproof clothing","weak":"","href":"#work","go":"see the research"},"builder":{"n":"Engineer","art":"assets/char-builder.png","hex":"#7d6a1a","rgb":"125,106,26","cls":"Hardware and prototyping","quest":"A design taken through to a working build","weak":"","href":"#engineering","go":"see the projects"},"operator":{"n":"Computer Guy","art":"assets/char-operator.png","hex":"#2f7d4a","rgb":"47,125,74","cls":"Data and tooling","quest":"Predicting battery life before it fails","weak":"","href":"#work","go":"see the modelling"},"creator":{"n":"Content Creator","art":"assets/char-creator.png","hex":"#b23a48","rgb":"178,58,72","cls":"Filmmaker and editor","quest":"89,000 followers in seven months","weak":"Films the sunset instead of watching it","href":"#content","go":"see the content work"},"rider":{"n":"Athlete","art":"assets/char-rider.png","hex":"#a85414","rgb":"168,84,20","cls":"Runner, climber, surfer","quest":"London Marathon, and whatever is next","weak":"Signs up for the race before checking how far it is","href":"#sport","go":"see the sport"},"wanderer":{"n":"Explorer","art":"assets/char-wanderer.png","hex":"#6f5aa8","rgb":"111,90,168","cls":"Goes and finds out","quest":"Perth until November","weak":"Packs light, then buys it all again when he lands","href":"#travel","go":"see the travels"},"skier":{"n":"Skier","art":"assets/char-skier.png","hex":"#2a6f9e","rgb":"42,111,158","cls":"On skis since I was three","quest":"A season in Hakuba this winter","weak":"First lift every morning, asleep on the chair by three","href":"#skiing","go":"see the skiing"}};
   var ORDER=["allrounder", "master", "researcher", "builder", "operator", "creator", "rider", "wanderer", "skier"];
   var root=document.querySelector('.cselect');
   var roster=root&&root.querySelector('.cs-roster');
   if(!root||!roster)return;
-  var tiles=[].slice.call(roster.querySelectorAll('.rtile'));
+  var radios=[].slice.call(roster.querySelectorAll('input[name="character"]'));
   var el={};
   ['cs-name','cs-ghost','cs-fig','cs-class','cs-quest','cs-weak','cs-weakblock',
-   'cs-spend','cs-go','cs-panel'].forEach(function(id){el[id]=document.getElementById(id);});
+   'cs-go'].forEach(function(id){el[id]=document.getElementById(id);});
 
   var current='allrounder';
 
@@ -2101,9 +2078,19 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
   el['cs-fig'].innerHTML='';el['cs-fig'].appendChild(fcan);
 
   var ART={},curImg=null,shakeT=null;
-  Object.keys(CHARS).forEach(function(k){
-    var im=new Image();im.decoding='async';im.src=CHARS[k].art;ART[k]=im;
-  });
+  function art(k){
+    if(!ART[k]){var im=new Image();im.decoding='async';im.src=CHARS[k].art;ART[k]=im;}
+    return ART[k];
+  }
+  /* the other eight load on the first press or keyboard focus in the roster,
+     not on hover, which touch screens never send and mice send by accident */
+  function warm(){
+    Object.keys(CHARS).forEach(art);
+    roster.removeEventListener('pointerdown',warm);
+    roster.removeEventListener('focusin',warm);
+  }
+  roster.addEventListener('pointerdown',warm);
+  roster.addEventListener('focusin',warm);
   var lessMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   function drawClean(img){
@@ -2112,7 +2099,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
   }
 
   function shakeTo(key,label){
-    var img=ART[key];
+    var img=art(key);
     fcan.setAttribute('aria-label',label);
     if(shakeT){clearInterval(shakeT);shakeT=null;}
     var from=curImg;curImg=img;
@@ -2152,16 +2139,16 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
     var k=new URLSearchParams(location.search).get('c');
     return (k&&CHARS[k])?k:null;
   }
-  var initTile=document.querySelector('.rtile[aria-selected="true"]');
-  var initKey=keyFromURL()||(initTile?initTile.getAttribute('data-char'):'allrounder');
-  select(initKey,false,true);
+  var checked=radios.filter(function(r){return r.checked;})[0];
+  var initKey=keyFromURL()||(checked?checked.value:'allrounder');
+  select(initKey,true);
 
   window.addEventListener('popstate',function(){
     var k=keyFromURL()||'allrounder';
-    if(k!==current)select(k,false,true);
+    if(k!==current)select(k,true);
   });
 
-  function select(key,focus,initial){
+  function select(key,initial){
     var c=CHARS[key];if(!c)return;
     current=key;
     /* on the document, not the section, so the colour carries down the page */
@@ -2169,38 +2156,23 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
     document.documentElement.style.setProperty('--accent-rgb',c.rgb);
     el['cs-name'].textContent=c.n;
     el['cs-ghost'].textContent=('0'+(ORDER.indexOf(key)+1)).slice(-2);
-    shakeTo(key,c.n);
+    shakeTo(key,'Pixel art of Jackson as the '+c.n);
     el['cs-class'].textContent=c.cls;
     el['cs-quest'].textContent=c.quest;
     el['cs-weak'].textContent=c.weak;
     el['cs-weakblock'].hidden=!c.weak;
-    el['cs-spend'].setAttribute('href',c.mail);
     el['cs-go'].setAttribute('href',c.href);
-    el['cs-go'].innerHTML=esc(c.go)+' <span class="chev" aria-hidden="true">\u25bc</span>';
-    el['cs-panel'].setAttribute('aria-labelledby','rt-'+key);
-    tiles.forEach(function(t){
-      var on=t.getAttribute('data-char')===key;
-      t.setAttribute('aria-selected',on?'true':'false');
-      t.tabIndex=on?0:-1;
-      if(on&&focus)t.focus();
-    });
+    el['cs-go'].innerHTML=esc(c.go)+' <span aria-hidden="true">\u2193</span>';
+    radios.forEach(function(r){r.checked=(r.value===key);});
+    /* keep whatever section the reader had jumped to */
     if(!initial&&window.history&&history.replaceState){
-      history.replaceState(null,'',key==='allrounder'?location.pathname:'?c='+key);
+      history.replaceState(null,'',(key==='allrounder'?location.pathname:'?c='+key)+location.hash);
     }
   }
 
-  tiles.forEach(function(t){
-    t.addEventListener('click',function(){select(t.getAttribute('data-char'),false);});
-  });
-
-  roster.addEventListener('keydown',function(e){
-    var i=ORDER.indexOf(current),n=null;
-    if(e.key==='ArrowRight'||e.key==='ArrowDown')n=(i+1)%ORDER.length;
-    else if(e.key==='ArrowLeft'||e.key==='ArrowUp')n=(i-1+ORDER.length)%ORDER.length;
-    else if(e.key==='Home')n=0;
-    else if(e.key==='End')n=ORDER.length-1;
-    if(n===null)return;
-    e.preventDefault();select(ORDER[n],true);
+  /* the browser moves the selection with arrow keys, clicks and taps; this just follows it */
+  radios.forEach(function(r){
+    r.addEventListener('change',function(){if(r.checked)select(r.value,false);});
   });
 
 })();
