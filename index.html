@@ -29,6 +29,8 @@
   --telegraf:'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
   --section-gap:120px;
   --margin:64px;
+  /* measured from the sticky nav on load and resize */
+  --nav-h:0px;
 }
 
 *{margin:0;padding:0;box-sizing:border-box;border-radius:0;}
@@ -147,6 +149,8 @@ nav{
   border-bottom:1px solid transparent;
 }
 .navlinks a:hover{border-bottom:1px solid var(--black);}
+.navlinks a.nav-cv{border:1px solid var(--ink);padding:3px 12px;}
+.navlinks a.nav-cv:hover{background:var(--ink);color:var(--vellum);}
 
 /* ---------- inline links ---------- */
 .link{
@@ -561,7 +565,7 @@ nav{
 .cvitem .h .place{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;margin-top:11px;display:block;}
 .cvitem .h .desc{font-family:var(--telegraf);font-size:18px;line-height:1.5;letter-spacing:0.38px;margin-top:11px;max-width:56ch;}
 .cvitem .date{grid-column:2;font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;text-align:right;white-space:nowrap;}
-.cvitem .cv-photo{margin-top:18px;max-width:440px;border:1px solid var(--ink);}
+.cvitem .cv-photo{margin-top:18px;max-width:min(440px,100%);border:1px solid var(--ink);}
 
 /* ---------- skills ---------- */
 .skills-grid{
@@ -579,19 +583,24 @@ nav{
 .cselect{
   margin-top:0;
   /* fixed height so the roster is always on screen; the side panels take up any slack */
-  height:100svh;
+  height:calc(100svh - var(--nav-h));
   min-height:600px;
   display:grid;
-  grid-template-columns:minmax(0,1fr) 320px 420px;
+  /* the side columns were fixed at 320+420, which left the stage about 72px wide
+     between 901px and 1150px. They give ground now instead. */
+  grid-template-columns:minmax(0,1fr) clamp(240px,22vw,320px) clamp(300px,30vw,420px);
   grid-template-rows:auto minmax(0,1fr);
   grid-template-areas:"top top top" "stage info roster";
   border-bottom:1px solid var(--ink);
 }
 .cs-top{
-  grid-area:top;display:flex;align-items:center;justify-content:space-between;
-  gap:20px;flex-wrap:wrap;padding:18px 0 14px;border-bottom:1px solid var(--ink);
+  grid-area:top;display:flex;align-items:flex-start;justify-content:space-between;
+  gap:20px;flex-wrap:wrap;padding:18px 0 16px;border-bottom:1px solid var(--ink);
 }
-.cs-player{font-family:var(--ogg);font-size:clamp(30px,5vw,58px);line-height:1;letter-spacing:-1.8px;}
+.cs-ident{display:flex;flex-direction:column;gap:7px;min-width:0;flex:1 1 520px;}
+.cs-kicker{font-family:var(--telegraf);font-size:13px;letter-spacing:1.5px;text-transform:uppercase;opacity:.68;}
+.cs-player{font-family:var(--ogg);font-weight:400;font-size:clamp(28px,4vw,48px);line-height:1;letter-spacing:-1.4px;}
+.cs-intro{font-family:var(--telegraf);font-size:16px;line-height:1.45;letter-spacing:0.2px;max-width:84ch;}
 .cs-nameplate{
   background:var(--accent);color:#fff;padding:8px 20px;
   font-family:var(--ogg);font-size:26px;line-height:1.2;letter-spacing:-0.52px;
@@ -645,7 +654,7 @@ nav{
 
 /* abilities */
 .abil{margin-bottom:15px;}
-.stat{display:grid;grid-template-columns:1fr 84px 20px;gap:10px;align-items:center;margin-bottom:6px;}
+.stat{display:grid;grid-template-columns:minmax(0,1fr) 84px 20px;gap:10px;align-items:center;margin-bottom:6px;}
 .stat:last-child{margin-bottom:0;}
 .stat .sn{font-family:var(--telegraf);font-size:16px;line-height:1.25;letter-spacing:0.38px;}
 .stat .sv{font-family:var(--telegraf);font-size:16px;letter-spacing:0.38px;text-align:right;font-variant-numeric:tabular-nums;}
@@ -823,7 +832,7 @@ html.anim .cselect.armed .sbar .fill{transform:scaleX(calc(var(--v) / 10));}
 
 
 /* ---------- motion, focus & anchors ---------- */
-[id]{scroll-margin-top:0;}
+[id]{scroll-margin-top:calc(var(--nav-h) + 12px);}
 .navlinks a.active{border-bottom:1px solid var(--black);}
 .link:focus-visible,.navlinks a:focus-visible,.wordmark:focus-visible{outline:2px solid var(--ink);outline-offset:3px;}
 /* the page below follows whichever character is picked */
@@ -889,7 +898,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
 @media (max-width:560px){
   .story-grid,.timeline,.ski-grid,.play-grid,.skills-grid{grid-template-columns:1fr;}
   .cs-roster{grid-template-columns:repeat(2,1fr);}
-  .stat{grid-template-columns:1fr 70px 18px;gap:8px;}
+  .stat{grid-template-columns:minmax(0,1fr) 70px 18px;gap:8px;}
   .cs-nameplate{font-size:20px;padding:7px 14px;}
   .cs-top{flex-wrap:wrap;gap:12px;}
   .timeline .span2{grid-column:auto;}
@@ -965,6 +974,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
 .panel .intro{font-size:20px;line-height:1.33;max-width:60ch;margin-bottom:24px;}
 .panel-cols{display:grid;grid-template-columns:1.4fr 1fr;gap:44px;align-items:start;}
 .panel-cols .intro{margin-bottom:0;}
+.panel-cols .stack p + p{margin-top:18px;}
 @media (max-width:900px){
   .cards{grid-template-columns:repeat(2,minmax(0,1fr));}
   .panel-cols{grid-template-columns:1fr;gap:24px;}
@@ -979,16 +989,32 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
 </head>
 <body>
 
-<div class="rail">LONDON 51.5°N · PERTH 31.9°S ✳ OPEN FROM EARLY 2027</div>
+<div class="rail">LONDON 51.5°N ✳ OPEN FROM MAY 2027</div>
 
 <div class="page">
 
-  <!-- NAV -->
+  <nav>
+    <a class="wordmark" href="#top">JTB<sup>&reg;</sup></a>
+    <div class="navlinks">
+      <a href="#research">Research</a>
+      <a href="#engineering">Engineering</a>
+      <a href="#aicode">AI</a>
+      <a href="#education">Education</a>
+      <a href="#content">Content</a>
+      <a href="#sport">Sport</a>
+      <a href="#contact">Contact</a>
+      <a class="nav-cv" href="assets/Jackson-Brocklebank-CV.pdf" download="Jackson Brocklebank CV.pdf">CV</a>
+    </div>
+  </nav>
 
   <!-- CHARACTER SELECT, the hero -->
   <section class="cselect" id="top">
     <div class="cs-top">
-      <span class="cs-player">Jackson Character Selection</span>
+      <div class="cs-ident">
+        <span class="cs-kicker">Jackson Character Selection</span>
+        <h1 class="cs-player">Jackson Brocklebank</h1>
+        <p class="cs-intro">I'm Jackson. I've just finished an MSc in Advanced Materials Science at UCL, after renewable energy engineering at Exeter. My Master's project was a PFAS free water repellent coating, made with Finisterre and tested on their own fabric. I'm at Curtin in Perth until November, and looking for work in London from May 2027.</p>
+      </div>
       <span class="cs-nameplate" id="cs-name">Jack of All Trades</span>
     </div>
 
@@ -1118,7 +1144,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
         <div class="cimg"><img loading="lazy" decoding="async" src="assets/redox-cover.jpg" alt="Dissertation cover: Redox Flow Batteries in Coupling Renewable Energy Sources, University of Exeter, April 2025"></div>
         <div class="cbody">
           <div class="ct">Redox flow batteries <span class="sub">BEng dissertation, awarded a first</span></div>
-          <div class="ctags">energy storage / renewable energy / University of Exeter</div>
+          <div class="ctags">energy storage / expert interviews / University of Exeter</div>
           <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
         </div>
       </div>
@@ -1128,7 +1154,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
         <div class="t">A PFAS free waterproof coating <span class="sub">in collaboration with Finisterre</span></div>
         <button class="pclose" data-close type="button">close &times;</button>
       </div>
-      <p class="intro">My Master's project, and the one that brings together a few things I care about: the outdoors, materials science and sustainability. I'm synthesising a PFAS free superhydrophobic coating for outdoor textiles, supervised by Prospero Taroni-Junior and working with Abbie Spence at <span class="italic">Finisterre</span>.</p>
+      <p class="intro">My Master's project, supervised by Prospero Taroni-Junior and run with Abbie Spence at <span class="italic">Finisterre</span>. I synthesised a PFAS free superhydrophobic coating for outdoor textiles and tested it against the commercial one they already use.</p>
       <video class="research-video" autoplay muted loop playsinline preload="metadata" poster="assets/wca-coating.jpg" aria-label="A water droplet beading up on the coated fabric under the contact angle goniometer">
       <source src="assets/wca-coating.mp4" type="video/mp4">
     </video>
@@ -1146,10 +1172,10 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
 
     <div class="ai-body" style="margin-top:44px;">
       <div>
-        <p>PFAS are the fluorine chemistry behind most waterproof gear, and they're increasingly linked to risks to human health and the environment. Finding a fluorine free version that still beads water in the wet and the cold felt like a problem worth working on.</p>
+        <p>PFAS are the fluorine chemistry behind most waterproof gear, and they're increasingly linked to risks to human health and the environment. The hard part is finding a fluorine free version that still beads water once it has been washed and worn.</p>
       </div>
       <div>
-        <p>Finisterre already make their kit with PFAS free chemistry, so the research is aimed at something people could actually wear. <a class="link" href="https://jacksontigerb.github.io/fluorine-free-DWR/" target="_blank" rel="noopener">Read more about the project</a>, the nanoparticle side and how I make the coating.</p>
+        <p>Finisterre already make their kit with PFAS free chemistry, so the coating had to work on fabric they already sell. <a class="link" href="https://jacksontigerb.github.io/fluorine-free-DWR/" target="_blank" rel="noopener">Read more about the project</a>, the nanoparticle side and how I make the coating.</p>
       </div>
     </div>
 
@@ -1160,13 +1186,15 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
       </figure>
       <figure>
         <img loading="lazy" decoding="async" width="1200" height="900" src="assets/sem-dispersed.jpg" alt="SEM image of surface modified titanium dioxide spread evenly across the fibres">
-        <figcaption>Surface modified TiO₂, spread evenly, the coating I want</figcaption>
+        <figcaption>Surface modified TiO₂, spread evenly across the fibres</figcaption>
       </figure>
     </div>
-    <p class="tile-tags" style="margin-top:11px;">SEM at ×2,000 · modifying the particle surface stops it clumping, so the coating sits even and repels better</p>
+    <p class="tile-tags" style="margin-top:11px;">SEM at ×2,000 · I modified the particle surface to stop the TiO₂ clumping, so the coating sits even and repels better</p>
 
     <img loading="lazy" decoding="async" class="wca-graph" width="1600" height="848" src="assets/wca-graph.jpg" alt="Graph of water contact angle by coating, showing my emulsions reaching the same superhydrophobic range as commercial PFAS free DWR">
-    <p class="tile-tags" style="margin-top:11px;">water contact angle by coating · my emulsions reach the same range as commercial PFAS free DWR, while the uncoated control soaks straight through</p>
+    <p class="tile-tags" style="margin-top:11px;">water contact angle by coating · on scoured cotton my emulsions reach 132 to 135°, matching the commercial PFAS free DWR at 132°, while the uncoated fabric absorbs down to 32°</p>
+
+    <p style="margin-top:44px;">These coatings tend to lose their repellency after a few washes, so I put the coated samples through 20 wash cycles and 200 abrasion cycles, measuring the contact angle again at each stage.</p>
   
     </div>
     <div class="panel" id="p-redox" hidden>
@@ -1175,7 +1203,13 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
         <button class="pclose" data-close type="button">close &times;</button>
       </div>
       <div class="panel-cols">
-        <p class="intro">My BEng dissertation at the University of Exeter, titled Redox Flow Batteries in Coupling Renewable Energy Sources and supervised by Xiaohong Li and David Trudgeon. It looked at how flow batteries pair with wind and solar to store what they generate, and it was awarded a first.</p>
+        <div class="stack">
+          <p class="intro">My BEng dissertation at Exeter, supervised by Xiaohong Li and David Trudgeon. Wind and solar generate when the weather allows, so the grid needs storage that can hold several hours and give it back slowly. Flow batteries keep the energy in external electrolyte tanks and the power in a separate stack, so the two can be sized independently.</p>
+          <p>I compared five chemistries: zinc bromine, iron chromium, metal air, lithium based and vanadium. Vanadium came out ahead for grid scale. All four of its oxidation states dissolve in the same acid, so electrolyte crossing between the half cells only self discharges instead of contaminating them, and a stack takes 10,000 to 20,000 deep cycles before the capacity noticeably fades. The electrolyte is water based, so there is no thermal runaway to design around.</p>
+          <p>I also ran my own interviews. Seven invitations went out to people working on vanadium flow batteries in industry and research, four agreed, and three recordings survived a fault that lost the fourth. Twelve questions each, twenty to forty minutes, transcribed and then corrected by hand.</p>
+          <p>They agreed on the barriers. Perfluorinated membranes such as Nafion are expensive, pumps and power electronics pull real round trip efficiency down to about 75%, and market rules reward fast response rather than the eight hour discharge vanadium is suited to. The Energy Superhub Oxford case study showed the pairing that gets used in practice: the vanadium system absorbs the daily deep cycling so the lithium pack next to it can take the short high power calls and last longer.</p>
+          <p>None of those is a scientific problem. Vanadium already meets the technical requirement for coupling with wind and solar, and what is left is cost and regulation.</p>
+        </div>
         <img loading="lazy" decoding="async" class="art-natural shot" width="926" height="1310" src="assets/redox-cover.jpg" alt="Dissertation cover: Redox Flow Batteries in Coupling Renewable Energy Sources, University of Exeter, April 2025">
       </div>
     </div>
@@ -1189,7 +1223,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
         <span class="eyebrow">02 · engineering &amp; prototyping</span>
         <h2 class="serif-heading">Made <span class="italic">and tested</span></h2>
       </div>
-      <p class="lead">Sketch, then workshop, then something that actually runs. Each card opens up.</p>
+      <p class="lead">Things I've designed, built and tested. Each card opens up.</p>
     </div>
     <div class="cards">
       <div class="card" data-panel="p-solar" aria-controls="p-solar">
@@ -1236,7 +1270,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
         
         <div class="cbody">
           <div class="ct">Photocatalytic water splitting <span class="sub">clean hydrogen at Curtin University</span></div>
-          <div class="ctags">visiting research associate / Perth / from August 2026</div>
+          <div class="ctags">visiting research associate / Perth / until November 2026</div>
           <div class="copen"><span class="a">coming soon</span><span></span></div>
         </div>
       </div>
@@ -1284,7 +1318,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
       </div>
       <div class="panel-cols">
         <div class="artbox ratio-wide"><img loading="lazy" decoding="async" src="assets/hydroturbine.jpg" alt="Hydroturbine built from an orange pipe, tested in a real stream"></div>
-        <p class="intro">A hydroturbine designed and made for around £50, then taken outside and tested in a real stream. The whole journey from design to field test.</p>
+        <p class="intro">A hydroturbine designed and made for around £50, then taken outside and tested in a real stream.</p>
       </div>
     </div>
     <div class="panel" id="p-bikes" hidden>
@@ -1297,8 +1331,6 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
         <p class="intro">The bike repair business I started at sixteen. Self taught, customer facing, and more than 495 bikes fixed.</p>
       </div>
     </div>
-
-    <p class="framing">I like taking an idea through to a working prototype, then explaining it on camera.</p>
 
   </section>
 
@@ -1470,7 +1502,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
         <span class="eyebrow">05 · experience</span>
         <h2 class="serif-heading">Work <span class="italic">outside the lab</span></h2>
       </div>
-      <p class="lead">The jobs where I learned to explain things plainly and stay level when it's busy.</p>
+      <p class="lead">Alongside university: library IT support, student rep, caf&eacute; and lettings work, and a running club I started.</p>
     </div>
 
     <div class="cvlist">
@@ -1486,7 +1518,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
         <div class="h">
           <div class="t">Digital Hub Student Ambassador <span class="sub">University of Exeter</span></div>
           <span class="place">Technical support, up to 100 students a day</span>
-          <p class="desc">Provided troubleshooting in the library IT department, helping up to a hundred students a day, calm and quick under pressure.</p>
+          <p class="desc">Provided troubleshooting in the library IT department, helping up to a hundred students a day.</p>
         </div>
         <div class="date">09/2024 – 06/2025</div>
       </div>
@@ -1502,7 +1534,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
         <div class="h">
           <div class="t">Customer Facing Roles <span class="sub">cafés and a lettings office</span></div>
           <span class="place">Drury 188-189 · Castle Beach Café · Frank Harris &amp; Co</span>
-          <p class="desc">Fast, accurate service across two café roles and a sales and lettings office, handling orders, enquiries and day to day admin while staying calm in busy settings.</p>
+          <p class="desc">Fast, accurate service across two café roles and a sales and lettings office, handling orders, enquiries and day to day admin.</p>
         </div>
         <div class="date">2023 – present</div>
       </div>
@@ -1524,7 +1556,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
       <div class="skillgroup" data-item="cad"><span class="k">cad &amp; design</span><span class="v">Onshape · SolidWorks · 3D Printing</span></div>
       <div class="skillgroup" data-item="electronics"><span class="k">electronics &amp; prototyping</span><span class="v">Arduino · ESP32 · Ultrasonic Sensors · Soldering · MQTT · MODBUS</span></div>
       <div class="skillgroup" data-item="workshop"><span class="k">workshop &amp; fabrication</span><span class="v">Lathe · Bandsaw · Hand Tools</span></div>
-      <div class="skillgroup" data-item="code"><span class="k">programming &amp; data</span><span class="v">Python · SQL · MATLAB · C++ · Git</span></div>
+      <div class="skillgroup" data-item="code"><span class="k">modelling &amp; data</span><span class="v">Python · MATLAB · PVsyst · SQL · C++ · Git</span></div>
       <div class="skillgroup" data-item="characterisation"><span class="k">materials characterisation</span><span class="v">SEM · TEM · FTIR · XRD · XPS · UV/Vis · Optical Microscopy</span></div>
     </div>
   </section>
@@ -1598,8 +1630,8 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
     <p class="tile-tags" style="margin-top:11px;">the interests carry over · three of the skiing videos, at 98.5k, 31.8k and 53.1k plays</p>
 
     <div class="sec-head" style="margin-top:88px;">
-      <div><span class="eyebrow">what it taught me</span></div>
-      <p class="lead">Which trends are worth following and which to skip. Running it alone meant every job at once: ideas, filming, editing, captions, posting, replying to comments, then reading the analytics. Posting is <span class="italic">paused</span> this year for the Masters in London, which is why the count has eased from 89k to 80.9k.</p>
+      <div><span class="eyebrow">how it ran</span></div>
+      <p class="lead">Running it alone meant every job at once: ideas, filming, editing, captions, posting, replying to comments, then reading the analytics. Posting has been <span class="italic">paused</span> since the Masters in London, which is why the count has eased from 89k to 80.9k.</p>
     </div>
   
     </div>
@@ -1633,7 +1665,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
         <div class="t">Falmouth Running Society <span class="sub">founded in January, 25 a week by June</span></div>
         <button class="pclose" data-close type="button">close &times;</button>
       </div>
-      <p class="intro">Founding Falmouth Running Society showed me how to grow a community in person, not just online.</p>
+      <p class="intro">I started the society in January 2024, set the routes, ran the socials and led the sessions myself. By June it was 25 runners a week.</p>
       <div class="run-grid">
       <div class="rv"><video autoplay muted loop playsinline preload="metadata" poster="assets/runclub.jpg" aria-label="The run club heading down a Falmouth street together"><source src="assets/runclub.mp4" type="video/mp4"></video></div>
       <div class="rp tall"><img loading="lazy" decoding="async" src="assets/runclub-street.jpg" alt="Run club running down a pastel terraced street at dusk"></div>
@@ -1663,7 +1695,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
       <div class="sv"><video autoplay muted loop playsinline preload="metadata" poster="assets/ski-pov.jpg" aria-label="Following a friend down a sunny piste, filmed while skiing"><source src="assets/ski-pov.mp4" type="video/mp4"></video></div>
     </div>
 
-    <p class="ski-para">Different resorts and conditions, filmed as I go. Plans change on the mountain, and I'm used to that.</p>
+    <p class="ski-para">Different resorts and conditions, filmed as I go.</p>
   </section>
 
   <!-- SPORT & OUTDOORS -->
@@ -1673,7 +1705,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
         <span class="eyebrow">09 · sport &amp; outdoors</span>
         <h2 class="serif-heading">Sport <span class="italic">&amp; outdoors</span></h2>
       </div>
-      <p class="lead">Running, climbing, surfing, skating. What the rest of the week looks like.</p>
+      <p class="lead">Running, climbing, surfing and skating, most weeks of the year.</p>
     </div>
     <div class="cards">
       <div class="card" data-panel="p-climb" aria-controls="p-climb">
@@ -1708,7 +1740,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
       </div>
       <div class="panel-cols">
         <div class="artbox ratio-landscape"><img loading="lazy" decoding="async" src="assets/climbing.jpg" alt="Bouldering up a sandstone outcrop under a blue sky"></div>
-        <p class="intro">Mostly bouldering. The wall keeps it regular through the week, and when the weather and the company line up it moves outside onto real rock, which is where it's best.</p>
+        <p class="intro">Mostly bouldering. The wall keeps it regular through the week, and when the weather and the company line up it moves outside onto real rock.</p>
       </div>
     </div>
     <div class="panel" id="p-marathon" hidden>
@@ -1730,7 +1762,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
         <div class="t">Surf &amp; skate <span class="sub">and the rest of an active life</span></div>
         <button class="pclose" data-close type="button">close &times;</button>
       </div>
-      <p class="intro">Surf, skate, Japanese, piano and guitar, chess, and I put my own PCs together. I shoot most of this myself, so the photos are half the hobby. I like being outside and I like meeting people, which is most of this job.</p>
+      <p class="intro">Surf, skate, Japanese, piano and guitar, chess, and I put my own PCs together. I shoot most of this myself, so the photos are half the hobby.</p>
       <div class="play-grid">
       <div class="artbox ratio-landscape"><img loading="lazy" decoding="async" src="assets/surf-cutback.jpg" alt="Surfer carving off the top of a wave, spray flying"></div>
       <div class="artbox ratio-landscape"><img loading="lazy" decoding="async" src="assets/beach.jpg" alt="Two people playing badminton on the beach as the sun sets over the sea"></div>
@@ -1750,7 +1782,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
         <span class="eyebrow">10 · travel &amp; adventures</span>
         <h2 class="serif-heading">Travel <span class="italic">&amp; adventures</span></h2>
       </div>
-      <p class="lead">Senegal, the Dolomites, New York. Mostly shot on film.</p>
+      <p class="lead">Senegal, the Dolomites and New York, mostly shot on film.</p>
     </div>
     <div class="cards">
       <div class="card feature" data-panel="p-senegal" aria-controls="p-senegal">
@@ -1851,7 +1883,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
   <section class="contact" id="contact">
     <span class="eyebrow">11 · let's talk</span>
     <h2 class="serif-display">Get in touch.</h2>
-    <p class="avail">From August to late November 2026 I'm at Curtin University in Perth, researching clean hydrogen. I can work online from mid September and I'm free in person from December, so most of what I'm looking at starts in early 2027. Happy to move anywhere for the right role.</p>
+    <p class="avail">I'm at Curtin University in Perth until November 2026, researching photocatalytic water splitting for clean hydrogen. After that I'm doing a ski season in Hakuba. I'm looking for work in London from May 2027.</p>
 
     <div class="contact-cols">
       <div class="row"><span class="k">email</span><a class="link email" href="mailto:jackson.brocklebank.25@ucl.ac.uk">jackson.brocklebank.25@ucl.ac.uk</a></div>
@@ -1859,7 +1891,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
       <div class="row"><span class="k">tiktok</span><a class="link" href="https://www.tiktok.com/@jacksontigerb" target="_blank" rel="noopener">@jacksontigerb</a></div>
       <div class="row"><span class="k">linkedin</span><a class="link" href="https://www.linkedin.com/in/jacksontigerb" target="_blank" rel="noopener">/in/jacksontigerb</a></div>
       <div class="row"><span class="k">cv</span><a class="link" href="assets/Jackson-Brocklebank-CV.pdf" download="Jackson Brocklebank CV.pdf">download PDF</a></div>
-      <div class="row"><span class="k">based</span><span>London now · Perth from August</span></div>
+      <div class="row"><span class="k">based</span><span>Perth until November · London from May 2027</span></div>
     </div>
 
     <div class="footer-mark">
@@ -1966,6 +1998,19 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
     if(p)closePanel(p);
   });
 })();
+/* the hero fills exactly what the sticky nav leaves, at any breakpoint */
+(function(){
+  var nav=document.querySelector('nav');
+  if(!nav)return;
+  var measure=function(){
+    document.documentElement.style.setProperty('--nav-h',nav.offsetHeight+'px');
+  };
+  measure();
+  window.addEventListener('resize',measure);
+  /* the wordmark is a webfont, so the bar changes height once it lands */
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(measure);
+})();
+
 (function(){
   if(!('IntersectionObserver' in window))return;
   var doc=document;
@@ -1985,7 +2030,9 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
   var map={engineering:'engineering',research:'research',content:'content',skiing:'skiing',aicode:'aicode',sport:'sport',travel:'travel',education:'education',experience:'education',contact:'contact'};
   var links={};
   [].slice.call(doc.querySelectorAll('.navlinks a')).forEach(function(a){
-    var id=(a.getAttribute('href')||'').slice(1);
+    var href=a.getAttribute('href')||'';
+    if(href.charAt(0)!=='#')return;
+    var id=href.slice(1);
     if(id)links[id]=a;
   });
   var so=new IntersectionObserver(function(entries){
@@ -2013,7 +2060,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
 })();
 /* character select: colour arrives with the character, and the bars reload on every swap */
 (function(){
-  var CHARS={"allrounder":{"n":"Jack of All Trades","art":"assets/char-allrounder.png","hex":"#46607d","rgb":"70,96,125","cls":"Materials and energy engineer","quest":"Open to research, engineering and design","weak":"Starts the next project before the last one is finished","stats":[["workshop & fabrication",9],["materials characterisation",8],["cad & design",8],["filming & editing",8],["skiing & surfing",8],["python & data",7],["baking",7]],"raise_":"","href":"#research","go":"see everything","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Jack%20of%20All%20Trades&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Jack%20of%20All%20Trades.%0D%0A%0D%0A"},"master":{"n":"Master of One","art":"assets/char-master.png","hex":"#3a3f45","rgb":"58,63,69","cls":"MSc Advanced Materials Science","quest":"UCL 2026, after renewable energy at Exeter","weak":"Will bring up contact angles at a party","stats":[["materials characterisation",9],["energy systems",8],["writing it up",8],["reading the literature",8],["project planning",7],["presenting the work",7]],"raise_":"","href":"#education","go":"see the education","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Master%20of%20One&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Master%20of%20One.%0D%0A%0D%0A"},"researcher":{"n":"Researcher","art":"assets/char-researcher.png","hex":"#14807b","rgb":"20,128,123","cls":"Scientist, lab based","quest":"Taking PFAS out of waterproof clothing","weak":"Reruns a perfectly good sample because the first one looked untidy","stats":[["materials characterisation",9],["sample prep",8],["designing experiments",8],["patience",8],["data analysis",7],["writing it up",7]],"raise_":"","href":"#research","go":"see the research","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Researcher&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Researcher.%0D%0A%0D%0A"},"builder":{"n":"Engineer","art":"assets/char-builder.png","hex":"#7d6a1a","rgb":"125,106,26","cls":"Hardware and prototyping","quest":"Sketch to something that actually runs","weak":"Owns four sets of allen keys and can never find one","stats":[["workshop & fabrication",9],["improvising a fix",8],["cad & 3D printing",7],["electronics",7]],"raise_":"","href":"#engineering","go":"see the projects","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Engineer&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Engineer.%0D%0A%0D%0A"},"operator":{"n":"Computer Guy","art":"assets/char-operator.png","hex":"#2f7d4a","rgb":"47,125,74","cls":"Data and tooling","quest":"Predicting battery life before it fails","weak":"Will spend an afternoon automating a two minute job","stats":[["shell & tooling",7],["wiring services together",7],["debugging late at night",7],["python",6]],"raise_":"","href":"#aicode","go":"see the code","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Computer%20Guy&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Computer%20Guy.%0D%0A%0D%0A"},"creator":{"n":"Content Creator","art":"assets/char-creator.png","hex":"#b23a48","rgb":"178,58,72","cls":"Filmmaker and editor","quest":"89,000 followers in seven months","weak":"Films the sunset instead of watching it","stats":[["camera & editing",8],["pacing a story",8],["shooting on a phone",8],["reading an audience",7]],"raise_":"","href":"#content","go":"see the content work","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Content%20Creator&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Content%20Creator.%0D%0A%0D%0A"},"rider":{"n":"Athlete","art":"assets/char-rider.png","hex":"#a85414","rgb":"168,84,20","cls":"Runner, climber, surfer","quest":"London Marathon, and whatever is next","weak":"Signs up for the race before checking how far it is","stats":[["nerve",8],["endurance",7],["skateboarding",7],["climbing",6]],"raise_":"","href":"#sport","go":"see the sport","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Athlete&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Athlete.%0D%0A%0D%0A"},"wanderer":{"n":"Explorer","art":"assets/char-wanderer.png","hex":"#6f5aa8","rgb":"111,90,168","cls":"Goes and finds out","quest":"Perth next","weak":"Packs light, then buys it all again when he lands","stats":[["saying yes",9],["adapting quickly",8],["packing light",7]],"raise_":"","href":"#travel","go":"see the travels","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Explorer&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Explorer.%0D%0A%0D%0A"},"skier":{"n":"Skier","art":"assets/char-skier.png","hex":"#2a6f9e","rgb":"42,111,158","cls":"On skis since I was three","quest":"A season in the mountains this winter","weak":"First lift every morning, asleep on the chair by three","stats":[["skiing",9],["reading a mountain",8],["cold tolerance",8],["filming while riding",7]],"raise_":"","href":"#skiing","go":"see the skiing","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Skier&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Skier.%0D%0A%0D%0A"}};
+  var CHARS={"allrounder":{"n":"Jack of All Trades","art":"assets/char-allrounder.png","hex":"#46607d","rgb":"70,96,125","cls":"Materials and energy engineer","quest":"Open to research, engineering and design","weak":"Starts the next project before the last one is finished","stats":[["workshop & fabrication",9],["materials characterisation",8],["cad & design",8],["filming & editing",8],["skiing & surfing",8],["python & data",7],["baking",7]],"raise_":"","href":"#research","go":"see everything","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Jack%20of%20All%20Trades&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Jack%20of%20All%20Trades.%0D%0A%0D%0A"},"master":{"n":"Master of One","art":"assets/char-master.png","hex":"#3a3f45","rgb":"58,63,69","cls":"MSc Advanced Materials Science","quest":"UCL 2026, after renewable energy at Exeter","weak":"Will bring up contact angles at a party","stats":[["materials characterisation",9],["energy systems",8],["writing it up",8],["reading the literature",8],["project planning",7],["presenting the work",7]],"raise_":"","href":"#education","go":"see the education","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Master%20of%20One&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Master%20of%20One.%0D%0A%0D%0A"},"researcher":{"n":"Researcher","art":"assets/char-researcher.png","hex":"#14807b","rgb":"20,128,123","cls":"Scientist, lab based","quest":"Taking PFAS out of waterproof clothing","weak":"Reruns a perfectly good sample because the first one looked untidy","stats":[["materials characterisation",9],["sample prep",8],["designing experiments",8],["patience",8],["data analysis",7],["writing it up",7]],"raise_":"","href":"#research","go":"see the research","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Researcher&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Researcher.%0D%0A%0D%0A"},"builder":{"n":"Engineer","art":"assets/char-builder.png","hex":"#7d6a1a","rgb":"125,106,26","cls":"Hardware and prototyping","quest":"A design taken through to a working build","weak":"Owns four sets of allen keys and can never find one","stats":[["workshop & fabrication",9],["improvising a fix",8],["cad & 3D printing",7],["electronics",7]],"raise_":"","href":"#engineering","go":"see the projects","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Engineer&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Engineer.%0D%0A%0D%0A"},"operator":{"n":"Computer Guy","art":"assets/char-operator.png","hex":"#2f7d4a","rgb":"47,125,74","cls":"Data and tooling","quest":"Predicting battery life before it fails","weak":"Will spend an afternoon automating a two minute job","stats":[["shell & tooling",7],["wiring services together",7],["debugging late at night",7],["python",6]],"raise_":"","href":"#aicode","go":"see the code","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Computer%20Guy&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Computer%20Guy.%0D%0A%0D%0A"},"creator":{"n":"Content Creator","art":"assets/char-creator.png","hex":"#b23a48","rgb":"178,58,72","cls":"Filmmaker and editor","quest":"89,000 followers in seven months","weak":"Films the sunset instead of watching it","stats":[["camera & editing",8],["pacing a story",8],["shooting on a phone",8],["reading an audience",7]],"raise_":"","href":"#content","go":"see the content work","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Content%20Creator&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Content%20Creator.%0D%0A%0D%0A"},"rider":{"n":"Athlete","art":"assets/char-rider.png","hex":"#a85414","rgb":"168,84,20","cls":"Runner, climber, surfer","quest":"London Marathon, and whatever is next","weak":"Signs up for the race before checking how far it is","stats":[["nerve",8],["endurance",7],["skateboarding",7],["climbing",6]],"raise_":"","href":"#sport","go":"see the sport","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Athlete&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Athlete.%0D%0A%0D%0A"},"wanderer":{"n":"Explorer","art":"assets/char-wanderer.png","hex":"#6f5aa8","rgb":"111,90,168","cls":"Goes and finds out","quest":"Perth until November","weak":"Packs light, then buys it all again when he lands","stats":[["saying yes",9],["adapting quickly",8],["packing light",7]],"raise_":"","href":"#travel","go":"see the travels","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Explorer&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Explorer.%0D%0A%0D%0A"},"skier":{"n":"Skier","art":"assets/char-skier.png","hex":"#2a6f9e","rgb":"42,111,158","cls":"On skis since I was three","quest":"A season in Hakuba this winter","weak":"First lift every morning, asleep on the chair by three","stats":[["skiing",9],["reading a mountain",8],["cold tolerance",8],["filming while riding",7]],"raise_":"","href":"#skiing","go":"see the skiing","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Skier&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Skier.%0D%0A%0D%0A"}};
   var ORDER=["allrounder", "master", "researcher", "builder", "operator", "creator", "rider", "wanderer", "skier"];
   var root=document.querySelector('.cselect');
   var roster=root&&root.querySelector('.cs-roster');
@@ -2024,7 +2071,6 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
    'cs-spend','cs-go','cs-panel'].forEach(function(id){el[id]=document.getElementById(id);});
   var abil=root.querySelector('.abil');
 
-  /* the hero fills exactly what the sticky nav leaves, at any breakpoint */
   var seen=false,current='allrounder';
 
   function esc(s){return String(s).replace(/[&<>"]/g,function(c){
@@ -2168,15 +2214,24 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
     });
   });
 
+  /* ?c=researcher opens straight on that character, so a link can be aimed at
+     one reader. A query rather than a hash, because every section link is a hash
+     and the two would fight over the same slot. */
+  function keyFromURL(){
+    if(!window.URLSearchParams)return null;
+    var k=new URLSearchParams(location.search).get('c');
+    return (k&&CHARS[k])?k:null;
+  }
   var initTile=document.querySelector('.rtile[aria-selected="true"]');
-  var initKey=initTile?initTile.getAttribute('data-char'):'allrounder';
-  curImg=ART[initKey];
-  fcan.setAttribute('aria-label',CHARS[initKey].n);
-  applyFilter(initKey,false);
-  if(curImg.complete&&curImg.naturalWidth)drawClean(curImg);
-  else curImg.addEventListener('load',function(){drawClean(ART[initKey]);},{once:true});
+  var initKey=keyFromURL()||(initTile?initTile.getAttribute('data-char'):'allrounder');
+  select(initKey,false,true);
 
-  function select(key,focus){
+  window.addEventListener('popstate',function(){
+    var k=keyFromURL()||'allrounder';
+    if(k!==current)select(k,false,true);
+  });
+
+  function select(key,focus,initial){
     var c=CHARS[key];if(!c)return;
     current=key;
     /* on the document, not the section, so the colour carries down the page */
@@ -2185,12 +2240,16 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
     el['cs-name'].textContent=c.n;
     el['cs-ghost'].textContent=('0'+(ORDER.indexOf(key)+1)).slice(-2);
     shakeTo(key,c.n);
-    applyFilter(key,true);
+    applyFilter(key,!initial);
     el['cs-class'].textContent=c.cls;
     el['cs-quest'].textContent=c.quest;
     el['cs-weak'].textContent=c.weak;
     el['cs-spend'].setAttribute('href',c.mail);
-    el['cs-go'].setAttribute('href',c.href);
+    /* nothing enforces that c.href is a section SECT[key] leaves visible, so
+       check rather than trust it and fall back to the first one that is */
+    var shown=SECT[key]||FILTERABLE,target=c.href;
+    if(shown.indexOf(target.slice(1))<0)target='#'+shown[0];
+    el['cs-go'].setAttribute('href',target);
     el['cs-go'].innerHTML=esc(c.go)+' <span class="chev" aria-hidden="true">\u25bc</span>';
     abil.innerHTML='<span class="k">key skills</span>'+statsHTML(c);
     el['cs-panel'].setAttribute('aria-labelledby','rt-'+key);
@@ -2201,6 +2260,9 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
       if(on&&focus)t.focus();
     });
     arm();
+    if(!initial&&window.history&&history.replaceState){
+      history.replaceState(null,'',key==='allrounder'?location.pathname:'?c='+key);
+    }
   }
 
   tiles.forEach(function(t){
