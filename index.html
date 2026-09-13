@@ -4,14 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Jackson Brocklebank</title>
-<meta name="description" content="Engineering, skiing, film and the projects I've started along the way.">
+<meta name="description" content="Materials science and engineering by Jackson Brocklebank: a PFAS free water repellent coating made with Finisterre, battery lifetime modelling, and the things I have built along the way.">
 <meta name="theme-color" content="#f2f2f2">
 <link rel="canonical" href="https://jacksontigerb.github.io/personal-portfolio/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Jackson Brocklebank">
-<meta property="og:description" content="Engineering, skiing, film and the projects I've started along the way.">
+<meta property="og:description" content="Materials science and engineering by Jackson Brocklebank: a PFAS free water repellent coating made with Finisterre, battery lifetime modelling, and the things I have built along the way.">
 <meta property="og:url" content="https://jacksontigerb.github.io/personal-portfolio/">
-<meta property="og:image" content="https://jacksontigerb.github.io/personal-portfolio/assets/ski-hero.jpg">
+<meta property="og:image" content="https://jacksontigerb.github.io/personal-portfolio/assets/wca-coating.jpg">
+<meta property="og:image:width" content="960">
+<meta property="og:image:height" content="540">
+<meta property="og:image:alt" content="A water droplet hanging from the goniometer needle above a coated fabric sample">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='%23292a2c'/><text x='32' y='47' font-family='Georgia,serif' font-size='42' font-style='italic' text-anchor='middle' fill='%23f2f2f2'>J</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -652,27 +655,6 @@ nav{
   transition:color .45s ease;
 }
 
-/* abilities */
-.abil{margin-bottom:15px;}
-.stat{display:grid;grid-template-columns:minmax(0,1fr) 84px 20px;gap:10px;align-items:center;margin-bottom:6px;}
-.stat:last-child{margin-bottom:0;}
-.stat .sn{font-family:var(--telegraf);font-size:16px;line-height:1.25;letter-spacing:0.38px;}
-.stat .sv{font-family:var(--telegraf);font-size:16px;letter-spacing:0.38px;text-align:right;font-variant-numeric:tabular-nums;}
-.sbar{position:relative;height:12px;border:1px solid var(--ink);overflow:hidden;}
-.sbar .fill{
-  position:absolute;top:0;left:0;bottom:0;width:100%;background:var(--accent);
-  transform:scaleX(calc(var(--v) / 10));transform-origin:left center;
-  transition:background .45s ease;
-}
-.sbar .ticks{
-  position:absolute;inset:0;
-  background-image:repeating-linear-gradient(90deg,transparent 0 calc(10% - 1px),var(--vellum) calc(10% - 1px) 10%);
-}
-.stat.raisable .sn::after{
-  content:"+";margin-left:7px;color:var(--accent);font-weight:400;transition:color .45s ease;
-}
-.inv{font-family:var(--telegraf);font-size:16px;line-height:1.45;letter-spacing:0.38px;}
-
 /* the skill point pitch */
 .cs-sp{border-top:1px solid var(--ink);padding-top:13px;margin-top:14px;}
 .cs-sp .spnum{font-family:var(--ogg);font-size:32px;line-height:1;color:var(--accent);transition:color .45s ease;}
@@ -744,10 +726,6 @@ nav{
   .rtile:hover .rname,.rtile:hover .rnum{color:var(--ink);}
   .rtile[aria-selected="true"]:hover .rname{color:#fff;}
 }
-
-/* bars load in, and reload on every character swap */
-html.anim .sbar .fill{transform:scaleX(0);transition:transform .7s cubic-bezier(0.23,1,0.32,1),background .45s ease;transition-delay:calc(var(--d,0) * 55ms),0s;}
-html.anim .cselect.armed .sbar .fill{transform:scaleX(calc(var(--v) / 10));}
 
 /* ---------- real artwork ---------- */
 .artbox{width:100%;overflow:hidden;}
@@ -829,6 +807,18 @@ html.anim .cselect.armed .sbar .fill{transform:scaleX(calc(var(--v) / 10));}
 .sem-pair figcaption{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;margin-top:11px;}
 .research-video{width:100%;display:block;aspect-ratio:16/9;object-fit:cover;background:var(--black);border:1px solid var(--ink);margin-top:44px;}
 .wca-graph{width:100%;display:block;border:1px solid var(--ink);margin-top:18px;background:#fff;}
+/* clips never start on their own, so each one says it is a clip */
+.vwrap{position:relative;}
+.vplay{
+  position:absolute;left:12px;top:12px;z-index:2;
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--vellum);color:var(--ink);border:1px solid var(--ink);
+  padding:7px 13px;font-family:var(--telegraf);font-size:15px;letter-spacing:0.38px;
+  cursor:pointer;box-shadow:3px 3px 0 0 var(--ink);
+}
+.vplay:hover{background:var(--accent);color:#fff;}
+.vplay:focus-visible{outline:2px solid var(--ink);outline-offset:3px;}
+.vplay[hidden]{display:none;}
 
 
 /* ---------- motion, focus & anchors ---------- */
@@ -836,19 +826,11 @@ html.anim .cselect.armed .sbar .fill{transform:scaleX(calc(var(--v) / 10));}
 .navlinks a.active{border-bottom:1px solid var(--black);}
 .link:focus-visible,.navlinks a:focus-visible,.wordmark:focus-visible{outline:2px solid var(--ink);outline-offset:3px;}
 /* the page below follows whichever character is picked */
-.sec-off{display:none;}
-.item-off{display:none;}
-.navlinks a.nav-off{opacity:.3;}
-@media (prefers-reduced-motion:no-preference){
-  .sec-on{animation:secIn .45s ease both;}
-  @keyframes secIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
-}
 html.anim .reveal{opacity:0;transform:translateY(14px);transition:opacity .55s ease,transform .55s ease;}
 html.anim .reveal.in{opacity:1;transform:translateY(0);}
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto;}
   html.anim .reveal{opacity:1;transform:none;transition:none;}
-  html.anim .sbar .fill,html.anim .cselect.armed .sbar .fill{transform:scaleX(calc(var(--v) / 10));transition:none;}
 }
 
 /* ---------- responsive ---------- */
@@ -898,7 +880,6 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
 @media (max-width:560px){
   .story-grid,.timeline,.ski-grid,.play-grid,.skills-grid{grid-template-columns:1fr;}
   .cs-roster{grid-template-columns:repeat(2,1fr);}
-  .stat{grid-template-columns:minmax(0,1fr) 70px 18px;gap:8px;}
   .cs-nameplate{font-size:20px;padding:7px 14px;}
   .cs-top{flex-wrap:wrap;gap:12px;}
   .timeline .span2{grid-column:auto;}
@@ -994,7 +975,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
 <div class="page">
 
   <nav>
-    <a class="wordmark" href="#top">JTB<sup>&reg;</sup></a>
+    <a class="wordmark" href="#top">JTB</a>
     <div class="navlinks">
       <a href="#research">Research</a>
       <a href="#engineering">Engineering</a>
@@ -1030,17 +1011,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
     <div class="cs-info" id="cs-panel" role="tabpanel" aria-labelledby="rt-allrounder">
       <div class="cs-block"><span class="k">class</span><p class="v" id="cs-class">Materials and energy engineer</p></div>
       <div class="cs-block"><span class="k">quest</span><p class="v" id="cs-quest">Open to research, engineering and design</p></div>
-      <div class="cs-block"><span class="k">weakness</span><p class="v" id="cs-weak">Starts the next project before the last one is finished</p></div>
-      <div class="abil">
-        <span class="k">key skills</span>
-          <div class="stat" style="--v:9;--d:0"><span class="sn">workshop & fabrication</span><span class="sbar" role="img" aria-label="9 out of 10"><span class="fill"></span><span class="ticks"></span></span><span class="sv">9</span></div>
-          <div class="stat" style="--v:8;--d:1"><span class="sn">materials characterisation</span><span class="sbar" role="img" aria-label="8 out of 10"><span class="fill"></span><span class="ticks"></span></span><span class="sv">8</span></div>
-          <div class="stat" style="--v:8;--d:2"><span class="sn">cad & design</span><span class="sbar" role="img" aria-label="8 out of 10"><span class="fill"></span><span class="ticks"></span></span><span class="sv">8</span></div>
-          <div class="stat" style="--v:8;--d:3"><span class="sn">filming & editing</span><span class="sbar" role="img" aria-label="8 out of 10"><span class="fill"></span><span class="ticks"></span></span><span class="sv">8</span></div>
-          <div class="stat" style="--v:8;--d:4"><span class="sn">skiing & surfing</span><span class="sbar" role="img" aria-label="8 out of 10"><span class="fill"></span><span class="ticks"></span></span><span class="sv">8</span></div>
-          <div class="stat" style="--v:7;--d:5"><span class="sn">python & data</span><span class="sbar" role="img" aria-label="7 out of 10"><span class="fill"></span><span class="ticks"></span></span><span class="sv">7</span></div>
-          <div class="stat" style="--v:7;--d:6"><span class="sn">baking</span><span class="sbar" role="img" aria-label="7 out of 10"><span class="fill"></span><span class="ticks"></span></span><span class="sv">7</span></div>
-      </div>
+      <div class="cs-block" id="cs-weakblock" hidden><span class="k">weakness</span><p class="v" id="cs-weak"></p></div>
       <div class="cs-sp">
         <a class="spbtn" id="cs-spend" href="mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Jack%20of%20All%20Trades&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Jack%20of%20All%20Trades.%0D%0A%0D%0A">get in touch &rarr;</a>
       </div>
@@ -1135,7 +1106,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
       <div class="card feature" data-panel="p-pfas" aria-controls="p-pfas">
         <div class="cimg"><img loading="lazy" decoding="async" src="assets/wca-coating.jpg" alt="A water droplet beading up on the coated fabric under the contact angle goniometer"></div>
         <div class="cbody">
-          <div class="ct">A PFAS free waterproof coating <span class="sub">in collaboration with Finisterre</span></div>
+          <div class="ct">A PFAS free water repellent coating <span class="sub">in collaboration with Finisterre</span></div>
           <div class="ctags">SEM / contact angle / nanoparticle synthesis / my Master&#8217;s project</div>
           <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
         </div>
@@ -1151,11 +1122,11 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
     </div>
     <div class="panel" id="p-pfas" hidden>
       <div class="panel-head">
-        <div class="t">A PFAS free waterproof coating <span class="sub">in collaboration with Finisterre</span></div>
+        <div class="t">A PFAS free water repellent coating <span class="sub">in collaboration with Finisterre</span></div>
         <button class="pclose" data-close type="button">close &times;</button>
       </div>
-      <p class="intro">My Master's project, supervised by Prospero Taroni-Junior and run with Abbie Spence at <span class="italic">Finisterre</span>. I synthesised a PFAS free superhydrophobic coating for outdoor textiles and tested it against the commercial one they already use.</p>
-      <video class="research-video" autoplay muted loop playsinline preload="metadata" poster="assets/wca-coating.jpg" aria-label="A water droplet beading up on the coated fabric under the contact angle goniometer">
+      <p class="intro">My Master's project, supervised by Prospero Taroni-Junior and run with Abbie Spence at <span class="italic">Finisterre</span>. I synthesised a PFAS free water repellent coating for outdoor textiles and tested it against the commercial one they already use.</p>
+      <video class="research-video" controls muted loop playsinline preload="none" poster="assets/wca-coating.jpg" aria-label="A water droplet beading up on the coated fabric under the contact angle goniometer">
       <source src="assets/wca-coating.mp4" type="video/mp4">
     </video>
     <p class="tile-tags" style="margin-top:11px;">a water droplet holding its shape on my coated fabric, measured on the goniometer</p>
@@ -1191,7 +1162,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
     </div>
     <p class="tile-tags" style="margin-top:11px;">SEM at ×2,000 · I modified the particle surface to stop the TiO₂ clumping, so the coating sits even and repels better</p>
 
-    <img loading="lazy" decoding="async" class="wca-graph" width="1600" height="848" src="assets/wca-graph.jpg" alt="Graph of water contact angle by coating, showing my emulsions reaching the same superhydrophobic range as commercial PFAS free DWR">
+    <img loading="lazy" decoding="async" class="wca-graph" width="1600" height="848" src="assets/wca-graph.jpg" alt="Graph of water contact angle by coating, showing my emulsions reaching the same contact angle range as the commercial PFAS free DWR">
     <p class="tile-tags" style="margin-top:11px;">water contact angle by coating · on scoured cotton my emulsions reach 132 to 135°, matching the commercial PFAS free DWR at 132°, while the uncoated fabric absorbs down to 32°</p>
 
     <p style="margin-top:44px;">These coatings tend to lose their repellency after a few washes, so I put the coated samples through 20 wash cycles and 200 abrasion cycles, measuring the contact angle again at each stage.</p>
@@ -1451,9 +1422,9 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
         <span class="meta">mutagen · two way · about a second · over ssh</span>
       </div>
       <div class="pc-paths">
-        <div class="pc-path"><small>on my mac</small>~/Desktop/Work</div>
+        <div class="pc-path"><small>on my mac</small>the working folder</div>
         <span class="pc-sym">⇄</span>
-        <div class="pc-path"><small>on the server</small>~/Work</div>
+        <div class="pc-path"><small>on the server</small>the same folder</div>
       </div>
     </div>
 
@@ -1536,7 +1507,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
     </div>
 
     <div class="cvlist">
-      <div class="cvitem" data-item="runclub">
+      <div class="cvitem">
         <div class="h">
           <div class="t">Run Club Founder &amp; President <span class="sub">Falmouth Running Society</span></div>
           <span class="place">Started a club and grew a community</span>
@@ -1544,7 +1515,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
         </div>
         <div class="date">01/2024 – 06/2024</div>
       </div>
-      <div class="cvitem" data-item="ithub">
+      <div class="cvitem">
         <div class="h">
           <div class="t">Digital Hub Student Ambassador <span class="sub">University of Exeter</span></div>
           <span class="place">Technical support, up to 100 students a day</span>
@@ -1552,7 +1523,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
         </div>
         <div class="date">09/2024 – 06/2025</div>
       </div>
-      <div class="cvitem" data-item="rep">
+      <div class="cvitem">
         <div class="h">
           <div class="t">Student Representative <span class="sub">University College London</span></div>
           <span class="place">Relaying feedback in departmental meetings</span>
@@ -1560,7 +1531,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
         </div>
         <div class="date">09/2025 – present</div>
       </div>
-      <div class="cvitem" data-item="cafe">
+      <div class="cvitem">
         <div class="h">
           <div class="t">Customer Facing Roles <span class="sub">cafés and a lettings office</span></div>
           <span class="place">Drury 188-189 · Castle Beach Café · Frank Harris &amp; Co</span>
@@ -1582,12 +1553,12 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
     </div>
 
     <div class="skills-grid">
-      <div class="skillgroup" data-item="creative"><span class="k">creative &amp; content</span><span class="v">Premiere Pro · Photoshop · DaVinci Resolve · Sony Vegas · CapCut · iPhone shooting</span></div>
-      <div class="skillgroup" data-item="cad"><span class="k">cad &amp; design</span><span class="v">Onshape · SolidWorks · 3D Printing</span></div>
-      <div class="skillgroup" data-item="electronics"><span class="k">electronics &amp; prototyping</span><span class="v">Arduino · ESP32 · Ultrasonic Sensors · Soldering · MQTT · MODBUS</span></div>
-      <div class="skillgroup" data-item="workshop"><span class="k">workshop &amp; fabrication</span><span class="v">Lathe · Bandsaw · Hand Tools</span></div>
-      <div class="skillgroup" data-item="code"><span class="k">modelling &amp; data</span><span class="v">Python · MATLAB · PVsyst · SQL · C++ · Git</span></div>
-      <div class="skillgroup" data-item="characterisation"><span class="k">materials characterisation</span><span class="v">SEM · TEM · FTIR · XRD · XPS · UV/Vis · Optical Microscopy</span></div>
+      <div class="skillgroup"><span class="k">creative &amp; content</span><span class="v">Premiere Pro · Photoshop · DaVinci Resolve · Sony Vegas · CapCut · iPhone shooting</span></div>
+      <div class="skillgroup"><span class="k">cad &amp; design</span><span class="v">Onshape · SolidWorks · 3D Printing</span></div>
+      <div class="skillgroup"><span class="k">electronics &amp; prototyping</span><span class="v">Arduino · ESP32 · Ultrasonic Sensors · Soldering · MQTT · MODBUS</span></div>
+      <div class="skillgroup"><span class="k">workshop &amp; fabrication</span><span class="v">Lathe · Bandsaw · Hand Tools</span></div>
+      <div class="skillgroup"><span class="k">modelling &amp; data</span><span class="v">Python · MATLAB · PVsyst · SQL · C++ · Git</span></div>
+      <div class="skillgroup"><span class="k">materials characterisation</span><span class="v">SEM · TEM · FTIR · XRD · XPS · UV/Vis · Optical Microscopy</span></div>
     </div>
   </section>
 
@@ -1697,7 +1668,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
       </div>
       <p class="intro">I started the society in January 2024, set the routes, ran the socials and led the sessions myself. By June it was 25 runners a week.</p>
       <div class="run-grid">
-      <div class="rv"><video autoplay muted loop playsinline preload="metadata" poster="assets/runclub.jpg" aria-label="The run club heading down a Falmouth street together"><source src="assets/runclub.mp4" type="video/mp4"></video></div>
+      <div class="rv"><video controls muted loop playsinline preload="none" poster="assets/runclub.jpg" aria-label="The run club heading down a Falmouth street together"><source src="assets/runclub.mp4" type="video/mp4"></video></div>
       <div class="rp tall"><img loading="lazy" decoding="async" src="assets/runclub-street.jpg" alt="Run club running down a pastel terraced street at dusk"></div>
       <div class="rp tall"><img loading="lazy" decoding="async" src="assets/runclub-road.jpg" alt="Run club strung out along a coastal road in the evening light"></div>
     </div>
@@ -1717,12 +1688,12 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
       <p class="lead">All terrain, piste or freeride, usually with a camera running. Every clip below is my own.</p>
     </div>
     <div class="ski-grid">
-      <div class="sv"><video autoplay muted loop playsinline preload="metadata" poster="assets/ski-montage.jpg" aria-label="Carving down a sunlit piste, filmed while riding"><source src="assets/ski-montage.mp4" type="video/mp4"></video></div>
-      <div class="sv"><video autoplay muted loop playsinline preload="metadata" poster="assets/ski-jump.jpg" aria-label="Launching off a kicker in slow motion"><source src="assets/ski-jump.mp4" type="video/mp4"></video></div>
-      <div class="sv"><video autoplay muted loop playsinline preload="metadata" poster="assets/ski-park-air.jpg" aria-label="Airborne off a snow park kicker in slow motion"><source src="assets/ski-park-air.mp4" type="video/mp4"></video></div>
-      <div class="sv"><video autoplay muted loop playsinline preload="metadata" poster="assets/ski-cliff.jpg" aria-label="Dropping into powder off a small cliff"><source src="assets/ski-cliff.mp4" type="video/mp4"></video></div>
-      <div class="sv"><video autoplay muted loop playsinline preload="metadata" poster="assets/ski-offpiste.jpg" aria-label="Off piste in a snowstorm beside the trees"><source src="assets/ski-offpiste.mp4" type="video/mp4"></video></div>
-      <div class="sv"><video autoplay muted loop playsinline preload="metadata" poster="assets/ski-pov.jpg" aria-label="Following a friend down a sunny piste, filmed while skiing"><source src="assets/ski-pov.mp4" type="video/mp4"></video></div>
+      <div class="sv"><video controls muted loop playsinline preload="none" poster="assets/ski-montage.jpg" aria-label="Carving down a sunlit piste, filmed while riding"><source src="assets/ski-montage.mp4" type="video/mp4"></video></div>
+      <div class="sv"><video controls muted loop playsinline preload="none" poster="assets/ski-jump.jpg" aria-label="Launching off a kicker in slow motion"><source src="assets/ski-jump.mp4" type="video/mp4"></video></div>
+      <div class="sv"><video controls muted loop playsinline preload="none" poster="assets/ski-park-air.jpg" aria-label="Airborne off a snow park kicker in slow motion"><source src="assets/ski-park-air.mp4" type="video/mp4"></video></div>
+      <div class="sv"><video controls muted loop playsinline preload="none" poster="assets/ski-cliff.jpg" aria-label="Dropping into powder off a small cliff"><source src="assets/ski-cliff.mp4" type="video/mp4"></video></div>
+      <div class="sv"><video controls muted loop playsinline preload="none" poster="assets/ski-offpiste.jpg" aria-label="Off piste in a snowstorm beside the trees"><source src="assets/ski-offpiste.mp4" type="video/mp4"></video></div>
+      <div class="sv"><video controls muted loop playsinline preload="none" poster="assets/ski-pov.jpg" aria-label="Following a friend down a sunny piste, filmed while skiing"><source src="assets/ski-pov.mp4" type="video/mp4"></video></div>
     </div>
 
     <p class="ski-para">Different resorts and conditions, filmed as I go.</p>
@@ -1925,7 +1896,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
     </div>
 
     <div class="footer-mark">
-      <span class="big">JTB<sup style="font-size:0.3em;vertical-align:super;">®</sup></span>
+      <span class="big">JTB</span>
       <span class="meta">All footage and photography my own · <a class="link" href="#top">back to top</a></span>
     </div>
   </section>
@@ -2045,16 +2016,31 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
   if(!('IntersectionObserver' in window))return;
   var doc=document;
 
-  /* pause the looping videos while they're off screen */
-  var vids=[].slice.call(doc.querySelectorAll('video[autoplay]'));
+  /* nothing plays until someone presses play. A clip scrolled out of view
+     pauses, and stays paused when it comes back */
+  var vids=[].slice.call(doc.querySelectorAll('video'));
   var vo=new IntersectionObserver(function(entries){
     entries.forEach(function(e){
-      var v=e.target;
-      if(e.isIntersecting){var p=v.play();if(p&&p.catch)p.catch(function(){});}
-      else v.pause();
+      if(!e.isIntersecting&&!e.target.paused)e.target.pause();
     });
   },{rootMargin:'120px 0px'});
-  vids.forEach(function(v){vo.observe(v);});
+  vids.forEach(function(v){
+    vo.observe(v);
+    var box=v.parentNode;
+    if(!box.classList.contains('sv')&&!box.classList.contains('rv')){
+      box=doc.createElement('div');v.parentNode.insertBefore(box,v);box.appendChild(v);
+      box.style.marginTop=getComputedStyle(v).marginTop;v.style.marginTop='0';
+    }
+    box.classList.add('vwrap');
+    var b=doc.createElement('button');
+    b.type='button';b.className='vplay';
+    b.innerHTML='<span aria-hidden="true">&#9654;</span> play';
+    b.setAttribute('aria-label','Play: '+(v.getAttribute('aria-label')||'video'));
+    b.addEventListener('click',function(){var p=v.play();if(p&&p.catch)p.catch(function(){});});
+    v.addEventListener('play',function(){b.hidden=true;});
+    v.addEventListener('pause',function(){b.hidden=false;});
+    box.appendChild(b);
+  });
 
   /* underline the nav link for the section in view */
   var map={engineering:'engineering',research:'research',content:'content',skiing:'skiing',aicode:'aicode',sport:'sport',travel:'travel',education:'education',experience:'education',contact:'contact'};
@@ -2088,42 +2074,23 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
   },{rootMargin:'0px 0px -7% 0px',threshold:0.08});
   els.forEach(function(el){el.classList.add('reveal');ro.observe(el);});
 })();
-/* character select: colour arrives with the character, and the bars reload on every swap */
+/* character select: colour arrives with the character. It never hides any of the page */
 (function(){
-  var CHARS={"allrounder":{"n":"Jack of All Trades","art":"assets/char-allrounder.png","hex":"#46607d","rgb":"70,96,125","cls":"Materials and energy engineer","quest":"Open to research, engineering and design","weak":"Starts the next project before the last one is finished","stats":[["workshop & fabrication",9],["materials characterisation",8],["cad & design",8],["filming & editing",8],["skiing & surfing",8],["python & data",7],["baking",7]],"raise_":"","href":"#research","go":"see everything","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Jack%20of%20All%20Trades&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Jack%20of%20All%20Trades.%0D%0A%0D%0A"},"master":{"n":"Master of One","art":"assets/char-master.png","hex":"#3a3f45","rgb":"58,63,69","cls":"MSc Advanced Materials Science","quest":"UCL 2026, after renewable energy at Exeter","weak":"Will bring up contact angles at a party","stats":[["materials characterisation",9],["energy systems",8],["writing it up",8],["reading the literature",8],["project planning",7],["presenting the work",7]],"raise_":"","href":"#education","go":"see the education","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Master%20of%20One&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Master%20of%20One.%0D%0A%0D%0A"},"researcher":{"n":"Researcher","art":"assets/char-researcher.png","hex":"#14807b","rgb":"20,128,123","cls":"Scientist, lab based","quest":"Taking PFAS out of waterproof clothing","weak":"Reruns a perfectly good sample because the first one looked untidy","stats":[["materials characterisation",9],["sample prep",8],["designing experiments",8],["patience",8],["data analysis",7],["writing it up",7]],"raise_":"","href":"#research","go":"see the research","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Researcher&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Researcher.%0D%0A%0D%0A"},"builder":{"n":"Engineer","art":"assets/char-builder.png","hex":"#7d6a1a","rgb":"125,106,26","cls":"Hardware and prototyping","quest":"A design taken through to a working build","weak":"Owns four sets of allen keys and can never find one","stats":[["workshop & fabrication",9],["improvising a fix",8],["cad & 3D printing",7],["electronics",7]],"raise_":"","href":"#engineering","go":"see the projects","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Engineer&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Engineer.%0D%0A%0D%0A"},"operator":{"n":"Computer Guy","art":"assets/char-operator.png","hex":"#2f7d4a","rgb":"47,125,74","cls":"Data and tooling","quest":"Predicting battery life before it fails","weak":"Will spend an afternoon automating a two minute job","stats":[["shell & tooling",7],["wiring services together",7],["debugging late at night",7],["python",6]],"raise_":"","href":"#aicode","go":"see the code","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Computer%20Guy&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Computer%20Guy.%0D%0A%0D%0A"},"creator":{"n":"Content Creator","art":"assets/char-creator.png","hex":"#b23a48","rgb":"178,58,72","cls":"Filmmaker and editor","quest":"89,000 followers in seven months","weak":"Films the sunset instead of watching it","stats":[["camera & editing",8],["pacing a story",8],["shooting on a phone",8],["reading an audience",7]],"raise_":"","href":"#content","go":"see the content work","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Content%20Creator&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Content%20Creator.%0D%0A%0D%0A"},"rider":{"n":"Athlete","art":"assets/char-rider.png","hex":"#a85414","rgb":"168,84,20","cls":"Runner, climber, surfer","quest":"London Marathon, and whatever is next","weak":"Signs up for the race before checking how far it is","stats":[["nerve",8],["endurance",7],["skateboarding",7],["climbing",6]],"raise_":"","href":"#sport","go":"see the sport","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Athlete&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Athlete.%0D%0A%0D%0A"},"wanderer":{"n":"Explorer","art":"assets/char-wanderer.png","hex":"#6f5aa8","rgb":"111,90,168","cls":"Goes and finds out","quest":"Perth until November","weak":"Packs light, then buys it all again when he lands","stats":[["saying yes",9],["adapting quickly",8],["packing light",7]],"raise_":"","href":"#travel","go":"see the travels","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Explorer&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Explorer.%0D%0A%0D%0A"},"skier":{"n":"Skier","art":"assets/char-skier.png","hex":"#2a6f9e","rgb":"42,111,158","cls":"On skis since I was three","quest":"A season in Hakuba this winter","weak":"First lift every morning, asleep on the chair by three","stats":[["skiing",9],["reading a mountain",8],["cold tolerance",8],["filming while riding",7]],"raise_":"","href":"#skiing","go":"see the skiing","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Skier&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Skier.%0D%0A%0D%0A"}};
+  var CHARS={"allrounder":{"n":"Jack of All Trades","art":"assets/char-allrounder.png","hex":"#46607d","rgb":"70,96,125","cls":"Materials and energy engineer","quest":"Open to research, engineering and design","weak":"","href":"#research","go":"see everything","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Jack%20of%20All%20Trades&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Jack%20of%20All%20Trades.%0D%0A%0D%0A"},"master":{"n":"Master of One","art":"assets/char-master.png","hex":"#3a3f45","rgb":"58,63,69","cls":"MSc Advanced Materials Science","quest":"UCL 2026, after renewable energy at Exeter","weak":"","href":"#education","go":"see the education","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Master%20of%20One&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Master%20of%20One.%0D%0A%0D%0A"},"researcher":{"n":"Researcher","art":"assets/char-researcher.png","hex":"#14807b","rgb":"20,128,123","cls":"Scientist, lab based","quest":"Taking PFAS out of waterproof clothing","weak":"","href":"#research","go":"see the research","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Researcher&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Researcher.%0D%0A%0D%0A"},"builder":{"n":"Engineer","art":"assets/char-builder.png","hex":"#7d6a1a","rgb":"125,106,26","cls":"Hardware and prototyping","quest":"A design taken through to a working build","weak":"","href":"#engineering","go":"see the projects","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Engineer&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Engineer.%0D%0A%0D%0A"},"operator":{"n":"Computer Guy","art":"assets/char-operator.png","hex":"#2f7d4a","rgb":"47,125,74","cls":"Data and tooling","quest":"Predicting battery life before it fails","weak":"","href":"#aicode","go":"see the code","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Computer%20Guy&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Computer%20Guy.%0D%0A%0D%0A"},"creator":{"n":"Content Creator","art":"assets/char-creator.png","hex":"#b23a48","rgb":"178,58,72","cls":"Filmmaker and editor","quest":"89,000 followers in seven months","weak":"Films the sunset instead of watching it","href":"#content","go":"see the content work","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Content%20Creator&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Content%20Creator.%0D%0A%0D%0A"},"rider":{"n":"Athlete","art":"assets/char-rider.png","hex":"#a85414","rgb":"168,84,20","cls":"Runner, climber, surfer","quest":"London Marathon, and whatever is next","weak":"Signs up for the race before checking how far it is","href":"#sport","go":"see the sport","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Athlete&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Athlete.%0D%0A%0D%0A"},"wanderer":{"n":"Explorer","art":"assets/char-wanderer.png","hex":"#6f5aa8","rgb":"111,90,168","cls":"Goes and finds out","quest":"Perth until November","weak":"Packs light, then buys it all again when he lands","href":"#travel","go":"see the travels","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Explorer&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Explorer.%0D%0A%0D%0A"},"skier":{"n":"Skier","art":"assets/char-skier.png","hex":"#2a6f9e","rgb":"42,111,158","cls":"On skis since I was three","quest":"A season in Hakuba this winter","weak":"First lift every morning, asleep on the chair by three","href":"#skiing","go":"see the skiing","mail":"mailto:jackson.brocklebank.25@ucl.ac.uk?subject=Portfolio%20enquiry%20for%20Skier&body=Hi Jackson,%0D%0A%0D%0AI found your site and picked Skier.%0D%0A%0D%0A"}};
   var ORDER=["allrounder", "master", "researcher", "builder", "operator", "creator", "rider", "wanderer", "skier"];
   var root=document.querySelector('.cselect');
   var roster=root&&root.querySelector('.cs-roster');
   if(!root||!roster)return;
   var tiles=[].slice.call(roster.querySelectorAll('.rtile'));
   var el={};
-  ['cs-name','cs-ghost','cs-fig','cs-class','cs-quest','cs-weak',
+  ['cs-name','cs-ghost','cs-fig','cs-class','cs-quest','cs-weak','cs-weakblock',
    'cs-spend','cs-go','cs-panel'].forEach(function(id){el[id]=document.getElementById(id);});
-  var abil=root.querySelector('.abil');
 
-  var seen=false,current='allrounder';
+  var current='allrounder';
 
   function esc(s){return String(s).replace(/[&<>"]/g,function(c){
     return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
-  function list(a){return a.map(function(x){return '<li>'+esc(x)+'</li>';}).join('');}
 
-  function statsHTML(c){
-    return c.stats.map(function(s,i){
-      var raise=(s[0]===c.raise_)?' raisable':'';
-      return '<div class="stat'+raise+'" style="--v:'+s[1]+';--d:'+i+'">'+
-        '<span class="sn">'+esc(s[0])+'</span>'+
-        '<span class="sbar" role="img" aria-label="'+s[1]+' out of 10">'+
-        '<span class="fill"></span><span class="ticks"></span></span>'+
-        '<span class="sv">'+s[1]+'</span></div>';
-    }).join('');
-  }
-
-  function arm(){
-    if(!seen)return;
-    root.classList.remove('armed');
-    requestAnimationFrame(function(){requestAnimationFrame(function(){
-      root.classList.add('armed');});});
-  }
 
   /* the figure lives on a canvas so the swap can jitter the pixels in
      horizontal bands, dissolving one character into the next */
@@ -2176,73 +2143,6 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
     },30);
   }
 
-  /* which parts of the page belong to which character. Only contact stays put:
-     a character shows the work that is actually about it, so the degrees don't
-     follow the skier around and the CV doesn't follow the athlete. */
-  var FILTERABLE=['research','engineering','aicode','education','experience',
-                  'skills','content','skiing','sport','travel'];
-  var SECT={
-    allrounder:FILTERABLE,
-    master:['education','skills'],
-    researcher:['research','education','skills'],
-    builder:['engineering','education','skills'],
-    operator:['aicode','experience','skills'],
-    creator:['content','experience','skills'],
-    rider:['sport','experience'],
-    wanderer:['travel','sport'],
-    skier:['skiing','experience']
-  };
-  /* and inside experience and the toolkit, only the entries that fit. No entry
-     here means every entry shows. */
-  var ITEMS={
-    master:['characterisation','code'],
-    researcher:['characterisation','code'],
-    builder:['cad','electronics','workshop','code'],
-    operator:['ithub','code','electronics'],
-    creator:['runclub','creative'],
-    rider:['runclub'],
-    skier:['cafe']
-  };
-  var itemEls=[].slice.call(document.querySelectorAll('[data-item]'));
-  var navFor={};
-  FILTERABLE.forEach(function(id){
-    navFor[id]=document.querySelector('.navlinks a[href="#'+id+'"]');
-  });
-  function ownerOf(id){
-    var found=null;
-    Object.keys(SECT).forEach(function(k){
-      if(k!=='allrounder'&&SECT[k].indexOf(id)>-1)found=k;
-    });
-    return found;
-  }
-  function applyFilter(key,animate){
-    var on=SECT[key]||FILTERABLE;
-    FILTERABLE.forEach(function(id){
-      var sec=document.getElementById(id);
-      if(!sec)return;
-      var show=on.indexOf(id)>-1;
-      var was=!sec.classList.contains('sec-off');
-      sec.classList.toggle('sec-off',!show);
-      if(navFor[id])navFor[id].classList.toggle('nav-off',!show);
-      sec.classList.remove('sec-on');
-      if(show&&!was&&animate){void sec.offsetWidth;sec.classList.add('sec-on');}
-    });
-    var allow=ITEMS[key];
-    itemEls.forEach(function(el){
-      el.classList.toggle('item-off',
-        !!allow&&allow.indexOf(el.getAttribute('data-item'))<0);
-    });
-  }
-  /* a dimmed nav link still works: it switches to the character that owns it */
-  FILTERABLE.forEach(function(id){
-    var a=navFor[id];
-    if(!a)return;
-    a.addEventListener('click',function(){
-      if(!a.classList.contains('nav-off'))return;
-      var owner=ownerOf(id);
-      if(owner)select(owner,false);
-    });
-  });
 
   /* ?c=researcher opens straight on that character, so a link can be aimed at
      one reader. A query rather than a hash, because every section link is a hash
@@ -2270,18 +2170,13 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
     el['cs-name'].textContent=c.n;
     el['cs-ghost'].textContent=('0'+(ORDER.indexOf(key)+1)).slice(-2);
     shakeTo(key,c.n);
-    applyFilter(key,!initial);
     el['cs-class'].textContent=c.cls;
     el['cs-quest'].textContent=c.quest;
     el['cs-weak'].textContent=c.weak;
+    el['cs-weakblock'].hidden=!c.weak;
     el['cs-spend'].setAttribute('href',c.mail);
-    /* nothing enforces that c.href is a section SECT[key] leaves visible, so
-       check rather than trust it and fall back to the first one that is */
-    var shown=SECT[key]||FILTERABLE,target=c.href;
-    if(shown.indexOf(target.slice(1))<0)target='#'+shown[0];
-    el['cs-go'].setAttribute('href',target);
+    el['cs-go'].setAttribute('href',c.href);
     el['cs-go'].innerHTML=esc(c.go)+' <span class="chev" aria-hidden="true">\u25bc</span>';
-    abil.innerHTML='<span class="k">key skills</span>'+statsHTML(c);
     el['cs-panel'].setAttribute('aria-labelledby','rt-'+key);
     tiles.forEach(function(t){
       var on=t.getAttribute('data-char')===key;
@@ -2289,7 +2184,6 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
       t.tabIndex=on?0:-1;
       if(on&&focus)t.focus();
     });
-    arm();
     if(!initial&&window.history&&history.replaceState){
       history.replaceState(null,'',key==='allrounder'?location.pathname:'?c='+key);
     }
@@ -2309,12 +2203,6 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
     e.preventDefault();select(ORDER[n],true);
   });
 
-  if('IntersectionObserver' in window){
-    var io=new IntersectionObserver(function(es){
-      es.forEach(function(en){if(en.isIntersecting){seen=true;arm();io.unobserve(en.target);}});
-    },{threshold:0.05});
-    io.observe(root);
-  }else{seen=true;arm();}
 })();
 
 </script>
