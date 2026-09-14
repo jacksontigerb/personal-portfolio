@@ -1,11 +1,11 @@
 import {FIGHTS, LOADOUT, EMAIL, LINKEDIN, mailHref} from './battle-data.mjs?v=13';
 import {BattleEngine} from './battle-engine.mjs?v=12';
 import {drawBoss, drawProp} from './battle-art.mjs?v=5';
-import {paintScene, particles} from './battle-scenes.mjs?v=17';
+import {paintScene, particles} from './battle-scenes.mjs?v=18';
 
 export function mountBattle(mount, characters) {
   mount.innerHTML=`
-    <div class="battle-select-world" aria-hidden="true"><canvas class="battle-select-far"></canvas><canvas class="battle-select-near"></canvas><canvas class="battle-select-holder"></canvas></div>
+    <div class="battle-select-world" aria-hidden="true"><canvas class="battle-select-far"></canvas><canvas class="battle-select-near"></canvas></div>
     <div class="battle-wipe" aria-hidden="true"></div>
     <div class="battle-select">
       <div class="battle-select-arena">
@@ -147,7 +147,7 @@ export function mountBattle(mount, characters) {
     if(scene.key!==key||scene.w!==w||scene.h!==h)sparks.configure(info,w,h);
     scene={key,w,h,floor,unit,info};
   }
-  const hero=mount.closest('.game-hero')||mount, selectFar=$('.battle-select-far'), selectNear=$('.battle-select-near'), selectHolder=$('.battle-select-holder');
+  const hero=mount.closest('.game-hero')||mount, selectFar=$('.battle-select-far'), selectNear=$('.battle-select-near');
   let selectScene={key:'',w:0,h:0,floor:0}, selectQueued=false;
   // The select screen stands the chosen Jackson in his own world, tinted by his colour.
   function paintSelectWorld() {
@@ -157,17 +157,10 @@ export function mountBattle(mount, characters) {
     const w=Math.ceil(hero.offsetWidth/unit), h=Math.ceil(hero.offsetHeight/unit);
     const spot=$('.battle-preview-stage').getBoundingClientRect(), top=hero.getBoundingClientRect().top;
     const floor=Math.max(20,Math.round((spot.bottom-top)/unit)-3), key=engine.state.key;
-    // On laptops Start fight sits in the scene, so the scene draws something around it.
-    let slot=null;
-    if(window.matchMedia('(min-width: 761px)').matches){
-      const b=start.getBoundingClientRect(), left=hero.getBoundingClientRect().left;
-      slot={x:Math.floor((b.left-left)/unit),y:Math.floor((b.top-top)/unit),w:Math.ceil((b.width+6)/unit),h:Math.ceil((b.height+6)/unit)};
-    }
-    const slotKey=slot?`${slot.x},${slot.y},${slot.w},${slot.h}`:'';
-    if(selectScene.key===key&&selectScene.w===w&&selectScene.h===h&&selectScene.floor===floor&&selectScene.slot===slotKey)return;
-    paintScene(selectFar,selectNear,key,w,h,floor,slot,selectHolder);
-    [selectFar,selectNear,selectHolder].forEach(c=>{c.style.width=w*unit+'px';c.style.height=h*unit+'px';});
-    selectScene={key,w,h,floor,slot:slotKey};
+    if(selectScene.key===key&&selectScene.w===w&&selectScene.h===h&&selectScene.floor===floor)return;
+    paintScene(selectFar,selectNear,key,w,h,floor);
+    [selectFar,selectNear].forEach(c=>{c.style.width=w*unit+'px';c.style.height=h*unit+'px';});
+    selectScene={key,w,h,floor};
   }
   function queueSelectWorld(){if(!selectQueued){selectQueued=true;requestAnimationFrame(paintSelectWorld);}}
   function queueWorld(){if(!sceneQueued){sceneQueued=true;requestAnimationFrame(paintWorld);}}

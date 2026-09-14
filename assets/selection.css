@@ -12,10 +12,8 @@
 .js .game-home #battle .battle-game{align-self:stretch;width:auto;min-width:0;flex:1 1 auto;}
 
 #battle .battle-select-world{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none;}
-#battle .battle-select-world canvas{position:absolute;left:0;top:0;z-index:0;image-rendering:pixelated;}
-/* The thing Start fight sits in is drawn above the tint, so it reads clearly. */
-#battle .battle-select-world .battle-select-holder{z-index:2;}
-#battle .battle-select-world::after{content:'';position:absolute;inset:0;z-index:1;background:rgba(var(--accent-rgb),.74);}
+#battle .battle-select-world canvas{position:absolute;left:0;top:0;image-rendering:pixelated;}
+#battle .battle-select-world::after{content:'';position:absolute;inset:0;background:rgba(var(--accent-rgb),.74);}
 .game-home.is-playing #battle .battle-select-world{display:none;}
 
 #battle .battle-select{--face:clamp(64px,calc((100svh - 60px) * .13),118px);position:relative;z-index:1;flex:1 1 auto;display:grid;
