@@ -134,3 +134,14 @@ test('the whole fight reaches the backup moment in about ten seconds',()=>{
   h.advance(9000);assert.equal(e.state.phase,'fight');
   h.advance(2000);assert.equal(e.state.phase,'backup');
 });
+
+test('every fighter has a world that paints at phone and desktop sizes',async()=>{
+  const {paintScene, SCENE_KEYS, particles}=await import('../assets/battle-scenes.mjs');
+  assert.deepEqual([...SCENE_KEYS].sort(),Object.keys(FIGHTS).sort());
+  const fake=()=>{let fills=0;const ctx={clearRect(){},fillRect(){fills++;},set fillStyle(v){},globalAlpha:1};return {getContext:()=>ctx,get fills(){return fills;}};};
+  for(const key of SCENE_KEYS)for(const [w,h,f] of [[107,263,150],[320,186,122],[480,250,160]]){
+    const far=fake(),near=fake(),info=paintScene(far,near,key,w,h,f);
+    assert.ok(far.fills>50&&near.fills>20,`${key} ${w}x${h}`);
+    const p=particles(fake());p.configure(info,w,h);for(let i=0;i<60;i++)p.step();p.burst(10,10,['#fff']);p.step();
+  }
+});

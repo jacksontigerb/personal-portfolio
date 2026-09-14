@@ -1,9 +1,12 @@
-import {FIGHTS, LOADOUT, EMAIL, LINKEDIN, mailHref} from './battle-data.mjs?v=4';
-import {BattleEngine} from './battle-engine.mjs?v=4';
-import {drawBoss, drawProp} from './battle-art.mjs?v=4';
+import {FIGHTS, LOADOUT, EMAIL, LINKEDIN, mailHref} from './battle-data.mjs?v=5';
+import {BattleEngine} from './battle-engine.mjs?v=5';
+import {drawBoss, drawProp} from './battle-art.mjs?v=5';
+import {paintScene, particles} from './battle-scenes.mjs?v=5';
 
 export function mountBattle(mount, characters) {
   mount.innerHTML=`
+    <canvas class="battle-select-shadow" width="64" height="64" aria-hidden="true"></canvas>
+    <div class="battle-wipe" aria-hidden="true"></div>
     <div class="battle-select">
       <div class="battle-character-preview"><span class="battle-selection-tag">PLAYER 01</span><div class="battle-preview-stage"><img width="537" height="840" alt="" decoding="async"></div><h2 class="battle-selected-name"></h2><p class="battle-loadout"></p></div>
       <div class="battle-select-controls">
@@ -13,22 +16,18 @@ export function mountBattle(mount, characters) {
       </div>
     </div>
     <div class="battle-game" data-phase="intro" data-stage="title">
-      <div class="battle-topline"><span class="battle-round">ROUND 1</span><button type="button" class="battle-pause" data-action="pause" aria-label="Pause">Ⅱ</button></div>
-      <div class="battle-field" aria-label="Battlefield">
-        <div class="battle-versus" aria-hidden="true"><span>READY?</span><strong>FIGHT!</strong></div>
-        <div class="battle-ko" aria-hidden="true">K.O.</div>
-        <div class="battle-callout" aria-hidden="true"></div>
-        <div class="battle-flash" aria-hidden="true"></div>
-        <div class="battle-pause-menu" hidden>
-          <p class="battle-pause-title" tabindex="-1">Paused</p>
-          <button type="button" class="battle-button battle-primary" data-action="resume">▶ Resume</button>
-          <button type="button" class="battle-button" data-action="choose">Change character</button>
-        </div>
+      <div class="battle-world" aria-hidden="true"><canvas class="battle-far"></canvas><canvas class="battle-near"></canvas><canvas class="battle-particles"></canvas></div>
+      <div class="battle-topline">
         <div class="battle-hud battle-boss-hud">
           <div class="battle-name-row"><span class="battle-who" id="battle-boss-name"></span><span class="battle-level" id="battle-boss-level"></span></div>
           <span id="battle-subtitle" class="battle-subtitle"></span>
           <div class="battle-health"><span>HP</span><meter class="vh" id="battle-boss-meter" min="0" max="100" value="100" aria-labelledby="battle-boss-name"></meter><span class="battle-health-track" id="battle-boss-track" aria-hidden="true"><b></b><i></i></span><span id="battle-boss-hp">100</span></div>
         </div>
+        <span class="battle-round">ROUND 1</span><button type="button" class="battle-pause" data-action="pause" aria-label="Pause">Ⅱ</button>
+      </div>
+      <div class="battle-field" aria-label="Battlefield">
+        <div class="battle-ko" aria-hidden="true">K.O.</div>
+        <div class="battle-callout" aria-hidden="true"></div>
         <div class="battle-stage" aria-hidden="true">
           <div class="battle-platform battle-platform-boss"></div><div class="battle-platform battle-platform-jackson"></div>
           <div class="battle-boss"><canvas width="64" height="64"></canvas><span class="battle-burst"></span><span class="battle-impact"></span></div>
@@ -40,6 +39,14 @@ export function mountBattle(mount, characters) {
           <div class="battle-name-row"><span class="battle-who" id="battle-jackson-name">Jackson</span><span class="battle-level">LV 22</span></div>
           <div class="battle-health"><span>HP</span><meter class="vh" id="battle-jackson-meter" min="0" max="100" value="100" aria-labelledby="battle-jackson-name"></meter><span class="battle-health-track" id="battle-jackson-track" aria-hidden="true"><b></b><i></i></span><span id="battle-jackson-hp">100/100</span></div>
         </div>
+      </div>
+      <div class="battle-letterbox" aria-hidden="true"></div>
+      <div class="battle-versus" aria-hidden="true"><span>READY?</span><strong>FIGHT!</strong></div>
+      <div class="battle-flash" aria-hidden="true"></div>
+      <div class="battle-pause-menu" hidden>
+        <p class="battle-pause-title" tabindex="-1">Paused</p>
+        <button type="button" class="battle-button battle-primary" data-action="resume">▶ Resume</button>
+        <button type="button" class="battle-button" data-action="choose">Change character</button>
       </div>
       <div class="battle-command">
         <div class="battle-log-panel">
@@ -87,7 +94,50 @@ export function mountBattle(mount, characters) {
     const step=now=>{const t=Math.min(1,(now-began)/320);el.textContent=Math.round(from+(to-from)*t)+suffix;if(t<1)el._count=requestAnimationFrame(step);};
     el._count=requestAnimationFrame(step);
   }
-  let lastPose='', lastKey='', imageRun=0, copyPending=false;
+  let lastPose='', lastKey='', imageRun=0, copyPending=false, transitioning=false;
+  const world=$('.battle-world'), far=$('.battle-far'), near=$('.battle-near'), field=$('.battle-field');
+  const sparks=particles($('.battle-particles'));
+  let scene={key:'',w:0,h:0,floor:0,unit:0,info:null}, sceneQueued=false;
+  // The world is painted in cells to fit the screen exactly, with its floor under the boss's feet.
+  function paintWorld() {
+    sceneQueued=false;
+    if(game.hidden||!game.offsetWidth)return;
+    const unit=game.offsetWidth>=900?4:3;
+    const w=Math.ceil(world.offsetWidth/unit), h=Math.ceil(world.offsetHeight/unit);
+    const bossEl=$('.battle-boss');
+    const stageEl=$('.battle-stage');
+    const feet=field.offsetTop+stageEl.offsetTop+bossEl.offsetTop+bossEl.offsetHeight*.92-world.offsetTop;
+    const floor=Math.round(feet/unit)-2;
+    const key=engine.state.key;
+    world.style.setProperty('--wo',`${field.offsetLeft+field.offsetWidth/2-world.offsetLeft}px ${field.offsetTop+field.offsetHeight/2-world.offsetTop}px`);
+    if(scene.key===key&&scene.w===w&&scene.h===h&&scene.floor===floor)return;
+    const info=paintScene(far,near,key,w,h,floor);
+    [far,near,$('.battle-particles')].forEach(c=>{c.style.width=w*unit+'px';c.style.height=h*unit+'px';});
+    game.dataset.dark=String(info.dark);
+    if(scene.key!==key||scene.w!==w||scene.h!==h)sparks.configure(info,w,h);
+    scene={key,w,h,floor,unit,info};
+  }
+  function queueWorld(){if(!sceneQueued){sceneQueued=true;requestAnimationFrame(paintWorld);}}
+  let lastTick=0;
+  function tick(now) {
+    requestAnimationFrame(tick);
+    if(reduced.matches||game.hidden||engine.clock.blocks.size>0||engine.state.paused)return;
+    if(now-lastTick<45)return;
+    lastTick=now;sparks.step();
+  }
+  requestAnimationFrame(tick);
+  function sparkAt(target, colours) {
+    if(reduced.matches||!scene.unit)return;
+    const el=target.getBoundingClientRect(), base=world.getBoundingClientRect();
+    sparks.burst((el.left+el.width/2-base.left)/scene.unit,(el.top+el.height*.45-base.top)/scene.unit,colours);
+  }
+  function transition(swap) {
+    if(transitioning)return;
+    if(reduced.matches){swap();return;}
+    transitioning=true;
+    const wipe=$('.battle-wipe');wipe.className='battle-wipe battle-wipe-in';
+    setTimeout(()=>{swap();wipe.className='battle-wipe battle-wipe-out';setTimeout(()=>{wipe.className='battle-wipe';transitioning=false;},360);},280);
+  }
   let onScreen=true, focused=document.hasFocus();
   const who=(entry)=>entry.actor==='jackson'?'Jackson':FIGHTS[engine.state.key].boss;
   const endMark=name=>/[.…!?]$/.test(name)?'':'.';
@@ -132,7 +182,7 @@ export function mountBattle(mount, characters) {
       $('.battle-announcement').textContent='';$('.battle-stage-note').textContent='';
       loadArt(char);
       drawProp($('.battle-prop'),s.key);
-      drawBoss($('.battle-vs canvas'),s.key,'idle');
+      drawBoss($('.battle-vs canvas'),s.key,'idle');drawBoss($('.battle-select-shadow'),s.key,'idle');
       $('#battle-boss-name').textContent=fight.boss;
       $('#battle-boss-level').textContent=fight.level;
       $('#battle-subtitle').textContent=fight.subtitle;$('#battle-subtitle').hidden=!fight.subtitle;
@@ -160,7 +210,11 @@ export function mountBattle(mount, characters) {
       const target=$((s.actor==='boss'?'.battle-jackson':'.battle-boss')+' .battle-impact');
       target.textContent=s.damage>0?`−${s.damage}${s.critical?'!':''}`:'MISS';
       replay(target,'battle-float');
-      if(s.damage>0)replay($((s.actor==='boss'?'.battle-jackson':'.battle-boss')+' .battle-burst'),'battle-bursting');
+      if(s.damage>0){
+        const hitEl=$(s.actor==='boss'?'.battle-jackson':'.battle-boss');
+        replay(hitEl.querySelector('.battle-burst'),'battle-bursting');
+        sparkAt(hitEl,s.actor==='boss'?['#ad343c','#fbfbfa','#292a2c']:[scene.info?.tint||'#292a2c','#fbfbfa','#e3b341']);
+      }
       const callout=$('.battle-callout');
       callout.textContent=event==='victory'?(s.outcome==='leave'?'SOMEHOW':'BACKUP ARRIVED'):CALLOUTS[s.index-1];
       callout.dataset.tone=event==='victory'?'win':s.critical?'big':s.damage>0&&s.actor==='jackson'?'good':'bad';
@@ -206,8 +260,10 @@ export function mountBattle(mount, characters) {
       if(hadFocus)$('.battle-result-title').focus({preventScroll:true});
     }
     environment();
+    if(playing)queueWorld();
   }
   const engine=new BattleEngine(draw);
+  if('ResizeObserver' in window)new ResizeObserver(queueWorld).observe(game);
   characters.keys.forEach(key=>{
     const label=document.createElement('label');label.className='battle-face';
     const radio=document.createElement('input');radio.type='radio';radio.name='battle-character';radio.value=key;
@@ -217,17 +273,21 @@ export function mountBattle(mount, characters) {
     radio.addEventListener('keydown',event=>{if(event.key==='Enter'){event.preventDefault();start.click();}});
     label.append(radio,face,name);$('.battle-roster').append(label);radios.push(radio);
   });
+  const toTop=()=>window.scrollTo({top:0,behavior:'instant'});
   start.addEventListener('click',()=>{
-    if(engine.state.phase!=='select')return;
-    document.body.classList.add('has-played');
-    engine.start();
-    mount.scrollIntoView({block:'start',behavior:'instant'});
-    current.focus({preventScroll:true});
+    if(engine.state.phase!=='select'||transitioning)return;
+    transition(()=>{
+      if(engine.state.phase!=='select')return;
+      document.body.classList.add('has-played');
+      engine.start();toTop();
+      current.focus({preventScroll:true});
+    });
   });
   function choose() {
-    engine.reset(characters.get());
-    mount.scrollIntoView({block:'start',behavior:'instant'});
-    radios.find(r=>r.checked)?.focus({preventScroll:true});
+    transition(()=>{
+      engine.reset(characters.get());toTop();
+      radios.find(r=>r.checked)?.focus({preventScroll:true});
+    });
   }
   pause.addEventListener('click',()=>{
     if(engine.state.paused)return;
