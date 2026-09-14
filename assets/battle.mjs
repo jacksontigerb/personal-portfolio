@@ -21,7 +21,7 @@ export function mountBattle(mount, characters) {
       </div>
       <div class="battle-start-wrap"><button type="button" class="battle-start" data-action="start">Start fight <span aria-hidden="true">▶</span></button></div>
       <div class="battle-select-controls">
-        <fieldset class="battle-picker"><legend>Choose your character</legend><div class="battle-roster"></div></fieldset>
+        <fieldset class="battle-picker"><legend>Choose your Jackson</legend><div class="battle-roster"></div></fieldset>
       </div>
     </div>
     <div class="battle-game" data-phase="intro" data-stage="title">
@@ -271,6 +271,7 @@ export function mountBattle(mount, characters) {
       $('.battle-vs-name').textContent=fight.boss;
       $('.battle-vs-level').textContent=fight.level||fight.subtitle;
       $('.battle-selected-name').textContent=char.n;
+      $('.battle-select').dataset.fighter=s.key;
       $('.battle-intro-boss-name').textContent=fight.boss;
       replay($('.battle-preview-copy'),'battle-copy-enter');
       $('.battle-loadout').textContent=LOADOUT[s.key];

@@ -109,12 +109,12 @@ test('every fighter reveals real experience through moves with valid project lin
   assert.match(FIGHTS.builder.moves[4].text,/solar boat/);
   assert.match(FIGHTS.builder.achievement,/bridge held/);
 });
-test('homepage starts with the game, keeps CV/contact, and gallery assets exist',()=>{
+test('homepage starts with the game, keeps contact, and gallery assets exist',()=>{
   const page=readFileSync(new URL('../index.html',import.meta.url),'utf8');
   assert.ok(page.indexOf('id="battle"')<page.indexOf('id="experience"'));
   assert.ok(!page.includes('class="cselect"'));
   assert.match(page,/mailto:jackson\.brocklebank\.25@ucl\.ac\.uk/);
-  assert.match(page,/Jackson-Brocklebank-CV\.pdf/);
+  assert.doesNotMatch(page,/CV\.pdf/);
   for(const [,path] of page.matchAll(/(?:src|href)="(assets\/[^"?#]+)"/g)){
     assert.ok(existsSync(new URL('../'+path,import.meta.url)),path);
   }
