@@ -1,0 +1,1946 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<script>document.documentElement.className+=' js';</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Things I’ve done · Jackson Brocklebank</title>
+<meta name="description" content="Materials science and engineering by Jackson Brocklebank: a PFAS free water repellent coating made with Finisterre, battery lifetime modelling, and the things I have built along the way.">
+<meta name="theme-color" content="#f2f2f2">
+<link rel="canonical" href="https://jacksontigerb.github.io/personal-portfolio/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Jackson Brocklebank">
+<meta property="og:description" content="Materials science and engineering by Jackson Brocklebank: a PFAS free water repellent coating made with Finisterre, battery lifetime modelling, and the things I have built along the way.">
+<meta property="og:url" content="https://jacksontigerb.github.io/personal-portfolio/">
+<meta property="og:image" content="https://jacksontigerb.github.io/personal-portfolio/assets/pfas/c-a1-droplet.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A water droplet sitting on cotton coated with the binder only bath, seen side on in the goniometer">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='%23292a2c'/><text x='32' y='47' font-family='Georgia,serif' font-size='42' font-style='italic' text-anchor='middle' fill='%23f2f2f2'>J</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@0;1&family=Inter:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@0;1&family=Inter:wght@400;600&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@0;1&family=Inter:wght@400;600&display=swap"></noscript>
+<style>
+:root{
+  --ink:#292a2c;
+  --vellum:#f2f2f2;
+  --black:#000000;
+  /* the selected character's colour, carried through the whole page */
+  --accent:#46607d;
+  --accent-rgb:70,96,125;
+  --ogg:'Playfair Display', Georgia, serif;
+  --telegraf:'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --section-gap:120px;
+  --margin:64px;
+  /* measured from the sticky nav on load and resize */
+  --nav-h:0px;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;border-radius:0;}
+
+html{scroll-behavior:smooth;}
+
+body{
+  background:var(--vellum);
+  color:var(--ink);
+  font-family:var(--telegraf);
+  font-weight:400;
+  font-size:20px;
+  line-height:1.33;
+  letter-spacing:0.5px;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:clip;
+}
+
+img{max-width:100%;height:auto;display:block;}
+
+/* ---------- shared type ---------- */
+.serif-display{
+  font-family:var(--ogg);
+  font-weight:400;
+  font-size:55px;
+  line-height:1.08;
+  letter-spacing:-1.98px;
+}
+.serif-heading{
+  font-family:var(--ogg);
+  font-weight:400;
+  font-size:26px;
+  line-height:1.1;
+  letter-spacing:-0.52px;
+}
+.italic{font-style:italic;}
+.meta{
+  font-family:var(--telegraf);
+  font-size:15px;
+  line-height:1.67;
+  letter-spacing:0.6px;
+}
+.eyebrow{
+  font-family:var(--telegraf);
+  font-size:15px;
+  letter-spacing:0.6px;
+  text-transform:lowercase;
+  color:var(--accent);
+  display:block;
+  margin-bottom:18px;
+  transition:color .45s ease;
+}
+.eyebrow::before{
+  content:"";display:inline-block;width:8px;height:8px;
+  margin-right:9px;vertical-align:baseline;
+  background:var(--accent);transition:background .45s ease;
+}
+
+/* ---------- layout scaffold ---------- */
+.page{
+  max-width:1440px;
+  margin:0 auto;
+  padding:0 var(--margin);
+  position:relative;
+}
+section{margin-top:var(--section-gap);}
+.cselect + section{margin-top:48px;}
+
+/* ---------- vertical running strip ---------- */
+.rail{
+  position:fixed;
+  right:14px;
+  top:50%;
+  transform:translateY(-50%) rotate(180deg);
+  writing-mode:vertical-rl;
+  font-family:var(--telegraf);
+  font-size:15px;
+  letter-spacing:0.6px;
+  color:var(--black);
+  z-index:50;
+  pointer-events:none;
+  mix-blend-mode:difference;
+  color:#fff;
+}
+
+/* ---------- nav ---------- */
+nav{
+  position:sticky;
+  top:0;
+  z-index:60;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:16px 0;
+  gap:18px;
+  flex-wrap:wrap;
+  background:var(--vellum);
+  border-bottom:1px solid var(--ink);
+}
+.wordmark{
+  font-family:var(--ogg);
+  font-size:26px;
+  letter-spacing:-0.52px;
+  color:var(--ink);
+  text-decoration:none;
+}
+.wordmark sup{font-size:0.5em;vertical-align:super;}
+.navlinks{display:flex;gap:28px;flex-wrap:wrap;margin-left:auto;}
+.navlinks a{
+  font-family:var(--telegraf);
+  font-size:18px;
+  letter-spacing:0.38px;
+  color:var(--ink);
+  text-decoration:none;
+  padding-bottom:2px;
+  border-bottom:1px solid transparent;
+}
+.navlinks a:hover{border-bottom:1px solid var(--black);}
+.nav-cv{font-family:var(--telegraf);font-size:18px;letter-spacing:0.38px;color:var(--ink);text-decoration:none;border:1px solid var(--ink);padding:3px 12px;flex:0 0 auto;}
+.nav-cv:hover{background:var(--ink);color:var(--vellum);}
+.nav-cv:focus-visible{outline:2px solid var(--ink);outline-offset:3px;}
+
+/* ---------- inline links ---------- */
+.link{
+  color:var(--ink);
+  text-decoration:none;
+  border-bottom:1px solid var(--accent);
+  padding-bottom:1px;
+  transition:border-color .45s ease;
+}
+.link:hover{border-bottom-width:2px;}
+
+/* ---------- placeholder blocks ---------- */
+.ratio-wide{aspect-ratio:16/9;}
+.ratio-landscape{aspect-ratio:4/3;}
+.ratio-portrait{aspect-ratio:2/3;}
+
+/* ---------- section header ---------- */
+.sec-head{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:44px;
+  align-items:start;
+  border-top:3px solid var(--accent);
+  padding-top:24px;
+  transition:border-color .45s ease;
+}
+.sec-head .lead{
+  font-family:var(--telegraf);
+  font-size:20px;
+  line-height:1.33;
+  letter-spacing:0.5px;
+}
+.sec-head .lead em{font-family:var(--ogg);font-style:italic;}
+
+/* ---------- story / case study ---------- */
+.story-numbers{
+  display:flex;
+  flex-wrap:wrap;
+  gap:44px;
+  margin-top:44px;
+  align-items:flex-end;
+}
+.bignum{line-height:1;}
+.bignum .n{
+  font-family:var(--ogg);
+  font-size:55px;
+  letter-spacing:-1.98px;
+  display:block;
+  color:var(--accent);
+  transition:color .45s ease;
+}
+.bignum .l{
+  font-family:var(--telegraf);
+  font-size:15px;
+  letter-spacing:0.6px;
+  display:block;
+  margin-top:11px;
+}
+.story-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+  margin-top:44px;
+  align-items:start;
+}
+.story-grid .offset-1{margin-top:44px;}
+.story-grid .offset-2{margin-top:88px;}
+
+/* ---------- project heading block ---------- */
+.tile-title{margin-top:18px;}
+.tile-title .t{
+  font-family:var(--ogg);
+  font-size:26px;
+  line-height:1.1;
+  letter-spacing:-0.52px;
+}
+.tile-title .t .sub{font-style:italic;display:block;margin-top:2px;}
+.tile-tags{
+  font-family:var(--telegraf);
+  font-size:15px;
+  letter-spacing:0.6px;
+  margin-top:11px;
+}
+
+/* ---------- timeline ---------- */
+.timeline{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px;
+  margin-top:44px;
+  align-items:start;
+}
+.tools-row{
+  margin-top:44px;
+  font-family:var(--telegraf);
+  font-size:18px;
+  letter-spacing:0.38px;
+  border-top:1px solid var(--ink);
+  padding-top:18px;
+}
+.tools-row .k{font-size:15px;letter-spacing:0.6px;display:block;margin-bottom:11px;}
+
+/* ---------- skiing grid ---------- */
+.ski-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+  margin-top:44px;
+  align-items:start;
+}
+.ski-grid .sv{aspect-ratio:9/16;overflow:hidden;}
+.ski-grid .sv video{width:100%;height:100%;object-fit:cover;display:block;background:var(--black);}
+.ski-grid > div:nth-child(2){margin-top:66px;}
+.ski-grid > div:nth-child(3){margin-top:28px;}
+.ski-grid > div:nth-child(4){margin-top:-28px;}
+.ski-grid > div:nth-child(5){margin-top:33px;}
+.ski-grid > div:nth-child(7){margin-top:-22px;}
+.ski-para{
+  max-width:40ch;
+  margin-top:44px;
+  font-size:20px;
+  line-height:1.33;
+}
+
+/* ---------- projects ---------- */
+.projects{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:44px 18px;
+  margin-top:44px;
+  align-items:start;
+}
+.framing{
+  margin-top:44px;
+  font-family:var(--ogg);
+  font-size:26px;
+  line-height:1.1;
+  letter-spacing:-0.52px;
+  max-width:26ch;
+}
+
+/* ---------- ai ---------- */
+.ai-body{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:44px;
+  margin-top:44px;
+  align-items:start;
+}
+.ai-body p{font-size:20px;line-height:1.33;}
+.ai-pull{
+  font-family:var(--ogg);
+  font-style:italic;
+  font-size:26px;
+  line-height:1.1;
+  letter-spacing:-0.52px;
+}
+
+/* ---------- pocket claude ---------- */
+.pc-clients{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+  margin-top:44px;
+  align-items:stretch;
+}
+.pc-node{
+  border:1px solid var(--ink);
+  padding:18px;
+  display:flex;
+  flex-direction:column;
+  gap:11px;
+}
+.pc-node .t{font-family:var(--ogg);font-size:26px;line-height:1.1;letter-spacing:-0.52px;}
+.pc-node .d{font-family:var(--telegraf);font-size:18px;line-height:1.5;letter-spacing:0.38px;}
+.pc-node .how{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;margin-top:auto;padding-top:11px;border-top:1px solid var(--ink);}
+.pc-connector{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px;
+  padding:22px 0;
+}
+.pc-connector .rule{width:1px;height:22px;background:var(--ink);}
+.pc-connector .tag{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;}
+.pc-band{
+  border:1px solid var(--ink);
+  padding:18px;
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  gap:18px;
+  flex-wrap:wrap;
+}
+.pc-band .t{font-family:var(--ogg);font-size:26px;line-height:1.1;letter-spacing:-0.52px;}
+.pc-band .d{font-family:var(--telegraf);font-size:18px;line-height:1.5;letter-spacing:0.38px;max-width:52ch;}
+.pc-server{border:1px solid var(--ink);padding:18px;}
+.pc-server .head{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  gap:18px;
+  flex-wrap:wrap;
+  margin-bottom:18px;
+}
+.pc-server .head .t{font-family:var(--ogg);font-size:26px;line-height:1.1;letter-spacing:-0.52px;}
+.pc-server .head .loc{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;}
+.pc-nest{border:1px dashed var(--ink);padding:14px;}
+.pc-nest .cap{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;margin-bottom:14px;}
+.pc-core{
+  background:var(--black);
+  color:#fff;
+  padding:14px 18px;
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  gap:18px;
+  flex-wrap:wrap;
+}
+.pc-core .t{font-family:var(--ogg);font-size:26px;letter-spacing:-0.52px;}
+.pc-core .s{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;}
+.pc-server .after{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;margin-top:14px;}
+.pc-sync{
+  border:1px solid var(--ink);
+  padding:18px;
+  margin-top:18px;
+}
+.pc-sync .head{display:flex;justify-content:space-between;align-items:baseline;gap:18px;flex-wrap:wrap;margin-bottom:14px;}
+.pc-sync .head .t{font-family:var(--ogg);font-size:26px;line-height:1.1;letter-spacing:-0.52px;}
+.pc-sync .head .meta{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;}
+.pc-paths{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.pc-path{
+  border:1px solid var(--ink);
+  padding:11px 14px;
+  font-family:var(--telegraf);
+  font-size:18px;
+  letter-spacing:0.38px;
+  flex:1 1 200px;
+  min-width:0;
+  overflow-x:auto;
+  white-space:nowrap;
+}
+.pc-path small{display:block;font-size:15px;letter-spacing:0.6px;opacity:0.6;margin-bottom:4px;}
+.pc-sym{font-family:var(--ogg);font-size:26px;flex:none;}
+.pc-proof{
+  display:grid;
+  grid-template-columns:1.2fr 1fr;
+  gap:18px;
+  margin-top:44px;
+  align-items:start;
+}
+.pc-proof figure{margin:0;}
+.pc-proof img{width:100%;display:block;border:1px solid var(--ink);}
+.pc-proof figcaption{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;margin-top:11px;}
+
+/* ---------- personality ---------- */
+.play-grid{
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  gap:18px;
+  margin-top:44px;
+  align-items:start;
+}
+.play-grid > *{overflow:hidden;}
+.play-grid > *:nth-child(1){grid-column:span 3;}
+.play-grid > *:nth-child(2){grid-column:span 3;}
+.play-grid > *:nth-child(3){grid-column:span 2;}
+.play-grid > *:nth-child(4){grid-column:span 2;margin-top:22px;}
+.play-grid > *:nth-child(5){grid-column:span 2;}
+
+/* ---------- contact ---------- */
+.contact{
+  margin-top:var(--section-gap);
+  border-top:4px solid var(--accent);
+  padding:44px 0 88px;
+  transition:border-color .45s ease;
+}
+.contact h2{max-width:16ch;}
+.contact .avail{
+  max-width:44ch;
+  margin-top:24px;
+  font-size:20px;
+  line-height:1.33;
+}
+.contact-cols{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:18px 44px;
+  margin-top:44px;
+  max-width:640px;
+}
+.contact-cols .row{
+  display:flex;
+  justify-content:space-between;
+  gap:18px;
+  border-bottom:1px solid var(--ink);
+  padding-bottom:11px;
+}
+.contact-cols .row .k{font-size:15px;letter-spacing:0.6px;flex-shrink:0;color:var(--accent);transition:color .45s ease;}
+.contact-cols .row a{overflow-wrap:anywhere;text-align:right;}
+.contact-cols .row a.email{font-size:15px;letter-spacing:0.6px;}
+
+.footer-mark{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  margin-top:88px;
+  flex-wrap:wrap;
+  gap:18px;
+}
+.footer-mark .big{
+  font-family:var(--ogg);
+  font-size:55px;
+  letter-spacing:-1.98px;
+  line-height:1;
+}
+
+/* ---------- ledger lists (education / experience) ---------- */
+.cvlist{margin-top:44px;border-top:1px solid var(--ink);}
+.cvitem{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:11px 44px;
+  padding:24px 0;
+  border-bottom:1px solid var(--ink);
+  align-items:baseline;
+}
+.cvitem .h{grid-column:1;}
+.cvitem .h .t{font-family:var(--ogg);font-size:26px;line-height:1.1;letter-spacing:-0.52px;}
+.cvitem .h .t .sub{font-style:italic;display:block;margin-top:2px;}
+.cvitem .h .place{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;margin-top:11px;display:block;}
+.cvitem .h .desc{font-family:var(--telegraf);font-size:18px;line-height:1.5;letter-spacing:0.38px;margin-top:11px;max-width:56ch;}
+.cvitem .date{grid-column:2;font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;text-align:right;white-space:nowrap;}
+.cvitem .cv-photo{margin-top:18px;max-width:min(440px,100%);border:1px solid var(--ink);}
+
+/* ---------- skills ---------- */
+.skills-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:44px;
+  margin-top:44px;
+  border-top:1px solid var(--ink);
+  padding-top:44px;
+}
+.skillgroup .k{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;display:block;margin-bottom:11px;}
+.skillgroup .v{font-family:var(--telegraf);font-size:20px;line-height:1.33;letter-spacing:0.5px;}
+
+/* ---------- character select, the hero ---------- */
+/* sized to its content, so the first piece of work is in view on a laptop */
+.cselect{
+  margin-top:0;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) clamp(170px,16vw,240px) clamp(270px,25vw,360px);
+  grid-template-rows:auto 1fr;
+  grid-template-areas:"ident stage roster" "card stage roster";
+  column-gap:clamp(20px,2.4vw,36px);
+  padding:32px 0 0;
+  border-bottom:1px solid var(--ink);
+}
+.cs-ident{grid-area:ident;display:flex;flex-direction:column;gap:14px;min-width:0;}
+.cs-player{font-family:var(--ogg);font-weight:400;font-size:clamp(34px,4.2vw,56px);line-height:1;letter-spacing:-1.4px;}
+.cs-intro{font-family:var(--telegraf);font-size:17px;line-height:1.45;letter-spacing:0.2px;max-width:62ch;}
+.cs-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:4px;}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  font-family:var(--telegraf);font-size:17px;letter-spacing:0.38px;line-height:1.2;
+  padding:12px 20px;border:1px solid var(--ink);color:var(--ink);background:var(--vellum);
+  text-decoration:none;box-shadow:3px 3px 0 0 var(--ink);
+  transition:transform .15s ease,box-shadow .15s ease,background .45s ease;
+}
+.btn-solid{background:var(--accent);color:#fff;}
+.btn:hover{transform:translate(2px,2px);box-shadow:1px 1px 0 0 var(--ink);}
+.btn:focus-visible{outline:2px solid var(--ink);outline-offset:3px;}
+
+/* what this side of me did, and where on the page it lives */
+.cs-card{
+  grid-area:card;align-self:end;
+  margin:18px 0 20px;padding-top:14px;border-top:1px solid var(--ink);
+  display:flex;flex-direction:column;gap:8px;align-items:flex-start;
+}
+.cs-card-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;}
+.cs-nameplate{
+  background:var(--accent);color:#fff;padding:5px 14px;
+  font-family:var(--ogg);font-size:22px;line-height:1.2;letter-spacing:-0.4px;
+  transition:background .45s ease;
+}
+.cs-class{font-family:var(--telegraf);font-size:14px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);transition:color .45s ease;}
+.cs-quest{font-family:var(--telegraf);font-size:18px;line-height:1.4;letter-spacing:0.3px;}
+.cs-weak{font-family:var(--telegraf);font-size:16px;line-height:1.4;letter-spacing:0.3px;}
+.cs-weak .k{font-size:13px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);margin-right:6px;}
+.cs-go{
+  font-family:var(--telegraf);font-size:17px;letter-spacing:0.38px;color:var(--ink);
+  text-decoration:none;border-bottom:1px solid var(--accent);padding-bottom:1px;
+}
+.cs-go:hover{border-bottom-width:2px;}
+.cs-go:focus-visible{outline:2px solid var(--ink);outline-offset:3px;}
+
+/* the stage: a fixed box, and the figure always keeps the art's own proportions */
+.cs-stage{grid-area:stage;position:relative;height:clamp(330px,50vh,440px);align-self:end;overflow:hidden;}
+.cs-wash{
+  position:absolute;left:50%;bottom:0;width:100%;height:85%;
+  transform:translateX(-50%);pointer-events:none;
+  background:radial-gradient(closest-side at 50% 60%, rgba(var(--accent-rgb),0.30) 0%, rgba(var(--accent-rgb),0.10) 55%, rgba(var(--accent-rgb),0) 100%);
+  transition:background .45s ease;
+}
+.cs-ghost{
+  position:absolute;left:50%;top:18%;transform:translate(-50%,-50%);
+  font-family:var(--ogg);font-size:clamp(80px,11vw,170px);line-height:1;white-space:nowrap;
+  color:var(--accent);opacity:.14;pointer-events:none;transition:color .45s ease;
+}
+.cs-fig3d{position:relative;height:100%;display:flex;align-items:flex-end;justify-content:center;padding-top:12px;}
+.cs-fig3d canvas,.cs-fig3d img{
+  display:block;width:auto;height:auto;max-width:100%;max-height:100%;
+  image-rendering:pixelated;
+}
+
+/* the roster: a radio group, so arrow keys and screen readers already know how it works */
+.cs-roster{
+  grid-area:roster;align-self:end;
+  border:0;margin:0;padding:0;min-width:0;
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:1px;background:var(--ink);border-top:1px solid var(--ink);
+}
+.rtile{position:relative;background:var(--vellum);color:var(--ink);cursor:pointer;display:flex;flex-direction:column;min-width:0;}
+.rtile .rbar{height:4px;background:var(--tint);opacity:.3;transition:opacity .25s ease;}
+.rtile .rnum{position:absolute;top:8px;left:9px;font-size:13px;letter-spacing:0.6px;z-index:2;color:#6b6d70;transition:color .25s ease;}
+.rtile .rart{display:block;aspect-ratio:5/4;overflow:hidden;}
+/* everything unpicked reads as greyed out, so the live one is unmistakable */
+.rtile .rart img{
+  width:100%;height:100%;object-fit:cover;object-position:top center;display:block;
+  filter:grayscale(1) contrast(.92);opacity:.42;
+  transition:opacity .25s ease,filter .25s ease;image-rendering:pixelated;
+}
+.rtile .rname{
+  display:block;border-top:1px solid var(--ink);padding:6px 8px;
+  font-size:14px;font-weight:600;letter-spacing:0.2px;line-height:1.2;
+  color:#6b6d70;transition:color .25s ease,background .25s ease;
+}
+.rtile:has(input:checked) .rbar{opacity:1;}
+.rtile:has(input:checked) .rart img{filter:none;opacity:1;}
+.rtile:has(input:checked) .rname{background:var(--tint);color:#fff;}
+.rtile:has(input:checked) .rnum{color:var(--ink);}
+.rtile:has(input:focus-visible){outline:2px solid var(--ink);outline-offset:-3px;z-index:3;}
+@media (hover:hover){
+  .rtile:hover .rart img{filter:grayscale(.35);opacity:.8;}
+  .rtile:hover .rname,.rtile:hover .rnum{color:var(--ink);}
+  .rtile:has(input:checked):hover .rname{color:#fff;}
+}
+
+/* visually hidden, still read out and still focusable */
+.vh{position:absolute !important;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0;}
+
+/* the lines a selected piece of work leads with */
+.links-row{display:flex;flex-wrap:wrap;gap:12px;margin:0 0 8px;}
+.card .cres{font-family:var(--telegraf);font-size:18px;line-height:1.4;letter-spacing:0.3px;}
+
+/* sub-sections inside a section: a lighter rule than the section head */
+.sub-head{border-top-width:1px;margin-top:88px;}
+/* straight after a section head, a sub-section needs less air */
+.sec-head + .group > .sub-head:first-child{margin-top:44px;}
+.group > .cvlist:first-child{margin-top:0;}
+
+/* ---------- real artwork ---------- */
+.artbox{width:100%;overflow:hidden;}
+.artbox img,.artbox video{width:100%;height:100%;object-fit:cover;display:block;}
+.art-natural{width:100%;height:auto;display:block;}
+.shot{border:1px solid var(--ink);}
+
+/* ---------- film text cards ---------- */
+.timeline .span2{grid-column:span 2;}
+
+/* ---------- film box (padding + bg matched to the screenshot #0f0f0f) ---------- */
+.filmbox-dark{
+  background:#0f0f0f;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:26px 22px;
+}
+.filmbox-dark img{width:100%;max-width:440px;height:auto;display:block;}
+
+/* ---------- run club ---------- */
+.run-grid{
+  display:grid;
+  grid-template-columns:0.8fr 1fr 1fr;
+  gap:18px;
+  margin-top:44px;
+  align-items:start;
+}
+.run-grid .rv{aspect-ratio:9/16;overflow:hidden;grid-row:span 2;}
+.run-grid .rv video{width:100%;height:100%;object-fit:cover;display:block;background:var(--black);}
+.run-grid .rp{overflow:hidden;}
+.run-grid .rp img{width:100%;height:100%;object-fit:cover;display:block;}
+.run-grid .tall{aspect-ratio:3/4;}
+.run-note{
+  margin-top:18px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:32px;
+  align-items:start;
+}
+.run-note .marie img{width:100%;height:auto;border:1px solid var(--ink);display:block;}
+.run-note p{font-size:18px;line-height:1.4;letter-spacing:0.38px;}
+.run-note p .big{font-family:var(--ogg);font-size:24px;letter-spacing:-0.4px;font-style:italic;}
+.run-note .rm{overflow:hidden;aspect-ratio:16/10;margin-top:18px;}
+.run-note .rm img{width:100%;height:100%;object-fit:cover;display:block;}
+
+/* ---------- research evidence ---------- */
+.sem-pair{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+  margin-top:18px;
+}
+.sem-pair figure{margin:0;}
+.sem-pair img{width:100%;display:block;border:1px solid var(--ink);}
+.sem-pair figcaption{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;margin-top:11px;}
+.research-video{width:100%;display:block;aspect-ratio:16/9;object-fit:cover;background:var(--black);border:1px solid var(--ink);margin-top:44px;}
+.wca-graph{width:100%;display:block;border:1px solid var(--ink);margin-top:18px;background:#fff;}
+/* clips never start on their own, so each one says it is a clip */
+.vwrap{position:relative;}
+.vplay{
+  position:absolute;left:12px;top:12px;z-index:2;
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--vellum);color:var(--ink);border:1px solid var(--ink);
+  padding:7px 13px;font-family:var(--telegraf);font-size:15px;letter-spacing:0.38px;
+  cursor:pointer;box-shadow:3px 3px 0 0 var(--ink);
+}
+.vplay:hover{background:var(--accent);color:#fff;}
+.vplay:focus-visible{outline:2px solid var(--ink);outline-offset:3px;}
+.vplay[hidden]{display:none;}
+
+/* ---------- motion, focus & anchors ---------- */
+[id]{scroll-margin-top:calc(var(--nav-h) + 12px);}
+.navlinks a.active{border-bottom:1px solid var(--black);}
+.link:focus-visible,.navlinks a:focus-visible,.wordmark:focus-visible{outline:2px solid var(--ink);outline-offset:3px;}
+/* the page below follows whichever character is picked */
+html.anim .reveal{opacity:0;transform:translateY(14px);transition:opacity .55s ease,transform .55s ease;}
+html.anim .reveal.in{opacity:1;transform:translateY(0);}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto;}
+  html.anim .reveal{opacity:1;transform:none;transition:none;}
+}
+
+/* ---------- responsive ---------- */
+@media (max-width:900px){
+  /* stacked: who first, then the figure beside the roster so a pick is always visible */
+  .cselect{
+    grid-template-columns:minmax(0,2fr) minmax(0,3fr);
+    grid-template-rows:auto auto auto;
+    grid-template-areas:"ident ident" "stage roster" "card card";
+    padding-top:24px;
+  }
+  .cs-ident{margin-bottom:24px;}
+  /* one tidy nav row from tablet width down: the links scroll sideways, the CV stays put */
+  nav{flex-wrap:nowrap;gap:16px;}
+  .wordmark{flex:0 0 auto;}
+  .navlinks{flex:1 1 auto;min-width:0;flex-wrap:nowrap;gap:22px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+  .navlinks::-webkit-scrollbar{display:none;}
+  .navlinks a{font-size:16px;white-space:nowrap;}
+  .cs-stage{height:auto;align-self:stretch;min-height:240px;}
+  .cs-fig3d{position:absolute;inset:0;}
+  .cs-card{align-self:start;}
+  .cselect + section{margin-top:56px;}
+  :root{--margin:28px;--section-gap:88px;}
+  .serif-display{font-size:40px;letter-spacing:-1.2px;}
+  .footer-mark .big{font-size:40px;letter-spacing:-1.2px;}
+  .bignum .n{font-size:40px;letter-spacing:-1.2px;}
+  .sec-head{grid-template-columns:1fr;gap:24px;}
+  .story-grid{grid-template-columns:1fr 1fr;}
+  .story-grid .offset-1,.story-grid .offset-2{margin-top:0;}
+  .timeline{grid-template-columns:1fr 1fr;}
+  .projects{grid-template-columns:1fr;}
+  .ai-body{grid-template-columns:1fr;}
+  .ski-grid{grid-template-columns:1fr 1fr;}
+  .ski-grid > div{margin-top:0;}
+  .play-grid{grid-template-columns:1fr 1fr;}
+  .play-grid > *{grid-column:auto !important;margin-top:0;}
+  .skills-grid{grid-template-columns:1fr 1fr;}
+  .sem-pair{grid-template-columns:1fr;}
+  .pc-clients{grid-template-columns:1fr;}
+  .pc-proof{grid-template-columns:1fr;}
+  .run-grid{grid-template-columns:1fr 1fr;}
+  .run-grid .rv{grid-row:auto;}
+  .run-note{grid-template-columns:1fr;gap:24px;}
+  .rail{display:none;}
+}
+@media (max-width:560px){
+  .cs-intro{font-size:17px;}
+  .cs-cta .btn{flex:1 1 100%;}
+  .cselect{grid-template-columns:minmax(0,1fr) minmax(0,2fr);}
+  .rtile .rname{font-size:11px;letter-spacing:0;padding:4px 4px;}
+  .rtile .rnum{font-size:11px;top:5px;left:5px;}
+  .cs-nameplate{font-size:20px;}
+  .sub-head{margin-top:64px;}
+  .nav-cv{font-size:15px;padding:2px 10px;}
+  .story-grid,.timeline,.ski-grid,.play-grid,.skills-grid{grid-template-columns:1fr;}
+  .timeline .span2{grid-column:auto;}
+  .cvitem{grid-template-columns:1fr;}
+  .cvitem .date{grid-column:1;text-align:left;}
+  .run-grid{grid-template-columns:1fr;}
+  body{font-size:17px;}
+  .contact-cols{grid-template-columns:1fr;gap:0;max-width:none;}
+  /* keep the sticky nav a single tidy row that scrolls sideways
+     instead of wrapping into a tall bar stuck over the content */
+  nav{padding:12px 0;flex-wrap:nowrap;gap:14px;align-items:center;}
+  .wordmark{flex:0 0 auto;}
+  .navlinks{
+    flex:1 1 auto;
+    min-width:0;
+    flex-wrap:nowrap;
+    gap:18px;
+    overflow-x:auto;
+    scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
+  }
+  .navlinks::-webkit-scrollbar{display:none;}
+  .navlinks a{font-size:15px;white-space:nowrap;padding-bottom:0;}
+}
+
+/* the narrowest phones: faces only in the roster, names still read out, the card below names the pick */
+@media (max-width:360px){
+  .rtile .rname{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0;}
+}
+
+/* ---------- project cards ---------- */
+[hidden]{display:none !important;}
+::view-transition-group(pj-swap){animation-duration:.34s;animation-timing-function:cubic-bezier(0.23,1,0.32,1);background:#f2f2f2;border:1px solid #292a2c;box-sizing:border-box;overflow:hidden;}
+::view-transition-image-pair(pj-swap){isolation:auto;}
+::view-transition-group(pj-img){animation-duration:.34s;animation-timing-function:cubic-bezier(0.23,1,0.32,1);z-index:2;}
+/* plus-lighter dissolve: the two crops blend without the mid-flight brightness dip */
+::view-transition-image-pair(pj-img){isolation:isolate;}
+::view-transition-old(pj-img),::view-transition-new(pj-img){height:100%;width:100%;object-fit:cover;animation-duration:.34s;mix-blend-mode:plus-lighter;}
+::view-transition-old(pj-swap){animation:pj-out .1s ease both;}
+::view-transition-new(pj-swap){animation:pj-in .18s ease .16s both;}
+@keyframes pj-out{to{opacity:0;}}
+@keyframes pj-in{from{opacity:0;}}
+::view-transition-old(root),::view-transition-new(root){animation-duration:.3s;}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:44px;align-items:stretch;}
+.card{border:1px solid var(--ink);display:flex;flex-direction:column;cursor:pointer;min-width:0;}
+.card:hover,.card.active{box-shadow:0 0 0 1px var(--ink);}
+.card .cimg{border-bottom:1px solid var(--ink);font-size:0;overflow:hidden;}
+.card .cimg img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block;}
+@media (hover:hover) and (prefers-reduced-motion:no-preference){
+  .card .cimg img{transition:transform .3s cubic-bezier(0.23,1,0.32,1);}
+  .card:hover .cimg img{transform:scale(1.03);}
+}
+.card .cbody{padding:18px;display:flex;flex-direction:column;gap:11px;flex:1;}
+.card .ct{font-family:var(--ogg);font-size:26px;line-height:1.1;letter-spacing:-0.52px;}
+.card .ct .sub{font-style:italic;display:block;margin-top:2px;font-size:20px;}
+.card .ctags{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;}
+.card .copen{margin-top:auto;padding-top:14px;border-top:1px solid var(--ink);font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;display:flex;justify-content:space-between;gap:11px;}
+.card:hover .copen .a{text-decoration:underline;}
+.card:focus-visible{outline:2px solid var(--ink);outline-offset:3px;}
+.card.feature{grid-column:span 2;}
+.card.feature .cimg img{aspect-ratio:21/9;}
+
+/* ---------- expanded project panels ---------- */
+/* without JavaScript every write up simply sits under its cards. With it, they wait closed
+   until the script has marked them, so nothing flashes open while the page loads */
+html.js:not(.panels-ready) .panel{display:none;}
+html:not(.js) .card{cursor:default;}
+html:not(.js) .card .copen,html:not(.js) .pclose,html:not(.js) .cs-roster{display:none;}
+.panel:focus{outline:none;}
+.panel:focus-visible{outline:2px solid var(--ink);outline-offset:3px;}
+.panel{border:1px solid var(--ink);margin-top:44px;padding:clamp(18px,3vw,44px);}
+@media (prefers-reduced-motion:no-preference){
+  html:not(.vt) .panel:not([hidden]){animation:panelin .4s ease;}
+  @keyframes panelin{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:none;}}
+}
+.panel-head{display:flex;justify-content:space-between;align-items:baseline;gap:18px;margin-bottom:24px;}
+.panel-head .t{font-family:var(--ogg);font-size:26px;line-height:1.1;letter-spacing:-0.52px;}
+.panel-head .t .sub{font-style:italic;display:block;margin-top:2px;font-size:20px;}
+.pclose{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;background:none;border:none;border-bottom:1px solid var(--black);cursor:pointer;color:var(--ink);padding:0 0 1px;flex-shrink:0;}
+.pclose:hover{border-bottom-width:2px;}
+.panel .intro{font-size:20px;line-height:1.33;max-width:60ch;margin-bottom:24px;}
+.panel-cols{display:grid;grid-template-columns:1.4fr 1fr;gap:44px;align-items:start;}
+.panel-cols .intro{margin-bottom:0;}
+.panel-cols .stack p + p{margin-top:18px;}
+@media (max-width:900px){
+  .cards{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .panel-cols{grid-template-columns:1fr;gap:24px;}
+}
+@media (max-width:560px){
+  .cards{grid-template-columns:minmax(0,1fr);}
+  .card.feature{grid-column:auto;}
+  .card.feature .cimg img{aspect-ratio:16/10;}
+  .panel-head{flex-direction:column;gap:8px;}
+}
+/* ---------- print: a short summary rather than the whole scrapbook ---------- */
+@media print{
+  @page{margin:14mm 14mm;}
+  body{background:#fff;font-size:10.5pt;}
+  .page{padding:0;max-width:none;}
+  nav,.rail,.cs-stage,.cs-roster,.cs-card,.cs-cta,#outside,#tools,.panel,video,.vplay,.card .cimg,.card .copen,.links-row,.footer-mark .big{display:none !important;}
+  html.anim .reveal{opacity:1 !important;transform:none !important;}
+  section{margin-top:18px !important;break-inside:auto;}
+  .cselect{display:block;padding-top:0;border:0;}
+  .cs-player{font-size:26pt;}
+  .cs-intro{font-size:11pt;max-width:none;}
+  .sec-head{grid-template-columns:1fr;gap:4px;padding-top:8px;border-top-width:1px;}
+  .sec-head .lead{font-size:10.5pt;}
+  .serif-heading{font-size:15pt;}
+  .sub-head{margin-top:14px;}
+  .cards{grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;}
+  .card,.card.feature{grid-column:auto;break-inside:avoid;}
+  .card .cbody{padding:8px 10px;gap:4px;}
+  .card .ct{font-size:12pt;}
+  .card .ct .sub{font-size:10pt;}
+  .card .cres,.card .ctags{font-size:9.5pt;}
+  .cvlist{margin-top:10px;}
+  .cvitem{padding:8px 0;break-inside:avoid;}
+  .cvitem .h .t{font-size:12pt;}
+  .cvitem .cv-photo,.cvitem .tile-tags{display:none;}
+  .skills-grid{grid-template-columns:1fr 1fr;gap:6px;margin-top:10px;}
+  .skillgroup .v{font-size:10pt;}
+  .contact{padding:14px 0 0;border-top-width:1px;}
+  .contact .serif-display{font-size:18pt;}
+  .contact-cols{margin-top:10px;gap:4px 24px;}
+  .footer-mark{margin-top:14px;}
+  .footer-mark .meta::after{content:" · jacksontigerb.github.io/personal-portfolio";}
+  .cvitem .h .desc,.cvitem .h .place,.cvitem .date,.contact .avail,.contact-cols .row,.contact-cols .row a,.footer-mark .meta{font-size:9.5pt !important;line-height:1.35;}
+  .cvitem .h .desc{margin-top:3px;}
+  .cvitem .h .place{margin-top:2px;}
+  .cvitem{gap:4px 16px;}
+  .skillgroup{padding:4px 0;}
+  .skillgroup .k,.skillgroup .v{font-size:9.5pt !important;}
+  .contact .avail{margin-top:6px;max-width:none;}
+  .contact-cols .row{padding-bottom:3px;}
+  .sec-head{break-after:avoid;}
+  a{color:var(--ink);}
+}
+</style>
+<style>.experience-intro{padding:48px 0;border-bottom:1px solid var(--ink);}.experience-intro p{margin:16px 0;}.experience-intro .serif-display{font-size:56px;}</style>
+</head>
+<body>
+
+<div class="rail">LONDON 51.5°N ✳ OPEN FROM MAY 2027</div>
+
+<div class="page">
+
+  <nav>
+    <a class="wordmark" href="index.html">JTB</a>
+    <div class="navlinks">
+      <a href="#work">Work</a>
+      <a href="#engineering">Engineering</a>
+      <a href="#education">Education</a>
+      <a href="#skills">Toolkit</a>
+      <a href="#outside">Outside work</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <a class="nav-cv" href="assets/Jackson-Brocklebank-CV.pdf" download="Jackson Brocklebank CV.pdf">CV</a>
+  </nav>
+
+  <section id="top" class="experience-intro">
+    <span class="eyebrow">Jackson Brocklebank</span>
+    <h1 class="serif-display">The real stuff.</h1>
+    <p>The projects behind the moves.</p>
+    <a class="btn" data-back-to-fight href="index.html#battle">Back to the fight ↗</a>
+  </section>
+
+  <!-- SELECTED WORK -->
+  <section id="work">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">01 · selected work</span>
+        <h2 class="serif-heading">Selected <span class="italic">work</span></h2>
+      </div>
+      <p class="lead">The two pieces with results to show: a coating measured against a commercial finish, and a battery ageing model scored on operating conditions it had never seen.</p>
+    </div>
+    <div class="cards">
+      <div class="card feature" data-panel="p-pfas" aria-controls="p-pfas">
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/wca-coating.jpg" srcset="assets/cards/wca-coating-800.webp 800w, assets/wca-coating.jpg 960w" sizes="(max-width:900px) 100vw, 66vw" alt="A water droplet beading up on the coated fabric under the contact angle goniometer"></div>
+        <div class="cbody">
+          <div class="ct">A PFAS free water repellent coating <span class="sub">in collaboration with Finisterre</span></div>
+          <div class="cres">132 to 135&deg; water contact angle on cotton. Finisterre&#8217;s commercial finish gives 132&deg; on its own fabric</div>
+          <div class="ctags">SEM / contact angle / roll off and wear testing / my Master&#8217;s project</div>
+          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+      <div class="card textonly" data-panel="p-huawei" aria-controls="p-huawei">
+        <div class="cbody">
+          <div class="ct">Predicting battery life <span class="sub">Huawei Tech Arena 2026, grid storage</span></div>
+          <div class="cres">A mean score of 0.711 against the baseline&#8217;s 1.000 over six held out conditions, lower is better</div>
+          <div class="ctags">LFP cells / lifetime modelling / Python</div>
+          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="panel" id="p-pfas">
+      <div class="panel-head">
+        <div class="t">A PFAS free water repellent coating <span class="sub">in collaboration with Finisterre</span></div>
+        <button class="pclose" data-close type="button">close &times;</button>
+      </div>
+      <p class="intro">My Master's project, supervised by Prospero Taroni-Junior and run with Abbie Spence at <span class="italic">Finisterre</span>. I synthesised a PFAS free water repellent coating for outdoor textiles and tested it against the commercial one they already use.</p>
+      <div class="links-row"><a class="btn btn-solid" href="work/pfas-coating/">Read the full case study</a><a class="btn" href="https://jacksontigerb.github.io/fluorine-free-DWR/results.html" target="_blank" rel="noopener">Interactive results</a></div>
+      <video class="research-video" controls muted loop playsinline preload="none" poster="assets/wca-coating.jpg" aria-label="A water droplet beading up on the coated fabric under the contact angle goniometer">
+      <source src="assets/wca-coating.mp4" type="video/mp4">
+    </video>
+    <p class="tile-tags" style="margin-top:11px;">a droplet going onto a coated sample in the goniometer</p>
+
+    <div class="ai-body" style="margin-top:44px;">
+      <div>
+        <img loading="lazy" decoding="async" class="art-natural shot" style="max-width:420px;" width="900" height="1600" src="assets/wca-goniometer.jpg" alt="The contact angle rig: a droplet hanging from the needle above a clipped-down square of coated fabric, backlit in blue">
+        <p class="tile-tags" style="margin-top:11px;">the rig itself · a droplet going down onto a coated sample</p>
+      </div>
+      <div>
+        <p>Every sample gets judged the same way. A droplet goes onto the fabric from the needle, the backlight throws its profile into silhouette, and the contact angle is read from the shape it holds. The higher the angle, the harder the surface repels.</p>
+      </div>
+    </div>
+
+    <div class="ai-body" style="margin-top:44px;">
+      <div>
+        <p>PFAS are the fluorine chemistry behind most waterproof gear, and they're increasingly linked to risks to human health and the environment. The hard part is finding a fluorine free version that still beads water once it has been washed and worn.</p>
+      </div>
+      <div>
+        <p>Finisterre already make their kit with PFAS free chemistry, so their own finish on their own fabric was the benchmark. My coating went onto cotton, and onto the same Finisterre fabric supplied without a finish.</p>
+      </div>
+    </div>
+
+    <div class="sem-pair" style="margin-top:44px;">
+      <figure>
+        <img loading="lazy" decoding="async" width="1200" height="900" src="assets/sem-clumped.jpg" alt="SEM image of unmodified titanium dioxide sitting in large clumps on the fibres">
+        <figcaption>Unmodified TiO₂, sitting in clumps on the fibres</figcaption>
+      </figure>
+      <figure>
+        <img loading="lazy" decoding="async" width="1200" height="900" src="assets/sem-dispersed.jpg" alt="SEM image of surface modified titanium dioxide in finer clusters across the fibres">
+        <figcaption>Surface modified TiO₂, in finer clusters across the fibres</figcaption>
+      </figure>
+    </div>
+    <p class="tile-tags" style="margin-top:11px;">SEM at ×2,000 · modifying the particle surface broke up the clumps, but it did not make the coating repel or shed water any better</p>
+
+    <img loading="lazy" decoding="async" class="wca-graph" width="2000" height="786" src="assets/pfas/wca-baseline.jpg" alt="Two panel chart of static water contact angle before wear: 134, 135 and 132 degrees for the three cotton coatings, 108 for the binder on Finisterre fabric and 132 for the commercial finish on its own fabric">
+    <p class="tile-tags" style="margin-top:11px;">static contact angle before wear · 132 to 135° for my coatings on cotton and 132° for the commercial finish on Finisterre&#8217;s fabric, while uncoated cotton wets out at 38.8°</p>
+
+    <p style="margin-top:44px;">I measured roll off as well as contact angle, then tested the samples through 200 sandpaper abrasion cycles and 20 lab wash cycles. Only C-C3 on cotton ended washing near its starting roll off angle. On the same Finisterre fabric, my emulsion and the commercial finish both ended near 80°, so this does not establish better wash durability. High contact angles also did not stop small drops from pinning.</p>
+
+    <img loading="lazy" decoding="async" class="wca-graph" width="2000" height="862" src="assets/pfas/durability-rolloff.jpg" alt="Roll off angle through abrasion and lab washing for each coating and fabric.">
+    <p class="tile-tags" style="margin-top:11px;">roll off angle through abrasion and washing, lower is better · error bars are standard error, n = 3 · <a class="link" href="work/pfas-coating/#results">the full results, and what did not work</a></p>
+  
+    </div>
+    <div class="panel" id="p-huawei">
+      <div class="panel-head">
+        <div class="t">Predicting battery life <span class="sub">Huawei Tech Arena 2026, Digital Power</span></div>
+        <button class="pclose" data-close type="button">close &times;</button>
+      </div>
+      <p class="intro">A grid storage battery fades slowly for years and then turns a corner, and the pack is finished shortly after. The competition asked for the whole curve down through that knee to 70% state of health, for temperatures and charge rates the model had never seen, from nothing but the temperature and the C rate. No sensor traces, because the cells being scored had none.</p>
+      <p style="margin-top:18px;">The organisers' baseline fades as n to the power 0.8. That exponent is below one, so the fade rate falls as the cell ages, and a knee is the opposite: fade that accelerates. The baseline could not represent the thing the task was asking for. That is where the improvement came from, so fade and knee got separate models and the knee was allowed to fit to zero where there was not one.</p>
+      <p style="margin-top:18px;">Two findings made the difference. The knee does not follow the Arrhenius law the fade does, and the dominant ageing mechanism in these cells changes somewhere around 35 to 45&deg;C, so one temperature law across both was never going to hold. And none of the open datasets carried the condition dependence the six unseen operating points needed, so it had to come from the target data, with the open data used only as a prior on curve shape.</p>
+      <p style="margin-top:18px;">The organisers keep their scoring metric hidden, so designing the validation was part of the task. Six cells were released, one per operating condition. Each fold held one whole condition out and trained on the other five, since part of the hidden scoring is at conditions with no released data. Against the baseline at 1.000, lower being better, the mean over the six folds was 0.711, and the error at the 70% end of life point fell from 64% to 36%.</p>
+      <p style="margin-top:18px;">Six folds make that number loose. Dropping any one condition moves the mean anywhere from 0.44 to 0.99, and most of the remaining error sits at the hottest condition, 55&deg;C at 1C, where the model has to extrapolate in temperature. These are held out results on the released cells, not the organisers&#8217; leaderboard score.</p>
+      <div class="tools-row" style="margin-top:26px;">
+        <span class="k">built with</span>
+        Python / NumPy / SciPy / pytest / Make
+      </div>
+    </div>
+  </section>
+
+  <!-- CURRENT RESEARCH -->
+  <section id="current">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">02 · current research</span>
+        <h2 class="serif-heading">In <span class="italic">progress</span></h2>
+      </div>
+      <p class="lead">At Curtin in Perth until November 2026. There are no results yet, so this is what the work is rather than what it found.</p>
+    </div>
+    <div class="cards">
+      <div class="card textonly" data-panel="p-curtin" aria-controls="p-curtin">
+        <div class="cbody">
+          <div class="ct">Iron oxide catalysts for CO&#8322; conversion <span class="sub">visiting research associate at Curtin</span></div>
+          <div class="ctags">sol gel synthesis / Curtin University, Perth / until November 2026</div>
+          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="panel" id="p-curtin">
+      <div class="panel-head">
+        <div class="t">Iron oxide catalysts for CO&#8322; conversion <span class="sub">visiting research associate, Curtin University</span></div>
+        <button class="pclose" data-close type="button">close &times;</button>
+      </div>
+      <p class="intro">I am in Perth until November 2026, in a group working on CO&#8322; removal and conversion. Capturing the CO&#8322; is one half of the problem and turning it into a fuel or a chemical is the other. My project is on the conversion side.</p>
+      <p style="margin-top:18px;">My part is the catalyst. I make iron oxide by a sol gel route from iron nitrate: dissolve it, heat and stir until the solution condenses into a gel, dry that, then calcine it to crystallise the oxide. The precursor is cheap and abundant, and the temperatures are low next to solid state synthesis.</p>
+      <p style="margin-top:18px;">Which phase comes out of the calcination matters more than anything else. Hematite and maghemite have different structures and reduce at different rates, and maghemite derived catalysts tend to convert more CO&#8322;. Calcination temperature and time decide the balance, so the synthesis conditions and the catalytic behaviour are one question rather than two. The plan after the synthesis is XRD for the phase, electron microscopy and surface area for the morphology, then reactor testing.</p>
+      <p style="margin-top:18px;">The placement runs to November, so there is nothing to report yet.</p>
+    </div>
+  </section>
+
+  <!-- ENGINEERING -->
+  <section id="engineering">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">03 · engineering &amp; prototyping</span>
+        <h2 class="serif-heading">Made <span class="italic">and tested</span></h2>
+      </div>
+      <p class="lead">Things I've designed, built and tested. Each card opens up.</p>
+    </div>
+    <div class="cards">
+      <div class="card" data-panel="p-solar" aria-controls="p-solar">
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/solar-boat.jpg" srcset="assets/cards/solar-boat-800.webp 800w, assets/solar-boat.jpg 1400w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" alt="The solar boat team in blue lab coats working on the hull in the workshop"></div>
+        <div class="cbody">
+          <div class="ct">Solar racing boat <span class="sub">designed, machined, raced</span></div>
+          <div class="ctags">CAD / fabrication / raced in the Netherlands</div>
+          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+      <div class="card" data-panel="p-hydro" aria-controls="p-hydro">
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/hydroturbine.jpg" srcset="assets/cards/hydroturbine-800.webp 800w, assets/hydroturbine.jpg 900w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" alt="Hydroturbine built from an orange pipe, tested in a real stream"></div>
+        <div class="cbody">
+          <div class="ct">A £50 hydroturbine <span class="sub">tested in a real stream</span></div>
+          <div class="ctags">design to field test / renewable energy</div>
+          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+      <div class="card" data-panel="p-bridge" aria-controls="p-bridge">
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/bridge.jpg" srcset="assets/cards/bridge-800.webp 800w, assets/bridge.jpg 1400w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" alt="Building the balsa bridge in the workshop with two teammates"></div>
+        <div class="cbody">
+          <div class="ct">The balsa bridge <span class="sub">the only one to hold under full load</span></div>
+          <div class="ctags">team project / spotted the flaw before test day</div>
+          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+      <div class="card" data-panel="p-maze" aria-controls="p-maze">
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/maze-robot.jpg" srcset="assets/cards/maze-robot-800.webp 800w, assets/maze-robot.jpg 1400w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" alt="Arduino maze solving robot with breadboard wiring and yellow wheels"></div>
+        <div class="cbody">
+          <div class="ct">Maze solving robot <span class="sub">sensors and soldering</span></div>
+          <div class="ctags">electronics / control logic / Arduino</div>
+          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+      <div class="card" data-panel="p-bikes" aria-controls="p-bikes">
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/brocklebikes.jpg" srcset="assets/cards/brocklebikes-800.webp 800w, assets/brocklebikes.jpg 1200w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" alt="A bike on the repair stand in the garden"></div>
+        <div class="cbody">
+          <div class="ct">Brocklebikes <span class="sub">a business I started at sixteen</span></div>
+          <div class="ctags">495+ repairs / self taught / customer facing</div>
+          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="panel" id="p-solar">
+      <div class="panel-head">
+        <div class="t">Solar racing boat <span class="sub">designed, machined, raced</span></div>
+        <button class="pclose" data-close type="button">close &times;</button>
+      </div>
+      <div class="panel-cols">
+        <div class="artbox ratio-wide"><img loading="lazy" decoding="async" src="assets/solar-boat.jpg" alt="The solar boat team in blue lab coats working on the hull in the workshop"></div>
+        <p class="intro">A university team project to design, machine and race a solar powered boat. I worked on the CAD and the fabrication in the workshop, and we raced the finished boat in the Netherlands. We did not win, but it was eight months from a drawing to something that got in the water and held together.</p>
+      </div>
+    </div>
+    <div class="panel" id="p-hydro">
+      <div class="panel-head">
+        <div class="t">A £50 hydroturbine <span class="sub">tested in a real stream</span></div>
+        <button class="pclose" data-close type="button">close &times;</button>
+      </div>
+      <div class="panel-cols">
+        <div class="artbox ratio-wide"><img loading="lazy" decoding="async" src="assets/hydroturbine.jpg" alt="Hydroturbine built from an orange pipe, tested in a real stream"></div>
+        <p class="intro">A hydroturbine designed and made for around £50, then taken outside and tested in a real stream. It generated enough to light a bulb from stream flow alone.</p>
+      </div>
+    </div>
+    <div class="panel" id="p-bridge">
+      <div class="panel-head">
+        <div class="t">The balsa bridge <span class="sub">the only one to hold under full load</span></div>
+        <button class="pclose" data-close type="button">close &times;</button>
+      </div>
+      <div class="panel-cols">
+        <div class="artbox ratio-wide"><img loading="lazy" decoding="async" src="assets/bridge.jpg" alt="Building the balsa bridge in the workshop with two teammates"></div>
+        <p class="intro">A team project to build a bridge from balsa wood. We spotted the flaw in our design before test day and fixed it. On test day it carried a large radio controlled car, and ours was the only bridge in the group that held.</p>
+      </div>
+    </div>
+    <div class="panel" id="p-maze">
+      <div class="panel-head">
+        <div class="t">Maze solving robot <span class="sub">sensors and soldering</span></div>
+        <button class="pclose" data-close type="button">close &times;</button>
+      </div>
+      <div class="panel-cols">
+        <div class="artbox ratio-wide"><img loading="lazy" decoding="async" src="assets/maze-robot.jpg" alt="Arduino maze solving robot with breadboard wiring and yellow wheels"></div>
+        <p class="intro">An Arduino robot that finds its way through a maze on its own. Ultrasonic sensors, control logic and a lot of soldering, finished off with a 3D printed shell we designed for it. It worked, and solved the maze unaided.</p>
+      </div>
+      <div class="sem-pair" style="margin-top:18px;">
+        <figure>
+          <img loading="lazy" decoding="async" width="1200" height="1600" src="assets/maze-robot-shell.jpg" alt="The robot's 3D printed shell, painted in tiger stripes with a blue head and white beak on the front">
+          <figcaption>the shell it ended up with, tiger stripes and something of a duck about the face</figcaption>
+        </figure>
+      </div>
+    </div>
+    <div class="panel" id="p-bikes">
+      <div class="panel-head">
+        <div class="t">Brocklebikes <span class="sub">a business I started at sixteen</span></div>
+        <button class="pclose" data-close type="button">close &times;</button>
+      </div>
+      <div class="panel-cols">
+        <div class="artbox ratio-wide"><img loading="lazy" decoding="async" src="assets/brocklebikes.jpg" alt="A bike on the repair stand in the garden"></div>
+        <p class="intro">The bike repair business I started at sixteen. Self taught, customer facing, and more than 495 bikes fixed.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION AND EXPERIENCE -->
+  <section id="education">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">04 · education &amp; experience</span>
+        <h2 class="serif-heading">Two degrees, <span class="italic">materials and energy</span></h2>
+      </div>
+      <p class="lead">An MSc in advanced materials at UCL, on top of renewable energy engineering at Exeter. Two firsts along the way, the dissertation and the field trip module.</p>
+    </div>
+    <div class="cvlist">
+      <div class="cvitem">
+        <div class="h">
+          <div class="t">MSc Advanced Materials Science <span class="sub">University College London</span></div>
+          <span class="place">London · research year</span>
+          <p class="desc">The home of the PFAS free coating project. Day to day it's synthesis in the lab and a lot of hours on the characterisation suite, SEM, TEM, FTIR, XRD and XPS.</p>
+        </div>
+        <div class="date">09/2025 – 09/2026</div>
+      </div>
+      <div class="cvitem">
+        <div class="h">
+          <div class="t">BEng Renewable Energy Engineering <span class="sub">University of Exeter, 2:1</span></div>
+          <span class="place">Exeter · mechanical and electrical grounding</span>
+          <p class="desc">My dissertation on redox flow batteries for renewable energy earned a first, and so did the field trip module, where I pitched wind turbine blade recycling to industry partners Nadara and ReBlade. One field trip, a day hiking a mountain near Oban, I turned into a vlog, shot and edited on the move.</p>
+          <img loading="lazy" decoding="async" class="cv-photo" width="1600" height="1080" src="assets/graduation.jpg" alt="Graduation day at Exeter, cap and gown on, with my family around me">
+          <p class="tile-tags" style="margin-top:11px;">graduation day at Exeter, family in tow</p>
+        </div>
+        <div class="date">09/2022 – 07/2025</div>
+      </div>
+    </div>
+    <div class="group">
+    <div class="cards">
+      <div class="card" data-panel="p-redox" aria-controls="p-redox">
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/redox-cover.jpg" srcset="assets/cards/redox-cover-800.webp 800w, assets/redox-cover.jpg 926w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" alt="Dissertation cover: Redox Flow Batteries in Coupling Renewable Energy Sources, University of Exeter, April 2025"></div>
+        <div class="cbody">
+          <div class="ct">Redox flow batteries <span class="sub">BEng dissertation, awarded a first</span></div>
+          <div class="ctags">energy storage / expert interviews / University of Exeter</div>
+          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="panel" id="p-redox">
+      <div class="panel-head">
+        <div class="t">Redox flow batteries <span class="sub">BEng dissertation, awarded a first</span></div>
+        <button class="pclose" data-close type="button">close &times;</button>
+      </div>
+      <div class="panel-cols">
+        <div class="stack">
+          <p class="intro">My BEng dissertation at Exeter, supervised by Xiaohong Li and David Trudgeon. Wind and solar generate when the weather allows, so the grid needs storage that can hold several hours and give it back slowly. Flow batteries keep the energy in external electrolyte tanks and the power in a separate stack, so the two can be sized independently.</p>
+          <p>I compared five chemistries: zinc bromine, iron chromium, metal air, lithium based and vanadium. Vanadium came out ahead for grid scale. All four of its oxidation states dissolve in the same acid, so electrolyte crossing between the half cells only self discharges instead of contaminating them, and a stack takes 10,000 to 20,000 deep cycles before the capacity noticeably fades. The electrolyte is water based, so there is no thermal runaway to design around.</p>
+          <p>I also ran my own interviews. Seven invitations went out to people working on vanadium flow batteries in industry and research, four agreed, and three recordings survived a fault that lost the fourth. Twelve questions each, twenty to forty minutes, transcribed and then corrected by hand.</p>
+          <p>They agreed on the barriers. Perfluorinated membranes such as Nafion are expensive, pumps and power electronics pull real round trip efficiency down to about 75%, and market rules reward fast response rather than the eight hour discharge vanadium is suited to. The Energy Superhub Oxford case study showed the pairing that gets used in practice: the vanadium system absorbs the daily deep cycling so the lithium pack next to it can take the short high power calls and last longer.</p>
+          <p>None of those is a scientific problem. Vanadium already meets the technical requirement for coupling with wind and solar, and what is left is cost and regulation.</p>
+        </div>
+        <img loading="lazy" decoding="async" class="art-natural shot" width="926" height="1310" src="assets/redox-cover.jpg" alt="Dissertation cover: Redox Flow Batteries in Coupling Renewable Energy Sources, University of Exeter, April 2025">
+      </div>
+    </div>
+    </div>
+    <div class="group" id="experience">
+    <div class="sec-head sub-head">
+      <div>
+        <h3 class="serif-heading">Work <span class="italic">outside the lab</span></h3>
+      </div>
+      <p class="lead">Alongside university: library IT support, student rep, caf&eacute; and lettings work, and a running club I started.</p>
+    </div>
+    <div class="cvlist">
+      <div class="cvitem">
+        <div class="h">
+          <div class="t">Run Club Founder &amp; President <span class="sub">Falmouth Running Society</span></div>
+          <span class="place">Started a club and grew a community</span>
+          <p class="desc">Founded and led a university running club, growing it to 200+ followers and weekly sessions of up to 25 runners in a single semester.</p>
+        </div>
+        <div class="date">01/2024 – 06/2024</div>
+      </div>
+      <div class="cvitem">
+        <div class="h">
+          <div class="t">Digital Hub Student Ambassador <span class="sub">University of Exeter</span></div>
+          <span class="place">Technical support, up to 100 students a day</span>
+          <p class="desc">Provided troubleshooting in the library IT department, helping up to a hundred students a day.</p>
+        </div>
+        <div class="date">09/2024 – 06/2025</div>
+      </div>
+      <div class="cvitem">
+        <div class="h">
+          <div class="t">Student Representative <span class="sub">University College London</span></div>
+          <span class="place">Relaying feedback in departmental meetings</span>
+          <p class="desc">Gathering and relaying course feedback, helping the department spot and address student concerns.</p>
+        </div>
+        <div class="date">09/2025 – present</div>
+      </div>
+      <div class="cvitem">
+        <div class="h">
+          <div class="t">Customer Facing Roles <span class="sub">cafés and a lettings office</span></div>
+          <span class="place">Drury 188-189 · Castle Beach Café · Frank Harris &amp; Co</span>
+          <p class="desc">Fast, accurate service across two café roles and a sales and lettings office, handling orders, enquiries and day to day admin.</p>
+        </div>
+        <div class="date">2023 – present</div>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <!-- TOOLKIT -->
+  <section id="skills">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">05 · the toolkit</span>
+        <h2 class="serif-heading">The <span class="italic">toolkit</span></h2>
+      </div>
+      <p class="lead">Characterisation instruments, workshop machines and the software I edit and model in.</p>
+    </div>
+    <div class="skills-grid">
+      <div class="skillgroup"><span class="k">creative &amp; content</span><span class="v">Premiere Pro · Photoshop · DaVinci Resolve · Sony Vegas · CapCut · iPhone shooting</span></div>
+      <div class="skillgroup"><span class="k">cad &amp; design</span><span class="v">Onshape · SolidWorks · 3D Printing</span></div>
+      <div class="skillgroup"><span class="k">electronics &amp; prototyping</span><span class="v">Arduino · ESP32 · Ultrasonic Sensors · Soldering · MQTT · MODBUS</span></div>
+      <div class="skillgroup"><span class="k">workshop &amp; fabrication</span><span class="v">Lathe · Bandsaw · Hand Tools</span></div>
+      <div class="skillgroup"><span class="k">modelling &amp; data</span><span class="v">Python · MATLAB · PVsyst · SQL · C++ · Git</span></div>
+      <div class="skillgroup"><span class="k">materials characterisation</span><span class="v">SEM · TEM · FTIR · XRD · XPS · UV/Vis · Optical Microscopy</span></div>
+    </div>
+    <div class="group" id="tools">
+    <div class="sec-head sub-head">
+      <div>
+        <h3 class="serif-heading">Tools I built <span class="italic">for myself</span></h3>
+      </div>
+      <p class="lead">Research, planning and the repetitive jobs I would rather not do twice.</p>
+    </div>
+    <div class="cards">
+      <div class="card" data-panel="p-pocket" aria-controls="p-pocket">
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/pocket-claude-terminal.png" srcset="assets/cards/pocket-claude-terminal-800.webp 800w, assets/pocket-claude-terminal.png 894w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" alt="Terminal on the Mac showing a dictated phrase arriving in the live Claude Code session"></div>
+        <div class="cbody">
+          <div class="ct">Pocket Claude <span class="sub">one agent, from my laptop, my phone or my voice</span></div>
+          <div class="ctags">Ubuntu VPS / tmux / Tailscale / iOS Shortcuts</div>
+          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+      <div class="card textonly" data-panel="p-site" aria-controls="p-site">
+        
+        <div class="cbody">
+          <div class="ct">This website <span class="sub">planned, designed and made with Claude Code</span></div>
+          <div class="ctags">design system / GitHub Pages / no frameworks</div>
+          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="panel" id="p-pocket">
+      <div class="panel-head">
+        <div class="t">Pocket Claude <span class="sub">a small infrastructure project, july 2026</span></div>
+        <button class="pclose" data-close type="button">close &times;</button>
+      </div>
+      <p class="intro">I set up a small cloud server that runs a coding agent around the clock. My laptop, my phone's terminal and a voice shortcut all attach to the same live session, so work carries on wherever I am.</p>
+      <div class="pc-clients">
+      <div class="pc-node">
+        <div class="t">Laptop</div>
+        <p class="d">A full terminal at my desk, attached to the running session.</p>
+        <span class="how">ssh → tmux</span>
+      </div>
+      <div class="pc-node">
+        <div class="t">Phone terminal</div>
+        <p class="d">Termius on my iPhone. The same session, from anywhere.</p>
+        <span class="how">ssh → tmux</span>
+      </div>
+      <div class="pc-node">
+        <div class="t">Voice</div>
+        <p class="d">Press a button and speak. An iOS Shortcut types my words into the live session.</p>
+        <span class="how">dictate → ssh</span>
+      </div>
+    </div>
+
+    <div class="pc-connector">
+      <span class="rule"></span>
+      <span class="tag">encrypted · no public ports</span>
+      <span class="rule"></span>
+    </div>
+
+    <div class="pc-band">
+      <div class="t">Private mesh network</div>
+      <p class="d">Tailscale links every device over WireGuard, so access is by identity rather than by opening the server to the internet.</p>
+    </div>
+
+    <div class="pc-connector">
+      <span class="rule"></span>
+    </div>
+
+    <div class="pc-server">
+      <div class="head">
+        <div class="t">Cloud server</div>
+        <span class="loc">ubuntu · london · hardened</span>
+      </div>
+      <div class="pc-nest">
+        <div class="cap">tmux · a persistent session that survives every disconnect</div>
+        <div class="pc-core">
+          <span class="t">Claude Code</span>
+          <span class="s">always running</span>
+        </div>
+      </div>
+      <p class="after">a systemd service brings the session back automatically after any reboot</p>
+    </div>
+
+    <div class="pc-sync">
+      <div class="head">
+        <div class="t">Live file sync</div>
+        <span class="meta">mutagen · two way · about a second · over ssh</span>
+      </div>
+      <div class="pc-paths">
+        <div class="pc-path"><small>on my mac</small>the working folder</div>
+        <span class="pc-sym">⇄</span>
+        <div class="pc-path"><small>on the server</small>the same folder</div>
+      </div>
+    </div>
+
+    <div class="pc-proof">
+      <figure>
+        <img loading="lazy" decoding="async" width="1206" height="897" src="assets/pocket-claude-phone.jpg" alt="iPhone voice shortcut mid dictation, showing the test phrase before it is sent to the server">
+        <figcaption>the voice shortcut on my phone, a test phrase spoken in the street</figcaption>
+      </figure>
+      <figure>
+        <img loading="lazy" decoding="async" width="894" height="518" src="assets/pocket-claude-terminal.png" alt="Terminal on the Mac showing the same dictated phrase arriving in the live Claude Code session, with the agent replying">
+        <figcaption>the same words landing in the live session, agent replying, next job queued</figcaption>
+      </figure>
+    </div>
+
+    <div class="skills-grid">
+      <div class="skillgroup"><span class="k">hardened</span><span class="v">Non root user, firewall and unattended security updates. No passwords, keys and network identity only.</span></div>
+      <div class="skillgroup"><span class="k">persistent</span><span class="v">Work carries on with every device closed. Any client reattaches to the exact same live state.</span></div>
+      <div class="skillgroup"><span class="k">low upkeep</span><span class="v">About six pounds a month, patches itself, and needs almost no attention once running.</span></div>
+    </div>
+
+    <div class="tools-row">
+      <span class="k">built with</span>
+      Ubuntu VPS / tmux / Tailscale / WireGuard / Mutagen / systemd / iOS Shortcuts
+    </div>
+  
+    </div>
+    <div class="panel" id="p-site">
+      <div class="panel-head">
+        <div class="t">This website <span class="sub">built with Claude Code</span></div>
+        <button class="pclose" data-close type="button">close &times;</button>
+      </div>
+      <div class="ai-body" style="margin-top:0;">
+        <div><p class="ai-pull">This site was planned, designed and made with Claude Code.</p></div>
+        <div><p>I use Claude Code with MCP connectors and a handful of skills I've added, run in Ghostty so I can keep a few sessions going at once and hand jobs off to separate agents. It helps with content research and ideas, with turning a rough idea into something I can test quickly, and with the dull jobs like logging, tracking and reporting.</p></div>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <!-- OUTSIDE WORK -->
+  <section id="outside">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">06 · outside work</span>
+        <h2 class="serif-heading">Outside <span class="italic">work</span></h2>
+      </div>
+      <p class="lead">Skiing, sport, travel, and the audiences I built along the way.</p>
+    </div>
+    <div class="group" id="skiing">
+    <div class="sec-head sub-head">
+      <div>
+        <h3 class="serif-heading">On skis <span class="italic">since I was three</span></h3>
+      </div>
+      <p class="lead">All terrain, piste or freeride, usually with a camera running. Every clip below is my own.</p>
+    </div>
+    <div class="ski-grid">
+      <div class="sv"><video controls muted loop playsinline preload="none" poster="assets/ski-montage.jpg" aria-label="Carving down a sunlit piste, filmed while riding"><source src="assets/ski-montage.mp4" type="video/mp4"></video></div>
+      <div class="sv"><video controls muted loop playsinline preload="none" poster="assets/ski-jump.jpg" aria-label="Launching off a kicker in slow motion"><source src="assets/ski-jump.mp4" type="video/mp4"></video></div>
+      <div class="sv"><video controls muted loop playsinline preload="none" poster="assets/ski-park-air.jpg" aria-label="Airborne off a snow park kicker in slow motion"><source src="assets/ski-park-air.mp4" type="video/mp4"></video></div>
+      <div class="sv"><video controls muted loop playsinline preload="none" poster="assets/ski-cliff.jpg" aria-label="Dropping into powder off a small cliff"><source src="assets/ski-cliff.mp4" type="video/mp4"></video></div>
+      <div class="sv"><video controls muted loop playsinline preload="none" poster="assets/ski-offpiste.jpg" aria-label="Off piste in a snowstorm beside the trees"><source src="assets/ski-offpiste.mp4" type="video/mp4"></video></div>
+      <div class="sv"><video controls muted loop playsinline preload="none" poster="assets/ski-pov.jpg" aria-label="Following a friend down a sunny piste, filmed while skiing"><source src="assets/ski-pov.mp4" type="video/mp4"></video></div>
+    </div>
+
+    <p class="ski-para">Different resorts and conditions, filmed as I go.</p>
+    </div>
+    <div class="group" id="sport">
+    <div class="sec-head sub-head">
+      <div>
+        <h3 class="serif-heading">Sport <span class="italic">&amp; outdoors</span></h3>
+      </div>
+      <p class="lead">Running, climbing, surfing and skating, most weeks of the year.</p>
+    </div>
+    <div class="cards">
+      <div class="card" data-panel="p-climb" aria-controls="p-climb">
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/climbing.jpg" srcset="assets/cards/climbing-800.webp 800w, assets/climbing.jpg 1600w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" alt="Bouldering up a sandstone outcrop under a blue sky"></div>
+        <div class="cbody">
+          <div class="ct">Climbing <span class="sub">on rock when I can</span></div>
+          <div class="ctags">bouldering / indoors and out</div>
+          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+      <div class="card" data-panel="p-marathon" aria-controls="p-marathon">
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/marathon.jpg" srcset="assets/cards/marathon-800.webp 800w, assets/marathon.jpg 1400w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" alt="Friends at the London Marathon finish holding GO TIGGY signs"></div>
+        <div class="cbody">
+          <div class="ct">London Marathon 2026 <span class="sub">£1,647 raised for Marie Curie</span></div>
+          <div class="ctags">64 donors / run for charity</div>
+          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+      <div class="card" data-panel="p-play" aria-controls="p-play">
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/surf-cutback.jpg" srcset="assets/cards/surf-cutback-800.webp 800w, assets/surf-cutback.jpg 1600w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" alt="Surfer carving off the top of a wave, spray flying"></div>
+        <div class="cbody">
+          <div class="ct">Surf &amp; skate <span class="sub">and the rest of an active life</span></div>
+          <div class="ctags">photography / most of it shot myself</div>
+          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="panel" id="p-climb">
+      <div class="panel-head">
+        <div class="t">Climbing <span class="sub">on rock when I can</span></div>
+        <button class="pclose" data-close type="button">close &times;</button>
+      </div>
+      <div class="panel-cols">
+        <div class="artbox ratio-landscape"><img loading="lazy" decoding="async" src="assets/climbing.jpg" alt="Bouldering up a sandstone outcrop under a blue sky"></div>
+        <p class="intro">Mostly bouldering. The wall keeps it regular through the week, and when the weather and the company line up it moves outside onto real rock.</p>
+      </div>
+    </div>
+    <div class="panel" id="p-marathon">
+      <div class="panel-head">
+        <div class="t">London Marathon 2026 <span class="sub">£1,647 raised for Marie Curie</span></div>
+        <button class="pclose" data-close type="button">close &times;</button>
+      </div>
+      <div class="run-note">
+      <div class="marie"><img loading="lazy" decoding="async" width="1000" height="1070" src="assets/marie-curie.jpg" alt="Marie Curie fundraising page: £1,647 raised, 66 percent of a £2,500 target, 64 donors"></div>
+      <div>
+        <p>For the 2026 London Marathon I ran for <span class="big">Marie Curie</span> and raised £1,647 from 64 donors, two thirds of the target, with a crowd of mates holding a "GO TIGGY" sign at the finish.</p>
+        <div class="rm"><img loading="lazy" decoding="async" src="assets/marathon.jpg" alt="Friends at the London Marathon finish holding GO TIGGY signs"></div>
+      </div>
+    </div>
+  
+    </div>
+    <div class="panel" id="p-play">
+      <div class="panel-head">
+        <div class="t">Surf &amp; skate <span class="sub">and the rest of an active life</span></div>
+        <button class="pclose" data-close type="button">close &times;</button>
+      </div>
+      <p class="intro">Surf, skate, Japanese, piano and guitar, chess, and I put my own PCs together. I shoot most of this myself, so the photos are half the hobby.</p>
+      <div class="play-grid">
+      <div class="artbox ratio-landscape"><img loading="lazy" decoding="async" src="assets/surf-cutback.jpg" alt="Surfer carving off the top of a wave, spray flying"></div>
+      <div class="artbox ratio-landscape"><img loading="lazy" decoding="async" src="assets/beach.jpg" alt="Two people playing badminton on the beach as the sun sets over the sea"></div>
+      <div class="artbox ratio-portrait"><img loading="lazy" decoding="async" src="assets/skate.jpg" alt="Skateboarding a rail at the local park"></div>
+      <div class="artbox ratio-landscape"><img loading="lazy" decoding="async" src="assets/travel-cirque.jpg" alt="Three friends on a grassy ridge in front of a mountain cirque"></div>
+      <div class="artbox ratio-landscape"><img loading="lazy" decoding="async" src="assets/surf.jpg" alt="Lone surfer riding a small wave under a pink dawn sky, shot from the water"></div>
+    </div>
+  
+    </div>
+    </div>
+    <div class="group" id="travel">
+    <div class="sec-head sub-head">
+      <div>
+        <h3 class="serif-heading">Travel <span class="italic">&amp; adventures</span></h3>
+      </div>
+      <p class="lead">Senegal, the Dolomites and New York, mostly shot on film.</p>
+    </div>
+    <div class="cards">
+      <div class="card feature" data-panel="p-senegal" aria-controls="p-senegal">
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/senegal-fishing.jpg" srcset="assets/cards/senegal-fishing-800.webp 800w, assets/senegal-fishing.jpg 1600w" sizes="(max-width:900px) 100vw, 66vw" alt="Out on a wooden pirogue in Senegal, the fisherman behind me holding up the catch"></div>
+        <div class="cbody">
+          <div class="ct">Senegal <span class="sub">keeping a surf camp running</span></div>
+          <div class="ctags">surf camp / pirogue fishing / shot on film</div>
+          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+      <div class="card" data-panel="p-dolomites" aria-controls="p-dolomites">
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/dolomites-lake.jpg" srcset="assets/cards/dolomites-lake-800.webp 800w, assets/dolomites-lake.jpg 1600w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" alt="Mid backflip off a rock into an alpine lake in the Dolomites"></div>
+        <div class="cbody">
+          <div class="ct">The Dolomites <span class="sub">camping in the mountains</span></div>
+          <div class="ctags">sunrise hikes / alpine lakes / italy</div>
+          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+      <div class="card" data-panel="p-newyork" aria-controls="p-newyork">
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/newyork-bridge.jpg" srcset="assets/cards/newyork-bridge-800.webp 800w, assets/newyork-bridge.jpg 1600w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" alt="Sat on a beam of the Brooklyn Bridge with the Manhattan Bridge behind"></div>
+        <div class="cbody">
+          <div class="ct">New York <span class="sub">a solo trip</span></div>
+          <div class="ctags">brooklyn bridge / film camera</div>
+          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="panel" id="p-senegal">
+      <div class="panel-head">
+        <div class="t">Senegal <span class="sub">keeping a surf camp running</span></div>
+        <button class="pclose" data-close type="button">close &times;</button>
+      </div>
+      <p class="intro">I spent a stretch in Senegal helping keep a surf camp running while the owner was away, guests, boards and whatever else the day brought. Around the work came everything else: out on a pirogue with the local fishermen, carrying the catch back along the beach, and a giraffe met along the way. Most of it shot on film.</p>
+      <div class="story-grid">
+        <div>
+          <div class="artbox ratio-landscape"><img loading="lazy" decoding="async" src="assets/senegal-fishing.jpg" alt="Out on a wooden pirogue in Senegal, the fisherman behind me holding up the catch"></div>
+          <div class="tile-tags" style="margin-top:11px;">out with the fishermen, handlines off a pirogue</div>
+        </div>
+        <div class="offset-1">
+          <div class="artbox ratio-portrait"><img loading="lazy" decoding="async" src="assets/senegal-flag.jpg" alt="Two of us on the wooden lookout tower, the Senegal flag flying against a deep blue sky"></div>
+          <div class="tile-tags" style="margin-top:11px;">the lookout above the camp</div>
+        </div>
+        <div class="offset-2">
+          <div class="artbox ratio-portrait"><img loading="lazy" decoding="async" src="assets/senegal-catch.jpg" alt="Carrying the catch along the beach, two fish in each hand"></div>
+          <div class="tile-tags" style="margin-top:11px;">carrying the catch back for the kitchen</div>
+        </div>
+        <div>
+          <div class="artbox ratio-portrait"><img loading="lazy" decoding="async" src="assets/senegal-alley.jpg" alt="A sandy lane between stone walls and bougainvillea"></div>
+          <div class="tile-tags" style="margin-top:11px;">the lane down to the water</div>
+        </div>
+        <div class="offset-1">
+          <div class="artbox ratio-portrait"><img loading="lazy" decoding="async" src="assets/senegal-boat.jpg" alt="Heading back in on the boat at the end of the day, the city across the water"></div>
+          <div class="tile-tags" style="margin-top:11px;">heading back in at the end of the day</div>
+        </div>
+        <div class="offset-2">
+          <div class="artbox ratio-landscape"><img loading="lazy" decoding="async" src="assets/senegal-giraffe.jpg" alt="A giraffe sitting on dry ground among acacia trees"></div>
+          <div class="tile-tags" style="margin-top:11px;">a giraffe, met along the way</div>
+        </div>
+      </div>
+    </div>
+    <div class="panel" id="p-dolomites">
+      <div class="panel-head">
+        <div class="t">The Dolomites <span class="sub">camping in the mountains</span></div>
+        <button class="pclose" data-close type="button">close &times;</button>
+      </div>
+      <p class="intro">A few days camping in the Italian Dolomites. A chalet down in the valley, an alarm set early for a sunrise hike, and an alpine lake cold enough to make the backflip a commitment.</p>
+      <div class="story-grid">
+        <div>
+          <div class="artbox ratio-landscape"><img loading="lazy" decoding="async" src="assets/dolomites-lake.jpg" alt="Mid backflip off a rock into an alpine lake in the Dolomites"></div>
+          <div class="tile-tags" style="margin-top:11px;">the lake, mid backflip</div>
+        </div>
+        <div class="offset-1">
+          <div class="artbox ratio-portrait"><img loading="lazy" decoding="async" src="assets/dolomites-chalet.jpg" alt="The campsite chalet in shadow beneath a huge rock face catching the last sun"></div>
+          <div class="tile-tags" style="margin-top:11px;">the campsite, under the wall</div>
+        </div>
+        <div class="offset-2">
+          <div class="artbox ratio-portrait"><img loading="lazy" decoding="async" src="assets/dolomites-sunrise.jpg" alt="Hooded silhouette looking out over the peaks just before sunrise"></div>
+          <div class="tile-tags" style="margin-top:11px;">first light on the sunrise hike</div>
+        </div>
+      </div>
+    </div>
+    <div class="panel" id="p-newyork">
+      <div class="panel-head">
+        <div class="t">New York <span class="sub">a solo trip</span></div>
+        <button class="pclose" data-close type="button">close &times;</button>
+      </div>
+      <div class="panel-cols">
+        <div class="artbox ratio-landscape"><img loading="lazy" decoding="async" src="assets/newyork-bridge.jpg" alt="Sat on a beam of the Brooklyn Bridge with the Manhattan Bridge behind"></div>
+        <p class="intro">A trip to New York on my own, planned and taken solo. This one is from the Brooklyn Bridge, the Manhattan Bridge behind, shot on film.</p>
+      </div>
+    </div>
+    </div>
+    <div class="group" id="content">
+    <div class="sec-head sub-head">
+      <div>
+        <h3 class="serif-heading">Audiences and <span class="italic">communities</span></h3>
+      </div>
+      <p class="lead">A TikTok account, a university running club and a Twitch channel, all three started on my own.</p>
+    </div>
+    <div class="cards">
+      <div class="card" data-panel="p-tiktok" aria-controls="p-tiktok">
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/tiktok-profile.jpg" srcset="assets/cards/tiktok-profile-800.webp 800w, assets/tiktok-profile.jpg 900w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" alt="TikTok profile for @jacksontigerb: 80.9 thousand followers and 2.5 million likes"></div>
+        <div class="cbody">
+          <div class="ct">@jacksontigerb <span class="sub">89,000 followers in seven months</span></div>
+          <div class="ctags">2.5m likes / one video at 1.2m views / run solo</div>
+          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+      <div class="card" data-panel="p-film" aria-controls="p-film">
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/twitch.jpg" srcset="assets/cards/twitch-800.webp 800w, assets/twitch.jpg 1000w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" alt="Twitch channel jacksontig3r with 1.3 thousand followers"></div>
+        <div class="cbody">
+          <div class="ct">Film &amp; editing <span class="sub">fifteen years behind a camera</span></div>
+          <div class="ctags">scooter edits / gaming videos / a Twitch channel</div>
+          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+      <div class="card" data-panel="p-runclub" aria-controls="p-runclub">
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/runclub-street.jpg" srcset="assets/cards/runclub-street-800.webp 800w, assets/runclub-street.jpg 1000w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" alt="Run club running down a pastel terraced street at dusk"></div>
+        <div class="cbody">
+          <div class="ct">Falmouth Running Society <span class="sub">founded in January, 25 a week by June</span></div>
+          <div class="ctags">community / weekly sessions / 200+ followers</div>
+          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="panel" id="p-tiktok">
+      <div class="panel-head">
+        <div class="t">@jacksontigerb <span class="sub">89,000 followers in seven months</span></div>
+        <button class="pclose" data-close type="button">close &times;</button>
+      </div>
+      <p class="intro">I started <span class="italic">@jacksontigerb</span> in 2024, posting about learning Japanese, skiing and the rest of an active life. I ran it the best I could: posting daily, reading the numbers, keeping what worked and dropping what didn't. It grew quickly.</p>
+      <div class="story-numbers">
+      <div class="bignum"><span class="n">89k</span><span class="l">followers in ~7 months</span></div>
+      <div class="bignum"><span class="n">80.9k</span><span class="l">still there since I stopped</span></div>
+      <div class="bignum"><span class="n">millions</span><span class="l">of views across the account</span></div>
+    </div>
+
+    <div class="story-grid">
+      <div>
+        <img loading="lazy" decoding="async" class="art-natural shot" width="800" height="1740" src="assets/tiktok-analysis.jpg" alt="TikTok video analysis: 1.2 million views, 188 thousand likes, 5,600 new followers and 61 percent retention">
+        <div class="tile-title"><div class="t">One video, 1.2 million views <span class="sub">5,600 followers from it alone</span></div></div>
+        <div class="tile-tags">1.2m views / 3,956 hours watched / 61% retention</div>
+      </div>
+      <div class="offset-1">
+        <img loading="lazy" decoding="async" class="art-natural shot" width="800" height="1740" src="assets/tiktok-grid.jpg" alt="TikTok profile grid showing videos at 1.1 million, 659 thousand, 269 thousand and other six figure view counts">
+        <div class="tile-title"><div class="t">Not a one off <span class="sub">plenty of videos over 100k views</span></div></div>
+        <div class="tile-tags">1.1m / 659k / 269k / 169k / 128k</div>
+      </div>
+      <div class="offset-2">
+        <img loading="lazy" decoding="async" class="art-natural shot" width="900" height="756" src="assets/tiktok-profile.jpg" alt="TikTok profile for @jacksontigerb: 80.9 thousand followers and 2.5 million likes">
+        <div class="tile-title"><div class="t">80.9k followers, 2.5m likes <span class="sub">where it's at now</span></div></div>
+        <div class="tile-tags">@jacksontigerb / july 2026</div>
+      </div>
+    </div>
+
+    <img loading="lazy" decoding="async" class="art-natural shot" style="margin-top:44px;" width="1206" height="525" src="assets/ski-tiktoks.jpg" alt="Three skiing TikToks side by side at 98.5 thousand, 31.8 thousand and 53.1 thousand plays">
+    <p class="tile-tags" style="margin-top:11px;">the interests carry over · three of the skiing videos, at 98.5k, 31.8k and 53.1k plays</p>
+
+    <div class="sec-head" style="margin-top:88px;">
+      <div><span class="eyebrow">how it ran</span></div>
+      <p class="lead">Running it alone meant every job at once: ideas, filming, editing, captions, posting, replying to comments, then reading the analytics. Posting has been <span class="italic">paused</span> since the Masters in London, which is why the count has eased from 89k to 80.9k.</p>
+    </div>
+  
+    </div>
+    <div class="panel" id="p-film">
+      <div class="panel-head">
+        <div class="t">Film &amp; editing <span class="sub">fifteen years behind a camera</span></div>
+        <button class="pclose" data-close type="button">close &times;</button>
+      </div>
+      <p class="intro">Before the TikTok there were scooter edits, gaming videos and a Twitch channel, going back years.</p>
+      <div class="timeline">
+      <div class="span2">
+        <div class="filmbox-dark"><img loading="lazy" decoding="async" width="734" height="152" src="assets/scooter-edit.jpg" alt="YouTube upload titled Jackson Tiger 2017 Edit, four minutes thirty three seconds"></div>
+        <div class="tile-title"><div class="t">Scooter &amp; trampoline edits <span class="sub">where it began</span></div></div>
+        <div class="tile-tags">the 2017 edit / sony vegas / photoshop</div>
+      </div>
+      <div class="span2">
+        <div class="artbox ratio-wide"><img loading="lazy" decoding="async" class="shot" src="assets/twitch.jpg" alt="Twitch channel jacksontig3r with 1.3 thousand followers"></div>
+        <div class="tile-title"><div class="t">Twitch &amp; YouTube <span class="sub">the streaming years</span></div></div>
+        <div class="tile-tags">1.3k on Twitch, live and unscripted, plus years of gaming edits on YouTube in Premiere and Vegas</div>
+      </div>
+    </div>
+
+    <div class="tools-row">
+      <span class="k">tools I use</span>
+      Premiere Pro / Photoshop / DaVinci Resolve / Sony Vegas / CapCut / Adobe Creative Cloud
+    </div>
+  
+    </div>
+    <div class="panel" id="p-runclub">
+      <div class="panel-head">
+        <div class="t">Falmouth Running Society <span class="sub">founded in January, 25 a week by June</span></div>
+        <button class="pclose" data-close type="button">close &times;</button>
+      </div>
+      <p class="intro">I started the society in January 2024, set the routes, ran the socials and led the sessions myself. By June it was 25 runners a week.</p>
+      <div class="run-grid">
+      <div class="rv"><video controls muted loop playsinline preload="none" poster="assets/runclub.jpg" aria-label="The run club heading down a Falmouth street together"><source src="assets/runclub.mp4" type="video/mp4"></video></div>
+      <div class="rp tall"><img loading="lazy" decoding="async" src="assets/runclub-street.jpg" alt="Run club running down a pastel terraced street at dusk"></div>
+      <div class="rp tall"><img loading="lazy" decoding="async" src="assets/runclub-road.jpg" alt="Run club strung out along a coastal road in the evening light"></div>
+    </div>
+
+
+    </div>
+    </div>
+  </section>
+
+<!-- CONTACT -->
+  <section class="contact" id="contact">
+    <span class="eyebrow">07 · let's talk</span>
+    <h2 class="serif-display">Get in touch.</h2>
+    <p class="avail">I'm at Curtin University in Perth until November 2026, working on iron oxide catalysts for CO&#8322; conversion. After that I'm doing a ski season in Hakuba. I'm looking for work in London from May 2027.</p>
+
+    <div class="contact-cols">
+      <div class="row"><span class="k">email</span><a class="link email" href="mailto:jackson.brocklebank.25@ucl.ac.uk">jackson.brocklebank.25@ucl.ac.uk</a></div>
+      <div class="row"><span class="k">phone</span><a class="link" href="tel:+447999754655">+44 7999 754655</a></div>
+      <div class="row"><span class="k">tiktok</span><a class="link" href="https://www.tiktok.com/@jacksontigerb" target="_blank" rel="noopener">@jacksontigerb</a></div>
+      <div class="row"><span class="k">linkedin</span><a class="link" href="https://www.linkedin.com/in/jacksontigerb" target="_blank" rel="noopener">/in/jacksontigerb</a></div>
+      <div class="row"><span class="k">cv</span><a class="link" href="assets/Jackson-Brocklebank-CV.pdf" download="Jackson Brocklebank CV.pdf">download PDF</a></div>
+      <div class="row"><span class="k">based</span><span>Perth until November · London from May 2027</span></div>
+    </div>
+
+    <div class="footer-mark">
+      <span class="big">JTB</span>
+      <span class="meta">All footage and photography my own · <a class="link" href="#top">back to top</a></span>
+    </div>
+  </section>
+
+
+</div>
+
+<script>
+(function(){
+  var doc=document;
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var canVT=!reduce&&typeof doc.startViewTransition==='function';
+  var busy=false;
+  if(canVT)doc.documentElement.classList.add('vt');
+
+    /* the card morphs into the panel and back; its picture glides to its new spot */
+  function swap(pairs,mutate){
+    pairs=pairs.filter(function(pr){return pr[0]&&pr[1];});
+    if(!canVT||busy||!pairs.length){mutate();return;}
+    busy=true;
+    var unlock=setTimeout(release,1000);
+    function release(){
+      clearTimeout(unlock);
+      pairs.forEach(function(pr){
+        pr[0].style.viewTransitionName='';
+        pr[1].style.viewTransitionName='';
+      });
+      busy=false;
+    }
+    [].slice.call(doc.querySelectorAll('[style*="view-transition-name"]')).forEach(function(el){
+      el.style.viewTransitionName='';
+    });
+    pairs.forEach(function(pr){pr[0].style.viewTransitionName=pr[2];});
+    var vt=doc.startViewTransition(function(){
+      pairs.forEach(function(pr){pr[0].style.viewTransitionName='';});
+      mutate();
+      pairs.forEach(function(pr){pr[1].style.viewTransitionName=pr[2];});
+    });
+    vt.ready.catch(function(){});
+    vt.finished.then(release,release);
+  }
+  function heroImg(c,p){
+    var im=c.querySelector('.cimg img');
+    if(!im)return null;
+    var file=(im.getAttribute('src')||'').split('/').pop();
+    var match=[].slice.call(p.querySelectorAll('img,video')).filter(function(el){
+      var s=(el.getAttribute('src')||el.getAttribute('poster')||'').split('/').pop();
+      return s===file;
+    })[0]||null;
+    return match?[im,match]:null;
+  }
+  function setHash(h){
+    if(window.history&&history.replaceState)history.replaceState(null,'',location.pathname+location.search+h);
+  }
+  function openPanel(c,quiet){
+    var p=doc.getElementById(c.getAttribute('data-panel'));
+    if(!p||!p.hidden)return;
+    /* a section can hold several card grids now, so work within the nearest group */
+    var sec=c.closest('.group')||c.closest('section');
+    var grid=sec.querySelector(':scope > .cards');
+    var tail=sec.querySelector('.framing');
+    var img=heroImg(c,p);
+    var pairs=[[c,p,'pj-swap']];
+    if(img)pairs.push([img[0],img[1],'pj-img']);
+    swap(pairs,function(){
+      grid.hidden=true;
+      if(tail)tail.hidden=true;
+      [].slice.call(sec.querySelectorAll(':scope > .panel')).forEach(function(x){x.hidden=true;});
+      p.hidden=false;
+      [].slice.call(p.querySelectorAll('.reveal')).forEach(function(el){el.classList.add('in');});
+      c.setAttribute('aria-expanded','true');
+      sec.scrollIntoView({block:'start',behavior:canVT?'instant':'auto'});
+      /* keyboard and screen reader users land in what they opened */
+      p.focus({preventScroll:true});
+      if(!quiet)setHash('#'+p.id);
+    });
+  }
+  function closePanel(p){
+    if(p.hidden)return;
+    var sec=p.closest('.group')||p.closest('section');
+    var grid=sec.querySelector(':scope > .cards');
+    var tail=sec.querySelector('.framing');
+    var c=sec.querySelector('.card[data-panel="'+p.id+'"]');
+    var img=c?heroImg(c,p):null;
+    var pairs=[[p,c||grid,'pj-swap']];
+    if(img)pairs.push([img[1],img[0],'pj-img']);
+    swap(pairs,function(){
+      p.hidden=true;
+      grid.hidden=false;
+      if(tail)tail.hidden=false;
+      if(c)c.setAttribute('aria-expanded','false');
+      sec.scrollIntoView({block:'start',behavior:canVT?'instant':'auto'});
+      /* and back to the card they opened it from */
+      if(c)c.focus({preventScroll:true});
+      var home=p.closest('[id]:not(.panel)');
+      setHash(home?'#'+home.id:'');
+    });
+  }
+  [].slice.call(doc.querySelectorAll('.panel')).forEach(function(p){
+    p.hidden=true;
+    p.setAttribute('tabindex','-1');
+    p.setAttribute('role','region');
+    var t=p.querySelector('.panel-head .t');
+    if(t)p.setAttribute('aria-label',t.textContent.replace(/\s+/g,' ').trim());
+  });
+  doc.documentElement.classList.add('panels-ready');
+  [].slice.call(doc.querySelectorAll('.card[data-panel]')).forEach(function(c){
+    c.setAttribute('role','button');
+    c.setAttribute('tabindex','0');
+    c.setAttribute('aria-expanded','false');
+    c.addEventListener('click',function(e){if(e.target.closest('a'))return;openPanel(c);});
+    c.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();openPanel(c);}});
+  });
+  [].slice.call(doc.querySelectorAll('.panel [data-close]')).forEach(function(b){
+    b.addEventListener('click',function(){closePanel(b.closest('.panel'));});
+  });
+  doc.addEventListener('keydown',function(e){
+    if(e.key!=='Escape')return;
+    var p=doc.querySelector('.panel:not([hidden])');
+    if(p)closePanel(p);
+  });
+  /* #p-huawei and friends open straight onto that write up, so a link can point at one project */
+  function openFromHash(){
+    var id=location.hash.slice(1);
+    if(!/^p-[a-z]+$/.test(id))return;
+    var c=doc.querySelector('.card[data-panel="'+id+'"]');
+    if(c)openPanel(c,true);
+  }
+  openFromHash();
+  window.addEventListener('hashchange',openFromHash);
+})();
+/* the hero fills exactly what the sticky nav leaves, at any breakpoint */
+(function(){
+  var nav=document.querySelector('nav');
+  if(!nav)return;
+  var measure=function(){
+    document.documentElement.style.setProperty('--nav-h',nav.offsetHeight+'px');
+  };
+  measure();
+  window.addEventListener('resize',measure);
+  /* the wordmark is a webfont, so the bar changes height once it lands */
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(measure);
+})();
+
+(function(){
+  if(!('IntersectionObserver' in window))return;
+  var doc=document;
+
+  /* nothing plays until someone presses play. A clip scrolled out of view
+     pauses, and stays paused when it comes back */
+  var vids=[].slice.call(doc.querySelectorAll('video'));
+  var vo=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(!e.isIntersecting&&!e.target.paused)e.target.pause();
+    });
+  },{rootMargin:'120px 0px'});
+  vids.forEach(function(v){
+    vo.observe(v);
+    var box=v.parentNode;
+    if(!box.classList.contains('sv')&&!box.classList.contains('rv')){
+      box=doc.createElement('div');v.parentNode.insertBefore(box,v);box.appendChild(v);
+      box.style.marginTop=getComputedStyle(v).marginTop;v.style.marginTop='0';
+    }
+    box.classList.add('vwrap');
+    var b=doc.createElement('button');
+    b.type='button';b.className='vplay';
+    b.innerHTML='<span aria-hidden="true">&#9654;</span> play';
+    b.setAttribute('aria-label','Play: '+(v.getAttribute('aria-label')||'video'));
+    b.addEventListener('click',function(){var p=v.play();if(p&&p.catch)p.catch(function(){});});
+    v.addEventListener('play',function(){b.hidden=true;});
+    v.addEventListener('pause',function(){b.hidden=false;});
+    box.appendChild(b);
+  });
+
+  /* underline the nav link for the section in view */
+  var map={work:'work',current:'work',engineering:'engineering',education:'education',skills:'skills',outside:'outside',contact:'contact'};
+  var links={};
+  [].slice.call(doc.querySelectorAll('.navlinks a')).forEach(function(a){
+    var href=a.getAttribute('href')||'';
+    if(href.charAt(0)!=='#')return;
+    var id=href.slice(1);
+    if(id)links[id]=a;
+  });
+  var so=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(!e.isIntersecting)return;
+      var target=map[e.target.id];
+      if(!target||!links[target])return;
+      for(var k in links)links[k].classList.remove('active');
+      links[target].classList.add('active');
+    });
+  },{rootMargin:'-40% 0px -55% 0px'});
+  for(var id in map){var s=doc.getElementById(id);if(s)so.observe(s);}
+
+  /* gentle fade-up as things arrive; skipped for reduced motion */
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  var sel='.sec-head,.story-numbers,.story-grid>div,.timeline>div,.ski-grid .sv,.cards>.card,.play-grid>div,.cvitem,.skillgroup,.run-grid>div,.run-note,.sem-pair figure,.ai-body>div,.pc-clients>div,.pc-band,.pc-server,.pc-sync,.pc-proof figure,.contact-cols .row,.framing,.ski-para,.tools-row,.research-video,.wca-graph,.contact h2,.contact .avail,.footer-mark';
+  var els=[].slice.call(doc.querySelectorAll(sel));
+  doc.documentElement.classList.add('anim');
+  var ro=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){e.target.classList.add('in');ro.unobserve(e.target);}
+    });
+  },{rootMargin:'0px 0px -7% 0px',threshold:0.08});
+  els.forEach(function(el){el.classList.add('reveal');ro.observe(el);});
+})();
+
+</script>
+<script src="assets/characters.js"></script>
+<script>
+(function(){var k=window.PortfolioCharacters.get();document.querySelector('[data-back-to-fight]').href='index.html'+(k==='allrounder'?'':'?c='+k)+'#battle';})();
+</script>
+</body>
+</html>
