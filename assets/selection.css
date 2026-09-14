@@ -13,7 +13,7 @@
 
 #battle .battle-select-world{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none;}
 #battle .battle-select-world canvas{position:absolute;left:0;top:0;image-rendering:pixelated;}
-#battle .battle-select-world::after{content:'';position:absolute;inset:0;background:rgba(var(--accent-rgb),.6) repeating-linear-gradient(135deg,rgba(255,255,255,.05) 0 18px,transparent 18px 36px);}
+#battle .battle-select-world::after{content:'';position:absolute;inset:0;background:rgba(var(--accent-rgb),.74);}
 .game-home.is-playing #battle .battle-select-world{display:none;}
 
 #battle .battle-select{--face:clamp(64px,calc((100svh - 60px) * .13),118px);position:relative;z-index:1;flex:1 1 auto;display:grid;
@@ -111,7 +111,6 @@
   #battle .battle-preview-stage.battle-pop .battle-preview-ghost{animation:selection-depart .18s ease-out both;}
   #battle .battle-preview-stage.battle-pop::before{animation:selection-shadow .34s ease-out both;}
   #battle .battle-vs-stage.battle-pop canvas{animation:selection-boss .4s cubic-bezier(.16,1,.3,1) both;}
-  #battle .battle-select .battle-vs-mark{animation:selection-vs 2.4s ease-in-out infinite;}
   .battle-copy-enter{animation:selection-copy .3s ease-out both;}
   .battle-dialogue-enter{animation:dialogue-arrive .25s ease-out both;}
   .battle-panel-enter{animation:dialogue-arrive .35s ease-out both;}
@@ -231,3 +230,8 @@
   .game-home .battle-game .battle-choice{min-height:56px;padding:6px 14px;}
   .battle-choice-text strong{font-size:16px;}
 }
+
+/* Less on the select screen: no level under the boss, a quieter boss outline. */
+#battle .battle-vs-level{display:none;}
+#battle .battle-select-shadow{filter:drop-shadow(3px 0 0 #fff) drop-shadow(-3px 0 0 #fff) drop-shadow(0 -3px 0 #fff);}
+#battle .battle-preview-stage::before,#battle .battle-vs-stage::before{box-shadow:none;}

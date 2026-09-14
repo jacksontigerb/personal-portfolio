@@ -1,4 +1,4 @@
-import {FIGHTS} from './battle-data.mjs?v=5';
+import {FIGHTS} from './battle-data.mjs?v=13';
 import {BattleClock} from './battle-clock.mjs?v=5';
 
 // Fast enough to feel like a fight, slow enough to read each move.

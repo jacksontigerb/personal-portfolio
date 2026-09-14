@@ -1,4 +1,4 @@
-import {FIGHTS, LOADOUT, EMAIL, LINKEDIN, mailHref} from './battle-data.mjs?v=5';
+import {FIGHTS, LOADOUT, EMAIL, LINKEDIN, mailHref} from './battle-data.mjs?v=13';
 import {BattleEngine} from './battle-engine.mjs?v=12';
 import {drawBoss, drawProp} from './battle-art.mjs?v=5';
 import {paintScene, particles} from './battle-scenes.mjs?v=5';
@@ -10,13 +10,11 @@ export function mountBattle(mount, characters) {
     <div class="battle-select">
       <div class="battle-select-arena">
         <div class="battle-character-preview">
-          <span class="battle-selection-tag">PLAYER 01</span>
           <div class="battle-preview-stage"><img width="537" height="840" alt="" decoding="async"><img class="battle-preview-ghost" width="537" height="840" alt="" aria-hidden="true" hidden></div>
           <div class="battle-preview-copy"><h2 class="battle-selected-name"></h2><p class="battle-loadout"></p></div>
         </div>
         <div class="battle-vs-mark" aria-hidden="true">VS</div>
         <div class="battle-vs">
-          <span class="battle-selection-tag">BOSS</span>
           <div class="battle-vs-stage"><canvas class="battle-select-shadow" width="64" height="64" aria-hidden="true"></canvas></div>
           <p><span class="battle-vs-label">Up against</span><strong class="battle-vs-name"></strong><span class="battle-vs-level"></span></p>
         </div>
@@ -24,7 +22,6 @@ export function mountBattle(mount, characters) {
       <div class="battle-start-wrap"><button type="button" class="battle-start" data-action="start">Start fight <span aria-hidden="true">▶</span></button></div>
       <div class="battle-select-controls">
         <fieldset class="battle-picker"><legend>Choose your character</legend><div class="battle-roster"></div></fieldset>
-        <p class="battle-select-help"><span>Pick a Jackson. He does the fighting.</span><span class="battle-key-hint"><kbd>←</kbd><kbd>→</kbd> choose <kbd>Enter</kbd> start</span></p>
       </div>
     </div>
     <div class="battle-game" data-phase="intro" data-stage="title">
@@ -74,14 +71,13 @@ export function mountBattle(mount, characters) {
         </div>
         <div class="battle-backup" hidden>
           <div class="battle-call-heading"><h2 tabindex="-1">Jackson needs backup</h2><span class="battle-one">1 HP</span></div>
-          <p class="battle-call-explain">Send him an email and he wins. Your email app opens with a short draft to Jackson, and nothing sends until you press send.</p>
           <div class="battle-menu">
-            <a class="battle-choice battle-choice-main" data-action="email"><span class="battle-choice-icon" aria-hidden="true">✉</span><span class="battle-choice-text"><strong>Send backup by email</strong><small>Wins the fight, then opens a draft</small></span></a>
-            <button type="button" class="battle-choice" data-action="copy"><span class="battle-choice-icon" aria-hidden="true">⧉</span><span class="battle-choice-text"><strong>Copy his email</strong><small>If you use Gmail or Outlook online</small></span></button>
-            <a class="battle-choice" href="${LINKEDIN}" data-action="linkedin" target="_blank" rel="noopener"><span class="battle-choice-icon" aria-hidden="true">in</span><span class="battle-choice-text"><strong>Find him on LinkedIn</strong><small>Opens his profile in a new tab</small></span></a>
-            <button type="button" class="battle-choice battle-choice-leave" data-action="leave"><span class="battle-choice-text"><strong>Leave him to it</strong><small>He will manage. Probably.</small></span></button>
+            <a class="battle-choice battle-choice-main" data-action="email"><span class="battle-choice-icon" aria-hidden="true">✉</span><span class="battle-choice-text"><strong>Send backup by email</strong><small>Opens a draft email</small></span></a>
+            <button type="button" class="battle-choice" data-action="copy"><span class="battle-choice-icon" aria-hidden="true">⧉</span><span class="battle-choice-text"><strong>Copy his email</strong></span></button>
+            <a class="battle-choice" href="${LINKEDIN}" data-action="linkedin" target="_blank" rel="noopener"><span class="battle-choice-icon" aria-hidden="true">in</span><span class="battle-choice-text"><strong>Find him on LinkedIn</strong></span></a>
+            <button type="button" class="battle-choice battle-choice-leave" data-action="leave"><span class="battle-choice-text"><strong>Leave him to it</strong><small>He’ll manage. Probably.</small></span></button>
           </div>
-          <p class="battle-hint">Or write to him yourself: <a class="battle-address" href="mailto:${EMAIL}">${EMAIL}</a></p>
+          <p class="battle-hint"><a class="battle-address" href="mailto:${EMAIL}">${EMAIL}</a></p>
           <p class="battle-copy-status" role="status"></p>
         </div>
         <div class="battle-result" hidden>
@@ -91,8 +87,8 @@ export function mountBattle(mount, characters) {
           <p class="battle-result-note" hidden></p>
           <p class="battle-achievement"></p>
           <div class="battle-result-actions"><button type="button" class="battle-button battle-primary battle-big" data-action="again">↺ Fight again</button><a class="battle-button battle-big" href="mailto:${EMAIL}">✉ Email Jackson</a></div>
-          <details class="battle-used"><summary><span class="battle-turn-label">MOVES HE USED, FOR REAL</span></summary><ul></ul></details>
-          <p class="battle-disclaimer">The fights are made up. The achievements are real.</p>
+          <details class="battle-used"><summary><span class="battle-turn-label">WHERE THE MOVES CAME FROM</span></summary><ul></ul></details>
+          <p class="battle-disclaimer">The fights are made up.</p>
         </div>
       </div>
     </div>
@@ -319,14 +315,14 @@ export function mountBattle(mount, characters) {
     } else {
       paintLine(current,s.log.at(-1));paintLine(previous,s.log.at(-2));
     }
-    $('.battle-turn-label').textContent=s.phase==='intro'?'THE MATCH':s.phase==='finishing'?(backupVia==='email'?'THE FINISH · OPENING YOUR EMAIL NEXT':'THE FINISH'):`TURN ${s.index} OF 6`;
+    $('.battle-turn-label').textContent=s.phase==='intro'?'THE MATCH':s.phase==='finishing'?'THE FINISH':`TURN ${s.index} OF 6`;
     const canPause=['intro','fight','finishing'].includes(s.phase);
     pause.hidden=!canPause;pauseMenu.hidden=!(canPause&&s.paused);
     $('.battle-round').textContent=isBackup?'1 HP LEFT':isDone?'FIGHT OVER':s.phase==='finishing'?'FINISH HIM':'ROUND 1';
     if(isDone) {
       $('.battle-result-title').textContent=`${fight.boss} defeated.`;
       $('.battle-result-line').textContent=s.outcome==='leave'?'Jackson will be fine. Probably.':'The HP was made up. The email address isn’t.';
-      const notes={email:'Your email app should now be open with a draft to Jackson. Nothing sends until you press send. If it didn’t open, use Email Jackson below.',copy:`His email is copied: ${EMAIL}. Paste it into a new message.`,linkedin:'His LinkedIn profile is open in a new tab.'};
+      const notes={email:'If your email didn’t open, use Email Jackson below.',copy:`Copied ${EMAIL}.`};
       $('.battle-result-note').textContent=notes[backupVia]||'';$('.battle-result-note').hidden=!notes[backupVia];
       $('.battle-achievement').textContent=fight.achievement;$('.battle-achievement').hidden=!fight.achievement;
       $('.battle-used').open=window.matchMedia('(min-width: 640px)').matches;
@@ -339,7 +335,7 @@ export function mountBattle(mount, characters) {
         a.append(name,text);li.append(a);list.append(li);
       });
     }
-    $('.battle-stage-note').textContent=s.stage==='ko'&&s.key==='operator'?'fade + knee':s.stage==='ko'&&s.key==='researcher'&&s.outcome!=='leave'?'No PFAS in the recipe':s.stage==='ko'&&s.key==='rider'&&s.outcome!=='leave'?'GO TIGGY':isBackup?'1 HP. Still here.':'';
+    $('.battle-stage-note').textContent=s.stage==='ko'&&s.key==='operator'?'fade + knee':s.stage==='ko'&&s.key==='researcher'&&s.outcome!=='leave'?'No PFAS in the recipe':s.stage==='ko'&&s.key==='rider'&&s.outcome!=='leave'?'GO TIGGY':'';
     if(event==='start')$('.battle-announcement').textContent=`Jackson versus ${fight.boss}.`;
     if(event==='line'){
       replay($('.battle-log-panel'),'battle-dialogue-enter');
@@ -348,7 +344,7 @@ export function mountBattle(mount, characters) {
     }
     if(event==='backup'){
       replay(backup,'battle-panel-enter');
-      $('.battle-announcement').textContent='Jackson has 1 HP left. Jackson needs backup. Send backup by email, copy his email, LinkedIn, or leave him to it.';
+      $('.battle-announcement').textContent='Jackson has 1 HP left and needs backup. Send backup by email, copy his email, find him on LinkedIn, or leave him to it.';
       if(hadFocus)$('.battle-call-heading h2').focus({preventScroll:true});
     }
     if(event==='done'){
@@ -427,7 +423,7 @@ export function mountBattle(mount, characters) {
       if(engine.state.run!==run||engine.state.phase!=='backup')return;
       copyStatus.textContent=`Copied ${EMAIL}.`;support('copy');
     } catch {
-      if(engine.state.run===run&&engine.state.phase==='backup')copyStatus.textContent='Couldn’t copy. Select the email address above to copy it yourself.';
+      if(engine.state.run===run&&engine.state.phase==='backup')copyStatus.textContent='Couldn’t copy. The address is above.';
     } finally {if(engine.state.run===run)copyPending=false;}
   });
   $('[data-action="again"]').addEventListener('click',choose);

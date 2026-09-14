@@ -106,7 +106,7 @@ test('every fighter reveals real experience through moves with valid project lin
   }
   assert.match(FIGHTS.builder.moves[0].text,/hydroturbine/);
   assert.match(FIGHTS.builder.moves[2].text,/robot/);
-  assert.match(FIGHTS.builder.moves[4].text,/racing boat/);
+  assert.match(FIGHTS.builder.moves[4].text,/solar boat/);
   assert.match(FIGHTS.builder.achievement,/bridge held/);
 });
 test('homepage starts with the game, keeps CV/contact, and gallery assets exist',()=>{
