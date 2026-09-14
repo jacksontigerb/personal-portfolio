@@ -1,5 +1,9 @@
-import {FIGHTS} from './battle-data.mjs?v=3';
-import {BattleClock} from './battle-clock.mjs?v=3';
+import {FIGHTS} from './battle-data.mjs?v=4';
+import {BattleClock} from './battle-clock.mjs?v=4';
+
+// Fast enough to feel like a fight, slow enough to read each move.
+export const TIMING = Object.freeze({intro:900, windup:170, bossWindup:220, critWindup:420, impact:380,
+  jacksonRest:1150, bossRest:800, lastRest:650, revive:350, finishAttack:220, ko:1300});
 
 export class BattleEngine {
   constructor(onChange, clock = new BattleClock()) {
@@ -20,7 +24,7 @@ export class BattleEngine {
   start() {
     if(this.state.phase!=='select')return;
     this.state.phase='intro';this.state.stage='title';this.emit('start');
-    this.clock.after(1100,()=>this.turn());
+    this.clock.after(TIMING.intro,()=>this.turn());
   }
 
   pause() {
@@ -37,11 +41,11 @@ export class BattleEngine {
     s.phase='fight';s.actor=move.actor;s.stage='windup';s.critical=i===5;
     s.damage=move.actor==='jackson'?s.bhp-move.hp[1]:s.jhp-move.hp[0];
     this.line(move.actor,move);
-    this.clock.after(i===5?500:280,()=>{
+    this.clock.after(i===5?TIMING.critWindup:move.actor==='jackson'?TIMING.windup:TIMING.bossWindup,()=>{
       [s.jhp,s.bhp]=move.hp;s.stage='impact';this.emit('impact');
-      this.clock.after(700,()=>{
+      this.clock.after(TIMING.impact,()=>{
         s.stage='rest';this.emit();
-        this.clock.after(i===5?900:move.actor==='jackson'?2600:1400,()=>i===5?this.backup():this.turn());
+        this.clock.after(i===5?TIMING.lastRest:move.actor==='jackson'?TIMING.jacksonRest:TIMING.bossRest,()=>i===5?this.backup():this.turn());
       });
     });
   }
@@ -57,15 +61,15 @@ export class BattleEngine {
     const s=this.state;
     if(s.phase!=='backup')return;
     this.clock.cancel();this.clock.block('manual',false);
-    s.phase='finishing';s.stage='revive';s.paused=false;
+    s.phase='finishing';s.stage='revive';s.paused=false;s.critical=false;
     s.outcome=outcome;s.jhp=outcome==='leave'?1:64;s.bhp=40;
     this.emit('finish');
-    this.clock.after(600,()=>{
+    this.clock.after(TIMING.revive,()=>{
       s.stage='finishAttack';s.actor='jackson';s.damage=40;
       this.line('jackson',FIGHTS[s.key][outcome==='leave'?'leave':'win']);
-      this.clock.after(350,()=>{
+      this.clock.after(TIMING.finishAttack,()=>{
         s.stage='ko';s.bhp=0;this.emit('victory');
-        this.clock.after(1600,()=>this.completeFinish());
+        this.clock.after(TIMING.ko,()=>this.completeFinish());
       });
     });
   }

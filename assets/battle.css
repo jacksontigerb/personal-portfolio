@@ -70,25 +70,6 @@
 .battle-face:hover img{filter:none;}
 .battle-matchup{font-size:14px;line-height:1.5;margin-top:18px;}
 .battle-disclaimer{font-size:12px;color:#5f6164;margin-top:8px;}
-@media (prefers-reduced-motion:no-preference){
-  .battle-game[data-phase="intro"] .battle-boss canvas,.battle-game[data-phase="fight"][data-stage="rest"] .battle-boss canvas{animation:battle-bob 1.6s steps(2) infinite;}
-  .battle-game[data-stage="windup"][data-actor="jackson"] .battle-jackson,.battle-game[data-stage="finishAttack"] .battle-jackson{animation:battle-lunge .28s steps(4) forwards;}
-  .battle-game[data-stage="windup"][data-actor="boss"] .battle-boss{animation:battle-threat .28s steps(4) forwards;}
-  .battle-game[data-stage="windup"][data-critical="true"] .battle-boss{animation-duration:.5s;}
-  .battle-game[data-stage="impact"][data-actor="jackson"] .battle-boss,.battle-game[data-stage="impact"][data-actor="boss"] .battle-jackson{animation:battle-recoil .22s steps(4);}
-  .battle-game[data-stage="windup"][data-actor="jackson"] .battle-prop,.battle-game[data-stage="finishAttack"] .battle-prop{animation:battle-throw .28s steps(5) forwards;}
-  .battle-game[data-stage="revive"] .battle-jackson{animation:battle-recover .45s steps(4);}
-  .battle-game[data-stage="ko"][data-fighter="skier"] .battle-jackson{animation:battle-chair .8s steps(8) forwards;}
-  .battle-game[data-stage="ko"][data-fighter="rider"] .battle-jackson{animation:battle-pass .6s steps(6) forwards;}
-  @keyframes battle-bob{50%{transform:translateY(-3px);}}
-  @keyframes battle-lunge{40%{transform:translate(-5px,2px) rotate(-2deg);}100%{transform:translate(16px,-6px) rotate(3deg);}}
-  @keyframes battle-threat{45%{transform:translate(5px,-3px);}100%{transform:translate(-10px,3px);}}
-  @keyframes battle-recoil{25%{transform:translateX(5px);}75%{transform:translateX(-4px);}}
-  @keyframes battle-throw{0%{opacity:1;}100%{left:68%;top:27%;opacity:1;transform:rotate(65deg);}}
-  @keyframes battle-recover{0%{transform:translateY(5px) rotate(-4deg);}100%{transform:none;}}
-  @keyframes battle-chair{to{transform:translate(180px,-95px) scale(.7);opacity:0;}}
-  @keyframes battle-pass{to{transform:translateX(65px);}}
-}
 .battle-game[data-phase="backup"] .battle-jackson{transform:translateY(4px) rotate(-3deg);}
 .battle-game.battle-suspended *{animation-play-state:paused!important;}
 .battle-game.battle-suspended .battle-health-track i{transition:none;}

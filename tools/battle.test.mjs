@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {BattleClock} from '../assets/battle-clock.mjs';
-import {BattleEngine} from '../assets/battle-engine.mjs';
+import {BattleEngine, TIMING} from '../assets/battle-engine.mjs';
 import {FIGHTS, HEALTH, EMAIL, mailHref} from '../assets/battle-data.mjs';
 import {readFileSync,existsSync} from 'node:fs';
 
@@ -26,7 +26,7 @@ for(const key of Object.keys(FIGHTS)) {
   test(`${key}: visible reversal and both honest endings`,()=>{
     for(const outcome of ['supported','leave']) {
       const h=harness(), e=h.engine;e.reset(key);e.start();
-      h.advance(1100);assert.equal(e.state.stage,'windup');
+      h.advance(TIMING.intro);assert.equal(e.state.stage,'windup');
       h.advance(20000);
       assert.equal(e.state.phase,'backup');assert.equal(e.state.jhp,1);assert.equal(e.state.bhp,40);
       const impacts=h.events.filter(x=>x.event==='impact');
@@ -43,7 +43,7 @@ for(const key of Object.keys(FIGHTS)) {
 }
 test('manual pause, nested environmental pause and exact remaining delay',()=>{
   const h=harness(),e=h.engine;e.reset('researcher');e.start();
-  h.advance(900);e.pause();h.advance(9000);assert.equal(e.state.stage,'title');
+  h.advance(TIMING.intro-200);e.pause();h.advance(9000);assert.equal(e.state.stage,'title');
   h.clock.block('hidden',true);e.pause();h.advance(9000);assert.equal(e.state.stage,'title');
   h.clock.block('hidden',false);h.advance(199);assert.equal(e.state.stage,'title');
   h.advance(1);assert.equal(e.state.stage,'windup');
@@ -73,7 +73,7 @@ test('the finish waits during external navigation and remains after return',()=>
   h.advance(200);h.clock.block('unfocused',true);h.clock.block('hidden',true);
   h.advance(60000);assert.equal(e.state.stage,'revive');
   h.clock.block('unfocused',false);h.advance(60000);assert.equal(e.state.stage,'revive');
-  h.clock.block('hidden',false);h.advance(2400);assert.equal(e.state.phase,'done');
+  h.clock.block('hidden',false);h.advance(TIMING.revive+TIMING.finishAttack+TIMING.ko);assert.equal(e.state.phase,'done');
   h.clock.block('offscreen',true);h.advance(60000);h.clock.block('offscreen',false);
   assert.equal(e.state.phase,'done');assert.equal(h.tasks.size,0);
 });
@@ -127,4 +127,10 @@ test('selection waits indefinitely with no scheduled work until Start fight',()=
   e.reset('skier');h.advance(600000);assert.equal(h.tasks.size,0);
   e.start();e.start();assert.equal(h.tasks.size,1);h.advance(1100);assert.equal(e.state.index,1);
   e.reset('creator');h.advance(600000);assert.equal(e.state.phase,'select');assert.equal(h.tasks.size,0);
+});
+
+test('the whole fight reaches the backup moment in about ten seconds',()=>{
+  const h=harness(),e=h.engine;e.reset('creator');e.start();
+  h.advance(9000);assert.equal(e.state.phase,'fight');
+  h.advance(2000);assert.equal(e.state.phase,'backup');
 });

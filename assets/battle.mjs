@@ -1,6 +1,6 @@
-import {FIGHTS, LOADOUT, EMAIL, LINKEDIN, mailHref} from './battle-data.mjs?v=3';
-import {BattleEngine} from './battle-engine.mjs?v=3';
-import {drawBoss, drawProp} from './battle-art.mjs?v=3';
+import {FIGHTS, LOADOUT, EMAIL, LINKEDIN, mailHref} from './battle-data.mjs?v=4';
+import {BattleEngine} from './battle-engine.mjs?v=4';
+import {drawBoss, drawProp} from './battle-art.mjs?v=4';
 
 export function mountBattle(mount, characters) {
   mount.innerHTML=`
@@ -8,7 +8,7 @@ export function mountBattle(mount, characters) {
       <div class="battle-character-preview"><span class="battle-selection-tag">PLAYER 01</span><div class="battle-preview-stage"><img width="537" height="840" alt="" decoding="async"></div><h2 class="battle-selected-name"></h2><p class="battle-loadout"></p></div>
       <div class="battle-select-controls">
         <fieldset class="battle-picker"><legend>Choose your character</legend><div class="battle-roster"></div></fieldset>
-        <div class="battle-vs"><span class="battle-vs-badge" aria-hidden="true">VS</span><canvas width="48" height="48" aria-hidden="true"></canvas><p><span class="battle-vs-label">Up against</span><strong class="battle-vs-name"></strong><span class="battle-vs-level"></span></p></div>
+        <div class="battle-vs"><span class="battle-vs-badge" aria-hidden="true">VS</span><canvas width="64" height="64" aria-hidden="true"></canvas><p><span class="battle-vs-label">Up against</span><strong class="battle-vs-name"></strong><span class="battle-vs-level"></span></p></div>
         <button type="button" class="battle-start" data-action="start">Start fight <span aria-hidden="true">▶</span></button>
       </div>
     </div>
@@ -17,6 +17,8 @@ export function mountBattle(mount, characters) {
       <div class="battle-field" aria-label="Battlefield">
         <div class="battle-versus" aria-hidden="true"><span>READY?</span><strong>FIGHT!</strong></div>
         <div class="battle-ko" aria-hidden="true">K.O.</div>
+        <div class="battle-callout" aria-hidden="true"></div>
+        <div class="battle-flash" aria-hidden="true"></div>
         <div class="battle-pause-menu" hidden>
           <p class="battle-pause-title" tabindex="-1">Paused</p>
           <button type="button" class="battle-button battle-primary" data-action="resume">▶ Resume</button>
@@ -29,8 +31,8 @@ export function mountBattle(mount, characters) {
         </div>
         <div class="battle-stage" aria-hidden="true">
           <div class="battle-platform battle-platform-boss"></div><div class="battle-platform battle-platform-jackson"></div>
-          <div class="battle-boss"><canvas width="48" height="48"></canvas><span class="battle-impact"></span></div>
-          <div class="battle-jackson"><img width="537" height="840" alt="" decoding="async"><span class="battle-impact"></span></div>
+          <div class="battle-boss"><canvas width="64" height="64"></canvas><span class="battle-burst"></span><span class="battle-impact"></span></div>
+          <div class="battle-jackson"><img width="537" height="840" alt="" decoding="async"><span class="battle-burst"></span><span class="battle-impact"></span></div>
           <canvas class="battle-prop" width="16" height="16"></canvas>
           <span class="battle-stage-note"></span>
         </div>
@@ -75,6 +77,16 @@ export function mountBattle(mount, characters) {
   const current=$('.battle-current'), previous=$('.battle-previous'), copyStatus=$('.battle-copy-status');
   const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
   const radios=[];
+  const CALLOUTS=['GOOD HIT','BARELY FELT IT','COMBO ×2','OUCH','MISSED','CRITICAL HIT!'];
+  function replay(el, className) {el.classList.remove(className);void el.offsetWidth;el.classList.add(className);}
+  function countTo(el, to, suffix='') {
+    const from=Number(el.dataset.value??to);el.dataset.value=to;
+    cancelAnimationFrame(el._count);
+    if(reduced.matches||from===to){el.textContent=to+suffix;return;}
+    const began=performance.now();
+    const step=now=>{const t=Math.min(1,(now-began)/320);el.textContent=Math.round(from+(to-from)*t)+suffix;if(t<1)el._count=requestAnimationFrame(step);};
+    el._count=requestAnimationFrame(step);
+  }
   let lastPose='', lastKey='', imageRun=0, copyPending=false;
   let onScreen=true, focused=document.hasFocus();
   const who=(entry)=>entry.actor==='jackson'?'Jackson':FIGHTS[engine.state.key].boss;
@@ -114,7 +126,7 @@ export function mountBattle(mount, characters) {
     mount.dataset.screen=playing?'playing':'select';
     document.body.classList.toggle('is-playing',playing);
     game.hidden=!playing;$('.battle-select').hidden=playing;
-    Object.assign(game.dataset,{phase:s.phase,stage:s.stage,actor:s.actor||'',fighter:s.key,critical:String(Boolean(s.critical)),paused:String(s.paused)});
+    Object.assign(game.dataset,{phase:s.phase,stage:s.stage,actor:s.actor||'',fighter:s.key,critical:String(Boolean(s.critical)),paused:String(s.paused),hurt:String(s.damage>0)});
     if(event==='reset') {
       copyPending=false;copyStatus.textContent='';
       $('.battle-announcement').textContent='';$('.battle-stage-note').textContent='';
@@ -140,13 +152,20 @@ export function mountBattle(mount, characters) {
       track.style.setProperty('--health',hp+'%');
       track.style.setProperty('--health-colour',hp<=20?'#ad343c':hp<=60?'#a97926':'#3e7654');
     }
-    $('#battle-jackson-hp').textContent=`${s.jhp}/100`;$('#battle-boss-hp').textContent=s.bhp;
+    if(event==='reset'){$('#battle-jackson-hp').dataset.value=s.jhp;$('#battle-boss-hp').dataset.value=s.bhp;}
+    countTo($('#battle-jackson-hp'),s.jhp,'/100');countTo($('#battle-boss-hp'),s.bhp);
     const pose=s.stage==='ko'?'defeated':s.stage==='windup'&&s.actor==='boss'?'attack':s.stage==='impact'&&s.actor==='jackson'?'hit':'idle';
     if(lastPose!==pose||lastKey!==s.key){drawBoss(boss,s.key,pose);lastPose=pose;lastKey=s.key;}
     if(event==='impact'||event==='victory') {
       const target=$((s.actor==='boss'?'.battle-jackson':'.battle-boss')+' .battle-impact');
       target.textContent=s.damage>0?`−${s.damage}${s.critical?'!':''}`:'MISS';
-      target.classList.remove('battle-float');void target.offsetWidth;target.classList.add('battle-float');
+      replay(target,'battle-float');
+      if(s.damage>0)replay($((s.actor==='boss'?'.battle-jackson':'.battle-boss')+' .battle-burst'),'battle-bursting');
+      const callout=$('.battle-callout');
+      callout.textContent=event==='victory'?(s.outcome==='leave'?'SOMEHOW':'BACKUP ARRIVED'):CALLOUTS[s.index-1];
+      callout.dataset.tone=event==='victory'?'win':s.critical?'big':s.damage>0&&s.actor==='jackson'?'good':'bad';
+      replay(callout,'battle-calling');
+      if(s.critical||event==='victory'){const flash=$('.battle-flash');flash.dataset.tone=s.critical?'red':'white';replay(flash,'battle-flashing');}
     }
     const isBackup=s.phase==='backup', isDone=s.phase==='done';
     backup.hidden=!isBackup;result.hidden=!isDone;$('.battle-log-panel').hidden=isBackup||isDone;

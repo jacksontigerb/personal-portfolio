@@ -233,7 +233,7 @@ footer p{font-size:13px;color:#5f6164;margin:8px 0 0;}
 @media(prefers-reduced-motion:reduce){.battle-choice,.battle-pause{transition:none!important;transform:none!important;}}
 @media(max-width:639px){
   .battle-vs{margin:18px 0 14px;padding:8px 12px;gap:10px;}.battle-vs canvas{width:48px;height:48px;}.battle-vs-name{font-size:19px;}.battle-vs-badge{font-size:24px;}
-  .battle-menu{gap:10px;}.battle-choice{min-height:60px;font-size:16px;padding:10px 10px 10px 14px;gap:8px;}.battle-choice::before{display:none;}.battle-choice>span{font-size:17px;min-width:1.1em;}
+  .battle-menu{gap:10px;}.battle-game .battle-choice{min-height:60px;font-size:16px;padding:10px 8px 10px 12px;gap:8px;}.battle-choice::before{display:none;}.battle-game .battle-choice>span{font-size:16px;min-width:1.1em;}
   .battle-result-actions .battle-button{flex:1 1 100%;}
   .battle-pause-menu .battle-button{min-width:210px;}
 }
@@ -250,3 +250,71 @@ footer p{font-size:13px;color:#5f6164;margin:8px 0 0;}
   .game-home .battle-start{min-height:62px;}
 }
 @media(min-width:640px){.game-home .battle-picker{width:100%;}}
+
+/* Bigger bosses and a faster, punchier fight. */
+.game-home .battle-boss,.game-home .battle-boss canvas{width:256px;height:256px;}
+.game-home .battle-boss{right:9%;top:2px;}
+.game-home .battle-platform-boss{width:240px;height:18px;right:8%;top:238px;}
+.game-home .battle-field{min-height:470px;}
+.game-home .battle-game{--dash-x:330px;--dash-y:-120px;--boss-dash-x:-330px;--boss-dash-y:120px;}
+.battle-burst{display:none;position:absolute;left:50%;top:45%;width:150px;height:150px;margin:-75px 0 0 -75px;z-index:-1;background:rgba(var(--accent-rgb),.8);clip-path:polygon(50% 0,58% 32%,85% 12%,68% 40%,100% 45%,70% 58%,90% 85%,58% 70%,50% 100%,42% 70%,12% 88%,32% 58%,0 50%,30% 40%,14% 14%,42% 32%);pointer-events:none;}
+.battle-jackson .battle-burst{background:rgba(173,52,60,.8);top:35%;}
+.battle-callout{display:none;position:absolute;left:50%;top:24%;z-index:5;transform:translate(-50%,-50%) rotate(-4deg);padding:6px 18px;border:2px solid var(--ink);background:var(--battle-paper);box-shadow:4px 4px 0 var(--ink);font:italic 400 clamp(26px,4vw,44px)/1.1 var(--serif);white-space:nowrap;pointer-events:none;}
+.battle-callout[data-tone="good"]{background:var(--accent);color:#fff;}
+.battle-callout[data-tone="big"]{background:#ad343c;color:#fff;font-size:clamp(32px,5.4vw,60px);}
+.battle-callout[data-tone="win"]{top:82%;background:var(--accent);color:#fff;}
+.battle-flash{display:none;position:absolute;inset:0;z-index:7;background:#fff;pointer-events:none;opacity:0;}
+.battle-flash[data-tone="red"]{background:#ad343c;}
+.battle-versus span{font:italic 400 clamp(40px,6vw,64px)/1 var(--serif);letter-spacing:0;}
+@media (prefers-reduced-motion:no-preference){
+  .game-home .battle-jackson,.game-home .battle-boss{transition:transform .24s cubic-bezier(.2,.9,.3,1.25);}
+  .battle-game[data-stage="windup"][data-actor="jackson"] .battle-jackson,.battle-game[data-stage="impact"][data-actor="jackson"] .battle-jackson,.battle-game[data-stage="finishAttack"] .battle-jackson{transform:translate(var(--dash-x),var(--dash-y)) rotate(7deg);transition:transform .15s cubic-bezier(.7,0,1,.5);}
+  .battle-game[data-stage="windup"][data-actor="boss"] .battle-boss,.battle-game[data-stage="impact"][data-actor="boss"] .battle-boss{transform:translate(var(--boss-dash-x),var(--boss-dash-y)) rotate(-9deg);transition:transform .19s cubic-bezier(.7,0,1,.5);}
+  .battle-game[data-stage="windup"][data-critical="true"] .battle-boss{transition-duration:.4s;}
+  .battle-game[data-hurt="true"][data-stage="impact"][data-actor="jackson"] .battle-boss canvas,.battle-game[data-phase="finishing"][data-stage="ko"] .battle-boss canvas{animation:battle-hit .38s steps(1);}
+  .battle-game[data-hurt="true"][data-stage="impact"][data-actor="boss"] .battle-jackson img{animation:battle-hit .38s steps(1);}
+  .battle-game[data-hurt="true"][data-stage="impact"] .battle-stage{animation:battle-jolt .22s steps(4);}
+  .battle-game[data-phase="intro"] .battle-boss canvas,.battle-game[data-stage="rest"] .battle-boss canvas{animation:battle-bob .9s steps(2) infinite;}
+  .battle-game[data-stage="rest"] .battle-jackson img,.battle-game[data-phase="intro"] .battle-jackson img{animation:battle-bob .7s steps(2) infinite;}
+  .battle-game[data-phase="finishing"][data-stage="ko"] .battle-boss{animation:battle-knock .55s ease-out;}
+  .battle-game[data-stage="revive"] .battle-jackson img{animation:battle-revive .35s steps(4);}
+  .battle-game[data-stage="windup"][data-actor="jackson"] .battle-prop,.battle-game[data-stage="finishAttack"] .battle-prop{animation:battle-throw .17s steps(4) forwards;}
+  .battle-burst.battle-bursting{display:block;animation:battle-burst .32s steps(4) forwards;}
+  .battle-callout.battle-calling{display:block;animation:battle-callout .9s ease-out forwards;}
+  .battle-flash.battle-flashing{display:block;animation:battle-flash .32s steps(3) forwards;}
+  .battle-game[data-phase="intro"] .battle-versus span{animation:battle-word-out .9s steps(1) both;}
+  .battle-game[data-phase="intro"] .battle-versus strong{animation:battle-word-in .9s ease-out both;}
+  @keyframes battle-hit{0%,50%{filter:brightness(0) invert(1);}25%{filter:none;transform:translateX(8px);}75%{filter:none;transform:translateX(-5px);}100%{filter:none;transform:none;}}
+  @keyframes battle-jolt{25%{transform:translate(-4px,2px);}50%{transform:translate(4px,-2px);}75%{transform:translate(-2px,1px);}}
+  @keyframes battle-bob{50%{transform:translateY(-4px);}}
+  @keyframes battle-knock{0%{transform:none;}30%{transform:translate(34px,-26px) rotate(14deg);}100%{transform:none;}}
+  @keyframes battle-revive{0%{filter:brightness(2.2);transform:translateY(8px);}60%{transform:translateY(-14px);}100%{filter:none;transform:none;}}
+  @keyframes battle-throw{0%{opacity:1;}100%{left:74%;top:30%;opacity:1;transform:rotate(90deg);}}
+  @keyframes battle-burst{0%{transform:scale(.3);opacity:1;}100%{transform:scale(1.35) rotate(30deg);opacity:0;}}
+  @keyframes battle-callout{0%{opacity:0;transform:translate(-50%,-50%) rotate(-4deg) scale(1.9);}14%{opacity:1;transform:translate(-50%,-50%) rotate(-4deg) scale(1);}72%{opacity:1;transform:translate(-50%,-50%) rotate(-4deg);}100%{opacity:0;transform:translate(-50%,-85%) rotate(-4deg);}}
+  @keyframes battle-flash{0%{opacity:.8;}100%{opacity:0;}}
+  @keyframes battle-word-out{0%{opacity:1;}48%,100%{opacity:0;}}
+  @keyframes battle-word-in{0%,46%{opacity:0;transform:scale(2.2);}60%{opacity:1;transform:scale(.95);}100%{opacity:1;transform:scale(1);}}
+}
+.battle-reduced .battle-callout,.battle-reduced .battle-burst,.battle-reduced .battle-flash{display:none!important;}
+.battle-reduced[data-phase="intro"] .battle-versus span{display:none;}
+@media(max-width:1000px){
+  .game-home .battle-boss,.game-home .battle-boss canvas{width:192px;height:192px;}
+  .game-home .battle-boss{right:6%;top:10px;}.game-home .battle-platform-boss{width:180px;right:5%;top:188px;}
+  .game-home .battle-field{min-height:400px;}
+  .game-home .battle-game{--dash-x:220px;--dash-y:-80px;--boss-dash-x:-220px;--boss-dash-y:80px;}
+}
+@media(max-width:639px){
+  .game-home .battle-hud{max-width:none;}
+  .game-home .battle-stage{height:214px;}
+  .game-home .battle-boss,.game-home .battle-boss canvas{width:144px;height:144px;}
+  .game-home .battle-boss{right:4%;top:4px;}.game-home .battle-platform-boss{width:130px;right:3%;top:134px;height:14px;}
+  .game-home .battle-field{min-height:0;}
+  .game-home .battle-game{--dash-x:110px;--dash-y:-36px;--boss-dash-x:-110px;--boss-dash-y:36px;}
+  .battle-burst{width:100px;height:100px;margin:-50px 0 0 -50px;}
+}
+@media(max-width:359px){
+  .game-home .battle-boss,.game-home .battle-boss canvas{width:120px;height:120px;}
+  .game-home .battle-platform-boss{width:110px;top:112px;}
+  .game-home .battle-jackson{height:164px;left:5%;}
+}
