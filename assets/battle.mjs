@@ -1,5 +1,5 @@
 import {FIGHTS, LOADOUT, EMAIL, LINKEDIN, mailHref} from './battle-data.mjs?v=5';
-import {BattleEngine} from './battle-engine.mjs?v=5';
+import {BattleEngine} from './battle-engine.mjs?v=7';
 import {drawBoss, drawProp} from './battle-art.mjs?v=5';
 import {paintScene, particles} from './battle-scenes.mjs?v=5';
 
@@ -8,11 +8,16 @@ export function mountBattle(mount, characters) {
     <canvas class="battle-select-shadow" width="64" height="64" aria-hidden="true"></canvas>
     <div class="battle-wipe" aria-hidden="true"></div>
     <div class="battle-select">
-      <div class="battle-character-preview"><span class="battle-selection-tag">PLAYER 01</span><div class="battle-preview-stage"><img width="537" height="840" alt="" decoding="async"></div><h2 class="battle-selected-name"></h2><p class="battle-loadout"></p></div>
+      <div class="battle-character-preview">
+        <span class="battle-selection-tag">PLAYER 01</span>
+        <div class="battle-preview-stage"><img width="537" height="840" alt="" decoding="async"></div>
+        <div class="battle-preview-copy"><h2 class="battle-selected-name"></h2><p class="battle-loadout"></p></div>
+      </div>
       <div class="battle-select-controls">
         <fieldset class="battle-picker"><legend>Choose your character</legend><div class="battle-roster"></div></fieldset>
         <div class="battle-vs"><span class="battle-vs-badge" aria-hidden="true">VS</span><canvas width="64" height="64" aria-hidden="true"></canvas><p><span class="battle-vs-label">Up against</span><strong class="battle-vs-name"></strong><span class="battle-vs-level"></span></p></div>
         <button type="button" class="battle-start" data-action="start">Start fight <span aria-hidden="true">▶</span></button>
+        <p class="battle-select-help"><span>Pick a Jackson. He does the fighting.</span><span class="battle-key-hint"><kbd>←</kbd><kbd>→</kbd> choose <kbd>Enter</kbd> start</span></p>
       </div>
     </div>
     <div class="battle-game" data-phase="intro" data-stage="title">
@@ -41,7 +46,13 @@ export function mountBattle(mount, characters) {
         </div>
       </div>
       <div class="battle-letterbox" aria-hidden="true"></div>
-      <div class="battle-versus" aria-hidden="true"><span>READY?</span><strong>FIGHT!</strong></div>
+      <div class="battle-match-intro" aria-hidden="true">
+        <span class="battle-intro-label">THE MATCHUP</span>
+        <img class="battle-intro-jackson" width="537" height="840" alt="" decoding="async">
+        <div class="battle-intro-title"><span>Jackson</span><em>VS</em><span class="battle-intro-boss-name"></span></div>
+        <canvas class="battle-intro-boss" width="64" height="64"></canvas>
+        <span class="battle-intro-ready">HERE WE GO.</span>
+      </div>
       <div class="battle-flash" aria-hidden="true"></div>
       <div class="battle-pause-menu" hidden>
         <p class="battle-pause-title" tabindex="-1">Paused</p>
@@ -78,7 +89,7 @@ export function mountBattle(mount, characters) {
     </div>
     <p class="vh battle-announcement" role="status" aria-live="polite" aria-atomic="true"></p>`;
   const $=selector=>mount.querySelector(selector);
-  const game=$('.battle-game'), img=$('.battle-jackson img'), previewImg=$('.battle-preview-stage img'), boss=$('.battle-boss canvas');
+  const game=$('.battle-game'), img=$('.battle-jackson img'), previewImg=$('.battle-preview-stage img'), introImg=$('.battle-intro-jackson'), boss=$('.battle-boss canvas');
   const start=$('[data-action="start"]'), backup=$('.battle-backup'), result=$('.battle-result');
   const pause=$('[data-action="pause"]'), pauseMenu=$('.battle-pause-menu');
   const current=$('.battle-current'), previous=$('.battle-previous'), copyStatus=$('.battle-copy-status');
@@ -99,9 +110,21 @@ export function mountBattle(mount, characters) {
   const sparks=particles($('.battle-particles'));
   let scene={key:'',w:0,h:0,floor:0,unit:0,info:null}, sceneQueued=false;
   // The world is painted in cells to fit the screen exactly, with its floor under the boss's feet.
+  function measureDash() {
+    const jackson=$('.battle-jackson'), enemy=$('.battle-boss');
+    // Layout offsets stay stable while the fighters and camera are transformed.
+    const dx=enemy.offsetLeft+enemy.offsetWidth/2-jackson.offsetLeft-jackson.offsetWidth/2;
+    const dy=enemy.offsetTop+enemy.offsetHeight/2-jackson.offsetTop-jackson.offsetHeight/2;
+    const gap=Math.max(0,dx-(jackson.offsetWidth+enemy.offsetWidth)*.3);
+    game.style.setProperty('--dash-x',gap+'px');
+    game.style.setProperty('--dash-y',dy+'px');
+    game.style.setProperty('--boss-dash-x',-gap+'px');
+    game.style.setProperty('--boss-dash-y',-dy+'px');
+  }
   function paintWorld() {
     sceneQueued=false;
     if(game.hidden||!game.offsetWidth)return;
+    measureDash();
     const unit=game.offsetWidth>=900?4:3;
     const w=Math.ceil(world.offsetWidth/unit), h=Math.ceil(world.offsetHeight/unit);
     const bossEl=$('.battle-boss');
@@ -160,13 +183,26 @@ export function mountBattle(mount, characters) {
     engine.clock.block('hidden',document.hidden);
     engine.clock.block('unfocused',!focused);
     game.classList.toggle('battle-suspended',engine.clock.blocks.size>0);
+    mount.classList.toggle('selection-suspended',engine.clock.blocks.size>0);
   }
   function loadArt(char) {
     const run=++imageRun, candidate=new Image();
     candidate.decoding='async';
-    [img,previewImg].forEach(el=>{el.style.visibility='hidden';});
-    candidate.onload=()=>{if(run!==imageRun)return;[img,previewImg].forEach(el=>{el.src=char.art;el.style.visibility='visible';});};
-    candidate.onerror=()=>{if(run===imageRun)$('.battle-stage-note').textContent='Jackson is here in spirit.';};
+    $('.battle-preview-stage').classList.add('is-loading');
+    img.style.visibility='hidden';introImg.style.visibility='hidden';
+    candidate.onload=()=>{
+      if(run!==imageRun)return;
+      [img,previewImg,introImg].forEach(el=>{el.src=char.art;el.style.visibility='visible';});
+      $('.battle-preview-stage').classList.remove('is-loading');
+      replay($('.battle-preview-stage'),'battle-pop');
+      queueWorld();
+    };
+    candidate.onerror=()=>{
+      if(run!==imageRun)return;
+      $('.battle-preview-stage').classList.remove('is-loading');
+      previewImg.style.visibility='hidden';
+      $('.battle-stage-note').textContent='Jackson is here in spirit.';
+    };
     candidate.src=char.art;
   }
   function draw(s, event) {
@@ -182,7 +218,7 @@ export function mountBattle(mount, characters) {
       $('.battle-announcement').textContent='';$('.battle-stage-note').textContent='';
       loadArt(char);
       drawProp($('.battle-prop'),s.key);
-      drawBoss($('.battle-vs canvas'),s.key,'idle');drawBoss($('.battle-select-shadow'),s.key,'idle');
+      drawBoss($('.battle-vs canvas'),s.key,'idle');drawBoss($('.battle-intro-boss'),s.key,'idle');drawBoss($('.battle-select-shadow'),s.key,'idle');
       $('#battle-boss-name').textContent=fight.boss;
       $('#battle-boss-level').textContent=fight.level;
       $('#battle-subtitle').textContent=fight.subtitle;$('#battle-subtitle').hidden=!fight.subtitle;
@@ -190,11 +226,11 @@ export function mountBattle(mount, characters) {
       $('.battle-vs-name').textContent=fight.boss;
       $('.battle-vs-level').textContent=fight.level||fight.subtitle;
       $('.battle-selected-name').textContent=char.n;
+      $('.battle-intro-boss-name').textContent=fight.boss;
+      replay($('.battle-preview-copy'),'battle-copy-enter');
       $('.battle-loadout').textContent=LOADOUT[s.key];
       $('[data-action="email"]').href=mailHref(s.key);
       radios.forEach(r=>{r.checked=r.value===s.key;});
-      // Restart the selection pop.
-      const stage=$('.battle-preview-stage');stage.classList.remove('battle-pop');void stage.offsetWidth;stage.classList.add('battle-pop');
     }
     for(const [side,hp] of [['jackson',s.jhp],['boss',s.bhp]]) {
       $(`#battle-${side}-meter`).value=hp;
@@ -247,15 +283,19 @@ export function mountBattle(mount, characters) {
       });
     }
     $('.battle-stage-note').textContent=s.stage==='ko'&&s.key==='operator'?'fade + knee':s.stage==='ko'&&s.key==='researcher'&&s.outcome!=='leave'?'No PFAS in the recipe':s.stage==='ko'&&s.key==='rider'&&s.outcome!=='leave'?'GO TIGGY':isBackup?'1 HP. Still here.':'';
+    if(event==='start')$('.battle-announcement').textContent=`Jackson versus ${fight.boss}.`;
     if(event==='line'){
+      replay($('.battle-log-panel'),'battle-dialogue-enter');
       $('.battle-announcement').textContent=lineText(s.log.at(-1));
       if(s.log.at(-1).actor==='jackson')drawProp($('.battle-prop'),s.key,s.phase==='finishing'?7:s.index);
     }
     if(event==='backup'){
+      replay(backup,'battle-panel-enter');
       $('.battle-announcement').textContent='Jackson has 1 HP left. Jackson needs backup. Send backup by email, copy his email, LinkedIn, or leave him to it.';
       if(hadFocus)$('.battle-call-heading h2').focus({preventScroll:true});
     }
     if(event==='done'){
+      replay(result,'battle-panel-enter');
       $('.battle-announcement').textContent=`${fight.boss} defeated. ${$('.battle-result-line').textContent} ${fight.achievement}`;
       if(hadFocus)$('.battle-result-title').focus({preventScroll:true});
     }
@@ -266,6 +306,7 @@ export function mountBattle(mount, characters) {
   if('ResizeObserver' in window)new ResizeObserver(queueWorld).observe(game);
   characters.keys.forEach(key=>{
     const label=document.createElement('label');label.className='battle-face';
+    label.style.setProperty('--fighter-colour',characters.characters[key].hex);
     const radio=document.createElement('input');radio.type='radio';radio.name='battle-character';radio.value=key;
     const face=document.createElement('img');face.src=`assets/face-${key}.webp`;face.width=240;face.height=240;face.alt='';face.loading='lazy';
     const name=document.createElement('span');name.textContent=characters.characters[key].n;

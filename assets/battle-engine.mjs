@@ -2,7 +2,7 @@ import {FIGHTS} from './battle-data.mjs?v=5';
 import {BattleClock} from './battle-clock.mjs?v=5';
 
 // Fast enough to feel like a fight, slow enough to read each move.
-export const TIMING = Object.freeze({intro:900, windup:170, bossWindup:220, critWindup:420, impact:380,
+export const TIMING = Object.freeze({intro:2800, windup:170, bossWindup:220, critWindup:420, impact:380,
   jacksonRest:1150, bossRest:800, lastRest:650, revive:350, finishAttack:220, ko:1300});
 
 export class BattleEngine {

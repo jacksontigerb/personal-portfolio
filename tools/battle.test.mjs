@@ -49,7 +49,7 @@ test('manual pause, nested environmental pause and exact remaining delay',()=>{
   h.advance(1);assert.equal(e.state.stage,'windup');
 });
 test('single start activation, and pause holds the fight until resumed',()=>{
-  const h=harness(),e=h.engine;e.reset('master');e.start();e.start();h.advance(1100);
+  const h=harness(),e=h.engine;e.reset('master');e.start();e.start();h.advance(TIMING.intro+200);
   e.start();assert.equal(e.state.index,1);
   e.pause();h.advance(60000);assert.equal(e.state.index,1);assert.equal(e.state.paused,true);
   e.pause();h.advance(20000);assert.equal(e.state.phase,'backup');assert.equal(e.state.jhp,1);
@@ -58,7 +58,7 @@ test('skip while paused clears manual block; replay has a clean opening',()=>{
   const h=harness(),e=h.engine;e.reset('skier');e.start();e.pause();e.backup();
   assert.equal(e.state.phase,'backup');assert.equal(e.state.paused,false);
   e.finish('leave');h.advance(3000);assert.equal(e.state.phase,'done');
-  e.reset('skier');h.advance(4000);assert.equal(e.state.phase,'select');assert.equal(e.state.log.length,0);e.start();h.advance(1100);assert.equal(e.state.index,1);
+  e.reset('skier');h.advance(4000);assert.equal(e.state.phase,'select');assert.equal(e.state.log.length,0);e.start();h.advance(TIMING.intro+200);assert.equal(e.state.index,1);
 });
 test('switching at every finish boundary cancels old callbacks',()=>{
   for(const elapsed of [0,200,600,800,950,2000]){
@@ -125,13 +125,14 @@ test('selection waits indefinitely with no scheduled work until Start fight',()=
   h.advance(600000);e.pause();e.turn();e.backup();e.finish('leave');
   assert.equal(e.state.phase,'select');assert.equal(e.state.log.length,0);assert.equal(h.tasks.size,0);
   e.reset('skier');h.advance(600000);assert.equal(h.tasks.size,0);
-  e.start();e.start();assert.equal(h.tasks.size,1);h.advance(1100);assert.equal(e.state.index,1);
+  e.start();e.start();assert.equal(h.tasks.size,1);h.advance(TIMING.intro+200);assert.equal(e.state.index,1);
   e.reset('creator');h.advance(600000);assert.equal(e.state.phase,'select');assert.equal(h.tasks.size,0);
 });
 
-test('the whole fight reaches the backup moment in about ten seconds',()=>{
+test('the fight reaches backup in about ten seconds after the matchup',()=>{
   const h=harness(),e=h.engine;e.reset('creator');e.start();
-  h.advance(9000);assert.equal(e.state.phase,'fight');
+  h.advance(TIMING.intro);
+  h.advance(8000);assert.equal(e.state.phase,'fight');
   h.advance(2000);assert.equal(e.state.phase,'backup');
 });
 
@@ -144,4 +145,15 @@ test('every fighter has a world that paints at phone and desktop sizes',async()=
     assert.ok(far.fills>50&&near.fills>20,`${key} ${w}x${h}`);
     const p=particles(fake());p.configure(info,w,h);for(let i=0;i<60;i++)p.step();p.burst(10,10,['#fff']);p.step();
   }
+});
+
+// The matchup uses the same clock as combat: it cannot run ahead during a pause.
+test('matchup holds the first move, suspends in the background, and cancels on change',()=>{
+  const h=harness(),e=h.engine;e.reset('builder');e.start();
+  h.advance(TIMING.intro-1);assert.equal(e.state.phase,'intro');assert.equal(e.state.index,0);
+  assert.equal(e.state.log.length,0);assert.equal(e.state.jhp,100);
+  h.clock.block('hidden',true);h.advance(60000);assert.equal(e.state.phase,'intro');
+  h.clock.block('hidden',false);h.advance(1);assert.equal(e.state.phase,'fight');
+  e.reset('skier');e.start();h.advance(400);e.reset('researcher');h.advance(60000);
+  assert.equal(e.state.phase,'select');assert.equal(e.state.key,'researcher');assert.equal(e.state.index,0);
 });

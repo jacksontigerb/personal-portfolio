@@ -5,7 +5,7 @@
   function load() {
     if (loading) return;
     loading = true;
-    import('./battle.mjs?v=5').then(function (battle) {
+    import('./battle.mjs?v=7').then(function (battle) {
       battle.mountBattle(mount, window.PortfolioCharacters);
       if (observer) observer.disconnect();
     }).catch(function () {
