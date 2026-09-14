@@ -236,65 +236,51 @@
 #battle .battle-select-shadow{filter:drop-shadow(3px 0 0 #fff) drop-shadow(-3px 0 0 #fff) drop-shadow(0 -3px 0 #fff);}
 #battle .battle-preview-stage::before,#battle .battle-vs-stage::before{box-shadow:none;}
 
-/* Start fight belongs to each world: a piste sign, a lab screen, a monitor and so on.
-   The props (poles, stands, posts) hang off the wrapper so the button itself stays one element. */
+/* Start fight is the same button in every world. What changes is what it's mounted on:
+   a marker pole, a lab stand, posts, a monitor stand, a tripod, a gantry, hanging rods, an easel. */
 #battle .battle-start-wrap{position:relative;isolation:isolate;}
 #battle .battle-start-wrap::before,#battle .battle-start-wrap::after{content:none;position:absolute;z-index:-1;pointer-events:none;}
-#battle .battle-select[data-fighter] .battle-start{font-weight:700;}
 
-/* Skier: a piste sign on a striped marker pole. */
-#battle .battle-select[data-fighter="skier"] .battle-start{background:#fbfbfa;color:#1f5279;border:4px solid #2a6f9e;box-shadow:0 0 0 3px var(--ink),6px 7px 0 3px rgba(0,0,0,.25);}
-#battle .battle-select[data-fighter="skier"] .battle-start>span{color:#2a6f9e;}
+/* Skier: on a striped piste marker pole. */
 #battle .battle-select[data-fighter="skier"] .battle-start-wrap::after{content:'';left:50%;top:calc(100% - 4px);width:12px;height:96px;translate:-50% 0;border:2px solid var(--ink);background:repeating-linear-gradient(180deg,#e07b28 0 16px,#292a2c 16px 26px);}
 
-/* Researcher: a screen on the lab bench. */
-#battle .battle-select[data-fighter="researcher"] .battle-start{background:#0f2a28 repeating-linear-gradient(180deg,rgba(143,240,208,.05) 0 2px,transparent 2px 4px);color:#8ff0d0;border:7px solid #3a3f45;box-shadow:0 0 0 2px var(--ink),inset 0 0 0 2px #137975,6px 8px 0 2px rgba(0,0,0,.25);text-shadow:0 0 6px rgba(143,240,208,.6);}
-#battle .battle-select[data-fighter="researcher"] .battle-start-wrap::after{content:'';left:50%;top:100%;width:18px;height:40px;translate:-50% 0;background:#3a3f45;border:2px solid var(--ink);border-top:0;}
-#battle .battle-select[data-fighter="researcher"] .battle-start-wrap::before{content:'';left:50%;top:calc(100% + 38px);width:120px;height:10px;translate:-50% 0;background:#3a3f45;border:2px solid var(--ink);}
+/* Researcher: clamped to a retort stand. */
+#battle .battle-select[data-fighter="researcher"] .battle-start-wrap::after{content:'';right:18%;top:-34px;bottom:-106px;width:8px;background:#7a7f86;border:2px solid var(--ink);}
+#battle .battle-select[data-fighter="researcher"] .battle-start-wrap::before{content:'';right:calc(18% - 44px);top:calc(100% + 104px);width:100px;height:12px;background:#3a3f45;border:2px solid var(--ink);}
 
-/* Engineer: a wooden plank on two posts. */
-#battle .battle-select[data-fighter="builder"] .battle-start{background:radial-gradient(circle at 12px 50%,#5a4632 0 3px,transparent 4px),radial-gradient(circle at calc(100% - 12px) 50%,#5a4632 0 3px,transparent 4px),repeating-linear-gradient(180deg,#c89b5c 0 10px,#b98a4c 10px 12px);color:#3a2a1c;border:3px solid #6b4f3a;box-shadow:0 0 0 2px var(--ink),6px 7px 0 2px rgba(0,0,0,.25);padding-inline:34px;}
+/* Engineer: on two wooden posts. */
 #battle .battle-select[data-fighter="builder"] .battle-start-wrap::before,#battle .battle-select[data-fighter="builder"] .battle-start-wrap::after{content:'';top:calc(100% - 6px);width:12px;height:92px;background:#6b4f3a;border:2px solid var(--ink);}
 #battle .battle-select[data-fighter="builder"] .battle-start-wrap::before{left:22%;}
 #battle .battle-select[data-fighter="builder"] .battle-start-wrap::after{right:22%;}
 
-/* Computer Guy: a monitor. */
-#battle .battle-select[data-fighter="operator"] .battle-start{background:#0b1f16 repeating-linear-gradient(180deg,rgba(111,227,154,.06) 0 2px,transparent 2px 4px);color:#6fe39a;border:9px solid #1a1d1f;border-bottom-width:16px;box-shadow:0 0 0 2px #3d5247,0 0 28px rgba(111,227,154,.35),6px 8px 0 2px rgba(0,0,0,.3);text-shadow:0 0 6px rgba(111,227,154,.7);font-family:ui-monospace,Menlo,monospace;}
+/* Computer Guy: on a monitor stand. */
 #battle .battle-select[data-fighter="operator"] .battle-start-wrap::after{content:'';left:50%;top:100%;width:22px;height:30px;translate:-50% 0;background:#1a1d1f;border:2px solid #3d5247;border-top:0;}
 #battle .battle-select[data-fighter="operator"] .battle-start-wrap::before{content:'';left:50%;top:calc(100% + 28px);width:130px;height:10px;translate:-50% 0;background:#1a1d1f;border:2px solid #3d5247;}
 
-/* Content Creator: a neon sign on the wall. */
-#battle .battle-select[data-fighter="creator"] .battle-start{background:rgba(43,29,36,.82);color:#ffe3ea;border:3px solid #ff9db4;border-radius:14px;box-shadow:0 0 14px #ff6f91,inset 0 0 12px rgba(255,111,145,.45);text-shadow:0 0 6px #ff6f91,0 0 14px #ff6f91;}
-#battle .battle-select[data-fighter="creator"] .battle-start>span{color:#ff9db4;}
-#battle .battle-select[data-fighter="creator"] .battle-start:hover{box-shadow:0 0 24px #ff6f91,inset 0 0 16px rgba(255,111,145,.6);transform:none;}
+/* Content Creator: on a tripod, like the ring light. */
+#battle .battle-select[data-fighter="creator"] .battle-start-wrap::before,#battle .battle-select[data-fighter="creator"] .battle-start-wrap::after{content:'';top:calc(100% - 4px);left:50%;width:8px;height:96px;background:#3a3f45;border:2px solid var(--ink);transform-origin:top;}
+#battle .battle-select[data-fighter="creator"] .battle-start-wrap::before{rotate:18deg;}
+#battle .battle-select[data-fighter="creator"] .battle-start-wrap::after{rotate:-18deg;}
 
-/* Athlete: a finish banner on a gantry. */
-#battle .battle-select[data-fighter="rider"] .battle-start{background:linear-gradient(#3b7dd8 0 8px,#fbfbfa 8px calc(100% - 8px),#3b7dd8 calc(100% - 8px));color:#292a2c;border:3px solid var(--ink);box-shadow:6px 7px 0 rgba(0,0,0,.25);text-transform:uppercase;letter-spacing:.04em;padding-inline:40px;}
+/* Athlete: on a finish gantry. */
 #battle .battle-select[data-fighter="rider"] .battle-start-wrap::before,#battle .battle-select[data-fighter="rider"] .battle-start-wrap::after{content:'';top:-26px;width:12px;height:190px;background:#7a7f86;border:2px solid var(--ink);}
 #battle .battle-select[data-fighter="rider"] .battle-start-wrap::before{left:-8px;}
 #battle .battle-select[data-fighter="rider"] .battle-start-wrap::after{right:-8px;}
 
-/* Explorer: the departures board. */
-#battle .battle-select[data-fighter="wanderer"] .battle-start{background:#1f2023 linear-gradient(180deg,transparent 49%,rgba(0,0,0,.7) 49% 52%,transparent 52%);color:#e3b341;border:5px solid #3a3f45;box-shadow:0 0 0 2px var(--ink),6px 8px 0 2px rgba(0,0,0,.25);font-family:ui-monospace,Menlo,monospace;text-transform:uppercase;letter-spacing:.1em;}
+/* Explorer: hanging like the departures board. */
 #battle .battle-select[data-fighter="wanderer"] .battle-start-wrap::before,#battle .battle-select[data-fighter="wanderer"] .battle-start-wrap::after{content:'';bottom:calc(100% - 4px);width:4px;height:70px;background:#6b6f76;}
 #battle .battle-select[data-fighter="wanderer"] .battle-start-wrap::before{left:26%;}
 #battle .battle-select[data-fighter="wanderer"] .battle-start-wrap::after{right:26%;}
 
-/* Master of One: a chalkboard on an easel. */
-#battle .battle-select[data-fighter="master"] .battle-start{background:#2f3a33;color:#f1ede2;border:8px solid #6b4f3a;box-shadow:0 0 0 2px var(--ink),6px 8px 0 2px rgba(0,0,0,.3);font:italic 400 27px/1 var(--serif);text-shadow:0 0 1px rgba(241,237,226,.6);}
+/* Master of One: on an easel. */
 #battle .battle-select[data-fighter="master"] .battle-start-wrap::before,#battle .battle-select[data-fighter="master"] .battle-start-wrap::after{content:'';top:calc(100% - 10px);width:10px;height:94px;background:#6b4f3a;border:2px solid var(--ink);}
 #battle .battle-select[data-fighter="master"] .battle-start-wrap::before{left:30%;rotate:14deg;transform-origin:top;}
 #battle .battle-select[data-fighter="master"] .battle-start-wrap::after{right:30%;rotate:-14deg;transform-origin:top;}
 
-/* Jack of All Trades: a metal garage sign on a pole. */
-#battle .battle-select[data-fighter="allrounder"] .battle-start{background:radial-gradient(circle at 10px 10px,#7a7f86 0 3px,transparent 4px),radial-gradient(circle at calc(100% - 10px) 10px,#7a7f86 0 3px,transparent 4px),repeating-linear-gradient(90deg,#dfe4e8 0 7px,#c7ced5 7px 9px);color:#26384d;border:4px solid #46607d;box-shadow:0 0 0 2px var(--ink),6px 7px 0 2px rgba(0,0,0,.25);}
-#battle .battle-select[data-fighter="allrounder"] .battle-start>span{color:#46607d;}
+/* Jack of All Trades: on a metal pole. */
 #battle .battle-select[data-fighter="allrounder"] .battle-start-wrap::after{content:'';left:50%;top:calc(100% - 4px);width:12px;height:96px;translate:-50% 0;background:#7a7f86;border:2px solid var(--ink);}
 
-/* On phones the button is stuck to the bottom of the screen, so it keeps its look but loses its stand. */
+/* On phones the button is stuck to the bottom of the screen, so it drops its stand. */
 @media(max-width:760px){
   #battle .battle-select[data-fighter] .battle-start-wrap::before,#battle .battle-select[data-fighter] .battle-start-wrap::after{content:none;}
-  #battle .battle-select[data-fighter] .battle-start{width:100%;}
-  #battle .battle-select[data-fighter="master"] .battle-start{font-size:24px;}
 }
-@media(prefers-reduced-motion:reduce){#battle .battle-select[data-fighter="creator"] .battle-start:hover{box-shadow:0 0 14px #ff6f91,inset 0 0 12px rgba(255,111,145,.45);}}
