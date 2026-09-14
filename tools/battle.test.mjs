@@ -129,11 +129,11 @@ test('selection waits indefinitely with no scheduled work until Start fight',()=
   e.reset('creator');h.advance(600000);assert.equal(e.state.phase,'select');assert.equal(h.tasks.size,0);
 });
 
-test('the fight reaches backup in about ten seconds after the matchup',()=>{
+test('the fight reaches backup in under eight seconds after the matchup',()=>{
   const h=harness(),e=h.engine;e.reset('creator');e.start();
   h.advance(TIMING.intro);
-  h.advance(8000);assert.equal(e.state.phase,'fight');
-  h.advance(2000);assert.equal(e.state.phase,'backup');
+  h.advance(6500);assert.equal(e.state.phase,'fight');
+  h.advance(1500);assert.equal(e.state.phase,'backup');
 });
 
 test('every fighter has a world that paints at phone and desktop sizes',async()=>{

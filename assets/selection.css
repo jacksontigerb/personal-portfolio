@@ -31,8 +31,8 @@
 #battle .battle-preview-stage img{position:relative;height:100%;width:auto;max-width:100%;object-fit:contain;object-position:center bottom;image-rendering:pixelated;filter:drop-shadow(8px 8px 0 rgba(0,0,0,.22));transform-origin:50% 100%;}
 #battle .battle-preview-ghost{position:absolute!important;left:50%;bottom:0;translate:-50% 0;pointer-events:none;opacity:0;}
 #battle .battle-preview-stage.is-loading img{animation:none!important;opacity:.2;}
-#battle .battle-select-shadow{position:relative;inset:auto;height:100%;width:auto;max-width:100%;aspect-ratio:1;object-fit:contain;image-rendering:pixelated;opacity:.92;
-  filter:grayscale(1) brightness(.3) contrast(1.3) drop-shadow(3px 0 0 rgba(255,255,255,.55)) drop-shadow(-3px 0 0 rgba(255,255,255,.55)) drop-shadow(0 -3px 0 rgba(255,255,255,.55));}
+#battle .battle-select-shadow{position:relative;inset:auto;height:100%;width:auto;max-width:100%;aspect-ratio:1;object-fit:contain;image-rendering:pixelated;opacity:1;
+  filter:drop-shadow(3px 0 0 #fff) drop-shadow(-3px 0 0 #fff) drop-shadow(0 -3px 0 #fff) drop-shadow(6px 8px 0 rgba(0,0,0,.25));}
 #battle .battle-preview-copy,#battle .battle-vs p{flex:none;width:100%;display:flex;flex-direction:column;align-items:center;margin:0;text-align:center;}
 #battle .battle-selected-name,#battle .battle-vs-name{margin:0;font:400 clamp(26px,3vw,44px)/1.08 var(--serif);color:#fff;text-shadow:3px 3px 0 var(--ink);text-wrap:balance;}
 #battle .battle-vs-name{font-size:clamp(22px,2.3vw,32px);}
@@ -119,20 +119,20 @@
   .battle-panel-enter .battle-choice:nth-child(2){animation-delay:40ms;}
   .battle-panel-enter .battle-choice:nth-child(3){animation-delay:80ms;}
   .battle-panel-enter .battle-choice:nth-child(4){animation-delay:120ms;}
-  .battle-game[data-phase="intro"] .battle-intro-jackson{animation:match-left .6s cubic-bezier(.16,1,.3,1) .15s both;}
-  .battle-game[data-phase="intro"] .battle-intro-boss{animation:match-right .6s cubic-bezier(.16,1,.3,1) .15s both;}
-  .battle-game[data-phase="intro"] .battle-intro-title{animation:match-title .45s cubic-bezier(.16,1,.3,1) .35s both;}
-  .battle-game[data-phase="intro"] .battle-intro-ready{animation:selection-copy .3s ease-out 1.3s both;}
-  .battle-game[data-phase="intro"] .battle-match-intro{animation:match-reveal .35s ease-in 2.45s both;}
+  .battle-game[data-phase="intro"] .battle-intro-jackson{animation:match-left .45s cubic-bezier(.16,1,.3,1) .05s both;}
+  .battle-game[data-phase="intro"] .battle-intro-boss{animation:match-right .45s cubic-bezier(.16,1,.3,1) .05s both;}
+  .battle-game[data-phase="intro"] .battle-intro-title{animation:match-title .4s cubic-bezier(.16,1,.3,1) .25s both;}
+  .battle-game[data-phase="intro"] .battle-intro-ready{animation:selection-copy .25s ease-out .8s both;}
+  .battle-game[data-phase="intro"] .battle-match-intro{animation:match-reveal .3s ease-in 1.5s both;}
   /* A replay: the same matchup, in about a second. */
   .battle-game[data-quick="true"][data-phase="intro"] .battle-intro-jackson,.battle-game[data-quick="true"][data-phase="intro"] .battle-intro-boss{animation-duration:.32s;animation-delay:0s;}
   .battle-game[data-quick="true"][data-phase="intro"] .battle-intro-title{animation-duration:.26s;animation-delay:.08s;}
   .battle-game[data-quick="true"][data-phase="intro"] .battle-intro-ready{display:none;}
-  .battle-game[data-quick="true"][data-phase="intro"] .battle-match-intro{animation-duration:.28s;animation-delay:.8s;}
+  .battle-game[data-quick="true"][data-phase="intro"] .battle-match-intro{animation-duration:.25s;animation-delay:.72s;}
   @keyframes selection-arrive{0%{opacity:.4;transform:translate(calc(var(--swap-direction,1) * 18px),-8px) rotate(calc(var(--swap-direction,1) * 2deg)) scale(.97);}60%{opacity:1;transform:translateY(3px) scale(1.02,.98);}100%{opacity:1;transform:none;}}
   @keyframes selection-depart{from{opacity:.5;transform:none;}to{opacity:0;transform:translate(calc(var(--swap-direction,1) * -16px),-3px) scale(.98);}}
   @keyframes selection-shadow{0%{scale:.9 1;opacity:.65;}65%{scale:1.05 1;}100%{scale:1;opacity:1;}}
-  @keyframes selection-boss{0%{opacity:0;transform:translateY(12px) scale(.92);}100%{opacity:.92;transform:none;}}
+  @keyframes selection-boss{0%{opacity:0;transform:translateY(12px) scale(.92);}100%{opacity:1;transform:none;}}
   @keyframes selection-vs{50%{transform:scale(1.06) rotate(-3deg);}}
   @keyframes selection-copy{from{opacity:0;transform:translateY(7px);}to{opacity:1;transform:none;}}
   @keyframes dialogue-arrive{from{opacity:0;translate:0 8px;}to{opacity:1;translate:0 0;}}
@@ -208,4 +208,26 @@
   .battle-select *,.battle-select *::before,.battle-select *::after{animation:none!important;transition:none!important;}
   #battle .battle-preview-stage img,#battle .battle-face img{transform:none!important;}
   #battle .battle-preview-ghost{display:none!important;}
+}
+
+/* Backup: every option says what it will do. */
+.game-home .battle-call-explain{margin:0 0 14px;max-width:62ch;font-size:15px;line-height:1.5;color:#3d3f42;}
+.game-home .battle-game .battle-choice{align-items:center;gap:14px;padding:10px 16px;min-height:68px;}
+.battle-choice-icon{flex:none;display:inline-flex;justify-content:center;min-width:1.4em;font-size:22px;}
+.battle-choice-text{display:flex;flex-direction:column;gap:3px;min-width:0;text-align:left;}
+.battle-choice-text strong{font:600 18px/1.2 var(--sans);}
+.battle-choice-text small{font:400 13px/1.3 var(--sans);opacity:.78;}
+.game-home .battle-game .battle-choice-leave .battle-choice-text strong{font-weight:500;}
+.game-home .battle-result-note{margin:4px 0 12px;padding:8px 12px;background:rgba(var(--accent-rgb),.12);border-left:3px solid var(--accent);font-size:14px;line-height:1.45;}
+@media(max-width:639px){
+  .game-home .battle-call-explain{font-size:13px;margin-bottom:10px;}
+  .game-home .battle-game .battle-menu{grid-template-columns:1fr;gap:8px;}
+  .game-home .battle-game .battle-choice{min-height:56px;padding:8px 12px;gap:10px;}
+  .battle-choice-text strong{font-size:16px;}
+  .battle-choice-text small{font-size:12px;}
+}
+@media(max-height:760px) and (min-width:761px){
+  .game-home .battle-call-explain{font-size:13px;margin-bottom:8px;}
+  .game-home .battle-game .battle-choice{min-height:56px;padding:6px 14px;}
+  .battle-choice-text strong{font-size:16px;}
 }
