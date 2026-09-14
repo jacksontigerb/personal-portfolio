@@ -10,7 +10,7 @@ export function mountBattle(mount, characters) {
     <div class="battle-select">
       <div class="battle-character-preview">
         <span class="battle-selection-tag">PLAYER 01</span>
-        <div class="battle-preview-stage"><img width="537" height="840" alt="" decoding="async"></div>
+        <div class="battle-preview-stage"><img width="537" height="840" alt="" decoding="async"><img class="battle-preview-ghost" width="537" height="840" alt="" aria-hidden="true" hidden></div>
         <div class="battle-preview-copy"><h2 class="battle-selected-name"></h2><p class="battle-loadout"></p></div>
       </div>
       <div class="battle-select-controls">
@@ -105,7 +105,9 @@ export function mountBattle(mount, characters) {
     const step=now=>{const t=Math.min(1,(now-began)/320);el.textContent=Math.round(from+(to-from)*t)+suffix;if(t<1)el._count=requestAnimationFrame(step);};
     el._count=requestAnimationFrame(step);
   }
-  let lastPose='', lastKey='', imageRun=0, copyPending=false, transitioning=false;
+  let lastPose='', lastKey='', imageRun=0, copyPending=false, transitioning=false, displayedArt='', selectedIndex=characters.keys.indexOf(characters.get());
+  const artCache=new Map(), ghost=$('.battle-preview-ghost');
+  ghost.addEventListener('animationend',()=>{ghost.hidden=true;});
   const world=$('.battle-world'), far=$('.battle-far'), near=$('.battle-near'), field=$('.battle-field');
   const sparks=particles($('.battle-particles'));
   let scene={key:'',w:0,h:0,floor:0,unit:0,info:null}, sceneQueued=false;
@@ -185,25 +187,44 @@ export function mountBattle(mount, characters) {
     game.classList.toggle('battle-suspended',engine.clock.blocks.size>0);
     mount.classList.toggle('selection-suspended',engine.clock.blocks.size>0);
   }
+  // Keep all nine decoded images alive. Switching reuses the ready artwork synchronously.
+  function prepareArt(char, priority='low') {
+    if(artCache.has(char.art))return artCache.get(char.art);
+    const candidate=new Image();candidate.decoding='async';candidate.fetchPriority=priority;
+    const entry={image:candidate,ready:false,promise:null};
+    artCache.set(char.art,entry);
+    entry.promise=new Promise(resolve=>{
+      const failed=()=>{artCache.delete(char.art);resolve(false);};
+      candidate.onerror=failed;
+      candidate.onload=async()=>{
+        try {await candidate.decode();} catch {if(!candidate.naturalWidth){failed();return;}}
+        entry.ready=true;resolve(true);
+      };
+      candidate.src=char.art;
+    });
+    return entry;
+  }
   function loadArt(char) {
-    const run=++imageRun, candidate=new Image();
-    candidate.decoding='async';
-    $('.battle-preview-stage').classList.add('is-loading');
-    img.style.visibility='hidden';introImg.style.visibility='hidden';
-    candidate.onload=()=>{
+    const run=++imageRun, entry=prepareArt(char,'high'), stage=$('.battle-preview-stage');
+    const show=()=>{
       if(run!==imageRun)return;
+      ghost.hidden=true;
+      if(displayedArt&&displayedArt!==char.art&&!reduced.matches){ghost.src=displayedArt;ghost.hidden=false;}
       [img,previewImg,introImg].forEach(el=>{el.src=char.art;el.style.visibility='visible';});
-      $('.battle-preview-stage').classList.remove('is-loading');
-      replay($('.battle-preview-stage'),'battle-pop');
-      queueWorld();
+      displayedArt=char.art;stage.classList.remove('is-loading');
+      replay(stage,'battle-pop');queueWorld();
     };
-    candidate.onerror=()=>{
+    if(entry.ready){show();return;}
+    // The selected character gets priority if clicked before its preload has finished.
+    entry.image.fetchPriority='high';
+    stage.classList.add('is-loading');ghost.hidden=true;
+    img.style.visibility='hidden';introImg.style.visibility='hidden';
+    entry.promise.then(ok=>{
       if(run!==imageRun)return;
-      $('.battle-preview-stage').classList.remove('is-loading');
-      previewImg.style.visibility='hidden';
+      if(ok){show();return;}
+      stage.classList.remove('is-loading');previewImg.style.visibility='hidden';displayedArt='';
       $('.battle-stage-note').textContent='Jackson is here in spirit.';
-    };
-    candidate.src=char.art;
+    });
   }
   function draw(s, event) {
     const fight=FIGHTS[s.key], char=characters.characters[s.key];
@@ -216,6 +237,9 @@ export function mountBattle(mount, characters) {
     if(event==='reset') {
       copyPending=false;copyStatus.textContent='';
       $('.battle-announcement').textContent='';$('.battle-stage-note').textContent='';
+      const nextIndex=characters.keys.indexOf(s.key);
+      $('.battle-preview-stage').style.setProperty('--swap-direction',nextIndex<selectedIndex?-1:1);
+      selectedIndex=nextIndex;
       loadArt(char);
       drawProp($('.battle-prop'),s.key);
       drawBoss($('.battle-vs canvas'),s.key,'idle');drawBoss($('.battle-intro-boss'),s.key,'idle');drawBoss($('.battle-select-shadow'),s.key,'idle');
@@ -308,7 +332,7 @@ export function mountBattle(mount, characters) {
     const label=document.createElement('label');label.className='battle-face';
     label.style.setProperty('--fighter-colour',characters.characters[key].hex);
     const radio=document.createElement('input');radio.type='radio';radio.name='battle-character';radio.value=key;
-    const face=document.createElement('img');face.src=`assets/face-${key}.webp`;face.width=240;face.height=240;face.alt='';face.loading='lazy';
+    const face=document.createElement('img');face.src=`assets/face-${key}.webp`;face.width=240;face.height=240;face.alt='';face.loading='eager';
     const name=document.createElement('span');name.textContent=characters.characters[key].n;
     radio.addEventListener('change',()=>{if(radio.checked)characters.set(key);});
     radio.addEventListener('keydown',event=>{if(event.key==='Enter'){event.preventDefault();start.click();}});
@@ -376,4 +400,5 @@ export function mountBattle(mount, characters) {
   }).observe(mount);
   characters.subscribe(key=>engine.reset(key));
   engine.reset(characters.get());
+  characters.keys.forEach(key=>prepareArt(characters.characters[key]));
 }
