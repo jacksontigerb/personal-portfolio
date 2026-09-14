@@ -5,18 +5,25 @@ import {paintScene, particles} from './battle-scenes.mjs?v=5';
 
 export function mountBattle(mount, characters) {
   mount.innerHTML=`
-    <canvas class="battle-select-shadow" width="64" height="64" aria-hidden="true"></canvas>
+    <div class="battle-select-world" aria-hidden="true"><canvas class="battle-select-far"></canvas><canvas class="battle-select-near"></canvas></div>
     <div class="battle-wipe" aria-hidden="true"></div>
     <div class="battle-select">
-      <div class="battle-character-preview">
-        <span class="battle-selection-tag">PLAYER 01</span>
-        <div class="battle-preview-stage"><img width="537" height="840" alt="" decoding="async"><img class="battle-preview-ghost" width="537" height="840" alt="" aria-hidden="true" hidden></div>
-        <div class="battle-preview-copy"><h2 class="battle-selected-name"></h2><p class="battle-loadout"></p></div>
+      <div class="battle-select-arena">
+        <div class="battle-character-preview">
+          <span class="battle-selection-tag">PLAYER 01</span>
+          <div class="battle-preview-stage"><img width="537" height="840" alt="" decoding="async"><img class="battle-preview-ghost" width="537" height="840" alt="" aria-hidden="true" hidden></div>
+          <div class="battle-preview-copy"><h2 class="battle-selected-name"></h2><p class="battle-loadout"></p></div>
+        </div>
+        <div class="battle-vs-mark" aria-hidden="true">VS</div>
+        <div class="battle-vs">
+          <span class="battle-selection-tag">BOSS</span>
+          <div class="battle-vs-stage"><canvas class="battle-select-shadow" width="64" height="64" aria-hidden="true"></canvas></div>
+          <p><span class="battle-vs-label">Up against</span><strong class="battle-vs-name"></strong><span class="battle-vs-level"></span></p>
+        </div>
       </div>
+      <div class="battle-start-wrap"><button type="button" class="battle-start" data-action="start">Start fight <span aria-hidden="true">▶</span></button></div>
       <div class="battle-select-controls">
         <fieldset class="battle-picker"><legend>Choose your character</legend><div class="battle-roster"></div></fieldset>
-        <div class="battle-vs"><span class="battle-vs-badge" aria-hidden="true">VS</span><canvas width="64" height="64" aria-hidden="true"></canvas><p><span class="battle-vs-label">Up against</span><strong class="battle-vs-name"></strong><span class="battle-vs-level"></span></p></div>
-        <button type="button" class="battle-start" data-action="start">Start fight <span aria-hidden="true">▶</span></button>
         <p class="battle-select-help"><span>Pick a Jackson. He does the fighting.</span><span class="battle-key-hint"><kbd>←</kbd><kbd>→</kbd> choose <kbd>Enter</kbd> start</span></p>
       </div>
     </div>
@@ -82,7 +89,7 @@ export function mountBattle(mount, characters) {
           <p class="battle-result-line"></p>
           <p class="battle-achievement"></p>
           <div class="battle-result-actions"><button type="button" class="battle-button battle-primary battle-big" data-action="again">↺ Fight again</button><a class="battle-button battle-big" href="mailto:${EMAIL}">✉ Email Jackson</a></div>
-          <div class="battle-used"><p class="battle-turn-label">MOVES HE USED, FOR REAL</p><ul></ul></div>
+          <details class="battle-used"><summary><span class="battle-turn-label">MOVES HE USED, FOR REAL</span></summary><ul></ul></details>
           <p class="battle-disclaimer">The fights are made up. The achievements are real.</p>
         </div>
       </div>
@@ -105,7 +112,7 @@ export function mountBattle(mount, characters) {
     const step=now=>{const t=Math.min(1,(now-began)/320);el.textContent=Math.round(from+(to-from)*t)+suffix;if(t<1)el._count=requestAnimationFrame(step);};
     el._count=requestAnimationFrame(step);
   }
-  let lastPose='', lastKey='', imageRun=0, copyPending=false, transitioning=false, displayedArt='', selectedIndex=characters.keys.indexOf(characters.get());
+  let fought=false, lastPose='', lastKey='', imageRun=0, copyPending=false, transitioning=false, displayedArt='', selectedIndex=characters.keys.indexOf(characters.get());
   const artCache=new Map(), ghost=$('.battle-preview-ghost');
   ghost.addEventListener('animationend',()=>{ghost.hidden=true;});
   const world=$('.battle-world'), far=$('.battle-far'), near=$('.battle-near'), field=$('.battle-field');
@@ -142,6 +149,22 @@ export function mountBattle(mount, characters) {
     if(scene.key!==key||scene.w!==w||scene.h!==h)sparks.configure(info,w,h);
     scene={key,w,h,floor,unit,info};
   }
+  const hero=mount.closest('.game-hero')||mount, selectFar=$('.battle-select-far'), selectNear=$('.battle-select-near');
+  let selectScene={key:'',w:0,h:0,floor:0}, selectQueued=false;
+  // The select screen stands the chosen Jackson in his own world, tinted by his colour.
+  function paintSelectWorld() {
+    selectQueued=false;
+    if($('.battle-select').hidden||!hero.offsetWidth)return;
+    const unit=hero.offsetWidth>=900?4:3;
+    const w=Math.ceil(hero.offsetWidth/unit), h=Math.ceil(hero.offsetHeight/unit);
+    const spot=$('.battle-preview-stage').getBoundingClientRect(), top=hero.getBoundingClientRect().top;
+    const floor=Math.max(20,Math.round((spot.bottom-top)/unit)-3), key=engine.state.key;
+    if(selectScene.key===key&&selectScene.w===w&&selectScene.h===h&&selectScene.floor===floor)return;
+    paintScene(selectFar,selectNear,key,w,h,floor);
+    [selectFar,selectNear].forEach(c=>{c.style.width=w*unit+'px';c.style.height=h*unit+'px';});
+    selectScene={key,w,h,floor};
+  }
+  function queueSelectWorld(){if(!selectQueued){selectQueued=true;requestAnimationFrame(paintSelectWorld);}}
   function queueWorld(){if(!sceneQueued){sceneQueued=true;requestAnimationFrame(paintWorld);}}
   let lastTick=0;
   function tick(now) {
@@ -233,7 +256,7 @@ export function mountBattle(mount, characters) {
     mount.dataset.screen=playing?'playing':'select';
     document.body.classList.toggle('is-playing',playing);
     game.hidden=!playing;$('.battle-select').hidden=playing;
-    Object.assign(game.dataset,{phase:s.phase,stage:s.stage,actor:s.actor||'',fighter:s.key,critical:String(Boolean(s.critical)),paused:String(s.paused),hurt:String(s.damage>0)});
+    Object.assign(game.dataset,{phase:s.phase,stage:s.stage,actor:s.actor||'',fighter:s.key,critical:String(Boolean(s.critical)),paused:String(s.paused),hurt:String(s.damage>0),quick:String(Boolean(s.quick))});
     if(event==='reset') {
       copyPending=false;copyStatus.textContent='';
       $('.battle-announcement').textContent='';$('.battle-stage-note').textContent='';
@@ -242,7 +265,7 @@ export function mountBattle(mount, characters) {
       selectedIndex=nextIndex;
       loadArt(char);
       drawProp($('.battle-prop'),s.key);
-      drawBoss($('.battle-vs canvas'),s.key,'idle');drawBoss($('.battle-intro-boss'),s.key,'idle');drawBoss($('.battle-select-shadow'),s.key,'idle');
+      drawBoss($('.battle-intro-boss'),s.key,'idle');drawBoss($('.battle-select-shadow'),s.key,'idle');queueSelectWorld();replay($('.battle-vs-stage'),'battle-pop');
       $('#battle-boss-name').textContent=fight.boss;
       $('#battle-boss-level').textContent=fight.level;
       $('#battle-subtitle').textContent=fight.subtitle;$('#battle-subtitle').hidden=!fight.subtitle;
@@ -297,6 +320,7 @@ export function mountBattle(mount, characters) {
       $('.battle-result-title').textContent=`${fight.boss} defeated.`;
       $('.battle-result-line').textContent=s.outcome==='leave'?'Jackson will be fine. Probably.':'The HP was made up. The email address isn’t.';
       $('.battle-achievement').textContent=fight.achievement;$('.battle-achievement').hidden=!fight.achievement;
+      $('.battle-used').open=window.matchMedia('(min-width: 640px)').matches;
       const list=$('.battle-used ul');list.replaceChildren();
       fight.moves.filter(m=>m.experience).forEach(m=>{
         const li=document.createElement('li'), a=document.createElement('a');
@@ -324,10 +348,10 @@ export function mountBattle(mount, characters) {
       if(hadFocus)$('.battle-result-title').focus({preventScroll:true});
     }
     environment();
-    if(playing)queueWorld();
+    if(playing)queueWorld();else queueSelectWorld();
   }
   const engine=new BattleEngine(draw);
-  if('ResizeObserver' in window)new ResizeObserver(queueWorld).observe(game);
+  if('ResizeObserver' in window){new ResizeObserver(queueWorld).observe(game);new ResizeObserver(queueSelectWorld).observe(hero);}
   characters.keys.forEach(key=>{
     const label=document.createElement('label');label.className='battle-face';
     label.style.setProperty('--fighter-colour',characters.characters[key].hex);
@@ -344,7 +368,7 @@ export function mountBattle(mount, characters) {
     transition(()=>{
       if(engine.state.phase!=='select')return;
       document.body.classList.add('has-played');
-      engine.start();toTop();
+      engine.start(fought);fought=true;toTop();
       current.focus({preventScroll:true});
     });
   });

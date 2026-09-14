@@ -157,3 +157,11 @@ test('matchup holds the first move, suspends in the background, and cancels on c
   e.reset('skier');e.start();h.advance(400);e.reset('researcher');h.advance(60000);
   assert.equal(e.state.phase,'select');assert.equal(e.state.key,'researcher');assert.equal(e.state.index,0);
 });
+
+test('a replay gets the short matchup and still reaches the same fight',()=>{
+  const h=harness(),e=h.engine;e.reset('skier');e.start(true);
+  assert.equal(e.state.quick,true);
+  h.advance(TIMING.quickIntro-1);assert.equal(e.state.phase,'intro');
+  h.advance(1);assert.equal(e.state.stage,'windup');
+  h.advance(20000);assert.equal(e.state.phase,'backup');
+});
