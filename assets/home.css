@@ -323,7 +323,7 @@ footer p{font-size:13px;color:#5f6164;margin:8px 0 0;}
 html:has(body.game-home){overflow-x:clip;}
 .game-home{--nav:60px;}
 .game-home nav{min-height:var(--nav);border-bottom:0;}
-.game-home .game-hero{position:relative;margin-inline:calc(50% - 50vw);padding:0;min-height:calc(100svh - var(--nav));overflow:hidden;}
+.game-home .game-hero{position:relative;margin-inline:calc(50% - var(--vw,100vw) / 2);padding:0;min-height:calc(100svh - var(--nav));overflow:hidden;}
 .js .game-home .battle-mount{min-height:0;}
 .game-home .battle-loading{min-height:calc(100svh - var(--nav));border:0;}
 
@@ -352,7 +352,7 @@ html:has(body.game-home){overflow-x:clip;}
 .game-home .battle-hud{background:var(--battle-paper);border:2px solid var(--ink);box-shadow:4px 4px 0 var(--ink);padding:10px 14px;max-width:none;}
 .game-home .battle-field{position:relative;z-index:2;display:block;flex:1 1 auto;min-height:290px;padding:0;overflow:visible;}
 .game-home .battle-stage{position:absolute;inset:0;height:auto;transform:scale(var(--zoom,1));transform-origin:50% 50%;transition:transform .22s ease-out;}
-.game-home .battle-jackson{left:12%;bottom:4px;height:min(300px,78%);}
+.game-home .battle-jackson{left:12%;bottom:4px;height:min(340px,80%);}
 .game-home .battle-boss{left:auto;right:10%;top:auto;bottom:38%;}
 .game-home .battle-platform{border:0;border-radius:50%;background:rgba(0,0,0,.2);height:14px;}
 .game-home .battle-platform-jackson{left:calc(12% - 20px);bottom:0;width:170px;top:auto;}

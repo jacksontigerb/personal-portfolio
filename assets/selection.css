@@ -1,65 +1,90 @@
 /* Character select is a full screen, like a fighting game: the chosen Jackson in his
    own world, the boss in silhouette, and the roster along the bottom.
-   Rules are scoped to #battle so they win over the older card layout in home.css. */
+   Rules are scoped to #battle so they win over the older card layout in home.css.
+   On laptops the screen has a fixed height and everything flexes to fit inside it;
+   on phones it scrolls, with Start fight stuck to the bottom. */
 .game-home:not(.is-playing) .game-hero{display:flex;flex-direction:column;padding:0;background:var(--accent);overflow:clip;}
-.game-home:not(.is-playing) .game-heading{position:relative;z-index:2;margin:0;padding:16px 16px 0;text-align:center;}
-.game-home:not(.is-playing) .game-heading h1{font-size:clamp(26px,3.2vw,42px);text-shadow:3px 3px 0 rgba(0,0,0,.28);}
+.game-home:not(.is-playing) .game-heading{position:relative;z-index:2;flex:none;margin:0;padding:14px 16px 0;text-align:center;}
+.game-home:not(.is-playing) .game-heading h1{font-size:clamp(26px,3vw,40px);text-shadow:3px 3px 0 rgba(0,0,0,.28);}
 .game-home:not(.is-playing) .game-heading p{margin-top:2px;font-size:13px;text-shadow:1px 1px 0 rgba(0,0,0,.3);}
 .js .game-home #battle{flex:1 1 auto;display:flex;flex-direction:column;min-height:0;}
+/* The fight must fill the width: an old card layout rule set align-self:start on it. */
+.js .game-home #battle .battle-game{align-self:stretch;width:auto;min-width:0;flex:1 1 auto;}
 
 #battle .battle-select-world{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none;}
 #battle .battle-select-world canvas{position:absolute;left:0;top:0;image-rendering:pixelated;}
-#battle .battle-select-world::after{content:'';position:absolute;inset:0;background:rgba(var(--accent-rgb),.6) repeating-linear-gradient(135deg,rgba(255,255,255,.05) 0 18px,transparent 18px 36px);transition:background-color .3s;}
+#battle .battle-select-world::after{content:'';position:absolute;inset:0;background:rgba(var(--accent-rgb),.6) repeating-linear-gradient(135deg,rgba(255,255,255,.05) 0 18px,transparent 18px 36px);}
 .game-home.is-playing #battle .battle-select-world{display:none;}
 
-#battle .battle-select{position:relative;z-index:1;flex:1 1 auto;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);grid-template-rows:minmax(0,1fr) auto auto;
-  grid-template-areas:"jack vs boss" "jack start boss" "roster roster roster";column-gap:24px;width:100%;max-width:1280px;min-height:0;margin:0 auto;padding:4px 32px 18px;background:none;border:0;box-shadow:none;}
+#battle .battle-select{--face:clamp(64px,calc((100svh - 60px) * .13),118px);position:relative;z-index:1;flex:1 1 auto;display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(220px,auto) minmax(0,1fr);grid-template-rows:minmax(0,1fr) auto;grid-template-areas:"jack middle boss" "roster roster roster";
+  column-gap:20px;width:100%;max-width:1280px;min-height:0;margin:0 auto;padding:8px 32px 14px;background:none;border:0;box-shadow:none;}
 #battle .battle-select-arena{display:contents;}
-#battle .battle-character-preview,#battle .battle-vs{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:0;min-width:0;margin:0;padding:0;border:0;background:none;overflow:visible;text-align:center;}
+#battle .battle-character-preview,#battle .battle-vs{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;min-width:0;min-height:0;margin:0;padding:0;border:0;background:none;overflow:visible;text-align:center;}
 #battle .battle-character-preview{grid-area:jack;}
 #battle .battle-vs{grid-area:boss;}
-#battle .battle-selection-tag{position:static;display:inline-block;margin:0 0 8px;padding:4px 10px;background:var(--ink);color:#fff;font:11px/1.2 ui-monospace,monospace;letter-spacing:.16em;}
-#battle .battle-preview-stage,#battle .battle-vs-stage{position:relative;display:flex;align-items:flex-end;justify-content:center;min-width:0;margin:0 0 16px;}
-#battle .battle-preview-stage{height:clamp(190px,calc(100svh - 540px),520px);}
-#battle .battle-vs-stage{height:clamp(150px,calc(100svh - 560px),400px);aspect-ratio:1;}
-#battle .battle-preview-stage::before,#battle .battle-vs-stage::before{content:'';position:absolute;left:50%;bottom:-12px;translate:-50% 0;width:min(260px,90%);height:26px;border:0;border-radius:50%;background:rgba(0,0,0,.28);box-shadow:0 0 0 9px rgba(255,255,255,.1);}
-#battle .battle-preview-stage img{position:relative;height:100%;width:auto;max-width:none;image-rendering:pixelated;filter:drop-shadow(8px 8px 0 rgba(0,0,0,.22));transform-origin:50% 100%;}
+#battle .battle-selection-tag{position:static;flex:none;display:inline-block;margin:0 0 8px;padding:4px 10px;background:var(--ink);color:#fff;font:11px/1.2 ui-monospace,monospace;letter-spacing:.16em;}
+#battle .battle-preview-stage,#battle .battle-vs-stage{position:relative;flex:1 1 0;min-height:0;width:100%;display:flex;align-items:flex-end;justify-content:center;margin:0 0 18px;}
+#battle .battle-preview-stage{max-height:520px;}
+#battle .battle-vs-stage{max-height:360px;}
+#battle .battle-preview-stage::before,#battle .battle-vs-stage::before{content:'';position:absolute;left:50%;bottom:-12px;translate:-50% 0;width:min(240px,80%);height:24px;border-radius:50%;background:rgba(0,0,0,.28);box-shadow:0 0 0 8px rgba(255,255,255,.1);}
+#battle .battle-preview-stage img{position:relative;height:100%;width:auto;max-width:100%;object-fit:contain;object-position:center bottom;image-rendering:pixelated;filter:drop-shadow(8px 8px 0 rgba(0,0,0,.22));transform-origin:50% 100%;}
 #battle .battle-preview-ghost{position:absolute!important;left:50%;bottom:0;translate:-50% 0;pointer-events:none;opacity:0;}
 #battle .battle-preview-stage.is-loading img{animation:none!important;opacity:.2;}
-#battle .battle-preview-copy{width:100%;text-align:center;}
-#battle .battle-selected-name,#battle .battle-vs-name{margin:0;font:400 clamp(28px,3.4vw,46px)/1.05 var(--serif);text-wrap:balance;color:#fff;text-shadow:3px 3px 0 var(--ink);overflow-wrap:normal;}
-#battle .battle-loadout{max-width:34ch;margin:8px auto 0;color:rgba(255,255,255,.92);font-size:14px;line-height:1.5;text-shadow:1px 1px 0 rgba(0,0,0,.4);}
-#battle .battle-select-shadow{position:relative;inset:auto;width:100%;height:100%;image-rendering:pixelated;opacity:.92;filter:grayscale(1) brightness(.3) contrast(1.3) drop-shadow(3px 0 0 rgba(255,255,255,.55)) drop-shadow(-3px 0 0 rgba(255,255,255,.55)) drop-shadow(0 -3px 0 rgba(255,255,255,.55));}
-#battle .battle-vs p{display:flex;flex-direction:column;align-items:center;margin:0;}
+#battle .battle-select-shadow{position:relative;inset:auto;height:100%;width:auto;max-width:100%;aspect-ratio:1;object-fit:contain;image-rendering:pixelated;opacity:.92;
+  filter:grayscale(1) brightness(.3) contrast(1.3) drop-shadow(3px 0 0 rgba(255,255,255,.55)) drop-shadow(-3px 0 0 rgba(255,255,255,.55)) drop-shadow(0 -3px 0 rgba(255,255,255,.55));}
+#battle .battle-preview-copy,#battle .battle-vs p{flex:none;width:100%;display:flex;flex-direction:column;align-items:center;margin:0;text-align:center;}
+#battle .battle-selected-name,#battle .battle-vs-name{margin:0;font:400 clamp(26px,3vw,44px)/1.08 var(--serif);color:#fff;text-shadow:3px 3px 0 var(--ink);text-wrap:balance;}
+#battle .battle-vs-name{font-size:clamp(22px,2.3vw,32px);}
+#battle .battle-loadout{max-width:34ch;margin:6px auto 0;color:rgba(255,255,255,.92);font-size:14px;line-height:1.45;text-shadow:1px 1px 0 rgba(0,0,0,.4);}
 #battle .battle-vs-label{color:rgba(255,255,255,.85);font:11px/1.4 ui-monospace,monospace;letter-spacing:.14em;text-transform:uppercase;text-shadow:1px 1px 0 rgba(0,0,0,.4);}
-#battle .battle-vs-name{font-size:clamp(22px,2.4vw,32px);}
-#battle .battle-vs-level{color:rgba(255,255,255,.8);font:12px/1.4 ui-monospace,monospace;margin-top:4px;}
+#battle .battle-vs-level{color:rgba(255,255,255,.8);font:12px/1.4 ui-monospace,monospace;margin-top:2px;}
 #battle .battle-vs-level:empty{display:none;}
-#battle .battle-vs-mark{grid-area:vs;align-self:end;margin-bottom:18px;font:italic 400 clamp(64px,8vw,124px)/1 var(--serif);color:#fff;text-shadow:6px 6px 0 var(--ink);}
-#battle .battle-start-wrap{grid-area:start;align-self:start;display:flex;justify-content:center;padding-bottom:40px;}
-#battle .battle-start{display:flex;align-items:center;justify-content:space-between;gap:24px;width:auto;min-width:260px;min-height:66px;padding:12px 26px;border:3px solid var(--ink);background:var(--ink);color:#fff;font:600 24px/1 var(--sans);box-shadow:6px 6px 0 #fff;animation:none;transition:transform .14s,box-shadow .14s;}
+
+/* VS and Start share the middle column, so neither can overlap a fighter. */
+#battle .battle-vs-mark{grid-area:middle;align-self:center;justify-self:center;margin:0 0 150px;font:italic 400 clamp(60px,7vw,112px)/.9 var(--serif);color:#fff;text-shadow:6px 6px 0 var(--ink);white-space:nowrap;}
+#battle .battle-start-wrap{grid-area:middle;align-self:center;justify-self:center;display:flex;justify-content:center;margin:90px 0 0;}
+#battle .battle-start{display:flex;align-items:center;justify-content:space-between;gap:22px;width:auto;min-width:240px;min-height:62px;padding:12px 24px;border:3px solid var(--ink);background:var(--ink);color:#fff;font:600 23px/1 var(--sans);box-shadow:6px 6px 0 #fff;animation:none;transition:transform .14s,box-shadow .14s;}
 #battle .battle-start>span{transition:translate .2s;}
 #battle .battle-start:hover{transform:translate(-2px,-2px);box-shadow:9px 9px 0 #fff;}
 #battle .battle-start:hover>span{translate:4px 0;}
 #battle .battle-start:active{transform:translate(4px,4px);box-shadow:1px 1px 0 #fff;}
 #battle .battle-start:focus-visible{outline:3px solid #fff;outline-offset:5px;}
 
-#battle .battle-select-controls{grid-area:roster;display:flex;flex-direction:column;align-items:center;gap:10px;min-width:0;padding:20px 0 0;}
-#battle .battle-picker{width:100%;margin:0;padding:0;border:0;}
+#battle .battle-select-controls{grid-area:roster;display:flex;flex-direction:column;align-items:center;gap:8px;min-width:0;padding:22px 0 0;}
+#battle .battle-picker{width:100%;margin:0;padding:0;border:0;min-width:0;}
 #battle .battle-picker legend{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);}
-#battle .battle-roster{display:grid;grid-template-columns:repeat(9,minmax(0,124px));justify-content:center;gap:12px;}
-#battle .battle-face{position:relative;display:flex;flex-direction:column;align-items:center;gap:7px;min-width:0;cursor:pointer;}
-#battle .battle-face img{display:block;width:100%;max-width:124px;height:auto;aspect-ratio:1;object-fit:contain;border:3px solid var(--ink);background:#fbfbfa;box-shadow:4px 4px 0 var(--ink);filter:none;image-rendering:pixelated;transition:transform .22s cubic-bezier(.22,1,.36,1),box-shadow .2s,background .2s,border-color .2s;}
-#battle .battle-face span{position:static;width:auto;height:auto;overflow:visible;clip-path:none;padding:2px 7px;font:600 12px/1.2 var(--sans);color:#fff;text-align:center;text-shadow:1px 1px 0 rgba(0,0,0,.5);}
-#battle .battle-face:has(input:checked) img{transform:translateY(-8px) scale(1.08);border-color:#fff;background:color-mix(in srgb,var(--fighter-colour) 28%,#fbfbfa);box-shadow:0 0 0 3px var(--ink),6px 10px 0 var(--ink);}
+#battle .battle-roster{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 12px;}
+#battle .battle-face{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;width:var(--face);min-width:0;cursor:pointer;}
+#battle .battle-face img{display:block;width:100%;max-width:none;height:auto;aspect-ratio:1;object-fit:contain;border:3px solid var(--ink);background:#fbfbfa;box-shadow:4px 4px 0 var(--ink);filter:none;image-rendering:pixelated;transition:transform .22s cubic-bezier(.22,1,.36,1),box-shadow .2s,background .2s,border-color .2s;}
+#battle .battle-face span{position:static;width:auto;max-width:calc(var(--face) + 16px);height:auto;overflow:visible;clip-path:none;padding:2px 6px;font:600 12px/1.2 var(--sans);color:#fff;text-align:center;text-shadow:1px 1px 0 rgba(0,0,0,.5);white-space:normal;text-wrap:balance;}
+#battle .battle-face:has(input:checked){z-index:1;}
+#battle .battle-face:has(input:checked) img{transform:translateY(-6px) scale(1.06);border-color:#fff;background:color-mix(in srgb,var(--fighter-colour) 28%,#fbfbfa);box-shadow:0 0 0 3px var(--ink),5px 9px 0 var(--ink);}
 #battle .battle-face:has(input:checked) span{background:var(--ink);text-shadow:none;}
 #battle .battle-face:has(input:focus-visible) img{outline:3px solid #fff;outline-offset:6px;}
 #battle .battle-select-help{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin:0;color:rgba(255,255,255,.85);font-size:11px;text-shadow:1px 1px 0 rgba(0,0,0,.35);}
 #battle .battle-key-hint kbd{font:10px ui-monospace,monospace;border:1px solid rgba(255,255,255,.6);border-bottom-width:2px;padding:1px 4px;margin:0 1px;}
 @media(hover:hover) and (prefers-reduced-motion:no-preference){
-  #battle .battle-face:hover img{transform:translateY(-5px) scale(1.04);background:color-mix(in srgb,var(--fighter-colour) 18%,#fbfbfa);}
-  #battle .battle-face:has(input:checked):hover img{transform:translateY(-10px) scale(1.1);}
+  #battle .battle-face:hover img{transform:translateY(-4px) scale(1.03);background:color-mix(in srgb,var(--fighter-colour) 18%,#fbfbfa);}
+  #battle .battle-face:has(input:checked):hover img{transform:translateY(-8px) scale(1.08);}
 }
+/* Short laptop screens: smaller name labels, and a fight that fits without scrolling. */
+@media(max-height:760px) and (min-width:761px){
+  #battle .battle-face span{font-size:10px;padding:1px 4px;}
+  #battle .battle-select-help{display:none;}
+  .game-home .battle-field{min-height:210px;}
+  .game-home .battle-boss,.game-home .battle-boss canvas{width:192px;height:192px;}
+  .game-home .battle-platform-boss{width:170px;}
+  .game-home .battle-log-panel{min-height:96px;}
+  .game-home .battle-command{padding:14px 20px;margin-block:8px 10px;}
+  .game-home .battle-game .battle-call-heading h2{font-size:26px;}
+  .game-home .battle-game .battle-choice{min-height:54px;}
+}
+/* Laptops and desktops: exactly one screen tall. */
+@media(min-width:761px){
+  .game-home:not(.is-playing) .game-hero{height:calc(100svh - var(--nav));min-height:600px;}
+}
+
 
 /* The matchup is part of the engine's intro phase, so pause and visibility share its clock. */
 .battle-match-intro{display:none;position:absolute;inset:0;z-index:8;overflow:hidden;pointer-events:none;isolation:isolate;
@@ -117,39 +142,48 @@
   @keyframes match-reveal{from{clip-path:inset(0);}to{clip-path:inset(50% 0);}}
 }
 
-@media(max-width:1000px){
+@media(max-width:1100px){
   #battle .battle-select{column-gap:12px;padding-inline:20px;}
-  #battle .battle-roster{grid-template-columns:repeat(5,minmax(0,112px));gap:14px 14px;}
-  #battle .battle-preview-stage{height:clamp(220px,calc(100svh - 600px),420px);}
-  #battle .battle-vs-stage{height:clamp(150px,calc(100svh - 660px),320px);}
-  #battle .battle-loadout{font-size:13px;}
+  #battle .battle-face span{font-size:11px;}
+}
+/* Tablets: faces wrap into two centred rows, so they can stay large. */
+@media(max-width:1000px) and (min-width:761px){
+  #battle .battle-select{--face:clamp(72px,calc((100svh - 60px) * .1),104px);}
+  #battle .battle-roster{max-width:calc(var(--face) * 5 + 48px);margin-inline:auto;}
+  #battle .battle-vs-mark{font-size:64px;margin-bottom:130px;}
+  #battle .battle-start{min-width:200px;font-size:20px;min-height:56px;}
+  #battle .battle-select{grid-template-columns:minmax(0,1fr) minmax(200px,auto) minmax(0,1fr);}
+  #battle .battle-loadout{font-size:12px;}
 }
 @media(max-width:760px){
   #battle .battle-key-hint{display:none;}
   .battle-intro-title{left:27%;width:46%;}
   .battle-intro-title>span{font-size:clamp(36px,5.6vw,50px);}
 }
-@media(max-width:639px){
-  .game-home:not(.is-playing) .game-heading{padding:12px 16px 6px;}
-  .game-home:not(.is-playing) .game-heading h1{font-size:30px;}
+/* Phones: a scrolling page. Fighters and VS side by side on top, faces below, Start fight stuck to the bottom. */
+@media(max-width:760px){
+  .game-home:not(.is-playing) .game-heading{padding:12px 16px 12px;}
+  .game-home:not(.is-playing) .game-heading h1{font-size:28px;}
   .game-home:not(.is-playing) .game-heading p{display:none;}
-  #battle .battle-select{grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-rows:auto auto auto;grid-template-areas:"jack boss" "roster roster" "start start";column-gap:8px;padding:6px 14px 12px;}
-  #battle .battle-vs-mark{position:absolute;left:50%;top:92px;translate:-50% 0;margin:0;font-size:52px;text-shadow:4px 4px 0 var(--ink);z-index:2;}
-  #battle .battle-selection-tag{font-size:9px;padding:3px 7px;margin-bottom:6px;}
-  #battle .battle-preview-stage{height:210px;margin-bottom:12px;}
-  #battle .battle-vs-stage{height:150px;margin:30px 0 12px;}
-  #battle .battle-preview-stage::before,#battle .battle-vs-stage::before{height:18px;bottom:-8px;}
-  #battle .battle-selected-name,#battle .battle-vs-name{font-size:23px;text-shadow:2px 2px 0 var(--ink);}
-  #battle .battle-loadout{display:none;}
-  #battle .battle-vs-name{font-size:clamp(22px,2.4vw,32px);}
-#battle .battle-vs-level{font-size:10px;}
-  #battle .battle-select-controls{padding-top:18px;}
-  #battle .battle-roster{grid-template-columns:repeat(3,minmax(0,104px));gap:12px 16px;}
-  #battle .battle-face span{font-size:11px;}
+  #battle .battle-select{--face:min(104px,calc((100vw - 28px - 32px) / 3));grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);grid-template-rows:auto auto auto;
+    grid-template-areas:"jack middle boss" "roster roster roster" "start start start";column-gap:4px;padding:8px 14px 12px;}
+  #battle .battle-selection-tag{font-size:9px;padding:3px 7px;margin-bottom:8px;}
+  #battle .battle-preview-stage{flex:none;height:200px;margin-bottom:12px;}
+  #battle .battle-vs-stage{flex:none;height:130px;margin:0 0 12px;}
+  #battle .battle-preview-stage::before,#battle .battle-vs-stage::before{height:16px;bottom:-7px;}
+  #battle .battle-selected-name,#battle .battle-vs-name{font-size:21px;text-shadow:2px 2px 0 var(--ink);}
+  #battle .battle-loadout,#battle .battle-vs-level{display:none;}
+  #battle .battle-vs-label{font-size:9px;}
+  #battle .battle-vs-mark{align-self:center;margin:0 0 40px;font-size:40px;text-shadow:3px 3px 0 var(--ink);}
+  #battle .battle-select-controls{padding-top:22px;}
+  #battle .battle-roster{gap:16px 16px;}
+  #battle .battle-face span{font-size:11px;white-space:normal;}
   #battle .battle-select-help{display:none;}
-  #battle .battle-start-wrap{position:sticky;bottom:10px;z-index:5;padding:14px 0 0;}
-  #battle .battle-start{width:100%;min-height:60px;font-size:22px;box-shadow:5px 5px 0 var(--ink);border-color:#fff;}
+  #battle .battle-start-wrap{grid-area:start;position:sticky;bottom:10px;z-index:5;align-self:end;justify-self:stretch;margin:0;padding:16px 0 0;}
+  #battle .battle-start{width:100%;min-height:58px;font-size:21px;box-shadow:5px 5px 0 var(--ink);border-color:#fff;}
   #battle .battle-start:hover{box-shadow:7px 7px 0 var(--ink);}
+}
+@media(max-width:639px){
   .battle-intro-label{top:9%;font-size:10px;}
   .battle-intro-title{top:30%;left:5%;width:90%;gap:9px;}
   .battle-intro-title>span{font-size:clamp(32px,10.5vw,48px);}
@@ -157,13 +191,13 @@
   .battle-intro-jackson{left:2%;bottom:18%;width:43%;height:44%;}
   .battle-intro-boss{right:2%;bottom:21%;width:49%;}
   .battle-intro-ready{bottom:5%;font-size:10px;}
-  /* Keep the result short on a phone: the project links fold away. */
   .game-home .battle-used{margin-top:16px;padding-top:10px;}
 }
 @media(max-width:359px){
-  #battle .battle-preview-stage{height:180px;}
-  #battle .battle-vs-stage{height:120px;}
-  #battle .battle-roster{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;}
+  #battle .battle-preview-stage{height:170px;}
+  #battle .battle-vs-stage{height:110px;}
+  #battle .battle-vs-mark{font-size:32px;}
+  #battle .battle-selected-name,#battle .battle-vs-name{font-size:18px;}
 }
 .battle-used summary{display:flex;align-items:center;gap:8px;min-height:44px;cursor:pointer;list-style:none;}
 .battle-used summary::-webkit-details-marker{display:none;}
