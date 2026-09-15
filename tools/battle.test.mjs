@@ -165,3 +165,54 @@ test('a replay gets the short matchup and still reaches the same fight',()=>{
   h.advance(1);assert.equal(e.state.stage,'windup');
   h.advance(20000);assert.equal(e.state.phase,'backup');
 });
+
+test('all move orders preserve their damage and reach the reversal for every character',()=>{
+  const orders=[[0,2,4],[0,4,2],[2,0,4],[2,4,0],[4,0,2],[4,2,0]];
+  for(const key of Object.keys(FIGHTS))for(const order of orders)for(const outcome of ['leave','supported']){
+    const h=harness(),e=h.engine;e.reset(key);e.start(false,true);h.advance(TIMING.intro);
+    let boss=100;
+    for(const move of order){
+      assert.equal(e.state.stage,'choice');assert.equal(h.tasks.size,0);
+      assert.equal(e.chooseMove(move),true);assert.equal(e.state.log.at(-1).name,FIGHTS[key].moves[move].name);
+      assert.equal(e.chooseMove(move),false);
+      h.advance(TIMING.windup);boss-={0:38,2:22,4:0}[move];assert.equal(e.state.bhp,boss);
+      h.advance(5000);assert.equal(e.state.jhp,[92,58,1][e.state.usedMoves.length-1]);
+    }
+    assert.equal(e.state.phase,'backup');assert.equal(e.state.jhp,1);assert.equal(e.state.bhp,40);assert.deepEqual(e.state.usedMoves,order);
+    e.finish(outcome);h.advance(3000);assert.equal(e.state.phase,'done');
+  }
+});
+test('choices wait indefinitely and reject used, invalid, paused and background inputs',()=>{
+  const h=harness(),e=h.engine;e.reset('builder');e.start(false,true);h.advance(TIMING.intro+60000);
+  assert.equal(e.state.stage,'choice');assert.equal(e.state.index,0);assert.equal(e.chooseMove(1),false);assert.equal(e.chooseMove(NaN),false);
+  e.pause();assert.equal(e.chooseMove(0),false);assert.equal(e.watch(),false);e.pause();
+  h.clock.block('hidden',true);assert.equal(e.chooseMove(0),false);h.clock.block('hidden',false);
+  e.chooseMove(4);h.advance(5000);assert.equal(e.chooseMove(4),false);assert.equal(e.state.index,2);
+  e.reset('skier');h.advance(60000);assert.equal(e.state.phase,'select');assert.deepEqual(e.state.usedMoves,[]);
+});
+test('let Jackson choose uses each remaining move once after any first choice',()=>{
+  for(const first of [0,2,4]){
+    const h=harness(),e=h.engine;e.reset('researcher');e.start(false,true);h.advance(TIMING.intro);e.chooseMove(first);h.advance(5000);
+    assert.equal(e.watch(),true);h.advance(20000);assert.equal(e.state.phase,'backup');assert.equal(new Set(e.state.usedMoves).size,3);assert.equal(e.state.bhp,40);
+  }
+});
+
+test('reset cancels a chosen move during windup, impact and rest',()=>{
+  for(const elapsed of [20,TIMING.windup+20,TIMING.windup+TIMING.impact+20]){
+    const h=harness(),e=h.engine;e.reset('builder');e.start(false,true);h.advance(TIMING.intro);e.chooseMove(2);h.advance(elapsed);
+    e.reset('skier');h.advance(10000);assert.equal(e.state.phase,'select');assert.equal(e.state.jhp,100);assert.equal(e.state.bhp,100);assert.equal(e.state.log.length,0);
+  }
+});
+test('chosen attacks preserve remaining windup across pause and visibility changes',()=>{
+  const h=harness(),e=h.engine;e.reset('builder');e.start(true,true);h.advance(TIMING.quickIntro);assert.equal(e.state.stage,'choice');
+  e.chooseMove(0);h.advance(70);e.pause();h.clock.block('hidden',true);h.advance(5000);assert.equal(e.state.bhp,100);
+  e.pause();h.advance(5000);assert.equal(e.state.bhp,100);h.clock.block('hidden',false);
+  h.advance(TIMING.windup-71);assert.equal(e.state.bhp,100);h.advance(1);assert.equal(e.state.bhp,62);
+});
+test('automatic play can begin at the first or final choice',()=>{
+  for(const count of [0,2]){
+    const h=harness(),e=h.engine;e.reset('master');e.start(false,true);h.advance(TIMING.intro);
+    for(const move of [4,2].slice(0,count)){e.chooseMove(move);h.advance(5000);}
+    assert.equal(e.watch(),true);h.advance(20000);assert.equal(e.state.phase,'backup');assert.equal(e.state.bhp,40);assert.equal(new Set(e.state.usedMoves).size,3);
+  }
+});

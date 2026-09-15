@@ -1,5 +1,5 @@
 import {FIGHTS, LOADOUT, EMAIL, LINKEDIN, mailHref} from './battle-data.mjs?v=13';
-import {BattleEngine} from './battle-engine.mjs?v=12';
+import {BattleEngine} from './battle-engine.mjs?v=20';
 import {drawBoss, drawProp} from './battle-art.mjs?v=5';
 import {paintScene, particles} from './battle-scenes.mjs?v=18';
 
@@ -19,7 +19,7 @@ export function mountBattle(mount, characters) {
           <p><span class="battle-vs-label">Up against</span><strong class="battle-vs-name"></strong><span class="battle-vs-level"></span></p>
         </div>
       </div>
-      <div class="battle-start-wrap"><button type="button" class="battle-start" data-action="start">Start fight <span aria-hidden="true">▶</span></button></div>
+      <div class="battle-start-wrap"><button type="button" class="battle-start" data-action="start">Start fight <span aria-hidden="true">▶</span></button><p class="battle-play-hint">You pick his moves.</p></div>
       <div class="battle-select-controls">
         <fieldset class="battle-picker"><legend>Choose your Jackson</legend><div class="battle-roster"></div></fieldset>
       </div>
@@ -64,6 +64,11 @@ export function mountBattle(mount, characters) {
         <button type="button" class="battle-button" data-action="choose">Change character</button>
       </div>
       <div class="battle-command">
+        <div class="battle-moves" hidden>
+          <div class="battle-moves-heading"><h2 tabindex="-1" aria-describedby="battle-choice-context">Pick a move.</h2><span class="battle-moves-count"></span></div>
+          <p id="battle-choice-context" class="vh"></p><div class="battle-move-options"></div>
+          <button type="button" class="battle-watch" data-action="watch">Let Jackson choose</button>
+        </div>
         <div class="battle-log-panel">
           <p class="battle-turn-label">THE MATCH</p>
           <p class="battle-current" tabindex="-1"></p>
@@ -254,7 +259,7 @@ export function mountBattle(mount, characters) {
     mount.dataset.screen=playing?'playing':'select';
     document.body.classList.toggle('is-playing',playing);
     game.hidden=!playing;$('.battle-select').hidden=playing;
-    Object.assign(game.dataset,{phase:s.phase,stage:s.stage,actor:s.actor||'',fighter:s.key,critical:String(Boolean(s.critical)),paused:String(s.paused),hurt:String(s.damage>0),quick:String(Boolean(s.quick))});
+    Object.assign(game.dataset,{phase:s.phase,stage:s.stage,actor:s.actor||'',fighter:s.key,critical:String(Boolean(s.critical)),paused:String(s.paused),hurt:String(s.damage>0),interactive:String(s.interactive),quick:String(Boolean(s.quick))});
     if(event==='reset') {
       copyPending=false;copyStatus.textContent='';
       $('.battle-announcement').textContent='';$('.battle-stage-note').textContent='';
@@ -277,6 +282,15 @@ export function mountBattle(mount, characters) {
       $('.battle-loadout').textContent=LOADOUT[s.key];
       $('[data-action="email"]').href=mailHref(s.key);
       radios.forEach(r=>{r.checked=r.value===s.key;});
+      const options=$('.battle-move-options');options.replaceChildren();
+      fight.moves.forEach((move,index)=>{
+        if(move.actor!=='jackson')return;
+        const button=document.createElement('button');button.type='button';button.className='battle-move';button.dataset.move=index;
+        const name=document.createElement('strong');name.textContent=move.name;
+        const detail=document.createElement('span');detail.textContent=move.experience?.text||'Worth a try.';
+        const shortcut=document.createElement('kbd');shortcut.textContent=String(index/2+1);shortcut.setAttribute('aria-hidden','true');
+        button.append(name,detail,shortcut);button.addEventListener('click',()=>pickMove(index));options.append(button);
+      });
     }
     for(const [side,hp] of [['jackson',s.jhp],['boss',s.bhp]]) {
       $(`#battle-${side}-meter`).value=hp;
@@ -303,13 +317,21 @@ export function mountBattle(mount, characters) {
         sparkAt(hitEl,s.actor==='boss'?['#ad343c','#fbfbfa','#292a2c']:[scene.info?.tint||'#292a2c','#fbfbfa','#e3b341']);
       }
       const callout=$('.battle-callout');
-      callout.textContent=event==='victory'?(s.outcome==='leave'?'SOMEHOW':'BACKUP ARRIVED'):CALLOUTS[s.index-1];
+      callout.textContent=event==='victory'?(s.outcome==='leave'?'SOMEHOW':'BACKUP ARRIVED'):s.actor==='jackson'?(s.damage===0?'MISSED':s.damage>=30?'GOOD HIT':'COMBO ×2'):CALLOUTS[s.index-1];
       callout.dataset.tone=event==='victory'?'win':s.critical?'big':s.damage>0&&s.actor==='jackson'?'good':'bad';
       replay(callout,'battle-calling');
       if(s.critical||event==='victory'){const flash=$('.battle-flash');flash.dataset.tone=s.critical?'red':'white';replay(flash,'battle-flashing');}
     }
     const isBackup=s.phase==='backup', isDone=s.phase==='done';
-    backup.hidden=!isBackup;result.hidden=!isDone;$('.battle-log-panel').hidden=isBackup||isDone;
+    const choosing=s.phase==='fight'&&s.stage==='choice';
+    backup.hidden=!isBackup;result.hidden=!isDone;$('.battle-log-panel').hidden=isBackup||isDone||choosing;
+    $('.battle-moves').hidden=!choosing;
+    $('.battle-moves-count').textContent=`${s.usedMoves.length} / 3 used`;
+    mount.querySelectorAll('.battle-move').forEach(button=>{
+      const used=s.usedMoves.includes(Number(button.dataset.move));
+      button.disabled=used;button.classList.toggle('is-used',used);
+      button.querySelector('kbd').textContent=used?'✓':String(Number(button.dataset.move)/2+1);
+    });
     if(s.phase==='intro') {
       current.textContent=`${char.n} versus ${fight.boss}.`;
       previous.textContent='';
@@ -319,6 +341,7 @@ export function mountBattle(mount, characters) {
     $('.battle-turn-label').textContent=s.phase==='intro'?'THE MATCH':s.phase==='finishing'?'THE FINISH':`TURN ${s.index} OF 6`;
     const canPause=['intro','fight','finishing'].includes(s.phase);
     pause.hidden=!canPause;pauseMenu.hidden=!(canPause&&s.paused);
+    $('.battle-command').inert=s.paused;$('.battle-topline').inert=s.paused;
     $('.battle-round').textContent=isBackup?'1 HP LEFT':isDone?'FIGHT OVER':s.phase==='finishing'?'FINISH HIM':'ROUND 1';
     if(isDone) {
       $('.battle-result-title').textContent=`${fight.boss} defeated.`;
@@ -341,7 +364,14 @@ export function mountBattle(mount, characters) {
     if(event==='line'){
       replay($('.battle-log-panel'),'battle-dialogue-enter');
       $('.battle-announcement').textContent=lineText(s.log.at(-1));
-      if(s.log.at(-1).actor==='jackson')drawProp($('.battle-prop'),s.key,s.phase==='finishing'?7:s.index);
+      if(s.log.at(-1).actor==='jackson')drawProp($('.battle-prop'),s.key,s.phase==='finishing'?7:s.activeMove+1);
+    }
+    if(event==='choice'){
+      const previousMove=s.log.at(-1);
+      $('#battle-choice-context').textContent=`${previousMove?lineText(previousMove)+' ':''}Jackson has ${s.jhp} HP. ${fight.boss} has ${s.bhp} HP.`;
+      const remaining=fight.moves.filter((m,i)=>m.actor==='jackson'&&!s.usedMoves.includes(i)).map(m=>m.name).join(', ');
+      $('.battle-announcement').textContent=`Pick a move: ${remaining}. Or let Jackson choose.`;
+      if(hadFocus)$('.battle-moves-heading h2').focus({preventScroll:true});
     }
     if(event==='backup'){
       replay(backup,'battle-panel-enter');
@@ -374,7 +404,7 @@ export function mountBattle(mount, characters) {
     transition(()=>{
       if(engine.state.phase!=='select')return;
       document.body.classList.add('has-played');
-      engine.start(fought);fought=true;toTop();
+      engine.start(fought,true);fought=true;toTop();
       current.focus({preventScroll:true});
     });
   });
@@ -393,7 +423,12 @@ export function mountBattle(mount, characters) {
     engine.pause();pause.focus({preventScroll:true});
   });
   $('[data-action="choose"]').addEventListener('click',choose);
+  function pickMove(index){if(!engine.chooseMove(index))return false;current.focus({preventScroll:true});return true;}
+  $('[data-action="watch"]').addEventListener('click',()=>{if(engine.watch())current.focus({preventScroll:true});});
   mount.addEventListener('keydown',event=>{
+    if(!event.repeat&&!event.altKey&&!event.ctrlKey&&!event.metaKey&&/^[123]$/.test(event.key)&&engine.state.stage==='choice'&&!event.target.closest('input,textarea,select,[contenteditable="true"]')){
+      if(pickMove((Number(event.key)-1)*2))event.preventDefault();
+    }
     if(event.key==='Escape'&&engine.state.paused){event.preventDefault();$('[data-action="resume"]').click();}
   });
   function support(via) {

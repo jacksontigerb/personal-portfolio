@@ -18,12 +18,13 @@ export class BattleEngine {
     if(!FIGHTS[key]) return;
     this.clock.cancel();this.clock.block('manual',false);
     this.state={key,run:++this.run,phase:'select',stage:'ready',index:0,jhp:100,bhp:100,
-      paused:false,log:[],outcome:null,damage:0};
+      paused:false,log:[],outcome:null,damage:0,interactive:false,usedMoves:[],activeMove:0};
     this.emit('reset');
   }
   // A replay gets a shorter matchup, since the visitor has already seen the full one.
-  start(quick=false) {
+  start(quick=false,interactive=false) {
     if(this.state.phase!=='select')return;
+    this.state.interactive=Boolean(interactive);
     this.state.phase='intro';this.state.stage='title';this.state.quick=Boolean(quick);this.emit('start');
     this.clock.after(quick?TIMING.quickIntro:TIMING.intro,()=>this.turn());
   }
@@ -36,14 +37,36 @@ export class BattleEngine {
   turn() {
     const s=this.state;
     if(!['intro','fight'].includes(s.phase))return;
-    if(s.index===6){this.backup();return;}
     this.clock.cancel();
-    const i=s.index++, move=FIGHTS[s.key].moves[i];
-    s.phase='fight';s.actor=move.actor;s.stage='windup';s.critical=i===5;
-    s.damage=move.actor==='jackson'?s.bhp-move.hp[1]:s.jhp-move.hp[0];
+    if(s.index===6){this.backup();return;}
+    if(s.index%2===0&&s.interactive){
+      Object.assign(s,{phase:'fight',actor:'jackson',stage:'choice',critical:false,damage:0});
+      this.emit('choice');return;
+    }
+    const moveIndex=s.index%2?s.index:[0,2,4].find(i=>!s.usedMoves.includes(i));
+    this.attack(moveIndex);
+  }
+  chooseMove(moveIndex) {
+    const s=this.state;
+    if(s.phase!=='fight'||s.stage!=='choice'||s.paused||this.clock.blocks.size||![0,2,4].includes(moveIndex)||s.usedMoves.includes(moveIndex))return false;
+    this.attack(moveIndex);return true;
+  }
+  watch() {
+    const s=this.state;
+    if(s.phase!=='fight'||s.stage!=='choice'||s.paused||this.clock.blocks.size)return false;
+    s.interactive=false;this.turn();return true;
+  }
+  attack(moveIndex) {
+    const s=this.state, i=s.index++, move=FIGHTS[s.key].moves[moveIndex];
+    s.phase='fight';s.actor=move.actor;s.stage='windup';s.critical=i===5;s.activeMove=moveIndex;
+    if(move.actor==='jackson')s.usedMoves.push(moveIndex);
+    // Move damage travels with the chosen move. Boss turns preserve the current boss HP.
+    const previousBossHP=moveIndex===0?100:FIGHTS[s.key].moves[moveIndex-1].hp[1];
+    const hp=move.actor==='jackson'?[s.jhp,Math.max(0,s.bhp-(previousBossHP-move.hp[1]))]:[move.hp[0],s.bhp];
+    s.damage=move.actor==='jackson'?s.bhp-hp[1]:s.jhp-hp[0];
     this.line(move.actor,move);
     this.clock.after(i===5?TIMING.critWindup:move.actor==='jackson'?TIMING.windup:TIMING.bossWindup,()=>{
-      [s.jhp,s.bhp]=move.hp;s.stage='impact';this.emit('impact');
+      [s.jhp,s.bhp]=hp;s.stage='impact';this.emit('impact');
       this.clock.after(TIMING.impact,()=>{
         s.stage='rest';this.emit();
         this.clock.after(i===5?TIMING.lastRest:move.actor==='jackson'?TIMING.jacksonRest:TIMING.bossRest,()=>i===5?this.backup():this.turn());
