@@ -19,7 +19,7 @@ export function mountBattle(mount, characters) {
           <p><span class="battle-vs-label">Up against</span><strong class="battle-vs-name"></strong><span class="battle-vs-level"></span></p>
         </div>
       </div>
-      <div class="battle-start-wrap"><button type="button" class="battle-start" data-action="start">Start fight <span aria-hidden="true">▶</span></button><p class="battle-play-hint">You pick his moves.</p></div>
+      <div class="battle-start-wrap"><button type="button" class="battle-start" data-action="start">Start fight <span aria-hidden="true">▶</span></button></div>
       <div class="battle-select-controls">
         <fieldset class="battle-picker"><legend>Choose your Jackson</legend><div class="battle-roster"></div></fieldset>
       </div>

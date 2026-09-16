@@ -89,6 +89,21 @@ img{max-width:100%;height:auto;display:block;}
   margin-bottom:18px;
   transition:color .45s ease;
 }
+.sec-title{
+  font-family:var(--telegraf);
+  font-weight:600;
+  font-size:30px;
+  line-height:1.15;
+  letter-spacing:0.2px;
+  color:var(--accent);
+  margin:0;
+  transition:color .45s ease;
+}
+.sec-title::before{
+  content:"";display:inline-block;width:11px;height:11px;
+  margin-right:13px;vertical-align:baseline;
+  background:var(--accent);transition:background .45s ease;
+}
 .eyebrow::before{
   content:"";display:inline-block;width:8px;height:8px;
   margin-right:9px;vertical-align:baseline;
@@ -613,7 +628,6 @@ nav{
 
 /* the lines a selected piece of work leads with */
 .links-row{display:flex;flex-wrap:wrap;gap:12px;margin:0 0 8px;}
-.card .cres{font-family:var(--telegraf);font-size:18px;line-height:1.4;letter-spacing:0.3px;}
 
 /* sub-sections inside a section: a lighter rule than the section head */
 .sub-head{border-top-width:1px;margin-top:88px;}
@@ -798,20 +812,27 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
 @keyframes pj-in{from{opacity:0;}}
 ::view-transition-old(root),::view-transition-new(root){animation-duration:.3s;}
 .cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:44px;align-items:stretch;}
-.card{border:1px solid var(--ink);display:flex;flex-direction:column;cursor:pointer;min-width:0;}
-.card:hover,.card.active{box-shadow:0 0 0 1px var(--ink);}
+.card{border:1px solid var(--ink);display:flex;flex-direction:column;cursor:pointer;min-width:0;position:relative;background:var(--vellum);transition:transform .16s ease,box-shadow .16s ease,border-color .35s ease;}
+.card:hover,.card.active{transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--accent);border-color:var(--accent);}
+.card .cgo{position:absolute;z-index:2;right:-1px;top:-1px;width:38px;height:38px;display:flex;align-items:center;justify-content:center;border:1px solid var(--ink);background:var(--vellum);font-family:var(--telegraf);font-size:16px;line-height:1;transition:background .25s ease,color .25s ease,border-color .35s ease;}
+.card:hover .cgo,.card.active .cgo{background:var(--accent);border-color:var(--accent);color:#fff;}
+.card:hover .ct,.card.active .ct{color:var(--accent);}
+.card .ct{transition:color .35s ease;}
 .card .cimg{border-bottom:1px solid var(--ink);font-size:0;overflow:hidden;}
 .card .cimg img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block;}
+.card .cchart{display:flex;align-items:center;justify-content:center;aspect-ratio:16/10;background:#e3ebe3;}
+.card .cchart svg{width:100%;height:100%;}
+.card .cchart .axis,.card .cchart .eol{fill:none;stroke:var(--ink);stroke-width:1.5;opacity:.4;}
+.card .cchart .eol{stroke-dasharray:5 5;}
+.card .cchart .fade{fill:none;stroke:#2f7d4a;stroke-width:4;stroke-linecap:round;}
+.card .cchart text{font-family:var(--telegraf);font-size:9px;fill:var(--ink);opacity:.65;text-anchor:end;}
 @media (hover:hover) and (prefers-reduced-motion:no-preference){
   .card .cimg img{transition:transform .3s cubic-bezier(0.23,1,0.32,1);}
   .card:hover .cimg img{transform:scale(1.03);}
 }
 .card .cbody{padding:18px;display:flex;flex-direction:column;gap:11px;flex:1;}
 .card .ct{font-family:var(--ogg);font-size:26px;line-height:1.1;letter-spacing:-0.52px;}
-.card .ct .sub{font-style:italic;display:block;margin-top:2px;font-size:20px;}
 .card .ctags{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;}
-.card .copen{margin-top:auto;padding-top:14px;border-top:1px solid var(--ink);font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;display:flex;justify-content:space-between;gap:11px;}
-.card:hover .copen .a{text-decoration:underline;}
 .card:focus-visible{outline:2px solid var(--ink);outline-offset:3px;}
 .card.feature{grid-column:span 2;}
 .card.feature .cimg img{aspect-ratio:21/9;}
@@ -821,7 +842,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
    until the script has marked them, so nothing flashes open while the page loads */
 html.js:not(.panels-ready) .panel{display:none;}
 html:not(.js) .card{cursor:default;}
-html:not(.js) .card .copen,html:not(.js) .pclose,html:not(.js) .cs-roster{display:none;}
+html:not(.js) .pclose,html:not(.js) .cs-roster{display:none;}
 .panel:focus{outline:none;}
 .panel:focus-visible{outline:2px solid var(--ink);outline-offset:3px;}
 .panel{border:1px solid var(--ink);margin-top:44px;padding:clamp(18px,3vw,44px);}
@@ -853,7 +874,7 @@ html:not(.js) .card .copen,html:not(.js) .pclose,html:not(.js) .cs-roster{displa
   @page{margin:14mm 14mm;}
   body{background:#fff;font-size:10.5pt;}
   .page{padding:0;max-width:none;}
-  nav,.rail,.cs-stage,.cs-roster,.cs-card,.cs-cta,#outside,#tools,.panel,video,.vplay,.card .cimg,.card .copen,.links-row,.footer-mark .big{display:none !important;}
+  nav,.rail,.cs-stage,.cs-roster,.cs-card,.cs-cta,#outside,#tools,.panel,video,.vplay,.card .cimg,.card .cgo,.links-row,.footer-mark .big{display:none !important;}
   html.anim .reveal{opacity:1 !important;transform:none !important;}
   section{margin-top:18px !important;break-inside:auto;}
   .cselect{display:block;padding-top:0;border:0;}
@@ -867,8 +888,7 @@ html:not(.js) .card .copen,html:not(.js) .pclose,html:not(.js) .cs-roster{displa
   .card,.card.feature{grid-column:auto;break-inside:avoid;}
   .card .cbody{padding:8px 10px;gap:4px;}
   .card .ct{font-size:12pt;}
-  .card .ct .sub{font-size:10pt;}
-  .card .cres,.card .ctags{font-size:9.5pt;}
+  .card .ctags{font-size:9.5pt;}
   .cvlist{margin-top:10px;}
   .cvitem{padding:8px 0;break-inside:avoid;}
   .cvitem .h .t{font-size:12pt;}
@@ -906,44 +926,36 @@ html:not(.js) .card .copen,html:not(.js) .pclose,html:not(.js) .cs-roster{displa
       <a href="#work">Work</a>
       <a href="#engineering">Engineering</a>
       <a href="#education">Education</a>
-      <a href="#skills">Toolkit</a>
+      <a href="#skills">Software</a>
       <a href="#outside">Outside work</a>
       <a href="#contact">Contact</a>
     </div>
   </nav>
 
   <section id="top" class="experience-intro">
-    <span class="eyebrow">Jackson Brocklebank</span>
+    <span class="eyebrow">All of my projects with more detail</span>
     <h1 class="serif-display">My full background.</h1>
-    <p>Every project, with the numbers and the write ups.</p>
     <a class="btn" data-back-to-fight href="index.html#battle">Back to the fight ↗</a>
   </section>
 
   <!-- SELECTED WORK -->
   <section id="work">
     <div class="sec-head">
-      <div>
-        <span class="eyebrow">01 · selected work</span>
-        <h2 class="serif-heading">Selected <span class="italic">work</span></h2>
-      </div>
-      <p class="lead">Two projects with results: a coating tested against a commercial finish, and a battery ageing model scored on conditions it hadn’t seen.</p>
+      <h2 class="sec-title">01 · Selected work</h2>
     </div>
     <div class="cards">
-      <div class="card feature" data-panel="p-pfas" aria-controls="p-pfas">
+      <div class="card feature" data-panel="p-pfas" aria-controls="p-pfas"><span class="cgo" aria-hidden="true">↗</span>
         <div class="cimg"><img loading="lazy" decoding="async" src="assets/wca-coating.jpg" srcset="assets/cards/wca-coating-800.webp 800w, assets/wca-coating.jpg 960w" sizes="(max-width:900px) 100vw, 66vw" alt="A water droplet beading up on the coated fabric under the contact angle goniometer"></div>
         <div class="cbody">
-          <div class="ct">A PFAS free water repellent coating <span class="sub">in collaboration with Finisterre</span></div>
-          <div class="cres">132 to 135&deg; water contact angle on cotton. Finisterre&#8217;s commercial finish gives 132&deg; on its own fabric</div>
+          <div class="ct">A PFAS free water repellent coating</div>
           <div class="ctags">SEM / contact angle / roll off and wear testing / my Master&#8217;s project</div>
-          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
         </div>
       </div>
-      <div class="card textonly" data-panel="p-huawei" aria-controls="p-huawei">
+      <div class="card" data-panel="p-huawei" aria-controls="p-huawei"><span class="cgo" aria-hidden="true">↗</span>
+        <div class="cimg cchart"><svg viewBox="0 0 240 120" role="img" aria-label="Capacity fading slowly, then dropping through the knee past the 70 per cent end of life line"><path class="axis" d="M24 14V106H222"/><path class="eol" d="M24 78H222"/><path class="fade" d="M28 22C82 28 122 42 154 57C178 68 190 86 202 106"/><text x="218" y="73">70%</text></svg></div>
         <div class="cbody">
-          <div class="ct">Predicting battery life <span class="sub">Huawei Tech Arena 2026, grid storage</span></div>
-          <div class="cres">A mean score of 0.711 against the baseline&#8217;s 1.000 over six held out conditions, lower is better</div>
+          <div class="ct">Battery ageing model</div>
           <div class="ctags">LFP cells / lifetime modelling / Python</div>
-          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
         </div>
       </div>
     </div>
@@ -1001,7 +1013,7 @@ html:not(.js) .card .copen,html:not(.js) .pclose,html:not(.js) .cs-roster{displa
     </div>
     <div class="panel" id="p-huawei">
       <div class="panel-head">
-        <div class="t">Predicting battery life <span class="sub">Huawei Tech Arena 2026, Digital Power</span></div>
+        <div class="t">Battery ageing model <span class="sub">Huawei Tech Arena 2026, Digital Power</span></div>
         <button class="pclose" data-close type="button">close &times;</button>
       </div>
       <p class="intro">A grid storage battery loses capacity slowly for years, then the loss suddenly speeds up and the pack reaches end of life soon after. The competition asked for the whole curve, down through that knee to 70% state of health, at temperatures and charge rates the model hadn't seen, using only the temperature and the C rate. There were no sensor traces, because the cells being scored didn't have any.</p>
@@ -1019,18 +1031,14 @@ html:not(.js) .card .copen,html:not(.js) .pclose,html:not(.js) .cs-roster{displa
   <!-- CURRENT RESEARCH -->
   <section id="current">
     <div class="sec-head">
-      <div>
-        <span class="eyebrow">02 · current research</span>
-        <h2 class="serif-heading">In <span class="italic">progress</span></h2>
-      </div>
+      <h2 class="sec-title">02 · Current research</h2>
       <p class="lead">At Curtin in Perth until November 2026. There are no results yet.</p>
     </div>
     <div class="cards">
-      <div class="card textonly" data-panel="p-curtin" aria-controls="p-curtin">
+      <div class="card textonly" data-panel="p-curtin" aria-controls="p-curtin"><span class="cgo" aria-hidden="true">↗</span>
         <div class="cbody">
-          <div class="ct">Iron oxide catalysts for CO&#8322; conversion <span class="sub">visiting research associate at Curtin</span></div>
+          <div class="ct">Iron oxide catalysts for CO&#8322; conversion</div>
           <div class="ctags">sol gel synthesis / Curtin University, Perth / until November 2026</div>
-          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
         </div>
       </div>
     </div>
@@ -1049,51 +1057,42 @@ html:not(.js) .card .copen,html:not(.js) .pclose,html:not(.js) .cs-roster{displa
   <!-- ENGINEERING -->
   <section id="engineering">
     <div class="sec-head">
-      <div>
-        <span class="eyebrow">03 · engineering &amp; prototyping</span>
-        <h2 class="serif-heading">Made <span class="italic">and tested</span></h2>
-      </div>
-      <p class="lead">Things I've designed, built and tested.</p>
+      <h2 class="sec-title">03 · Engineering and prototyping</h2>
     </div>
     <div class="cards">
-      <div class="card" data-panel="p-solar" aria-controls="p-solar">
+      <div class="card" data-panel="p-solar" aria-controls="p-solar"><span class="cgo" aria-hidden="true">↗</span>
         <div class="cimg"><img loading="lazy" decoding="async" src="assets/solar-boat.jpg" srcset="assets/cards/solar-boat-800.webp 800w, assets/solar-boat.jpg 1400w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" alt="The solar boat team in blue lab coats working on the hull in the workshop"></div>
         <div class="cbody">
-          <div class="ct">Solar racing boat <span class="sub">designed, machined, raced</span></div>
+          <div class="ct">Solar racing boat</div>
           <div class="ctags">CAD / fabrication / raced in the Netherlands</div>
-          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
         </div>
       </div>
-      <div class="card" data-panel="p-hydro" aria-controls="p-hydro">
+      <div class="card" data-panel="p-hydro" aria-controls="p-hydro"><span class="cgo" aria-hidden="true">↗</span>
         <div class="cimg"><img loading="lazy" decoding="async" src="assets/hydroturbine.jpg" srcset="assets/cards/hydroturbine-800.webp 800w, assets/hydroturbine.jpg 900w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" alt="Hydroturbine built from an orange pipe, tested in a real stream"></div>
         <div class="cbody">
-          <div class="ct">A £50 hydroturbine <span class="sub">tested in a stream</span></div>
+          <div class="ct">A £50 hydroturbine</div>
           <div class="ctags">design to field test / renewable energy</div>
-          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
         </div>
       </div>
-      <div class="card" data-panel="p-bridge" aria-controls="p-bridge">
+      <div class="card" data-panel="p-bridge" aria-controls="p-bridge"><span class="cgo" aria-hidden="true">↗</span>
         <div class="cimg"><img loading="lazy" decoding="async" src="assets/bridge.jpg" srcset="assets/cards/bridge-800.webp 800w, assets/bridge.jpg 1400w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" alt="Building the balsa bridge in the workshop with two teammates"></div>
         <div class="cbody">
-          <div class="ct">The balsa bridge <span class="sub">the only one to hold under full load</span></div>
+          <div class="ct">The balsa bridge</div>
           <div class="ctags">team project / spotted the flaw before test day</div>
-          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
         </div>
       </div>
-      <div class="card" data-panel="p-maze" aria-controls="p-maze">
+      <div class="card" data-panel="p-maze" aria-controls="p-maze"><span class="cgo" aria-hidden="true">↗</span>
         <div class="cimg"><img loading="lazy" decoding="async" src="assets/maze-robot.jpg" srcset="assets/cards/maze-robot-800.webp 800w, assets/maze-robot.jpg 1400w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" alt="Arduino maze solving robot with breadboard wiring and yellow wheels"></div>
         <div class="cbody">
-          <div class="ct">Maze solving robot <span class="sub">sensors and soldering</span></div>
+          <div class="ct">Maze solving robot</div>
           <div class="ctags">electronics / control logic / Arduino</div>
-          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
         </div>
       </div>
-      <div class="card" data-panel="p-bikes" aria-controls="p-bikes">
+      <div class="card" data-panel="p-bikes" aria-controls="p-bikes"><span class="cgo" aria-hidden="true">↗</span>
         <div class="cimg"><img loading="lazy" decoding="async" src="assets/brocklebikes.jpg" srcset="assets/cards/brocklebikes-800.webp 800w, assets/brocklebikes.jpg 1200w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" alt="A bike on the repair stand in the garden"></div>
         <div class="cbody">
-          <div class="ct">Brocklebikes <span class="sub">a business I started at sixteen</span></div>
+          <div class="ct">Brocklebikes</div>
           <div class="ctags">495+ repairs / self taught / customer facing</div>
-          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
         </div>
       </div>
     </div>
@@ -1158,10 +1157,7 @@ html:not(.js) .card .copen,html:not(.js) .pclose,html:not(.js) .cs-roster{displa
   <!-- EDUCATION AND EXPERIENCE -->
   <section id="education">
     <div class="sec-head">
-      <div>
-        <span class="eyebrow">04 · education &amp; experience</span>
-        <h2 class="serif-heading">Two degrees, <span class="italic">materials and energy</span></h2>
-      </div>
+      <h2 class="sec-title">04 · Education and experience</h2>
       <p class="lead">An MSc in Advanced Materials Science at UCL, after a BEng in Renewable Energy Engineering at Exeter, where I got firsts for my dissertation and the field trip module.</p>
     </div>
     <div class="cvlist">
@@ -1186,12 +1182,11 @@ html:not(.js) .card .copen,html:not(.js) .pclose,html:not(.js) .cs-roster{displa
     </div>
     <div class="group">
     <div class="cards">
-      <div class="card" data-panel="p-redox" aria-controls="p-redox">
+      <div class="card" data-panel="p-redox" aria-controls="p-redox"><span class="cgo" aria-hidden="true">↗</span>
         <div class="cimg"><img loading="lazy" decoding="async" src="assets/redox-cover.jpg" srcset="assets/cards/redox-cover-800.webp 800w, assets/redox-cover.jpg 926w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" alt="Dissertation cover: Redox Flow Batteries in Coupling Renewable Energy Sources, University of Exeter, April 2025"></div>
         <div class="cbody">
-          <div class="ct">Redox flow batteries <span class="sub">BEng dissertation, awarded a first</span></div>
+          <div class="ct">Redox flow batteries</div>
           <div class="ctags">energy storage / expert interviews / University of Exeter</div>
-          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
         </div>
       </div>
     </div>
@@ -1256,13 +1251,10 @@ html:not(.js) .card .copen,html:not(.js) .pclose,html:not(.js) .cs-roster{displa
     </div>
   </section>
 
-  <!-- TOOLKIT -->
+  <!-- SOFTWARE AND PROGRAMMED EXPERIENCE -->
   <section id="skills">
     <div class="sec-head">
-      <div>
-        <span class="eyebrow">05 · the toolkit</span>
-        <h2 class="serif-heading">The <span class="italic">toolkit</span></h2>
-      </div>
+      <h2 class="sec-title">05 · Software and programmed experience</h2>
       <p class="lead">Characterisation instruments, workshop machines and the software I edit and model in.</p>
     </div>
     <div class="skills-grid">
@@ -1281,20 +1273,18 @@ html:not(.js) .card .copen,html:not(.js) .pclose,html:not(.js) .cs-roster{displa
       <p class="lead">Research, planning and the repetitive jobs I would rather not do twice.</p>
     </div>
     <div class="cards">
-      <div class="card" data-panel="p-pocket" aria-controls="p-pocket">
+      <div class="card" data-panel="p-pocket" aria-controls="p-pocket"><span class="cgo" aria-hidden="true">↗</span>
         <div class="cimg"><img loading="lazy" decoding="async" src="assets/pocket-claude-terminal.png" srcset="assets/cards/pocket-claude-terminal-800.webp 800w, assets/pocket-claude-terminal.png 894w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" alt="Terminal on the Mac showing a dictated phrase arriving in the live Claude Code session"></div>
         <div class="cbody">
-          <div class="ct">Pocket Claude <span class="sub">one agent, from my laptop, my phone or my voice</span></div>
+          <div class="ct">Pocket Claude</div>
           <div class="ctags">Ubuntu VPS / tmux / Tailscale / iOS Shortcuts</div>
-          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
         </div>
       </div>
-      <div class="card textonly" data-panel="p-site" aria-controls="p-site">
-        
+      <div class="card" data-panel="p-site" aria-controls="p-site"><span class="cgo" aria-hidden="true">↗</span>
+        <div class="cimg"><img loading="lazy" decoding="async" src="assets/site-game.png" srcset="assets/cards/site-game-800.webp 800w, assets/site-game.png 1200w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" alt="The character select screen of the game on the home page, with Jackson facing The To Do List"></div>
         <div class="cbody">
-          <div class="ct">This website <span class="sub">planned, designed and made with Claude Code</span></div>
+          <div class="ct">This website</div>
           <div class="ctags">design system / GitHub Pages / no frameworks</div>
-          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
         </div>
       </div>
     </div>
@@ -1403,11 +1393,7 @@ html:not(.js) .card .copen,html:not(.js) .pclose,html:not(.js) .cs-roster{displa
   <!-- OUTSIDE WORK -->
   <section id="outside">
     <div class="sec-head">
-      <div>
-        <span class="eyebrow">06 · outside work</span>
-        <h2 class="serif-heading">Outside <span class="italic">work</span></h2>
-      </div>
-      <p class="lead">Skiing, sport, travel and the accounts I've grown.</p>
+      <h2 class="sec-title">06 · Outside work</h2>
     </div>
     <div class="group" id="skiing">
     <div class="sec-head sub-head">
@@ -1435,28 +1421,25 @@ html:not(.js) .card .copen,html:not(.js) .pclose,html:not(.js) .cs-roster{displa
       <p class="lead">Running, climbing, surfing and skating, most weeks of the year.</p>
     </div>
     <div class="cards">
-      <div class="card" data-panel="p-climb" aria-controls="p-climb">
+      <div class="card" data-panel="p-climb" aria-controls="p-climb"><span class="cgo" aria-hidden="true">↗</span>
         <div class="cimg"><img loading="lazy" decoding="async" src="assets/climbing.jpg" srcset="assets/cards/climbing-800.webp 800w, assets/climbing.jpg 1600w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" alt="Bouldering up a sandstone outcrop under a blue sky"></div>
         <div class="cbody">
-          <div class="ct">Climbing <span class="sub">on rock when I can</span></div>
+          <div class="ct">Climbing</div>
           <div class="ctags">bouldering / indoors and out</div>
-          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
         </div>
       </div>
-      <div class="card" data-panel="p-marathon" aria-controls="p-marathon">
+      <div class="card" data-panel="p-marathon" aria-controls="p-marathon"><span class="cgo" aria-hidden="true">↗</span>
         <div class="cimg"><img loading="lazy" decoding="async" src="assets/marathon.jpg" srcset="assets/cards/marathon-800.webp 800w, assets/marathon.jpg 1400w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" alt="Friends at the London Marathon finish holding GO TIGGY signs"></div>
         <div class="cbody">
-          <div class="ct">London Marathon 2026 <span class="sub">£1,647 raised for Marie Curie</span></div>
+          <div class="ct">London Marathon 2026</div>
           <div class="ctags">64 donors / run for charity</div>
-          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
         </div>
       </div>
-      <div class="card" data-panel="p-play" aria-controls="p-play">
+      <div class="card" data-panel="p-play" aria-controls="p-play"><span class="cgo" aria-hidden="true">↗</span>
         <div class="cimg"><img loading="lazy" decoding="async" src="assets/surf-cutback.jpg" srcset="assets/cards/surf-cutback-800.webp 800w, assets/surf-cutback.jpg 1600w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" alt="Surfer carving off the top of a wave, spray flying"></div>
         <div class="cbody">
-          <div class="ct">Surf &amp; skate <span class="sub">and everything else</span></div>
+          <div class="ct">Surf &amp; skate</div>
           <div class="ctags">photography / most of it shot myself</div>
-          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
         </div>
       </div>
     </div>
@@ -1508,28 +1491,25 @@ html:not(.js) .card .copen,html:not(.js) .pclose,html:not(.js) .cs-roster{displa
       <p class="lead">Senegal, the Dolomites and New York, mostly shot on film.</p>
     </div>
     <div class="cards">
-      <div class="card feature" data-panel="p-senegal" aria-controls="p-senegal">
+      <div class="card feature" data-panel="p-senegal" aria-controls="p-senegal"><span class="cgo" aria-hidden="true">↗</span>
         <div class="cimg"><img loading="lazy" decoding="async" src="assets/senegal-fishing.jpg" srcset="assets/cards/senegal-fishing-800.webp 800w, assets/senegal-fishing.jpg 1600w" sizes="(max-width:900px) 100vw, 66vw" alt="Out on a wooden pirogue in Senegal, the fisherman behind me holding up the catch"></div>
         <div class="cbody">
-          <div class="ct">Senegal <span class="sub">keeping a surf camp running</span></div>
+          <div class="ct">Senegal</div>
           <div class="ctags">surf camp / pirogue fishing / shot on film</div>
-          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
         </div>
       </div>
-      <div class="card" data-panel="p-dolomites" aria-controls="p-dolomites">
+      <div class="card" data-panel="p-dolomites" aria-controls="p-dolomites"><span class="cgo" aria-hidden="true">↗</span>
         <div class="cimg"><img loading="lazy" decoding="async" src="assets/dolomites-lake.jpg" srcset="assets/cards/dolomites-lake-800.webp 800w, assets/dolomites-lake.jpg 1600w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" alt="Mid backflip off a rock into an alpine lake in the Dolomites"></div>
         <div class="cbody">
-          <div class="ct">The Dolomites <span class="sub">camping in the mountains</span></div>
+          <div class="ct">The Dolomites</div>
           <div class="ctags">sunrise hikes / alpine lakes / italy</div>
-          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
         </div>
       </div>
-      <div class="card" data-panel="p-newyork" aria-controls="p-newyork">
+      <div class="card" data-panel="p-newyork" aria-controls="p-newyork"><span class="cgo" aria-hidden="true">↗</span>
         <div class="cimg"><img loading="lazy" decoding="async" src="assets/newyork-bridge.jpg" srcset="assets/cards/newyork-bridge-800.webp 800w, assets/newyork-bridge.jpg 1600w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" alt="Sat on a beam of the Brooklyn Bridge with the Manhattan Bridge behind"></div>
         <div class="cbody">
-          <div class="ct">New York <span class="sub">a solo trip</span></div>
+          <div class="ct">New York</div>
           <div class="ctags">brooklyn bridge / film camera</div>
-          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
         </div>
       </div>
     </div>
@@ -1606,28 +1586,25 @@ html:not(.js) .card .copen,html:not(.js) .pclose,html:not(.js) .cs-roster{displa
       <p class="lead">A TikTok account, a university running club and a Twitch channel, which I started myself.</p>
     </div>
     <div class="cards">
-      <div class="card" data-panel="p-tiktok" aria-controls="p-tiktok">
+      <div class="card" data-panel="p-tiktok" aria-controls="p-tiktok"><span class="cgo" aria-hidden="true">↗</span>
         <div class="cimg"><img loading="lazy" decoding="async" src="assets/tiktok-profile.jpg" srcset="assets/cards/tiktok-profile-800.webp 800w, assets/tiktok-profile.jpg 900w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" alt="TikTok profile for @jacksontigerb: 80.9 thousand followers and 2.5 million likes"></div>
         <div class="cbody">
-          <div class="ct">@jacksontigerb <span class="sub">89,000 followers in seven months</span></div>
+          <div class="ct">@jacksontigerb</div>
           <div class="ctags">2.5m likes / one video at 1.2m views / run solo</div>
-          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
         </div>
       </div>
-      <div class="card" data-panel="p-film" aria-controls="p-film">
+      <div class="card" data-panel="p-film" aria-controls="p-film"><span class="cgo" aria-hidden="true">↗</span>
         <div class="cimg"><img loading="lazy" decoding="async" src="assets/twitch.jpg" srcset="assets/cards/twitch-800.webp 800w, assets/twitch.jpg 1000w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" alt="Twitch channel jacksontig3r with 1.3 thousand followers"></div>
         <div class="cbody">
-          <div class="ct">Film &amp; editing <span class="sub">fifteen years behind a camera</span></div>
+          <div class="ct">Film &amp; editing</div>
           <div class="ctags">scooter edits / gaming videos / a Twitch channel</div>
-          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
         </div>
       </div>
-      <div class="card" data-panel="p-runclub" aria-controls="p-runclub">
+      <div class="card" data-panel="p-runclub" aria-controls="p-runclub"><span class="cgo" aria-hidden="true">↗</span>
         <div class="cimg"><img loading="lazy" decoding="async" src="assets/runclub-street.jpg" srcset="assets/cards/runclub-street-800.webp 800w, assets/runclub-street.jpg 1000w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" alt="Run club running down a pastel terraced street at dusk"></div>
         <div class="cbody">
-          <div class="ct">Falmouth Running Society <span class="sub">founded in January, 25 a week by June</span></div>
+          <div class="ct">Falmouth Running Society</div>
           <div class="ctags">community / weekly sessions / 200+ followers</div>
-          <div class="copen"><span class="a" data-open="open the project">open the project</span><span>&rarr;</span></div>
         </div>
       </div>
     </div>

@@ -243,7 +243,6 @@
 #battle .battle-loadout{font-size:13px;line-height:1.5;max-width:34ch;margin-top:8px;}
 #battle .battle-select-controls{padding-top:18px;border-top:1px solid #ffffff24;}
 #battle .battle-start-wrap{flex-direction:column;align-items:center;gap:12px;}
-#battle .battle-play-hint{max-width:240px;margin:0;font-size:11px;line-height:1.5;text-align:center;color:#fff;text-shadow:1px 1px 0 #0005;}
 #battle .battle-face img{box-shadow:3px 3px 0 var(--ink);}
 #battle .battle-face:has(input:checked) img{box-shadow:0 0 0 2px var(--ink),4px 7px 0 #292a2c80;}
 #battle .battle-face span{min-height:2.4em;display:flex;align-items:flex-start;justify-content:center;}
@@ -265,7 +264,6 @@
   #battle .battle-selected-name,#battle .battle-vs-name{font-size:clamp(18px,4.8vw,25px);}
   #battle .battle-select-controls{margin-top:10px;padding-top:20px;}
   #battle .battle-start-wrap{gap:8px;padding:12px 0 4px;background:linear-gradient(transparent,rgba(var(--accent-rgb),.96) 35%);}
-  #battle .battle-play-hint{font-size:10px;max-width:none;}
 }
 @media(prefers-reduced-motion:reduce){#battle .battle-select-world::after{transition:none;}}
 
