@@ -842,7 +842,7 @@ html.anim .reveal.in{opacity:1;transform:translateY(0);}
    until the script has marked them, so nothing flashes open while the page loads */
 html.js:not(.panels-ready) .panel{display:none;}
 html:not(.js) .card{cursor:default;}
-html:not(.js) .pclose,html:not(.js) .cs-roster{display:none;}
+html:not(.js) .pclose,html:not(.js) .pclose-float,html:not(.js) .cs-roster{display:none;}
 .panel:focus{outline:none;}
 .panel:focus-visible{outline:2px solid var(--ink);outline-offset:3px;}
 .panel{border:1px solid var(--ink);margin-top:44px;padding:clamp(18px,3vw,44px);}
@@ -853,8 +853,14 @@ html:not(.js) .pclose,html:not(.js) .cs-roster{display:none;}
 .panel-head{display:flex;justify-content:space-between;align-items:baseline;gap:18px;margin-bottom:24px;}
 .panel-head .t{font-family:var(--ogg);font-size:26px;line-height:1.1;letter-spacing:-0.52px;}
 .panel-head .t .sub{font-style:italic;display:block;margin-top:2px;font-size:20px;}
-.pclose{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;background:none;border:none;border-bottom:1px solid var(--black);cursor:pointer;color:var(--ink);padding:0 0 1px;flex-shrink:0;}
-.pclose:hover{border-bottom-width:2px;}
+.pclose{font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;background:var(--vellum);border:1px solid var(--ink);cursor:pointer;color:var(--ink);display:inline-flex;align-items:center;gap:9px;min-height:44px;padding:0 18px;flex-shrink:0;box-shadow:3px 3px 0 0 var(--ink);transition:transform .15s ease,box-shadow .15s ease,background .25s ease;}
+.pclose:hover{background:var(--accent);border-color:var(--accent);color:#fff;}
+.pclose:active{transform:translate(3px,3px);box-shadow:0 0 0 0 var(--ink);}
+/* long write ups scroll the head away, so the same button follows you down the page */
+.pclose-float{position:fixed;right:24px;bottom:24px;z-index:60;font-family:var(--telegraf);font-size:15px;letter-spacing:0.6px;display:inline-flex;align-items:center;gap:9px;min-height:52px;padding:0 22px;background:var(--ink);color:var(--vellum);border:1px solid var(--ink);cursor:pointer;box-shadow:4px 4px 0 0 var(--accent);transition:transform .15s ease,box-shadow .15s ease,background .25s ease;}
+.pclose-float:hover{background:var(--accent);border-color:var(--accent);}
+.pclose-float:active{transform:translate(4px,4px);box-shadow:0 0 0 0 var(--accent);}
+.pclose-float .k{opacity:.65;font-size:13px;}
 .panel .intro{font-size:20px;line-height:1.33;max-width:60ch;margin-bottom:24px;}
 .panel-cols{display:grid;grid-template-columns:1.4fr 1fr;gap:44px;align-items:start;}
 .panel-cols .intro{margin-bottom:0;}
@@ -876,7 +882,7 @@ html:not(.js) .pclose,html:not(.js) .cs-roster{display:none;}
   @page{margin:14mm 14mm;}
   body{background:#fff;font-size:10.5pt;}
   .page{padding:0;max-width:none;}
-  nav,.rail,.cs-stage,.cs-roster,.cs-card,.cs-cta,#outside,#tools,.panel,video,.vplay,.card .cimg,.card .cgo,.links-row,.footer-mark .big{display:none !important;}
+  nav,.rail,.cs-stage,.cs-roster,.cs-card,.cs-cta,#outside,#tools,.panel,video,.vplay,.card .cimg,.card .cgo,.pclose-float,.links-row,.footer-mark .big{display:none !important;}
   html.anim .reveal{opacity:1 !important;transform:none !important;}
   section{margin-top:18px !important;break-inside:auto;}
   .cselect{display:block;padding-top:0;border:0;}
@@ -1039,19 +1045,20 @@ html:not(.js) .pclose,html:not(.js) .cs-roster{display:none;}
     <div class="cards">
       <div class="card textonly" data-panel="p-curtin" aria-controls="p-curtin"><span class="cgo" aria-hidden="true">↗</span>
         <div class="cbody">
-          <div class="ct">Iron oxide catalysts for CO&#8322; conversion</div>
-          <div class="ctags">sol gel synthesis / Curtin University, Perth / until November 2026</div>
+          <div class="ct">How fast a silicate takes up CO&#8322;</div>
+          <div class="ctags">solid state synthesis / XRD / Curtin University, Perth</div>
         </div>
       </div>
     </div>
     <div class="panel" id="p-curtin">
       <div class="panel-head">
-        <div class="t">Iron oxide catalysts for CO&#8322; conversion <span class="sub">visiting research associate, Curtin University</span></div>
+        <div class="t">How fast a silicate takes up CO&#8322; <span class="sub">visiting research associate, Curtin University</span></div>
         <button class="pclose" data-close type="button">close &times;</button>
       </div>
-      <p class="intro">I'm in Perth until November 2026, in a group working on capturing CO&#8322; and turning it into fuels and chemicals. My project is on the conversion side.</p>
-      <p style="margin-top:18px;">My part is the catalyst. I make iron oxide by a sol gel route from iron nitrate: dissolve it, heat and stir until the solution condenses into a gel, dry that, then calcine it to crystallise the oxide. The precursor is cheap and abundant, and the temperatures are low next to solid state synthesis.</p>
-      <p style="margin-top:18px;">The phase that forms during calcination matters a lot. Hematite and maghemite have different structures and reduce at different rates, and maghemite derived catalysts tend to convert more CO&#8322;. Calcination temperature and time decide which one forms, so I'm looking at the synthesis and the catalysis together. After the synthesis the plan is XRD for the phase, electron microscopy and surface area for the morphology, then reactor testing.</p>
+      <p class="intro">I&#8217;m at Curtin in Perth until November 2026, on the reaction that lets silicate minerals lock carbon away. Silicates weather naturally and take up CO&#8322; as they go, but slowly, and for the one I&#8217;m working on nobody has measured how slowly. That is the project: the rate, and whether the process would scale.</p>
+      <p style="margin-top:18px;">First I make strontium orthosilicate (Sr&#8322;SiO&#8324;) by solid state reaction. Strontium carbonate and silica are weighed out, ball milled together under acetone, dried, then fired in a furnace. XRD says whether the phase I wanted is the phase I got.</p>
+      <p style="margin-top:18px;">Then I carbonate it. The powder goes into water with CO&#8322; bubbled through, and samples come out at set times to be filtered, rinsed and dried. Full carbonation adds 0.329 g of CO&#8322; per gram of Sr&#8322;SiO&#8324;, so the mass gain measures how far the reaction has gone, with XRD confirming the strontium carbonate and a water only run alongside as the control. Designing that experiment is part of the work, since there is no method to copy.</p>
+      <p style="margin-top:18px;">It is a model system rather than carbon removal in itself. Making Sr&#8322;SiO&#8324; from strontium carbonate releases the same CO&#8322; the carbonation later takes back, so the value is in the rate and in what it says about doing this at the scale of a mine site.</p>
       <p style="margin-top:18px;">There's nothing to report yet.</p>
     </div>
   </section>
@@ -1691,11 +1698,13 @@ html:not(.js) .pclose,html:not(.js) .cs-roster{display:none;}
     </div>
   </section>
 
+<button class="pclose-float" id="pclose-float" type="button" hidden>Close <span class="k">esc</span></button>
+
 <!-- CONTACT -->
   <section class="contact" id="contact">
     <span class="eyebrow">07 · let's talk</span>
     <h2 class="serif-display">Get in touch.</h2>
-    <p class="avail">I'm at Curtin University in Perth until November 2026, working on iron oxide catalysts for CO&#8322; conversion. After that I'm doing a ski season in Hakuba. I'm looking for work in London from May 2027.</p>
+    <p class="avail">I'm at Curtin University in Perth until November 2026, working on how fast a silicate mineral takes up CO&#8322;. After that I'm doing a ski season in Hakuba. I'm looking for work in London from May 2027.</p>
 
     <div class="contact-cols">
       <div class="row"><span class="k">email</span><a class="link email" href="mailto:jackson.brocklebank.25@ucl.ac.uk">jackson.brocklebank.25@ucl.ac.uk</a></div>
@@ -1761,6 +1770,7 @@ html:not(.js) .pclose,html:not(.js) .cs-roster{display:none;}
   function setHash(h){
     if(window.history&&history.replaceState)history.replaceState(null,'',location.pathname+location.search+h);
   }
+  var floatClose=doc.getElementById('pclose-float');
   function openPanel(c,quiet){
     var p=doc.getElementById(c.getAttribute('data-panel'));
     if(!p||!p.hidden)return;
@@ -1778,6 +1788,7 @@ html:not(.js) .pclose,html:not(.js) .cs-roster{display:none;}
       p.hidden=false;
       [].slice.call(p.querySelectorAll('.reveal')).forEach(function(el){el.classList.add('in');});
       c.setAttribute('aria-expanded','true');
+      if(floatClose)floatClose.hidden=false;
       sec.scrollIntoView({block:'start',behavior:canVT?'instant':'auto'});
       /* keyboard and screen reader users land in what they opened */
       p.focus({preventScroll:true});
@@ -1798,6 +1809,7 @@ html:not(.js) .pclose,html:not(.js) .cs-roster{display:none;}
       grid.hidden=false;
       if(tail)tail.hidden=false;
       if(c)c.setAttribute('aria-expanded','false');
+      if(floatClose)floatClose.hidden=true;
       sec.scrollIntoView({block:'start',behavior:canVT?'instant':'auto'});
       /* and back to the card they opened it from */
       if(c)c.focus({preventScroll:true});
@@ -1822,6 +1834,10 @@ html:not(.js) .pclose,html:not(.js) .cs-roster{display:none;}
   });
   [].slice.call(doc.querySelectorAll('.panel [data-close]')).forEach(function(b){
     b.addEventListener('click',function(){closePanel(b.closest('.panel'));});
+  });
+  if(floatClose)floatClose.addEventListener('click',function(){
+    var p=doc.querySelector('.panel:not([hidden])');
+    if(p)closePanel(p);
   });
   doc.addEventListener('keydown',function(e){
     if(e.key!=='Escape')return;
