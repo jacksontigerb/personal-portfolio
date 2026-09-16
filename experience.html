@@ -20,9 +20,9 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='%23292a2c'/><text x='32' y='47' font-family='Georgia,serif' font-size='42' font-style='italic' text-anchor='middle' fill='%23f2f2f2'>J</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@0;1&family=Inter:wght@400;600&display=swap">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@0;1&family=Inter:wght@400;600&display=swap" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@0;1&family=Inter:wght@400;600&display=swap"></noscript>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;600&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;600&display=swap"></noscript>
 <style>
 :root{
   --ink:#292a2c;
@@ -90,11 +90,11 @@ img{max-width:100%;height:auto;display:block;}
   transition:color .45s ease;
 }
 .sec-title{
-  font-family:var(--telegraf);
-  font-weight:600;
-  font-size:30px;
-  line-height:1.15;
-  letter-spacing:0.2px;
+  font-family:var(--ogg);
+  font-weight:700;
+  font-size:36px;
+  line-height:1.12;
+  letter-spacing:-0.5px;
   color:var(--accent);
   margin:0;
   transition:color .45s ease;
@@ -862,9 +862,11 @@ html:not(.js) .pclose,html:not(.js) .cs-roster{display:none;}
 @media (max-width:900px){
   .cards{grid-template-columns:repeat(2,minmax(0,1fr));}
   .panel-cols{grid-template-columns:1fr;gap:24px;}
+  .sec-title{font-size:32px;}
 }
 @media (max-width:560px){
   .cards{grid-template-columns:minmax(0,1fr);}
+  .sec-title{font-size:28px;}
   .card.feature{grid-column:auto;}
   .card.feature .cimg img{aspect-ratio:16/10;}
   .panel-head{flex-direction:column;gap:8px;}
@@ -912,7 +914,7 @@ html:not(.js) .pclose,html:not(.js) .cs-roster{display:none;}
   a{color:var(--ink);}
 }
 </style>
-<style>.experience-intro{padding:48px 0;border-bottom:1px solid var(--ink);}.experience-intro p{margin:16px 0;}.experience-intro .serif-display{font-size:56px;}</style>
+<style>.experience-intro{padding:48px 0;border-bottom:1px solid var(--ink);}.experience-intro .serif-display{font-size:56px;margin:0 0 14px;}.experience-intro .eyebrow{margin:0 0 30px;}</style>
 </head>
 <body>
 
@@ -933,8 +935,8 @@ html:not(.js) .pclose,html:not(.js) .cs-roster{display:none;}
   </nav>
 
   <section id="top" class="experience-intro">
-    <span class="eyebrow">All of my projects with more detail</span>
     <h1 class="serif-display">My full background.</h1>
+    <span class="eyebrow">All of my projects with more detail</span>
     <a class="btn" data-back-to-fight href="index.html#battle">Back to the fight ↗</a>
   </section>
 
