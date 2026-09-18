@@ -920,7 +920,50 @@ html:not(.js) .pclose,html:not(.js) .pclose-float,html:not(.js) .cs-roster{displ
   a{color:var(--ink);}
 }
 </style>
-<style>.experience-intro{padding:48px 0;border-bottom:1px solid var(--ink);}.experience-intro .serif-display{font-size:56px;margin:0 0 14px;}.experience-intro .eyebrow{margin:0 0 30px;}</style>
+<style>
+/* full portfolio page: compact header and smaller cards, so more fits on screen */
+:root{--section-gap:56px;}
+#top.experience-intro{margin-top:24px;}
+.experience-intro{padding:0;display:flex;flex-wrap:wrap;align-items:center;gap:10px 24px;}
+.experience-intro .serif-display{font-size:44px;margin:0;flex-basis:100%;}
+.experience-intro .eyebrow{margin:0;}
+.experience-intro .btn{margin-left:auto;}
+#top + section{margin-top:36px;}
+.sub-head{margin-top:40px;}
+.sec-head + .group > .sub-head:first-child{margin-top:20px;}
+.sec-head{padding-top:14px;gap:24px;}
+.sec-title{font-size:28px;}
+.sec-head .lead{font-size:16px;}
+.cards{grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:20px;}
+.card .cimg img,.card .cchart{aspect-ratio:16/9;}
+.card.feature{grid-column:auto;}
+.card.feature .cimg img{aspect-ratio:16/9;}
+.card .cbody{padding:12px 14px;gap:6px;}
+.card .ct{font-size:19px;line-height:1.15;letter-spacing:-0.3px;}
+.card .ctags{font-size:13px;letter-spacing:0.3px;line-height:1.35;}
+.card .cgo{width:30px;height:30px;font-size:14px;}
+.card.textonly .cbody{padding-right:40px;}
+.ski-grid{grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;}
+.ski-grid > div{margin-top:0 !important;}
+.cv-photo{max-width:360px;}
+@media (max-width:900px){
+  .cards{grid-template-columns:repeat(3,minmax(0,1fr));}
+  .sec-title{font-size:26px;}
+}
+@media (max-width:700px){
+  .cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
+  .ski-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;}
+  .experience-intro .serif-display{font-size:34px;}
+  .experience-intro .btn{margin-left:0;}
+}
+@media (max-width:560px){
+  :root{--section-gap:44px;}
+  .sec-title{font-size:23px;}
+  .card .cbody{padding:10px;}
+  .card .ct{font-size:16px;}
+  .card .ctags{font-size:12px;}
+}
+</style>
 </head>
 <body>
 
