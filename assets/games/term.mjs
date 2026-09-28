@@ -184,7 +184,7 @@ export function start(root, {key, characters, onExit}) {
     if (!introSeen) {
       await shell.intro({
         label: 'MASTER OF ONE VS THE WORD COUNT', title: 'Term time.',
-        text: 'Eleven weeks of an MSc. Writing, lab sessions, work shifts and group meetings queue up in the corridor, and each one needs its room. Rooms do one thing at a time, and anything left waiting too long storms off. Miss four and you’re burnt out. The hand in comes in week 11.',
+        text: 'Eleven weeks of an MSc, sped up. Send each task in the corridor to its room before it storms off. Rooms do one thing at a time. Miss four and you’re burnt out, and the hand in comes in week 11.',
         controls: [['Drag', 'A task onto its room'], ['Tap', 'The task, then the room', 'touch'], ['← → then 1 to 4', 'Pick a task, send it', 'mouse'], ['C', 'Coffee', 'mouse']],
         button: 'Start term',
       });

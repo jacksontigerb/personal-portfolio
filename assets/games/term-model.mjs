@@ -1,7 +1,7 @@
-// Term Time. An MSc term squeezed into about 90 seconds. Tasks queue up in the corridor and each
+// Term Time. An MSc term squeezed into about 45 seconds. Tasks queue up in the corridor and each
 // needs a room; each room does one task at a time. Leave a task waiting too long and it storms off.
 export const ROOMS = Object.freeze(['desk', 'lab', 'work', 'meeting']);
-export const WEEKS = 11, WEEK = 8, QUEUE = 6, STRIKES = 4, COFFEE_EVERY = 20, COFFEE_FOR = 5;
+export const WEEKS = 11, WEEK = 4, QUEUE = 6, STRIKES = 4, COFFEE_EVERY = 20, COFFEE_FOR = 5;
 export const TYPES = Object.freeze({
   write: {name: 'Writing', steps: ['desk'], time: 3, patience: 11, points: 10},
   lab: {name: 'Lab session', steps: ['lab'], time: 4, patience: 12, points: 10},
@@ -60,7 +60,7 @@ export function step(s, dt) {
   s.coffee = Math.max(0, s.coffee - dt); s.coffeeReady = Math.max(0, s.coffeeReady - dt);
   const speed = s.coffee > 0 ? 2 : 1;
   // Arrivals, plus the write ups The Word Count drops on you, and the hand in at the end.
-  if (s.t < WEEKS * WEEK - 6) { s.next -= dt; if (s.next <= 0) { arrive(s, make(s, pick(s)), events); s.next = gap(s.week) * (.75 + s.random() * .5); } }
+  if (s.t < WEEKS * WEEK - 4) { s.next -= dt; if (s.next <= 0) { arrive(s, make(s, pick(s)), events); s.next = gap(s.week) * (.75 + s.random() * .5); } }
   if (s.writeups.length && s.week >= s.writeups[0]) { s.writeups.shift(); arrive(s, make(s, 'writeup'), events); events.push({type: 'dump'}); }
   if (!s.handin && s.week >= WEEKS) { s.handin = 'waiting'; arrive(s, make(s, 'handin'), events); }
   for (const room of ROOMS) {
@@ -85,9 +85,9 @@ export function step(s, dt) {
     events.push({type: 'leave', task});
   }
   if (s.strikes >= STRIKES) { s.over = true; s.reason = 'burnt out'; events.push({type: 'over', reason: s.reason}); }
-  else if (s.t >= WEEKS * WEEK && (s.handin === 'done' || s.handin === 'missed' || s.t >= WEEKS * WEEK + 12)) { s.over = true; s.reason = 'term'; events.push({type: 'over', reason: 'term'}); }
+  else if (s.t >= WEEKS * WEEK && (s.handin === 'done' || s.handin === 'missed' || s.t >= WEEKS * WEEK + 8)) { s.over = true; s.reason = 'term'; events.push({type: 'over', reason: 'term'}); }
   return events;
 }
 // Burning out ends the term early, so it costs you the points you'd have scored.
-export const STAR_SCORES = Object.freeze([300, 550, 800]);
+export const STAR_SCORES = Object.freeze([120, 250, 400]);
 export const stars = s => STAR_SCORES.filter(n => s.score >= n).length;
