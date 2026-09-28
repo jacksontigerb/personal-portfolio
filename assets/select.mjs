@@ -105,7 +105,7 @@ export function mountSelect(mount, characters) {
     const tally = summary(progress, keys), tallyEl = $('.select-tally');
     if (tally.all) tallyEl.innerHTML = `All nine played <span aria-hidden="true">·</span> ${tally.stars} of ${tally.total * 3} ★ <span aria-hidden="true">·</span> <a href="experience.html">See the full portfolio ↗</a>`;
     else if (tally.played) tallyEl.textContent = `${tally.played} of ${tally.total} played · ${tally.stars} ★`;
-    else tallyEl.textContent = `${tally.total} games, under a minute each`;
+    else tallyEl.textContent = 'Nine games, under a minute each';
     keys.forEach(key => {
       const played = key in progress, badge = badges.get(key);
       badge.hidden = !played; badge.textContent = played ? starText(progress[key]) : '';

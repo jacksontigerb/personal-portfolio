@@ -258,6 +258,8 @@
   .route-key{width:min(240px,calc(100% - 24px));}
   .route-key:not([open]){width:auto;}
 }
+/* Short phones: names and weights only, so all five fit; tapping one still explains it. */
+@media(max-width:760px) and (max-height:700px){.route-item small{display:none;}.route-item{min-height:44px;align-items:center;}.route-pack{gap:5px;}}
 @media(max-width:359px){.route-load b span{display:none;}.route-item small{font-size:11px;}.route-kit li{width:28px;height:28px;}.route-cost{white-space:normal;}}
 
 /* A bit of everything */
