@@ -99,7 +99,7 @@ export const LOADOUT = {
   "wanderer": "Has been to Senegal, the Dolomites, New York and Perth.",
   "skier": "Has been skiing since he was three, usually with a camera."
 };
-export const EMAIL = 'jackson.brocklebank.25@ucl.ac.uk';
+export const EMAIL = 'jacksontiger2004@icloud.com';
 export const LINKEDIN = 'https://www.linkedin.com/in/jacksontigerb';
 export function mailHref(key) {
   const body = `Hi Jackson,\r\n\r\nI saw you taking on ${FIGHTS[key].boss} on your site and thought I’d say hello.\r\n\r\n`;

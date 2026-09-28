@@ -1,4 +1,6 @@
-import {FIGHTS, LOADOUT, EMAIL, LINKEDIN, mailHref} from './battle-data.mjs?v=13';
+import {EVIDENCE} from './battle-extras.mjs?v=2';
+import {GAMES} from './games/index.mjs?v=2';
+import {FIGHTS, LOADOUT, EMAIL, LINKEDIN, mailHref} from './battle-data.mjs?v=14';
 import {BattleEngine} from './battle-engine.mjs?v=20';
 import {drawBoss, drawProp} from './battle-art.mjs?v=5';
 import {paintScene, particles} from './battle-scenes.mjs?v=18';
@@ -90,13 +92,14 @@ export function mountBattle(mount, characters) {
           <h2 class="battle-result-title" tabindex="-1"></h2>
           <p class="battle-result-line"></p>
           <p class="battle-result-note" hidden></p>
-          <p class="battle-achievement"></p>
+          <p class="battle-achievement"></p><a class="real-project battle-evidence"><img width="640" height="420"><span><strong></strong><span class="real-project-description"></span><b>See the project ↗</b></span></a>
           <div class="battle-result-actions"><button type="button" class="battle-button battle-primary battle-big" data-action="again">↺ Fight again</button><a class="battle-button battle-big" href="mailto:${EMAIL}">✉ Email Jackson</a></div>
           <details class="battle-used"><summary><span class="battle-turn-label">WHERE THE MOVES CAME FROM</span></summary><ul></ul></details>
           <p class="battle-disclaimer">The fights are made up.</p>
         </div>
       </div>
     </div>
+    <div class="arcade-mount" hidden></div>
     <p class="vh battle-announcement" role="status" aria-live="polite" aria-atomic="true"></p>`;
   const $=selector=>mount.querySelector(selector);
   const game=$('.battle-game'), img=$('.battle-jackson img'), previewImg=$('.battle-preview-stage img'), introImg=$('.battle-intro-jackson'), boss=$('.battle-boss canvas');
@@ -115,7 +118,7 @@ export function mountBattle(mount, characters) {
     const step=now=>{const t=Math.min(1,(now-began)/320);el.textContent=Math.round(from+(to-from)*t)+suffix;if(t<1)el._count=requestAnimationFrame(step);};
     el._count=requestAnimationFrame(step);
   }
-  let fought=false, backupVia='', pendingMail='', lastPose='', lastKey='', imageRun=0, copyPending=false, transitioning=false, displayedArt='', selectedIndex=characters.keys.indexOf(characters.get());
+  let activeGame=null, gameRun=0, fought=false, backupVia='', pendingMail='', lastPose='', lastKey='', imageRun=0, copyPending=false, transitioning=false, displayedArt='', selectedIndex=characters.keys.indexOf(characters.get());
   const artCache=new Map(), ghost=$('.battle-preview-ghost');
   ghost.addEventListener('animationend',()=>{ghost.hidden=true;});
   const world=$('.battle-world'), far=$('.battle-far'), near=$('.battle-near'), field=$('.battle-field');
@@ -259,8 +262,11 @@ export function mountBattle(mount, characters) {
     mount.dataset.screen=playing?'playing':'select';
     document.body.classList.toggle('is-playing',playing);
     game.hidden=!playing;$('.battle-select').hidden=playing;
+    if(activeGame){activeGame.destroy();activeGame=null;}$('.arcade-mount').hidden=true;
     Object.assign(game.dataset,{phase:s.phase,stage:s.stage,actor:s.actor||'',fighter:s.key,critical:String(Boolean(s.critical)),paused:String(s.paused),hurt:String(s.damage>0),interactive:String(s.interactive),quick:String(Boolean(s.quick))});
     if(event==='reset') {
+      start.firstChild.textContent=GAMES[s.key]?'Start game ':'Start fight ';
+      pendingMail='';backupVia='';
       copyPending=false;copyStatus.textContent='';
       $('.battle-announcement').textContent='';$('.battle-stage-note').textContent='';
       const nextIndex=characters.keys.indexOf(s.key);
@@ -348,6 +354,7 @@ export function mountBattle(mount, characters) {
       $('.battle-result-line').textContent=s.outcome==='leave'?'Jackson will be fine. Probably.':'The HP was made up. The email address isn’t.';
       const notes={email:'If your email didn’t open, use Email Jackson below.',copy:`Copied ${EMAIL}.`};
       $('.battle-result-note').textContent=notes[backupVia]||'';$('.battle-result-note').hidden=!notes[backupVia];
+      const proof=EVIDENCE[s.key],card=$('.battle-evidence');card.href=projectLink(proof,s.key);card.querySelector('img').src='assets/'+proof.image;card.querySelector('img').alt=proof.alt;card.querySelector('strong').textContent=proof.title;card.querySelector('.real-project-description').textContent=proof.text;
       $('.battle-achievement').textContent=fight.achievement;$('.battle-achievement').hidden=!fight.achievement;
       $('.battle-used').open=window.matchMedia('(min-width: 640px)').matches;
       const list=$('.battle-used ul');list.replaceChildren();
@@ -404,10 +411,25 @@ export function mountBattle(mount, characters) {
     transition(()=>{
       if(engine.state.phase!=='select')return;
       document.body.classList.add('has-played');
+      if(GAMES[engine.state.key]){startGame(engine.state.key);return;}
       engine.start(fought,true);fought=true;toTop();
       current.focus({preventScroll:true});
     });
   });
+  // Researcher and Engineer play their own game in the same frame as the fights.
+  function startGame(key) {
+    const arcade=$('.arcade-mount'), run=++gameRun;
+    game.hidden=true;$('.battle-select').hidden=true;document.body.classList.add('is-playing');mount.dataset.screen='game';
+    arcade.hidden=false;arcade.innerHTML='<p class="arcade-loading">LOADING…</p>';toTop();
+    GAMES[key].load().then(module=>{
+      if(run!==gameRun||engine.state.phase!=='select')return;
+      activeGame=module.start(arcade,{key,characters,onExit:choose});
+    }).catch(()=>{
+      if(run!==gameRun)return;
+      arcade.innerHTML='<p class="arcade-loading">The game couldn’t load. <button type="button" class="arcade-button">Back to the characters</button></p>';
+      arcade.querySelector('button').addEventListener('click',choose);
+    });
+  }
   function choose() {
     transition(()=>{
       engine.reset(characters.get());toTop();

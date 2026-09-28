@@ -113,7 +113,7 @@ test('homepage starts with the game, keeps contact, and gallery assets exist',()
   const page=readFileSync(new URL('../index.html',import.meta.url),'utf8');
   assert.ok(page.indexOf('id="battle"')<page.indexOf('id="experience"'));
   assert.ok(!page.includes('class="cselect"'));
-  assert.match(page,/mailto:jackson\.brocklebank\.25@ucl\.ac\.uk/);
+  assert.match(page,/mailto:jacksontiger2004@icloud\.com/);
   assert.doesNotMatch(page,/CV\.pdf/);
   for(const [,path] of page.matchAll(/(?:src|href)="(assets\/[^"?#]+)"/g)){
     assert.ok(existsSync(new URL('../'+path,import.meta.url)),path);

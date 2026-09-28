@@ -5,13 +5,13 @@
   function load() {
     if (loading) return;
     loading = true;
-    import('./battle.mjs?v=21').then(function (battle) {
+    import('./battle.mjs?v=25').then(function (battle) {
       battle.mountBattle(mount, window.PortfolioCharacters);
       if (observer) observer.disconnect();
     }).catch(function () {
       loading = false;
       var message=document.createElement('p');message.className='battle-loading';
-      message.textContent='The fight is taking a breather. You can still email me below. ';
+      message.textContent='The game couldn’t load. You can still use the Portfolio and Email links above. ';
       var retry=document.createElement('button');retry.type='button';retry.textContent='Load the fight';
       retry.addEventListener('click',load);message.appendChild(retry);mount.replaceChildren(message);
     });

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500">
+  <rect width="800" height="500" fill="#e3ebe3"/>
+  <g fill="none" stroke="#788878" stroke-width="2"><path d="M85 75V410H735"/><path stroke-dasharray="8 8" d="M85 310H735"/></g>
+  <path d="M100 110C290 130 410 167 500 200S610 265 690 402" fill="none" stroke="#2f7d4a" stroke-width="9" stroke-linecap="round"/>
+  <g font-family="system-ui,sans-serif" fill="#354635"><text x="92" y="48" font-size="22">Battery capacity</text><text x="575" y="452" font-size="22">Charge cycles</text><text x="726" y="298" text-anchor="end" font-size="18">70% end of life</text><text x="92" y="478" font-size="16">Illustration of gradual fade and a later knee</text></g>
+</svg>
