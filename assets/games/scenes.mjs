@@ -1,7 +1,7 @@
-// Nine pixel art worlds, painted to fit whatever screen the fight is on.
+// Nine pixel art worlds, painted to fit whatever screen they're on.
 // Each scene is drawn in cells (one cell = several screen pixels) on two layers:
-// `far` is the wall or sky, `near` is the floor and the furniture the fighters
-// stand in front of. `floor` is the cell row where the fighters' feet are.
+// `far` is the wall or sky, `near` is the floor and the furniture the characters
+// stand in front of. `floor` is the cell row where their feet are.
 const INK = '#292a2c', PAPER = '#fbfbfa';
 const FONT = {
   A:'010101111101101', B:'110101110101110', C:'011100100100011', D:'110101101101110', E:'111100110100111',
@@ -45,7 +45,7 @@ function painter(canvas, w, h) {
   const glow = (cx, cy, rx, ry, col) => { c.globalAlpha = .18; ellipse(cx, cy, rx, ry, col); c.globalAlpha = .14; ellipse(cx, cy, rx * .6, ry * .6, col); c.globalAlpha = 1; };
   return {c, r, ellipse, ring, tri, line, box, text, textWidth, glow};
 }
-// The fighters stand left and right, so furniture sits in the middle and at the edges.
+// Characters stand left and right, so furniture sits in the middle and at the edges.
 function wall(p, w, floor, col, skirt) { p.r(0, 0, w, floor, col); p.r(0, floor - 3, w, 3, skirt); }
 function perspective(p, w, h, floor, col, lineCol, rows = [3, 8, 15, 25, 40, 60]) {
   p.r(0, floor, w, h - floor, col);

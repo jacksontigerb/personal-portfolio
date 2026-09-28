@@ -1,13 +1,12 @@
 // Run club: Athlete Jackson versus Mile 23.
-import {createShell} from './shell.mjs?v=2';
-import {pen, sprite, INK, PAPER} from './pixels.mjs?v=2';
-import {drawBoss} from '../battle-art.mjs?v=5';
-import * as M from './run-model.mjs?v=1';
+import {createShell} from './shell.mjs?v=3';
+import {pen, sprite, INK, PAPER} from './pixels.mjs?v=3';
+import {drawBoss} from './bosses.mjs?v=3';
+import * as M from './run-model.mjs?v=3';
 
 const TITLES = ['Running solo.', 'A small club.', 'A proper run club.', '25 a week.'];
 const SHIRTS = ['#b23a48', '#e3b341', '#3e7654', '#6f5aa8', '#e07f5e', '#2a6f9e', '#8a8f94', '#d6457a'];
 const HAIR = ['#e0b44a', '#3a2a1f', '#7a4a2a', '#1f2023', '#c98b5a'];
-const PROOF = {image: 'cards/runclub-street-800.webp', alt: 'Run club running down a pastel terraced street at dusk', title: 'Falmouth Running Society', text: 'I started the society in January 2024, set the routes, ran the socials and led the sessions myself. By June it was 25 runners a week.', href: 'experience.html#p-runclub'};
 const runnerFrames = (shirt, hair, shorts = '#2a3a5c') => {
   const pal = {Y: hair, S: '#e2ad84', T: shirt, L: shorts, K: '#1f2023'};
   return [
@@ -133,7 +132,7 @@ export function start(root, {key, characters, onExit}) {
     setTimeout(() => {
       if (token !== run) return;
       shell.result({
-        title: TITLES[stars], stars, proof: PROOF,
+        title: TITLES[stars], stars,
         line: 'I started Falmouth Running Society in January 2024. By June it was 25 runners a week.',
         rows: [['Runners at the finish', String(s.club)], ['Most at once', String(s.best)], ['Mile 23', s.wall === 'through' ? 'Straight through' : 'Hit it'], ['Obstacles hit', String(s.hits)]],
         source: '<p>The race is made up. The run club is real, and so is the London Marathon: I ran it in 2026 for Marie Curie and raised £1,647, with a crowd of mates holding a GO TIGGY sign at the finish.</p>',

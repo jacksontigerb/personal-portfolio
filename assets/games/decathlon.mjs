@@ -1,10 +1,10 @@
 // Jackson's decathlon: Jack of All Trades versus The To Do List.
 // Ten events of a few seconds each. Space or a tap does the main thing, number keys or the
 // buttons pick, and each event ends on a medal that flies into the rack along the top.
-import {createShell, escape} from './shell.mjs?v=2';
-import {pen, sprite, INK, PAPER} from './pixels.mjs?v=2';
-import {drawBoss} from '../battle-art.mjs?v=5';
-import * as M from './decathlon-model.mjs?v=1';
+import {createShell, escape} from './shell.mjs?v=3';
+import {pen, sprite, INK, PAPER} from './pixels.mjs?v=3';
+import {drawBoss} from './bosses.mjs?v=3';
+import * as M from './decathlon-model.mjs?v=3';
 
 const MEDAL_COLOUR = ['#8a8f94', '#b8743a', '#b9c0c7', '#e3b341'];
 const GREEN = '#3e7654', RED = '#ad343c', GOLD = '#e3b341', AMBER = '#a97926', SEA = '#2f7e9c', SEA_DEEP = '#256a86';

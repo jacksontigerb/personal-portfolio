@@ -364,35 +364,3 @@ export function drawBoss(canvas, key, pose = 'idle') {
   c.clearRect(0, 0, canvas.width, canvas.height);
   drawn.get(id).forEach((col, i) => { if (col) { c.fillStyle = col; c.fillRect(i % S, Math.floor(i / S), 1, 1); } });
 }
-
-// Small tangible objects accompany Jackson's attack instead of remirroring his sprite.
-export function drawProp(canvas, key, moveIndex=1) {
-  const c=canvas.getContext('2d');c.clearRect(0,0,16,16);
-  const r=(x,y,w,h,col=INK)=>{c.fillStyle=col;c.fillRect(x,y,w,h);};
-  if(key==='builder') {
-    if(moveIndex===1){
-      r(1,4,4,1,'#2a6f9e');r(0,8,5,1,'#2a6f9e');r(1,12,4,1,'#2a6f9e');
-      r(7,2,7,12);r(8,3,5,10,'#ba6c32');r(6,6,9,4);r(9,4,3,8);r(10,7,1,2,PAPER);
-    } else if(moveIndex===3){
-      r(3,4,10,9);r(4,5,8,7,'#c4a56a');r(4,6,2,2,PAPER);r(10,6,2,2,PAPER);
-      r(1,8,2,6);r(13,8,2,6);r(7,1,1,3);
-    } else if(moveIndex===5){
-      r(1,10,14,3);r(3,13,10,2);r(5,5,7,5,'#c4a56a');r(6,3,6,2,'#6a859d');
-    } else {r(1,6,14,2,'#c4a56a');r(2,8,2,7);r(12,8,2,7);r(5,9,6,2,'#c4a56a');}
-    return;
-  }
-  if(moveIndex===3&&(key==='allrounder'||key==='rider')){
-    [2,9].forEach(x=>{r(x,2,3,3);r(x,6,4,5,'#a85414');r(x,11,1,4);r(x+3,11,1,3);});return;
-  }
-  switch(key) {
-    case 'allrounder':
-      r(2,2,5,5);r(2,2,2,2,PAPER);r(6,6,3,3);r(8,8,3,3);r(10,10,4,4);r(11,11,2,2,PAPER);break;
-    case 'researcher':
-      r(7,2,2,3);r(5,5,6,3);r(3,8,10,5);r(5,13,6,2);r(5,8,6,5,'#137975');r(5,8,2,2,PAPER);break;
-    case 'creator':r(2,3,10,10);r(5,6,4,4,PAPER);r(12,6,3,5);break;
-    case 'rider':r(4,2,6,10,'#a85414');r(2,11,12,3);r(2,14,12,1,PAPER);break;
-    case 'wanderer':r(2,3,12,10);r(3,4,10,8,PAPER);r(5,6,6,1,'#6f5aa8');r(5,9,4,1,'#6f5aa8');break;
-    case 'skier':r(4,1,2,12);r(10,1,2,12);r(4,13,4,2);r(10,13,4,2);break;
-    default:r(3,1,10,14);r(4,2,8,12,PAPER);r(6,5,4,1);r(6,8,4,1);r(6,11,3,1);
-  }
-}

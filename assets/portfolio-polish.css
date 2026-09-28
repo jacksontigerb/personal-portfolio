@@ -1,48 +1,22 @@
-/* Shared polish without changing the character selection's layout or artwork. */
-.game-home nav{margin-inline:calc(50% - var(--vw,100vw)/2);padding-inline:max(32px,calc((var(--vw,100vw) - 1280px)/2 + 32px));}
-.game-home:not(.is-playing) .game-heading .home-introduction{display:block;max-width:720px;margin:10px auto 0;font:13px/1.55 var(--sans);color:#fff;text-shadow:0 1px 2px #0008;text-wrap:pretty;}
-.home-introduction span{white-space:nowrap;}
-#battle .battle-selected-name,#battle .battle-vs-name{ text-shadow:0 2px 3px #0006;}
-#battle .battle-preview-stage::before,#battle .battle-vs-stage::before{border:0;background:#17202840;height:18px;}
-#battle .battle-preview-stage img{filter:drop-shadow(4px 5px 0 #17202838);}
+/* Shared by the portfolio page and the games: character portraits on project cards, and the
+   real project card that ends every game. */
 #work>.cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;}
 #work>.cards .ct{font-size:26px;}
 #work>.cards .cbody{padding:18px 20px;}
 .card .project-character{position:absolute;z-index:2;top:10px;left:10px;width:42px;height:42px;image-rendering:pixelated;border:1px solid var(--ink);background:var(--vellum);box-shadow:2px 2px 0 var(--ink);}
 .card.textonly:has(.project-character) .cbody{padding-left:66px;min-height:74px;}
-@media(prefers-reduced-motion:no-preference){
-  #battle .battle-preview-stage>img:first-child{animation:jackson-idle 4.8s ease-in-out infinite;}
-  #battle .battle-preview-stage.battle-pop>img:first-child{animation:selection-arrive .34s ease-out both,jackson-idle 4.8s .34s ease-in-out infinite;}
-  #battle .battle-vs-stage canvas{animation:boss-idle 5.5s ease-in-out infinite;}
-  #battle .battle-vs-stage.battle-pop canvas{animation:selection-boss .4s ease-out both,boss-idle 5.5s .4s ease-in-out infinite;}
-  @keyframes jackson-idle{0%,65%,100%{translate:0 0;rotate:0deg;}73%{translate:0 -3px;rotate:-1deg;}84%{translate:0 0;rotate:1deg;}}
-  @keyframes boss-idle{0%,60%,100%{translate:0 0;}75%{translate:0 -5px;}}
-}
-@media(max-width:760px){
-  .game-home nav{padding-inline:16px;}
-  .game-home:not(.is-playing) .game-heading .home-introduction{font-size:12px;max-width:48ch;}
-  .home-introduction span{white-space:normal;}
-  #battle .battle-select{row-gap:14px;}
-  #battle .battle-roster{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:min(344px,100%);margin-inline:auto;}
-  #battle .battle-face{width:100%;max-width:104px;justify-self:center;}
-  #battle .battle-start-wrap{position:static;margin:0;padding:8px 0 max(12px,env(safe-area-inset-bottom));background:none;}
-}
 @media(max-width:560px){
   #work>.cards{grid-template-columns:1fr;gap:18px;}
   #work>.cards .ct{font-size:24px;}
   .card .project-character{width:34px;height:34px;top:7px;left:7px;}
 }
-@media(max-width:359px){.game-home .navlinks>a:first-child{display:inline-flex;}.game-home .wordmark{font-size:16px;max-width:100px;}.game-home .navlinks{gap:10px;font-size:12px;}.game-home .navlinks .nav-cv{padding-inline:8px;}}
-@media(prefers-reduced-motion:reduce){#battle .battle-select *{animation:none!important;}}
 @media print{.project-character{display:none;}}
 
-/* A real project card, shown at the end of every fight and game. */
 .real-project{display:grid;grid-template-columns:minmax(160px,36%) 1fr;border:1px solid var(--ink);background:var(--paper);text-decoration:none;color:var(--ink);max-width:900px;}
 .real-project>img{width:100%;height:100%;max-height:280px;object-fit:cover;min-height:160px;border-right:1px solid var(--ink);}
 .real-project>span{padding:22px;display:flex;flex-direction:column;gap:12px;}
 .real-project strong{font:400 26px/1.15 var(--serif);}
 .real-project span span{font:14px/1.6 var(--sans);}
 .real-project b{font:600 13px/1.4 var(--sans);text-decoration:underline;text-underline-offset:4px;}
-.battle-evidence{margin:20px 0 24px;}
 .real-project:hover{box-shadow:4px 4px 0 var(--accent);}
 @media(max-width:760px){.real-project{grid-template-columns:1fr;}.real-project>img{height:190px;border-right:0;border-bottom:1px solid var(--ink);}.real-project>span{padding:18px;}.real-project strong{font-size:24px;}}

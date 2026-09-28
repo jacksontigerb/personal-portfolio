@@ -1,8 +1,8 @@
 // Get the shot: Content Creator Jackson versus The Algorithm.
-import {createShell} from './shell.mjs?v=2';
-import {pen, sprite, INK, PAPER} from './pixels.mjs?v=2';
-import {drawBoss} from '../battle-art.mjs?v=5';
-import * as M from './shot-model.mjs?v=1';
+import {createShell} from './shell.mjs?v=3';
+import {pen, sprite, INK, PAPER} from './pixels.mjs?v=3';
+import {drawBoss} from './bosses.mjs?v=3';
+import * as M from './shot-model.mjs?v=3';
 
 const TITLES = ['Swiped away.', 'A few likes.', 'For You page.', 'The Algorithm approves.'];
 const VERDICT = s => s >= 85 ? ['BOOSTED', 'win'] : s >= 60 ? ['FOR YOU PAGE', 'good'] : s >= 30 ? ['3 LIKES', ''] : ['SWIPED', 'bad'];

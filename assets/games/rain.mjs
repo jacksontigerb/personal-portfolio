@@ -1,8 +1,8 @@
 // Shed the Rain: Researcher Jackson versus The Forever Chemical.
-import {createShell} from './shell.mjs?v=2';
-import {pen, INK, PAPER} from './pixels.mjs?v=2';
-import {drawBoss} from '../battle-art.mjs?v=5';
-import * as M from './rain-model.mjs?v=1';
+import {createShell} from './shell.mjs?v=3';
+import {pen, INK, PAPER} from './pixels.mjs?v=3';
+import {drawBoss} from './bosses.mjs?v=3';
+import * as M from './rain-model.mjs?v=3';
 
 const WATER = '#9fd8e6', WATER_DARK = '#4f9fb4', GO = '#3e7654';
 const TITLES = ['The blob wins this one.', 'Damp, but still going.', 'Mostly dry.', 'Bone dry.'];

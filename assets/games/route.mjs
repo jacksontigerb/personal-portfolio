@@ -1,10 +1,10 @@
 // Route finder: Explorer Jackson versus The Baggage Allowance.
 // Three steps: pack the bag (every item says what it does), a kit check that says what the bag
 // means for the walk, then the map, one leg at a time, with the kit showing when it helps.
-import {createShell, escape} from './shell.mjs?v=2';
-import {pen, sprite, INK, PAPER} from './pixels.mjs?v=2';
-import {drawBoss} from '../battle-art.mjs?v=5';
-import * as M from './route-model.mjs?v=1';
+import {createShell, escape} from './shell.mjs?v=3';
+import {pen, sprite, INK, PAPER} from './pixels.mjs?v=3';
+import {drawBoss} from './bosses.mjs?v=3';
+import * as M from './route-model.mjs?v=3';
 
 const TITLES = ['Back to camp.', 'A good walk.', 'Sunrise, and a swim.', 'Worth the early start.'];
 const TERRAIN = {forest: ['#8a6a3c', 'Forest path'], path: ['#8a6a3c', 'Path'], scree: ['#6f6a62', 'Scree'], steep: ['#3a2f28', 'Steep'], scramble: ['#3a2f28', 'Scramble'], ridge: ['#b23a48', 'Exposed ridge']};

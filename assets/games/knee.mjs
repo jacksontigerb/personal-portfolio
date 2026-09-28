@@ -1,10 +1,10 @@
 // Find the knee: Computer Guy Jackson versus The Knee.
 // Data streams in; you pin where the dots will cross 70% and lock it in. Then the rest of the
 // data plays out fast and you see your pin, the baseline's and the real crossing side by side.
-import {createShell} from './shell.mjs?v=2';
-import {pen, INK, PAPER} from './pixels.mjs?v=2';
-import {drawBoss} from '../battle-art.mjs?v=5';
-import * as M from './knee-model.mjs?v=1';
+import {createShell} from './shell.mjs?v=3';
+import {pen, INK, PAPER} from './pixels.mjs?v=3';
+import {drawBoss} from './bosses.mjs?v=3';
+import * as M from './knee-model.mjs?v=3';
 
 const SCREEN = '#15201b', GRID = '#24352d', DOT = '#6fe39a', CALL = '#e3b341', DEAD = '#ff6b6b', BASE = '#9aaba3', BAND = 'rgba(111,227,154,.13)';
 const TITLES = ['The Knee wins this one.', 'Some good calls.', 'Good calls.', 'Sharper than the baseline.'];

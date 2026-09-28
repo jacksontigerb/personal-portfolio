@@ -1,8 +1,8 @@
 // Bridge Test: Engineer Jackson versus Test Day, the radio controlled car.
-import {createShell} from './shell.mjs?v=2';
-import {pen, INK, PAPER} from './pixels.mjs?v=2';
-import {drawBoss} from '../battle-art.mjs?v=5';
-import * as M from './bridge-model.mjs?v=1';
+import {createShell} from './shell.mjs?v=3';
+import {pen, INK, PAPER} from './pixels.mjs?v=3';
+import {drawBoss} from './bosses.mjs?v=3';
+import * as M from './bridge-model.mjs?v=3';
 
 const BALSA = '#e0c68f', DECK = '#6b5a45', BENCH = '#a07a45', STEEL = '#7a7f86', GOOD = '#3e7654', BAD = '#ad343c';
 const REASONS = {long: 'TOO LONG', floating: 'START FROM A JOINT', exists: 'ALREADY THERE', budget: 'OUT OF STICKS', bench: 'THAT’S THE BENCH', outside: 'OFF THE GRID'};

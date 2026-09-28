@@ -1,12 +1,11 @@
 // Term Time: Master of One Jackson versus The Word Count.
-import {createShell} from './shell.mjs?v=2';
-import {pen, sprite, INK, PAPER} from './pixels.mjs?v=2';
-import {drawBoss} from '../battle-art.mjs?v=5';
-import * as M from './term-model.mjs?v=1';
+import {createShell} from './shell.mjs?v=3';
+import {pen, sprite, INK, PAPER} from './pixels.mjs?v=3';
+import {drawBoss} from './bosses.mjs?v=3';
+import * as M from './term-model.mjs?v=3';
 
 const TITLES = ['Burnt out.', 'Survived the term.', 'On top of it.', 'Everything in on time.'];
 const ROOM_INFO = {desk: {label: 'DESK', wall: '#e7dcc8'}, lab: {label: 'LAB', wall: '#d6e4e1'}, work: {label: 'WORK', wall: '#e2dcef'}, meeting: {label: 'MEETING', wall: '#f0dcd2'}};
-const PROOF = {image: 'sem-dispersed.jpg', alt: 'SEM image of surface modified titanium dioxide in finer clusters across the fibres', title: 'The MSc at UCL', text: 'My research year: the PFAS free coating project. Most of it was synthesis in the lab and a lot of hours on SEM, TEM, FTIR, XRD and XPS. This is one of my SEM images.', href: 'experience.html#education'};
 const E = {K: '#1f2023', W: '#fbfbfa'};
 const CRITTERS = {
   write: sprite(['.WWWWWWW.', '.WKKKKKW.', '.WWWWWWW.', '.WKWWWKW.', '.WWWWWWW.', '.WKKKKWW.', '.WWWWWWW.', '.WKKKKKW.', '.WWWWWWW.', '..K...K..', '.KK...KK.'], {...E, W: '#fbfbfa'}),
@@ -136,7 +135,7 @@ export function start(root, {key, characters, onExit}) {
     setTimeout(() => {
       if (token !== run) return;
       shell.result({
-        title: s.reason === 'burnt out' && stars < 2 ? TITLES[0] : TITLES[Math.max(1, stars)], stars, proof: PROOF,
+        title: s.reason === 'burnt out' && stars < 2 ? TITLES[0] : TITLES[Math.max(1, stars)], stars,
         line: 'My MSc year at UCL was mostly synthesis in the lab and a lot of hours on SEM, TEM, FTIR, XRD and XPS, with the writing around it.',
         rows: [['Tasks done', String(s.done)], ['Missed', String(s.missed)], ['Hand in', s.handin === 'done' ? 'In on time' : s.handin === 'missed' ? 'Missed it' : 'Didn’t get there'], ['Points', String(s.score)]],
         source: '<p>The tasks and timings are made up. The year was real: an MSc in Advanced Materials Science at UCL, with the coating project for Finisterre.</p>',

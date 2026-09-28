@@ -5,15 +5,15 @@
   function load() {
     if (loading) return;
     loading = true;
-    import('./battle.mjs?v=25').then(function (battle) {
-      battle.mountBattle(mount, window.PortfolioCharacters);
+    import('./select.mjs?v=3').then(function (select) {
+      select.mountSelect(mount, window.PortfolioCharacters);
       if (observer) observer.disconnect();
     }).catch(function () {
       loading = false;
-      var message=document.createElement('p');message.className='battle-loading';
-      message.textContent='The game couldn’t load. You can still use the Portfolio and Email links above. ';
-      var retry=document.createElement('button');retry.type='button';retry.textContent='Load the fight';
-      retry.addEventListener('click',load);message.appendChild(retry);mount.replaceChildren(message);
+      var message = document.createElement('p'); message.className = 'select-loading';
+      message.textContent = 'The games couldn’t load. You can still use the Portfolio and Email links above. ';
+      var retry = document.createElement('button'); retry.type = 'button'; retry.textContent = 'Try again';
+      retry.addEventListener('click', load); message.appendChild(retry); mount.replaceChildren(message);
     });
   }
   mount.querySelector('button').addEventListener('click', load);

@@ -23,11 +23,9 @@
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;600&display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;600&display=swap" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;600&display=swap"></noscript>
-<link rel="stylesheet" href="assets/home.css?v=13">
-<link rel="stylesheet" href="assets/battle.css?v=9">
-<link rel="stylesheet" href="assets/selection.css?v=21">
-<link rel="stylesheet" href="assets/portfolio-polish.css?v=3">
-<link rel="stylesheet" href="assets/games/games.css?v=2">
+<link rel="stylesheet" href="assets/home.css?v=14">
+<link rel="stylesheet" href="assets/portfolio-polish.css?v=4">
+<link rel="stylesheet" href="assets/games/games.css?v=3">
 </head>
 <body class="game-home">
 <div class="page">
@@ -38,8 +36,8 @@
   <main>
     <section class="game-hero" id="top" aria-labelledby="game-title">
       <div class="game-heading"><h1 id="game-title">Choose your Jackson.</h1><p class="home-introduction">I’m Jackson. I studied renewable energy engineering and materials science, and I’m now researching at Curtin in Perth. <span>I’m looking for work in London from May 2027.</span></p></div>
-      <div id="battle" class="battle-mount" aria-label="Jackson’s games">
-        <p class="battle-loading">Loading character select… <button type="button" id="battle-load">Load game</button></p>
+      <div id="battle" class="game-mount">
+        <p class="select-loading">Loading the games… <button type="button">Load games</button></p>
       </div>
       <noscript><p>The game isn’t running in this browser. You can still see what I’ve made below.</p><img class="fallback-jackson" src="assets/char-allrounder.png" width="537" height="840" alt="Pixel art of Jackson with a mix of his outfits"></noscript>
     </section>
@@ -58,7 +56,7 @@
   </main>
 </div>
 <script src="assets/characters.js?v=9"></script>
-<script src="assets/battle-loader.js?v=25"></script>
+<script src="assets/game-loader.js?v=3"></script>
 <script>
 // Existing shared links still reach their project write ups.
 (function(){function legacy(){if(/^#(?:p-[a-z]+|work|current|engineering|education|skills|outside|skiing|sport|travel|content|tools)$/.test(location.hash))location.replace('experience.html'+location.search+location.hash);}legacy();window.addEventListener('hashchange',legacy);})();

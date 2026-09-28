@@ -1,9 +1,9 @@
 // Last run: Skier Jackson versus The Last Chair. A top down run through gates, a steep wall,
 // a kicker, moguls and a tree shortcut, to make the last chair before the lift closes.
-import {createShell} from './shell.mjs?v=2';
-import {pen, sprite, INK, PAPER} from './pixels.mjs?v=2';
-import {drawBoss} from '../battle-art.mjs?v=5';
-import * as M from './ski-model.mjs?v=1';
+import {createShell} from './shell.mjs?v=3';
+import {pen, sprite, INK, PAPER} from './pixels.mjs?v=3';
+import {drawBoss} from './bosses.mjs?v=3';
+import * as M from './ski-model.mjs?v=3';
 
 const P = 2; // the play canvas is drawn in two pixel cells
 const POWDER = '#f8fbfd', EDGE = '#dde7ef', SPECK = '#e1e9f0', TRACK = '#c6d6e3', SKID = '#d9e4ec', SHADOW = '#cfdce6';

@@ -10,8 +10,7 @@ import * as runclub from '../assets/games/run-model.mjs';
 import * as term from '../assets/games/term-model.mjs';
 import * as route from '../assets/games/route-model.mjs';
 import * as dec from '../assets/games/decathlon-model.mjs';
-import {GAMES} from '../assets/games/index.mjs';
-import {EVIDENCE} from '../assets/battle-extras.mjs';
+import {GAMES, EVIDENCE} from '../assets/games/index.mjs';
 
 // Shed the Rain
 
