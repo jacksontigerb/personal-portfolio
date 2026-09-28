@@ -8,7 +8,7 @@ export const ROUNDS = Object.freeze([
   {name:'10 wash cycles', washes:10, release:[47.0,48.5,56.0], rate:1.9, big:.14, pattern:'sweep'},
   {name:'20 wash cycles', washes:20, release:[56.1,46.4,49.6], rate:2.3, big:.12, pattern:'pour'},
 ].map(Object.freeze));
-export const MAX_TILT = 60, HALF = 50, LARGE = 3, ROUND_TIME = 30;
+export const MAX_TILT = 60, HALF = 50, LARGE = 3, ROUND_TIME = 14;
 export const SKY = -47;
 const FALL = 170, G = 300, VMAX = 190, HOLD = .7;
 // Game feel, kept together so the difficulty can be tuned in one place.
@@ -140,5 +140,5 @@ export function step(s, dt, target = s.target) {
 export function water(s) { return s.drops.reduce((sum, d) => sum + d.vol, 0); }
 
 // Stars for the whole game, from the total across three rounds.
-export const STAR_SCORES = Object.freeze([60, 180, 300]);
+export const STAR_SCORES = Object.freeze([30, 90, 140]);
 export function stars(total) { return STAR_SCORES.filter(n => total >= n).length; }

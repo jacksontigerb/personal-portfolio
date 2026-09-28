@@ -73,7 +73,8 @@ test('water left on the swatch soaks it and ends the round; clearing it lets it 
   const dry=rain.createRound(0,4);dry.soak=50;
   rain.step(dry,1,0);assert.ok(dry.soak<50);
 });
-test('rounds last 30 seconds and the same seed replays the same rain',()=>{
+test('rounds last 14 seconds, three of them fit in a minute, and the same seed replays the same rain',()=>{
+  assert.equal(rain.ROUND_TIME,14);assert.ok(rain.ROUNDS.length*rain.ROUND_TIME<50);
   const play=seed=>{const s=rain.createRound(1,seed);let n=0;while(!s.over){n++;rain.step(s,1/60,Math.sin(n/40)*60);}return [s.score,s.shed,s.reason,s.t.toFixed(3)];};
   assert.deepEqual(play(11),play(11));
   const s=rain.createRound(0,1);s.soak=-Infinity;
