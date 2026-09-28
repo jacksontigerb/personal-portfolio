@@ -7,17 +7,15 @@ import {drawBoss} from './bosses.mjs?v=3';
 import * as M from './route-model.mjs?v=3';
 
 const TITLES = ['Back to camp.', 'A good walk.', 'Sunrise, and a swim.', 'Worth the early start.'];
-const TERRAIN = {forest: ['#8a6a3c', 'Forest path'], path: ['#8a6a3c', 'Path'], scree: ['#6f6a62', 'Scree'], steep: ['#3a2f28', 'Steep'], scramble: ['#3a2f28', 'Scramble'], ridge: ['#b23a48', 'Exposed ridge']};
+const TERRAIN = {forest: ['#8a6a3c', 'Forest path'], path: ['#8a6a3c', 'Path'], scree: ['#6f6a62', 'Scree'], steep: ['#3a2f28', 'Steep'], ridge: ['#b23a48', 'Exposed ridge']};
 const ICONS = {
   torch: sprite(['...YY.....', '..YYYY....', '.KKKKKK...', 'KKKKKKKK..', 'KKWKKKKK..', 'KKKKKKKK..', '.KKKKKK...'], {Y: '#ffe08a', K: '#3a3f45', W: '#fbfbfa'}),
   jacket: sprite(['..RR.RR...', '.RRRRRRR..', 'RRRRKRRRR.', 'RR.RKR.RR.', 'RR.RKR.RR.', '...RKR....', '...RRR....'], {R: '#b23a48', K: '#1f2023'}),
   snacks: sprite(['.YYYYYY...', 'YBBBBBBY..', 'YBYYYYBY..', 'YBBBBBBY..', 'YYYYYYYY..', '.GGG.OOO..', 'GGGG.OOOO.'], {Y: '#e3b341', B: '#8c5a3c', G: '#5fa383', O: '#e3822b'}),
   camera: sprite(['..KK......', 'KKKKKKKK..', 'KWKKKKKK..', 'KKKGGKKK..', 'KKGWWGKK..', 'KKKGGKKK..', 'KKKKKKKK..'], {K: '#3a3f45', W: '#fbfbfa', G: '#8fb8d8'}),
-  poles: sprite(['K....K....', 'K....K....', '.K....K...', '.K....K...', '..K....K..', '..K....K..', '..W....W..'], {K: '#3a3f45', W: '#9aa3ab'}),
-  swimmers: sprite(['..........', 'BBBBBBBB..', 'BWBBBBWB..', '.BBBBBB...', '..BBBB....', '...BB.....', '..........'], {B: '#2a6f9e', W: '#fbfbfa'}),
   speaker: sprite(['.KKKKKK...', 'KKKKKKKK..', 'KKGGGGKK..', 'KGGKKGGK..', 'KKGGGGKK..', 'KKKKKKKK..', '.KKKKKK...'], {K: '#3a3f45', G: '#6f5aa8'}),
 };
-const COLOUR = {torch: '#e3b341', jacket: '#b23a48', snacks: '#e3822b', camera: '#3a3f45', poles: '#9aa3ab', swimmers: '#2a6f9e', speaker: '#6f5aa8'};
+const COLOUR = {torch: '#e3b341', jacket: '#b23a48', snacks: '#e3822b', camera: '#3a3f45', speaker: '#6f5aa8'};
 const hiker = (coat, hood = 'Y') => sprite(['..HHH..', '.HHHHH.', '..SSS..', '.PPPPP.', 'PPPPPPP', 'S.PPP.S', '..NNN..', '..N.N..', '.KK.KK.'],
   {H: hood === 'Y' ? '#e0b44a' : coat, S: '#e2ad84', P: coat, N: '#3a3f45', K: '#1f2023'});
 const HIKER = hiker('#6f5aa8'), HIKER_JACKET = hiker('#b23a48', 'R');
@@ -31,12 +29,10 @@ const iconURL = key => ICONS[key].toDataURL();
 const item = key => M.ITEMS.find(i => i.key === key);
 // What the bag means for the walk, said once the bag is closed. [packed, left behind]
 const BRIEF = {
-  torch: ['Full speed in the dark, until 05:45.', 'No torch: every leg you start before 05:45 takes half as long again.'],
+  torch: ['Full speed in the dark, until 05:45.', 'No torch: every leg you start before 05:45 takes twice as long.'],
   jacket: ['The storm over the ridges, 06:30 to 07:15, costs nothing extra.', 'No jacket: a ridge leg in the storm costs 2 extra energy.'],
-  snacks: ['Two snack breaks, +3 energy each.', 'No snacks: when energy hits 0, the walk is over.'],
+  snacks: ['One snack break, +3 energy.', 'No snacks: when energy hits 0, the walk is over.'],
   camera: ['Each animal you pass is 10 points.', 'No camera: you’ll see the animals, but no points.'],
-  poles: ['Scree legs cost 1 less energy.', 'No poles: scree costs full energy.'],
-  swimmers: ['+5 points at the lake.', 'No swimmers: the lake is still 20 points.'],
   speaker: ['2 kg of nothing on the walk. Good at camp, though.', ''],
 };
 const CLOCK_FROM = M.START, CLOCK_TO = 7 * 60 + 45;
@@ -124,10 +120,9 @@ export function start(root, {key, characters, onExit}) {
     // Places, and the animals you could photograph (faint until you've seen them).
     for (const node of M.NODES) {
       const nx = NX(node.id) / C, ny = NY(node.id) / C;
-      p.disc(nx, ny, 4, INK); p.disc(nx, ny, 3, node.kind === 'summit' ? '#e3b341' : node.kind === 'lake' ? '#2a6f9e' : node.kind === 'hut' ? '#b23a48' : node.kind === 'camp' ? '#6f5aa8' : PAPER);
+      p.disc(nx, ny, 4, INK); p.disc(nx, ny, 3, node.kind === 'summit' ? '#e3b341' : node.kind === 'lake' ? '#2a6f9e' : node.kind === 'camp' ? '#6f5aa8' : PAPER);
       if (node.kind === 'summit') { p.r(nx, ny - 12, 1, 9, INK); p.r(nx + 1, ny - 12, 5, 3, '#b23a48'); }
       if (node.kind === 'camp') p.poly([[nx - 5, ny - 4], [nx, ny - 11], [nx + 5, ny - 4]], '#e3822b');
-      if (node.kind === 'hut') { p.r(nx - 4, ny - 9, 8, 5, s.hut ? '#8a8278' : '#8c5a3c'); p.poly([[nx - 5, ny - 9], [nx, ny - 13], [nx + 5, ny - 9]], '#6b4a2a'); }
       if (node.animal) {
         const seen = s.seen.includes(node.animal), shot = s.photos.includes(node.animal);
         p.c.globalAlpha = seen ? 1 : .45; p.blit(ANIMAL[node.animal], nx + 10, ny - 6, 1); p.c.globalAlpha = 1;
@@ -151,7 +146,7 @@ export function start(root, {key, characters, onExit}) {
       p.ellipse(cx, cy, w * .12, h * .06, stormy ? '#5b6270' : '#8a919c'); p.ellipse(cx - w * .06, cy + 2, w * .07, h * .045, stormy ? '#4a505c' : '#7a818c');
       if (stormy) for (let i = 0; i < 16; i++) p.r(cx - w * .1 + (i * 13 % 40) / 40 * w * .2, cy + h * .05 + ((t * 7 + i * 5) % 12), 1, 4, '#8fb8d8');
     }
-    // You. Rain on you in a storm leg, the red jacket on if you packed it, poles on scree.
+    // You. Rain on you in a storm leg, and the red jacket on if you packed it.
     const cost = anim?.cost, wet = cost?.stormy;
     if (wet) for (let i = 0; i < 12; i++) p.r(hx - 12 + (i * 7 % 24), hy - 26 + ((t * 9 + i * 7) % 22), 1, 3, '#8fb8d8');
     if (s.ended === 'lake' && last) {
@@ -159,7 +154,6 @@ export function start(root, {key, characters, onExit}) {
       if (k === 1) for (let i = 0; i < 10; i++) p.r(hx + 14 + Math.cos(i) * 8, hy + Math.sin(i * 3) * 3, 2, 2, PAPER);
     } else {
       p.blit(wet && s.packed.includes('jacket') ? HIKER_JACKET : HIKER, hx, hy - 10, 2);
-      if (cost?.poles) { p.line(hx - 7, hy - 8, hx - 10, hy + 1, INK); p.line(hx + 7, hy - 8, hx + 10, hy + 1, INK); }
       if (t < M.DAWN && torch) p.r(hx - 1, hy - 19, 3, 2, '#fff6c8');
       if (wet && !s.packed.includes('jacket') && !shell.reduced.matches) p.text('BRR', hx + 8, hy - 24, PAPER, 1);
     }
@@ -207,15 +201,13 @@ export function start(root, {key, characters, onExit}) {
     const {cost, events} = pending, notes = [];
     const at = M.NODES[s.at];
     // What the kit did on that leg.
-    if (cost.torch) { pulse('torch'); once('torch', 'TORCH ON', 'good'); notes.push(`The torch kept you at full speed in the dark (${Math.round(cost.baseMinutes * 1.5) - cost.baseMinutes} min saved).`); }
+    if (cost.torch) { pulse('torch'); once('torch', 'TORCH ON', 'good'); notes.push(`The torch kept you at full speed in the dark (${cost.baseMinutes} min saved).`); }
     if (cost.dark) { once('dark', `DARK: +${cost.slower} MIN`, 'bad'); notes.push(`No torch, so that took ${cost.slower} min longer in the dark.`); }
-    if (cost.poles) { pulse('poles'); once('poles', 'POLES: -1 ENERGY', 'good'); notes.push('Poles saved 1 energy on the scree.'); }
     for (const e of events) {
       if (e.type === 'storm') {
         if (e.jacket) { pulse('jacket'); call('STORM, JACKET ON', 'good'); notes.push('Caught in the storm. The jacket kept it from costing extra.'); }
         else { call('STORM: -2 ENERGY', 'bad'); shell.shake(); notes.push('Caught in the storm with no jacket: 2 extra energy.'); }
       }
-      if (e.type === 'hut') { call('HUT: +2 ENERGY', 'good'); notes.push('A rest at the hut: +2 energy.'); }
       if (e.type === 'ate') { pulse('snacks'); call('SNACK BREAK: +3', 'good'); notes.push('Out of energy, so you ate a snack: +3.'); }
       if (e.type === 'animal') {
         const name = M.ANIMALS[e.animal];
@@ -228,7 +220,7 @@ export function start(root, {key, characters, onExit}) {
         else if (e.sunrise === 'late') { call('JUST AFTER SUNRISE'); notes.push(`At the summit at ${M.clock(e.at)}, ${diff} min after sunrise. Still pretty: +20.`); }
         else { call('MISSED SUNRISE', 'bad'); notes.push(`At the summit at ${M.clock(e.at)}, ${diff} min after sunrise. Missed it.`); }
       }
-      if (e.type === 'lake') { if (e.swim) pulse('swimmers'); call('BACKFLIP', 'win'); notes.push(e.swim ? 'The lake, and a backflip in. Swimmers: +5.' : 'The lake, and a backflip in.'); last = {t: 0}; wait = {t: 1.9, fn: finish}; }
+      if (e.type === 'lake') { call('BACKFLIP', 'win'); notes.push('The lake, and a backflip in.'); last = {t: 0}; wait = {t: 1.9, fn: finish}; }
       if (e.type === 'tired') { call('OUT OF ENERGY', 'bad'); notes.push(`Out of energy at ${at.name.toLowerCase()}. The walk ends here.`); wait = {t: 1.5, fn: finish}; }
     }
     if (!s.done && s.energy <= 2) call('LOW ENERGY', 'bad');
@@ -255,13 +247,11 @@ export function start(root, {key, characters, onExit}) {
     const cost = M.leg(s, n.edge), node = M.NODES[n.to], notes = [];
     if (cost.dark) notes.push(['bad', `dark, no torch: +${cost.slower} min`]);
     if (cost.torch) notes.push(['good', 'torch lights the way']);
-    if (cost.poles) notes.push(['good', 'poles save 1 energy']);
     if (cost.stormy) notes.push(cost.jacket ? ['good', 'storm, jacket on'] : ['bad', 'storm, no jacket: +2 energy']);
     else if (cost.terrain === 'ridge' && s.time < M.STORM[0]) notes.push(['', 'storm due from 06:30']);
     if (node.kind === 'summit' && !s.sunrise) { const at = s.time + cost.minutes, d = M.SUNRISE - at; notes.push(d >= 0 ? ['good', `sunrise: there at ${M.clock(at)}, ${d} min early`] : at <= M.LATE ? ['', `there at ${M.clock(at)}, just after sunrise`] : ['bad', `there at ${M.clock(at)}, sunrise missed`]); }
-    if (node.kind === 'hut' && !s.hut) notes.push(['good', 'hut: +2 energy']);
     if (node.animal && !s.seen.includes(node.animal)) notes.push(s.packed.includes('camera') ? ['good', `${node.animal}: +10 on film`] : ['', `${node.animal}, no camera`]);
-    if (node.kind === 'lake') notes.push(['good', `the finish${s.packed.includes('swimmers') ? ', +5 for swimmers' : ''}`]);
+    if (node.kind === 'lake') notes.push(['good', 'the finish']);
     if (node.kind !== 'lake' && cost.energy >= s.energy) notes.push(s.snacks ? ['', 'you’ll need a snack'] : ['bad', 'not enough energy: the walk would end']);
     const text = `${node.name}: ${cost.minutes} min, ${cost.energy} energy, ${TERRAIN[cost.terrain][1].toLowerCase()}${notes.length ? '. ' + notes.map(n => n[1]).join(', ') : ''}.`;
     const html = `<strong>${escape(node.name)}</strong> <span class="route-cost">${cost.minutes} min · ${cost.energy} energy · ${TERRAIN[cost.terrain][1].toLowerCase()}</span>${notes.map(([tone, t]) => ` <span class="route-note"${tone ? ` data-tone="${tone}"` : ''}>${escape(t)}</span>`).join('')}`;
@@ -328,7 +318,7 @@ export function start(root, {key, characters, onExit}) {
     let focus = null;
     const why = (k, extra = '') => {
       const box = shell.box.querySelector('.route-why'); if (!box) return;
-      if (!k) { box.innerHTML = '<strong>Pack for a sunrise hike.</strong> Tap kit to pack it or take it out. 6 kg is the limit, so something stays behind.'; return; }
+      if (!k) { box.innerHTML = `<strong>Pack for a sunrise hike.</strong> Tap kit to pack it or take it out. ${M.ALLOWANCE} kg is the limit, so something stays behind.`; return; }
       const it = item(k); box.innerHTML = `<strong>${escape(it.name)}, ${it.kg} kg.</strong> ${escape(it.why)}${extra ? ` <span class="route-note" data-tone="bad">${escape(extra)}</span>` : ''}`;
     };
     const paint = () => {
@@ -345,7 +335,7 @@ export function start(root, {key, characters, onExit}) {
       });
       shell.box.querySelector('[data-close] span').textContent = packed.length ? '' : '(empty)';
     };
-    ui.innerHTML = `<div class="route-pack" role="group" aria-label="Pack your bag, 6 kg limit">
+    ui.innerHTML = `<div class="route-pack" role="group" aria-label="Pack your bag, ${M.ALLOWANCE} kg limit">
       <div class="route-load"><span>BAG</span><div class="route-cells" aria-hidden="true"></div><b aria-live="polite"></b></div>
       ${M.ITEMS.map(i => `<button type="button" class="route-item" data-item="${i.key}" aria-describedby="route-why"><img src="${iconURL(i.key)}" alt=""><span><strong>${escape(i.name)}</strong><b class="route-kg">${'■'.repeat(i.kg)} ${i.kg} kg</b><small>${escape(i.short)}</small><em class="route-fit"></em></span></button>`).join('')}</div>`;
     ui.querySelectorAll('.route-item').forEach(b => {
@@ -367,7 +357,7 @@ export function start(root, {key, characters, onExit}) {
         why(k); paint();
       });
     });
-    shell.level('PACKING'); shell.tag('LIMIT 6 KG'); shell.score('POINTS', '0'); shell.hideMeter(false);
+    shell.level('PACKING'); shell.tag(`LIMIT ${M.ALLOWANCE} KG`); shell.score('POINTS', '0'); shell.hideMeter(false);
     const box = shell.setBox(`<div class="route-bar"><p class="route-why" id="route-why"></p>
       <button type="button" class="arcade-button arcade-primary arcade-big" data-close>Close the bag<span></span> <b aria-hidden="true">▶</b></button></div>`, 'is-play');
     box.querySelector('[data-close]').addEventListener('click', briefing);
@@ -383,9 +373,9 @@ export function start(root, {key, characters, onExit}) {
         <b class="route-sun" style="left:${pct(M.SUNRISE)}%">SUNRISE ${M.clock(M.SUNRISE)}</b>
         <i class="route-then" hidden></i><i class="route-now"></i></div></div>
       <details class="route-key"><summary>Map key</summary><ul>
-        <li><i class="route-sw" style="--c:#8a6a3c"></i>Path</li><li><i class="route-sw" style="--c:#6f6a62"></i>Scree, poles help</li>
+        <li><i class="route-sw" style="--c:#8a6a3c"></i>Path</li><li><i class="route-sw" style="--c:#6f6a62"></i>Scree, slow and tiring</li>
         <li><i class="route-sw" style="--c:#3a2f28"></i>Steep, quick but 2 energy</li><li><i class="route-sw" style="--c:#b23a48"></i>Exposed ridge, storm 06:30 to 07:15</li>
-        <li><i class="route-dot" style="--c:#b23a48"></i>Hut, +2 energy once</li><li><i class="route-dot" style="--c:#e3b341"></i>Summit, by 06:15 for sunrise</li>
+        <li><i class="route-dot" style="--c:#e3b341"></i>Summit, by 06:15 for sunrise</li>
         <li><i class="route-dot" style="--c:#2a6f9e"></i>Lake, the finish</li><li><img src="${ANIMAL.marmot.toDataURL()}" alt="">Animal, +10 with the camera</li>
         <li><i class="route-ring"></i>Where you can walk next</li></ul>
         <p>Every leg costs time and energy. Hit 0 energy and the walk ends.</p>
@@ -405,7 +395,7 @@ export function start(root, {key, characters, onExit}) {
     const brief = document.createElement('div'); brief.className = 'route-brief';
     brief.innerHTML = `<span class="arcade-label">KIT CHECK · ${M.weight(packed)} OF ${M.ALLOWANCE} KG</span><p class="route-brief-lead">It’s ${M.clock(M.START)} and dark. Summit by ${M.clock(M.SUNRISE)} for sunrise, then down to the lake. Here’s what your bag means:</p><ul>${lines}</ul>`;
     ui.append(brief); parts.brief = brief;
-    const box = shell.setBox(`<div class="route-bar"><p class="route-help">You start with 8 energy. The clock, the sunrise and the storm are along the top.</p>
+    const box = shell.setBox(`<div class="route-bar"><p class="route-help">You start with ${M.ENERGY} energy. The clock, the sunrise and the storm are along the top.</p>
       <div class="route-side"><button type="button" class="arcade-button arcade-big" data-back>◀ Repack</button><button type="button" class="arcade-button arcade-primary arcade-big" data-set>Set off <span aria-hidden="true">▶</span></button></div></div>`, 'is-play');
     box.querySelector('[data-back]').addEventListener('click', () => { s = null; ui.replaceChildren(); shell.$('.arcade-meter-label').textContent = 'BAG'; packScreen(); });
     box.querySelector('[data-set]').addEventListener('click', setOff);
@@ -429,22 +419,19 @@ export function start(root, {key, characters, onExit}) {
     const add = (key, on, text) => { if (text) out.push({key, on, text}); };
     add('torch', has('torch'), has('torch') ? (k.torch ? `Saved ${k.torch} min in the dark.` : 'Never needed it.') : k.dark ? `Left behind. The dark cost ${k.dark} min.` : '');
     add('jacket', has('jacket'), has('jacket') ? (k.jacket ? `Saved ${k.jacket} energy in the storm.` : 'Stayed dry anyway.') : k.storm ? `Left behind. The storm cost ${k.storm} energy.` : '');
-    add('snacks', has('snacks'), has('snacks') ? `${2 - s.snacks} of 2 eaten, +${(2 - s.snacks) * 3} energy.` : s.ended === 'tired' ? 'Left behind, and you ran out of energy.' : '');
+    add('snacks', has('snacks'), has('snacks') ? (s.snacks ? 'Never needed them.' : `Eaten on the way, +${M.SNACK} energy.`) : s.ended === 'tired' ? 'Left behind, and you ran out of energy.' : '');
     add('camera', has('camera'), has('camera') ? `${s.photos.length} photo${s.photos.length === 1 ? '' : 's'}, +${s.photos.length * 10}.` : s.seen.length ? `Left behind. You saw ${s.seen.length} animal${s.seen.length === 1 ? '' : 's'}, worth ${s.seen.length * 10}.` : '');
-    add('poles', has('poles'), has('poles') ? (k.poles ? `Saved ${k.poles} energy on scree.` : 'No scree legs on this route.') : k.scree ? `Left behind. Scree cost ${k.scree} extra energy.` : '');
-    add('swimmers', has('swimmers'), has('swimmers') ? (s.ended === 'lake' ? 'Worn for the backflip, +5.' : 'Never reached the lake.') : '');
     add('speaker', true, has('speaker') ? '2 kg that did nothing.' : '');
     return out;
   }
   function tip() {
     const k = s.kit, has = x => s.packed.includes(x);
-    if (s.ended === 'tired') return has('snacks') ? 'Gentler paths. Steep, scramble and scree cost 2 energy or more.' : 'Pack snacks. They’re two lots of +3 energy when you run low.';
+    if (s.ended === 'tired') return has('snacks') ? 'Save energy for the way down. The col costs 3 on the way up, the meadow 2 on the way down.' : `Pack snacks. They’re +${M.SNACK} energy when you run low.`;
     if (s.sunrise !== 'made' && k.dark) return `Pack the torch. It would have saved ${k.dark} min in the dark.`;
-    if (s.sunrise !== 'made') return 'Head straight up. The summit first, the animals and the lake after.';
-    if (k.storm) return `Pack the jacket, or come down before 06:30. The storm cost ${k.storm} energy.`;
-    if (!has('camera')) return 'Pack the film camera. Four animals, 10 points each.';
-    if (s.photos.length < 4) return `Find the ${Object.keys(M.ANIMALS).filter(a => !s.photos.includes(a)).join(' and ')} too.`;
-    if (!has('swimmers')) return 'Swimmers are 5 more points at the lake.';
+    if (s.sunrise !== 'made') return 'Head straight up. The forest path is the quick way to the summit.';
+    if (k.storm) return `Pack the jacket, or take the meadow. The storm on the ridge cost ${k.storm} energy.`;
+    if (!has('camera')) return 'Pack the film camera. Every animal you pass is 10 points.';
+    if (!s.path.includes(2)) return 'Try the col on the way up. There’s a chamois there, worth 10 with the camera.';
     return 'Keep more energy for the lake: 2 points each.';
   }
   function finish() {
@@ -476,7 +463,7 @@ export function start(root, {key, characters, onExit}) {
       shell.layout();
       await shell.intro({
         label: 'EXPLORER VS THE BAGGAGE ALLOWANCE', title: 'Route finder.',
-        text: 'A sunrise hike in the Dolomites. First pack a bag: 6 kg at most, and each item says what it does on the walk. Then pick a route across the map one leg at a time. Reach the summit by 06:15 for sunrise, then get down to the lake.',
+        text: `A sunrise hike in the Dolomites. Pack a bag of ${M.ALLOWANCE} kg at most, then walk to the summit for sunrise at ${M.clock(M.SUNRISE)} and down to the lake. Two choices on the way: the forest or the col going up, the ridge or the meadow coming down.`,
         controls: [['Click', 'Pack, then pick where to walk', 'mouse'], ['Tap', 'Pack. On the map, tap a place to see it, tap again to go', 'touch'], ['Tab, Enter', 'Everything by keyboard', 'mouse']], button: 'Start packing',
       });
       if (token !== run) return;

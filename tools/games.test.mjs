@@ -227,21 +227,26 @@ test('the bag has to stay under the allowance',()=>{
   let bag=[];for(const i of route.ITEMS)bag=route.toggle(bag,i.key);
   assert.ok(route.weight(bag)<=route.ALLOWANCE);assert.deepEqual(route.toggle(['torch'],'torch'),[]);
 });
-test('kit changes the walk: torch in the dark, poles on scree, jacket in the storm',()=>{
+test('kit changes the walk: torch in the dark, jacket in the storm',()=>{
   const edge=route.EDGES.find(e=>e[4]==='scree');
   assert.ok(route.leg(route.createTrip([]),edge).minutes>route.leg(route.createTrip(['torch']),edge).minutes);
-  assert.ok(route.leg(route.createTrip(['poles']),edge).energy<route.leg(route.createTrip([]),edge).energy);
   const ridge=route.EDGES.find(e=>e[4]==='ridge'),stormy=b=>{const s=route.createTrip(b);s.time=route.STORM[0];return route.leg(s,ridge);};
   assert.ok(stormy([]).energy>stormy(['jacket']).energy);
 });
 test('the summit before 06:15 catches the sunrise, and the lake ends the day',()=>{
-  const s=route.createTrip(['torch','snacks','camera','swimmers']);for(const to of [1,4,7,8,9,10,11])route.walk(s,to);
-  assert.equal(s.sunrise,'made');assert.equal(s.ended,'lake');assert.deepEqual(s.photos.sort(),['eagle','ibex','marmot']);
-  assert.ok(route.stars(s)>=2,`score ${route.score(s).total}`);
+  const s=route.createTrip(['torch','snacks','camera']);for(const to of [2,3,4,6])route.walk(s,to);
+  assert.equal(s.sunrise,'made');assert.equal(s.ended,'lake');assert.deepEqual(s.photos.sort(),['chamois','eagle','ibex']);
+  assert.equal(route.stars(s),3,`score ${route.score(s).total}`);
 });
-test('running out of energy eats the snacks first',()=>{
+test('running out of energy eats the snack first',()=>{
   const s=route.createTrip(['snacks']);s.energy=1;route.walk(s,1);
-  assert.equal(s.done,false);assert.equal(s.snacks,1);assert.ok(s.energy>0);
+  assert.equal(s.done,false);assert.equal(s.snacks,0);assert.ok(s.energy>0);
+});
+test('every route is four legs, and every bag and route scores somewhere on the scale',()=>{
+  const bags=[];for(let m=0;m<32;m++){const b=route.ITEMS.map(i=>i.key).filter((_,i)=>m>>i&1);if(route.weight(b)<=route.ALLOWANCE)bags.push(b);}
+  const stars=[0,0,0,0];
+  for(const b of bags)for(const r of [[1,3,4,6],[1,3,5,6],[2,3,4,6],[2,3,5,6]]){const s=route.createTrip(b);for(const to of r){if(s.done)break;assert.ok(route.walk(s,to),`${b} ${r}`);}assert.ok(s.done);stars[route.stars(s)]++;}
+  assert.ok(stars[3]>0&&stars[3]<stars[2],`three stars is rare: ${stars}`);
 });
 
 // A bit of everything (the decathlon)
