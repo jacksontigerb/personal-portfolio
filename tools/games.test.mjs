@@ -199,6 +199,9 @@ test('jumping everything gets the club through the wall; never jumping does not'
   assert.equal(good.wall,'through');assert.equal(good.hits,0);assert.ok(good.club>=runclub.NEED);
   assert.equal(lazy.wall,'stuck');assert.ok(lazy.club<runclub.NEED);
 });
+test('the marathon takes under 50 seconds and the wall comes before the finish',()=>{
+  assert.ok(runclub.LENGTH/runclub.SPEED<50,String(runclub.LENGTH/runclub.SPEED));assert.ok(runclub.WALL_MILE*runclub.METRES_PER_MILE<runclub.LENGTH);
+});
 test('hitting something costs three runners, and 25 is the goal from the real club',()=>{
   const s=runclub.createRun(1);s.club=10;s.map.items=[{x:1,kind:'cone'}];while(s.x<2)runclub.step(s,1/60);
   assert.equal(s.club,7);assert.equal(runclub.GOAL,25);assert.equal(runclub.stars({club:25}),3);assert.equal(runclub.stars({club:7}),0);

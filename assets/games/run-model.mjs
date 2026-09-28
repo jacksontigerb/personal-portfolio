@@ -1,7 +1,7 @@
-// Run club. A marathon squeezed into about 75 seconds. Pick up runners on the way, jump what's
+// Run club. A marathon squeezed into about 45 seconds. Pick up runners on the way, jump what's
 // in the road, and bring enough of the club to get through the wall at mile 23.
 // Units: metres of screen road; the runner stays put and the road moves.
-export const MILES = 26.2, WALL_MILE = 23, SPEED = 9, METRES_PER_MILE = 26, NEED = 12, GOAL = 25;
+export const MILES = 26.2, WALL_MILE = 23, SPEED = 9, METRES_PER_MILE = 16, NEED = 12, GOAL = 25;
 export const LENGTH = MILES * METRES_PER_MILE * SPEED / 9;
 const GRAVITY = 42, JUMP = 15, HOLD = 26, DROP = 3;
 
@@ -11,13 +11,13 @@ function rng(seed) { let a = seed >>> 0; return () => { a = a + 0x6D2B79F5 | 0; 
 export function route(seed = 3) {
   const r = rng(seed), items = [];
   const wall = WALL_MILE * METRES_PER_MILE;
-  for (let x = 30; x < wall - 12; x += 9 + r() * 9) {
+  for (let x = 24; x < wall - 10; x += 8 + r() * 8) {
     const roll = r();
     if (roll < .42) items.push({x, kind: 'runner', high: r() < .3});
     else if (roll < .62) items.push({x, kind: 'group', high: false, count: 2 + Math.floor(r() * 2)});
     else items.push({x, kind: ['cone', 'puddle', 'bin', 'dog'][Math.floor(r() * 4)]});
   }
-  for (let x = wall + 14; x < LENGTH - 20; x += 12 + r() * 8) items.push({x, kind: r() < .5 ? 'runner' : 'cone', high: false});
+  for (let x = wall + 10; x < LENGTH - 12; x += 9 + r() * 6) items.push({x, kind: r() < .5 ? 'runner' : 'cone', high: false});
   return {items, wall};
 }
 export function createRun(seed = 3) {
