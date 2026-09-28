@@ -10,7 +10,7 @@ export const TOLERANCE = .1;
 export const CLOSE = .1;
 // Warning past this many cycles doesn't count: before the knee shows, an early pin is a guess.
 export const MAX_WARNING = 400;
-export const CELL_COUNT = 5;
+export const CELL_COUNT = 3;
 
 function rng(seed) {
   let a = seed >>> 0 || 1;
@@ -39,19 +39,20 @@ export function endOfLife(cell) {
   return Math.round((lo + hi) / 2);
 }
 
-// Five cells for one run, different every time. The first is the gentlest; the rest are shuffled
-// and include one cell with no knee, where trusting the steady trend is the right call.
+// Three cells for one run, different every time. The first is the gentlest. The other two are a
+// hotter cell with a sharper knee and a cell with no knee, where trusting the steady trend is
+// the right call, in either order.
 export function makeRun(seed) {
   const r = rng(seed);
   const pick = list => list[Math.floor(r() * list.length)];
   const easy = makeCell({label: pick(['25 °C · 0.5C', '25 °C · 1C']), life: Math.round(between(r, 1450, 1750)), gap: Math.round(between(r, 450, 600)), a: between(r, .045, .06), p: 2, noise: .006, seed: 1 + Math.floor(r() * 1e6)});
-  const rest = [
+  const hot = [
     {label: '35 °C · 1C', life: between(r, 1150, 1500), gap: between(r, 350, 500), a: between(r, .06, .08), p: between(r, 1.8, 2.2), noise: .008, outliers: 1},
     {label: '45 °C · 1C', life: between(r, 950, 1300), gap: between(r, 300, 450), a: between(r, .08, .1), p: between(r, 1.7, 2.3), noise: .01, outliers: 2},
     {label: '55 °C · 1C', life: between(r, 800, 1100), gap: between(r, 250, 380), a: between(r, .1, .13), p: between(r, 2, 2.6), noise: .011, outliers: 1},
-    {label: pick(['25 °C · 2C', '35 °C · 0.5C']), life: between(r, 1050, 1450), gap: 0, noise: .009, outliers: 1},
   ];
-  for (let i = rest.length - 1; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [rest[i], rest[j]] = [rest[j], rest[i]]; }
+  const rest = [pick(hot), {label: pick(['25 °C · 2C', '35 °C · 0.5C']), life: between(r, 1050, 1450), gap: 0, noise: .009, outliers: 1}];
+  if (r() < .5) rest.reverse();
   return [easy, ...rest.map(c => makeCell({...c, life: Math.round(c.life), gap: Math.round(c.gap), seed: 1 + Math.floor(r() * 1e6)}))];
 }
 
@@ -87,5 +88,5 @@ export function score(cell, pin, lockedAt) {
   return {points: Math.round(warning * accuracy), late: false, eol, error, warning, accuracy, off};
 }
 export const verdict = r => r.late ? 'late' : r.error < .03 ? 'bullseye' : r.error < CLOSE ? 'close' : r.error < TOLERANCE ? 'rough' : 'miss';
-export const STAR_SCORES = Object.freeze([250, 650, 1050]);
+export const STAR_SCORES = Object.freeze([150, 390, 630]);
 export const stars = total => STAR_SCORES.filter(n => total >= n).length;

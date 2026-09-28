@@ -252,7 +252,7 @@ export function start(root, {key, characters, onExit}) {
     if (!introSeen) {
       await shell.intro({
         label: 'COMPUTER GUY VS THE KNEE', title: 'Find the knee.',
-        text: 'A battery fades slowly, then hits a knee where the loss speeds up. Pin where the dots will cross the red 70% line, then lock in. Earlier is worth more, but a pin more than 10% out scores nothing. The grey dotted line is a baseline that can’t bend.',
+        text: 'A battery fades slowly, then hits a knee where the loss speeds up. For each of three cells, pin where the dots will cross the red 70% line, then lock in. Earlier is worth more, but a pin more than 10% out scores nothing. The grey dotted line is a baseline that can’t bend.',
         controls: [['Click', 'Pin it on the chart', 'mouse'], ['Tap', 'Pin it on the chart', 'touch'], ['← →', 'Move your pin', 'mouse'], ['Space', 'Lock in', 'mouse']], button: 'Start the test',
       });
       if (token !== run) return;

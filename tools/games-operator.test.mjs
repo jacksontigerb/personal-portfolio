@@ -3,7 +3,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import * as knee from '../assets/games/knee-model.mjs';
 
-test('each run has five cells, exactly one with no knee, and runs differ',()=>{
+test('each run has three cells, exactly one with no knee, and runs differ',()=>{
   for(let seed=1;seed<=40;seed++){const run=knee.makeRun(seed);assert.equal(run.length,knee.CELL_COUNT);assert.equal(run.filter(c=>!Number.isFinite(c.knee)).length,1);assert.ok(Number.isFinite(run[0].knee),'the first cell is a gentle one with a knee');}
   assert.notDeepEqual(knee.makeRun(1).map(knee.endOfLife),knee.makeRun(2).map(knee.endOfLife));
   assert.deepEqual(knee.makeRun(5).map(knee.endOfLife),knee.makeRun(5).map(knee.endOfLife));
