@@ -2,11 +2,13 @@
 // A small 2D spring model, simplified on purpose. It isn't the analysis we did for the
 // real bridge, and it can't show sideways collapse, which was the real problem.
 // Grid units: the deck runs along y = 0 from x = 0 to x = gap, and y points down.
+// Two tests of the same gap: a light car, then the full load on the bridge you already built.
 export const LEVELS = Object.freeze([
-  {name: 'Short gap', gap: 4, load: 30, budget: 12, stars: [12, 6, 3]},
-  {name: 'Wider gap', gap: 6, load: 30, budget: 16, stars: [16, 11, 8]},
-  {name: 'Full load', gap: 6, load: 46, budget: 18, stars: [18, 13, 9]},
+  {name: 'Light car', gap: 4, load: 30, budget: 12, stars: [12, 6, 3]},
+  {name: 'Full load', gap: 4, load: 66, budget: 14, stars: [14, 8, 4]},
 ].map(Object.freeze));
+// The whole run out of three: both tests' stars, out of six, halved and rounded down.
+export const overall = best => Math.floor(best.reduce((a, b) => a + (b || 0), 0) / 2);
 export const MAX_STICK = 2.25, TOP = -3, BOTTOM = 3, BREAK = 60;
 const K = 3000, GRAVITY = 10, DAMP = 40, AIR = .6, SUB = 8, SETTLE = .9, SPEED = 1.1, AXLE = .42;
 
@@ -21,9 +23,10 @@ export function deckJoints(level) {
   const g = LEVELS[level].gap;
   return Array.from({length: g + 1}, (_, x) => [x, 0]);
 }
-export function createDesign(level) {
+export function createDesign(level, from = null) {
   if (!LEVELS[level]) throw new RangeError('No such level');
-  return {level, sticks: []};
+  const carried = from && LEVELS[from.level].gap === LEVELS[level].gap ? from.sticks.slice(0, LEVELS[level].budget).map(s => ({a: [...s.a], b: [...s.b]})) : [];
+  return {level, sticks: carried};
 }
 export function joints(design) {
   const seen = new Map();

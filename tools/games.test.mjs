@@ -110,13 +110,19 @@ test('sticks have to be short, connected, inside the grid and within budget',()=
   assert.equal(bridge.problem(d,[0,2],[1,0]),'budget');
 });
 test('a bare deck collapses on every level',()=>{
-  for(let level=0;level<3;level++)assert.equal(bridge.runTest(bridge.createDesign(level)).held,false);
+  for(let level=0;level<bridge.LEVELS.length;level++)assert.equal(bridge.runTest(bridge.createDesign(level)).held,false);
 });
-test('a Warren truss holds each level, and the full load needs a deeper one',()=>{
+test('the light car takes the cheap answer; the full load needs it strengthened',()=>{
+  const props=[[[0,2],[1,0]],[[4,2],[3,0]]], more=[[[0,1],[2,0]],[[4,1],[2,0]]];
   assert.equal(bridge.runTest(build(0,warren(4,1))).held,true);
-  assert.equal(bridge.runTest(build(1,warren(6,1))).held,true);
-  assert.equal(bridge.runTest(build(2,warren(6,1))).held,false);
-  assert.equal(bridge.runTest(build(2,warren(6,2))).held,true);
+  assert.equal(bridge.runTest(build(0,props)).held,true);
+  assert.equal(bridge.runTest(build(1,props)).held,false,'the prototype fails under the full load');
+  const carried=bridge.createDesign(1,build(0,props));assert.equal(carried.sticks.length,2,'the first bridge carries over');
+  for(const [a,b] of more)assert.ok(bridge.addStick(carried,a,b));
+  assert.equal(bridge.runTest(carried).held,true,'two more props hold it');
+});
+test('two tests out of three stars overall',()=>{
+  assert.equal(bridge.overall([3,3]),3);assert.equal(bridge.overall([3,2]),2);assert.equal(bridge.overall([1,1]),1);assert.equal(bridge.overall([1]),0);assert.equal(bridge.overall([]),0);
 });
 test('props from the lower bolts are the cheap answer to the short gap',()=>{
   const d=build(0,[[[0,2],[1,0]],[[4,2],[3,0]]]);
@@ -124,7 +130,7 @@ test('props from the lower bolts are the cheap answer to the short gap',()=>{
   assert.equal(r.held,true);assert.equal(bridge.stars(0,d.sticks.length,r.held),3);
 });
 test('the same design gives the same result',()=>{
-  const d=build(1,warren(6,1));
+  const d=build(1,warren(4,2));
   assert.deepEqual(bridge.runTest(d),bridge.runTest(d));
 });
 test('stars follow the stick thresholds and need the bridge to hold',()=>{

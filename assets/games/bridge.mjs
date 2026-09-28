@@ -6,7 +6,7 @@ import * as M from './bridge-model.mjs?v=3';
 
 const BALSA = '#e0c68f', DECK = '#6b5a45', BENCH = '#a07a45', STEEL = '#7a7f86', GOOD = '#3e7654', BAD = '#ad343c';
 const REASONS = {long: 'TOO LONG', floating: 'START FROM A JOINT', exists: 'ALREADY THERE', budget: 'OUT OF STICKS', bench: 'THAT’S THE BENCH', outside: 'OFF THE GRID'};
-const FINAL = [[0, 'Test Day wins this one.'], [3, 'It held, mostly.'], [6, 'The bridge held the car.'], [9, 'Full marks from Test Day.']];
+const FINAL = ['Test Day wins this one.', 'It held, mostly.', 'The bridge held the car.', 'Full marks from Test Day.'];
 const mix = (a, b, t) => '#' + [1, 3, 5].map(i => Math.round(parseInt(a.slice(i, i + 2), 16) * (1 - t) + parseInt(b.slice(i, i + 2), 16) * t).toString(16).padStart(2, '0')).join('');
 const same = (a, b) => a && b && a[0] === b[0] && a[1] === b[1];
 const starText = n => '★'.repeat(n) + '☆'.repeat(3 - n);
@@ -126,21 +126,21 @@ export function start(root, {key, characters, onExit}) {
 
   function paintHud() {
     const info = M.LEVELS[level], used = design().sticks.length;
-    shell.level(`LEVEL ${level + 1}/3`);
+    shell.level(`TEST ${level + 1}/${M.LEVELS.length}`);
     shell.meter(used / info.budget * 100, `${used}/${info.budget}`, used >= info.budget ? 'bad' : used > info.stars[1] ? 'warn' : 'ok');
     shell.tag(`★★★ ≤ ${info.stars[2]} · ★★ ≤ ${info.stars[1]}`);
-    shell.score('STARS', `${best.reduce((a, b) => a + (b || 0), 0)}/9`);
+    shell.score('STARS', `${best.reduce((a, b) => a + (b || 0), 0)}/${M.LEVELS.length * 3}`);
   }
   function hintFor() {
     const n = fails[level] || 0;
-    if (!n) return level === 0 ? 'Drag from a joint to add a stick. Tap a stick to take it away.' : level === 1 ? 'Wider gap, same car.' : 'Same gap. Test Day brought a heavier car.';
+    if (!n) return level === 0 ? 'Drag from a joint to add a stick. Tap a stick to take it away.' : 'Test Day brought the full load. Your bridge is still here, so make it stronger.';
     const tips = level === 0 ? ['Triangles keep their shape. Squares fold.', 'Try the bolts lower down on the benches.']
-      : ['Deeper trusses carry more. Try going two squares up or down.', 'Triangles all the way across, and use the full height.'];
+      : ['Brace it from the lower bolts on both benches.', 'Triangles all the way across, and use the full height.'];
     return tips[Math.min(n, tips.length) - 1];
   }
   function buildBox(message = hintFor()) {
     const info = M.LEVELS[level], box = shell.setBox(`<div class="bridge-bar">
-      <div class="bridge-info"><span class="arcade-label">LEVEL ${level + 1} OF 3 · ${info.name.toUpperCase()}</span><p class="bridge-hint">${message}</p></div>
+      <div class="bridge-info"><span class="arcade-label">TEST ${level + 1} OF ${M.LEVELS.length} · ${info.name.toUpperCase()}</span><p class="bridge-hint">${message}</p></div>
       <div class="bridge-buttons"><button type="button" class="arcade-button" data-undo>Undo</button><button type="button" class="arcade-button" data-clear>Clear</button><button type="button" class="arcade-button arcade-primary" data-test>Send the car <span aria-hidden="true">▶</span></button></div></div>`, 'is-play');
     box.querySelector('[data-undo]').addEventListener('click', undo);
     box.querySelector('[data-clear]').addEventListener('click', () => { design().sticks = []; selected = null; changed('Cleared.'); });
@@ -210,7 +210,7 @@ export function start(root, {key, characters, onExit}) {
     if (phase !== 'build') return;
     phase = 'test'; selected = null; ghost = null; hover = null; debris = [];
     test = M.createTest(design()); running = true; setPose('idle'); el.dataset.phase = 'test';
-    shell.setBox(`<div class="bridge-bar"><div class="bridge-info"><span class="arcade-label">LEVEL ${level + 1} OF 3 · TESTING</span><p class="bridge-hint">Test Day is driving across.</p></div>
+    shell.setBox(`<div class="bridge-bar"><div class="bridge-info"><span class="arcade-label">TEST ${level + 1} OF ${M.LEVELS.length} · TESTING</span><p class="bridge-hint">Test Day is driving across.</p></div>
       <div class="bridge-buttons"><button type="button" class="arcade-button" data-stop>Stop</button></div></div>`, 'is-play');
     shell.box.querySelector('[data-stop]').addEventListener('click', edit);
     shell.callout('TEST DAY', ''); shell.announce('Test Day is driving across your bridge.');
@@ -223,11 +223,11 @@ export function start(root, {key, characters, onExit}) {
     const info = M.LEVELS[level], used = design().sticks.length, held = test.held, stars = M.stars(level, used, held);
     if (held) best[level] = Math.max(best[level] || 0, stars); else fails[level] = (fails[level] || 0) + 1;
     paintHud();
-    const last = level === 2, nextStar = stars < 3 ? ` ${stars === 1 ? 'Two' : 'Three'} stars needs ${info.stars[stars]} sticks or fewer.` : '';
+    const last = level === M.LEVELS.length - 1, nextStar = stars < 3 ? ` ${stars === 1 ? 'Two' : 'Three'} stars needs ${info.stars[stars]} sticks or fewer.` : '';
     const buttons = held
-      ? `<button type="button" class="arcade-button arcade-primary arcade-big" data-next>${last ? 'See how you did' : 'Next level'} <span aria-hidden="true">▶</span></button><button type="button" class="arcade-button arcade-big" data-edit>${stars < 3 ? 'Make it lighter' : 'Edit the bridge'}</button>`
+      ? `<button type="button" class="arcade-button arcade-primary arcade-big" data-next>${last ? 'See how you did' : 'The full load'} <span aria-hidden="true">▶</span></button><button type="button" class="arcade-button arcade-big" data-edit>${stars < 3 ? 'Make it lighter' : 'Edit the bridge'}</button>`
       : `<button type="button" class="arcade-button arcade-primary arcade-big" data-edit>Edit the bridge</button><button type="button" class="arcade-button arcade-big" data-clear>Start it again</button>${fails[level] >= 2 ? `<button type="button" class="arcade-button arcade-big" data-next>Skip this level</button>` : ''}`;
-    shell.setBox(`<span class="arcade-label">LEVEL ${level + 1} OF 3 · ${held ? 'HELD' : 'COLLAPSED'}</span>
+    shell.setBox(`<span class="arcade-label">TEST ${level + 1} OF ${M.LEVELS.length} · ${held ? 'HELD' : 'COLLAPSED'}</span>
       <div class="arcade-result-head"><h2 class="arcade-title" tabindex="-1">${held ? 'It held.' : 'It didn’t hold.'}</h2><span class="arcade-stars" aria-label="${stars} out of 3 stars">${starText(stars)}</span></div>
       <p class="arcade-text">${held ? `${used} ${used === 1 ? 'stick' : 'sticks'}.${nextStar}` : hintFor()}</p>
       <div class="arcade-actions">${buttons}</div>`, 'is-break');
@@ -240,20 +240,20 @@ export function start(root, {key, characters, onExit}) {
   }
   function startLevel(index) {
     level = index; phase = 'build'; test = null; debris = []; selected = null; ghost = null; cursor = [0, 0];
-    designs[index] = designs[index] || M.createDesign(index);
+    designs[index] = designs[index] || M.createDesign(index, designs[index - 1]);
     setPose('idle'); el.dataset.phase = 'build'; buildBox(); shell.layout(); paintHud();
     if (index) shell.callout(M.LEVELS[index].name.toUpperCase(), 'good');
-    shell.announce(`Level ${index + 1} of 3, ${M.LEVELS[index].name}. ${hintFor()}`);
+    shell.announce(`Test ${index + 1} of ${M.LEVELS.length}, ${M.LEVELS[index].name}. ${hintFor()}`);
     shell.focusPlay();
   }
   function finish() {
     phase = 'done'; el.dataset.phase = 'result';
-    const total = best.reduce((a, b) => a + (b || 0), 0), title = FINAL.filter(([n]) => total >= n).at(-1)[1];
-    setPose(total >= 6 ? 'hit' : 'idle');
+    const stars = M.overall(best);
+    setPose(stars >= 2 ? 'hit' : 'idle');
     shell.result({
-      title, stars: total, max: 9,
+      title: FINAL[stars], stars,
       line: 'Ours was the only bridge in the group that held the car.',
-      rows: M.LEVELS.map((info, i) => [`${i + 1}. ${info.name}`, best[i] ? `${starText(best[i])}, ${designs[i].sticks.length} sticks` : 'Skipped']),
+      rows: M.LEVELS.map((info, i) => [`${i + 1}. ${info.name}`, best[i] ? `${starText(best[i])}, ${designs[i].sticks.length} sticks` : 'Skipped']).concat([['How it adds up', 'Both tests’ stars, halved']]),
       source: `<p>The game is 2D and the physics are simplified: stiff springs that snap past a set force. It isn’t how we analysed the real bridge.</p>
         <p>On ours, the small prototype showed it collapsed when pushed sideways, so we added lateral support. On test day it carried a large radio controlled car, and it was the only bridge in the group that held.</p>`,
     });
@@ -266,7 +266,7 @@ export function start(root, {key, characters, onExit}) {
       shell.layout();
       await shell.intro({
         label: 'ENGINEER VS TEST DAY', title: 'Bridge the gap.',
-        text: 'Build a balsa bridge between the benches, then send the car across. Sticks go red as they strain and snap if you ask too much of them. Three levels. Fewer sticks means more stars.',
+        text: 'Build a balsa bridge between the benches, then send the car across. Sticks go red as they strain and snap if you ask too much. Two tests: a light car, then the full load on the same bridge. Fewer sticks means more stars.',
         controls: [['Drag', 'From a joint to add a stick'], ['Tap', 'A stick to remove it'], ['Arrows, Space', 'Build with the keyboard', 'mouse'], ['T', 'Send the car', 'mouse']],
         button: 'Start building',
       });
