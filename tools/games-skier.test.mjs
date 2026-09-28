@@ -16,10 +16,11 @@ test('a smooth carve keeps more speed than a sharp skid through the same turn', 
 });
 
 test('the wall is steeper than the blue, and the trees drop faster than the cat track', () => {
-  assert.ok(M.pitch(0, 300) > M.pitch(0, 150));
-  const cat = M.piste(650);
-  assert.ok(M.onPiste(cat.cx, 650) && M.pitch(cat.cx, 650) < .6);
-  assert.ok(M.inGlade(0, 650) && M.pitch(0, 650) > 1.5);
+  const mid = key => { const s = M.SECTIONS.find(s => s.key === key); return (s.y0 + s.y1) / 2; };
+  assert.ok(M.pitch(0, mid('wall')) > M.pitch(0, mid('cruise')));
+  const y = (M.GLADE.y0 + M.GLADE.y1) / 2, cat = M.piste(y);
+  assert.ok(M.onPiste(cat.cx, y) && M.pitch(cat.cx, y) < .6);
+  assert.ok(M.inGlade(0, y) && M.pitch(0, y) > 1.5);
 });
 
 test('kickers launch you over the rocks behind them, and landing adds time', () => {
@@ -58,4 +59,14 @@ test('stars: pointing it straight down rarely beats skiing the gates', () => {
     const b = M.createRun(seed); while (!b.done) M.step(b, 1 / 60, gates(b)); skied += M.stars(b);
   }
   assert.ok(skied > straight, `gates ${skied} stars, straight ${straight}`);
+});
+
+test('a clean run down the gates takes under a minute', () => {
+  const aim = (s, tx, ty) => Math.atan2(tx - s.x, Math.max(5, ty - s.y));
+  for (let seed = 1; seed <= 5; seed++) {
+    const s = M.createRun(seed);
+    while (!s.done) { const g = s.map.gates.find(g => g.passed == null && g.y > s.y + 1), p = M.piste(s.y + 16); M.step(s, 1 / 60, g && g.y - s.y < 40 ? aim(s, g.x, g.y) : aim(s, p.cx, s.y + 16)); }
+    assert.ok(s.t < 55, `seed ${seed}: ${s.t.toFixed(1)} s`);
+    assert.ok(s.made, `seed ${seed} made the chair`);
+  }
 });

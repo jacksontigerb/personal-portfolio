@@ -61,7 +61,7 @@ export const EVIDENCE = {
   creator: {image: 'cards/tiktok-profile-800.webp', alt: 'My TikTok profile with 80.9 thousand followers in July 2026', title: 'My TikTok', text: 'I filmed, edited and posted the videos myself. One reached 1.2 million views.', href: 'experience.html#p-tiktok'},
   rider: {image: 'cards/runclub-street-800.webp', alt: 'Run club running down a pastel terraced street at dusk', title: 'Falmouth Running Society', text: 'I started the society in January 2024, set the routes, ran the socials and led the sessions myself. By June it was 25 runners a week.', href: 'experience.html#p-runclub'},
   wanderer: {image: 'cards/dolomites-lake-800.webp', alt: 'A backflip into an alpine lake in the Dolomites', title: 'The Dolomites', text: 'A few days camping, a sunrise hike and a backflip into a freezing lake.', href: 'experience.html#p-dolomites'},
-  skier: {image: 'ski-pov.jpg', alt: 'A view down a piste while skiing', title: 'Out on the mountain', text: 'I’ve been skiing since I was three. I film runs as I go, and the clips on the portfolio are mine.', href: 'experience.html#skiing'},
+  skier: {image: 'ski-jump.jpg', alt: 'A still from one of my ski clips: heading for a kicker with mountains behind', title: 'Out on the mountain', text: 'I’ve been skiing since I was three. I film runs as I go, and the clips on the portfolio are mine.', href: 'experience.html#skiing'},
 };
 
 export const stillFor = key => `assets/games/stills/${key}.webp`;

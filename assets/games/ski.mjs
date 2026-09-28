@@ -492,7 +492,7 @@ export function start(root, {key, characters, onExit}) {
     if (!introSeen) {
       await shell.intro({
         label: 'SKIER VS THE LAST CHAIR', title: 'Last run.',
-        text: `The last chair goes in ${M.LIMIT} seconds. Get down before it does. Smooth turns carve and keep your speed. Sharp ones skid and slow you down. Gates, jumps and close calls buy time. The trees are a shortcut, if you can miss them.`,
+        text: `The last chair goes in ${M.LIMIT} seconds. Get down before it does. Smooth turns keep your speed, sharp ones skid. Gates, jumps and close calls buy time, and the trees are a shortcut if you can miss them.`,
         controls: [['Mouse', 'Steer towards it', 'mouse'], ['← →', 'Carve', 'mouse'], ['↓', 'Point it downhill', 'mouse'], ['↑', 'Skid to slow down', 'mouse'], ['Drag', 'Steer towards your finger', 'touch'], ['◀ ▶', 'Hold to carve', 'touch']],
         button: 'Drop in',
       });

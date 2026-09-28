@@ -1,7 +1,7 @@
 // Last run. Get down before the last chair goes. Units are metres: x across the hill, y down it.
 // Heading 0 points straight down the fall line; a positive heading travels towards +x.
 // Everything here is made up for the game: the hill, the speeds, the lift times.
-export const LENGTH = 940, LIMIT = 75, GATE_GAP = 6, LIFT_X = -20;
+export const LENGTH = 545, LIMIT = 45, GATE_GAP = 6, LIFT_X = -20;
 export const GATE_BONUS = 1, CLEAN_BONUS = .5, SKIM_BONUS = .3, AIR_BONUS = 1;
 export const MAX_HEAD = 1.5;
 const G = 3.3, DRAG = .0115, TUCK = .7, ROLL = .25, POWDER = .5, POWDER_DRAG = .008;
@@ -10,19 +10,18 @@ const CARVE_R = 14, MIN_CARVE = .9, PIVOT = 3.6, GAIN = 5, SKID_LOSS = 1.5, CRAS
 // The run from top to bottom. Pitch scales gravity; off is the pitch through the trees beside a
 // flat cat track, which is the shortcut.
 export const SECTIONS = [
-  {key: 'top', y0: -80, y1: 60, pitch: 1.25, name: 'LAST RUN'},
-  {key: 'cruise', y0: 60, y1: 225, pitch: 1, name: 'THE BLUE'},
-  {key: 'wall', y0: 225, y1: 385, pitch: 1.75, name: 'THE WALL'},
-  {key: 'kicker', y0: 385, y1: 440, pitch: 1.05, name: 'KICKER'},
-  {key: 'moguls', y0: 440, y1: 545, pitch: 1.15, name: 'MOGULS'},
-  {key: 'trees', y0: 545, y1: 760, pitch: .4, off: 1.75, name: 'THE TREES'},
-  {key: 'runout', y0: 760, y1: 890, pitch: 1, name: 'RUN OUT'},
-  {key: 'bottom', y0: 890, y1: 2000, pitch: .45, name: 'LAST CHAIR'},
+  {key: 'top', y0: -52, y1: 39, pitch: 1.25, name: 'LAST RUN'},
+  {key: 'cruise', y0: 39, y1: 130, pitch: 1, name: 'THE BLUE'},
+  {key: 'wall', y0: 130, y1: 222, pitch: 1.75, name: 'THE WALL'},
+  {key: 'kicker', y0: 222, y1: 257, pitch: 1.05, name: 'KICKER'},
+  {key: 'moguls', y0: 257, y1: 318, pitch: 1.15, name: 'MOGULS'},
+  {key: 'trees', y0: 318, y1: 444, pitch: .4, off: 1.75, name: 'THE TREES'},
+  {key: 'runout', y0: 444, y1: 513, pitch: 1, name: 'RUN OUT'},
+  {key: 'bottom', y0: 513, y1: 1453, pitch: .45, name: 'LAST CHAIR'},
 ];
 // The piste's centre line and half width, eased between these points.
-const PATH = [[-80, 0, 14], [40, 0, 13], [110, -12, 10], [180, 11, 10], [225, 2, 13], [300, -6, 13], [385, 4, 14], [440, 0, 13], [545, 2, 12],
-  [590, 14, 6], [630, 30, 5], [690, 30, 5], [760, 8, 11], [820, -12, 10], [870, 4, 13], [900, 0, 17], [1000, 0, 22]];
-export const GLADE = {y0: 560, y1: 765};
+const PATH = [[-52, 0, 14], [26, 0, 13], [67, -12, 10], [105, 11, 10], [130, 2, 13], [173, -6, 13], [222, 4, 14], [257, 0, 13], [318, 2, 12], [344, 14, 6], [367, 30, 5], [403, 30, 5], [444, 8, 11], [476, -12, 10], [503, 4, 13], [519, 0, 17], [583, 0, 22]];
+export const GLADE = {y0: 284, y1: 388};
 
 export function piste(y) {
   let i = 0;
@@ -46,15 +45,15 @@ function rng(seed) { let a = seed >>> 0; return () => { a = a + 0x6D2B79F5 | 0; 
 export function course(seed = 7) {
   const r = rng(seed), gates = [], things = [], bumps = [], jumps = [];
   const at = y => piste(y);
-  const gateRows = [95, 130, 165, 200, 262, 306, 350, 790, 822, 854];
+  const gateRows = [54, 82, 110, 153, 183, 212, 463, 491];
   gateRows.forEach((y0, i) => {
     const y = y0 + (r() - .5) * 6, p = at(y), side = i % 2 ? 1 : -1;
     gates.push({x: p.cx + side * (2 + r() * Math.min(4, p.hw - 5)), y, passed: null});
   });
-  const k1 = 402, k2 = 775, s2 = r() < .5 ? -1 : 1;
+  const k1 = 232, k2 = 452, s2 = r() < .5 ? -1 : 1;
   jumps.push({x: at(k1).cx + (r() - .5) * 4, y: k1, w: 5}, {x: at(k2).cx + s2 * 6, y: k2, w: 4});
   // Moguls in staggered rows with troughs between them.
-  for (let y = 452, row = 0; y < 535; y += 2.7, row++) {
+  for (let y = 264, row = 0; y < 311; y += 2.7, row++) {
     const p = at(y);
     for (let x = p.cx - p.hw + 1 + (row % 2) * 1.6; x < p.cx + p.hw - .8; x += 3.2) if (r() > .12) bumps.push({x: x + (r() - .5) * .4, y: y + (r() - .5) * .4});
   }
@@ -64,7 +63,7 @@ export function course(seed = 7) {
   // Rocks under the kickers' flight, so hitting the kicker flies you over them.
   jumps.forEach(j => [-1, 1].forEach(s => things.push({x: j.x + s * (.9 + r() * .6), y: j.y + 7 + r() * 4, kind: 'rock', r: .75})));
   // The odd rock or tree on the piste, never on a gate line, kicker or the start.
-  for (let y = 45; y < 900; y += 14 + r() * 16) {
+  for (let y = 35; y < 519; y += 14 + r() * 16) {
     const p = at(y), sec = sectionAt(y).key;
     if (sec === 'moguls' || sec === 'trees') continue;
     const x = p.cx + (r() - .5) * 2 * (p.hw - 1.5);
@@ -182,7 +181,7 @@ export function step(s, dt, steer = null) {
 }
 
 // One star for making the chair, more for time to spare.
-export const STAR_SPARE = [0, 8, 18];
+export const STAR_SPARE = [0, 5, 10];
 export function stars(s) {
   if (!s.made) return 0;
   const spare = timeLeft(s);
