@@ -5,7 +5,7 @@ export const LINKEDIN = 'https://www.linkedin.com/in/jacksontigerb';
 
 export const GAMES = {
   allrounder: {
-    title: 'Jackson’s decathlon.', line: 'Four quick events from things I actually do.', shows: 'My bike repair business, and the rest',
+    title: 'A bit of everything.', line: 'Four quick events, from pumping a tyre to catching a fish.', shows: 'My bike repair business, and the rest',
     blurb: 'Runs a bike repair business and started a running club.',
     load: () => import('./decathlon.mjs?v=3'),
   },

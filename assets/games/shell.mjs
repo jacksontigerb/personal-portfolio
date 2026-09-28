@@ -168,7 +168,7 @@ export function createShell(root, {key, characters, boss = null, meterLabel, onE
     result({title, stars, max = 3, line, rows = [], source = '', proof = EVIDENCE[key]}) {
       const url = new URL(proof.href, location.href); url.searchParams.set('c', key);
       const saved = recordStars(key, stars, characters.keys), tally = summary(saved.progress, characters.keys);
-      const best = saved.first ? '' : saved.newBest ? '<span class="arcade-best">NEW BEST</span>' : `<span class="arcade-best">BEST <span class="arcade-star-glyphs">${starText(saved.best, max)}</span></span>`;
+      const best = saved.first ? '' : saved.newBest ? '<span class="arcade-best">NEW BEST</span>' : saved.best > stars ? `<span class="arcade-best">BEST <span class="arcade-star-glyphs">${starText(saved.best, max)}</span></span>` : '';
       const faces = characters.keys.map(k => `<li><img src="assets/face-${k}.webp" width="240" height="240" alt=""><span aria-label="${saved.progress[k]} stars">${starText(saved.progress[k] ?? 0)}</span></li>`).join('');
       const portfolio = `experience.html${key === 'allrounder' ? '' : '?c=' + key}`;
       const finale = saved.completed ? html`<div class="arcade-finale"><span class="arcade-label">ALL NINE PLAYED</span>

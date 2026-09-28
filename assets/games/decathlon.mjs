@@ -1,9 +1,8 @@
-// Jackson's decathlon: Jack of All Trades versus The To Do List.
-// Ten events of a few seconds each. Space or a tap does the main thing, number keys or the
+// A bit of everything: Jack of All Trades.
+// Four events of a few seconds each. Space or a tap does the main thing, number keys or the
 // buttons pick, and each event ends on a medal that flies into the rack along the top.
 import {createShell, escape} from './shell.mjs?v=3';
 import {pen, sprite, INK, PAPER} from './pixels.mjs?v=3';
-import {drawBoss} from './bosses.mjs?v=3';
 import * as M from './decathlon-model.mjs?v=3';
 
 const MEDAL_COLOUR = ['#8a8f94', '#b8743a', '#b9c0c7', '#e3b341'];
@@ -102,52 +101,6 @@ const EVENTS = [
       if (inWin && !s.finished) p.tag('LET GO', gx, gy - gr - 16, PAPER, GREEN, 1);
       else if (s.p > s.high && !s.finished) p.tag('TOO MUCH', gx, gy - gr - 16, PAPER, RED, 1);
     }},
-  {key: 'strum', name: 'Strum', help: 'Strum as each note reaches the sound hole.', time: 4.1, action: 'Strum', linger: .4,
-    init() { return {beats: M.STRUM_BEATS, hit: [], errors: [], missed: [], ring: -9}; },
-    press(s, say) {
-      const i = s.beats.findIndex((b, k) => !s.hit[k] && !s.missed[k] && Math.abs(s.t - b) < .35);
-      s.ring = s.t;
-      if (i < 0) return;
-      s.hit[i] = true; s.errors[i] = s.t - s.beats[i];
-      const m = M.timingMedal(s.errors[i]);
-      say(M.timingWord(m, s.errors[i]), m === 3 ? 'good' : m ? 'warn' : 'bad', s.hx, s.hy - 60);
-      if (s.hit.filter(Boolean).length + s.missed.filter(Boolean).length === 4) s.finished = true;
-    },
-    update(s, dt, say) {
-      s.beats.forEach((b, k) => { if (!s.hit[k] && !s.missed[k] && s.t > b + .35) { s.missed[k] = true; say('MISS', 'bad', s.hx, s.hy - 60); } });
-      if (s.hit.filter(Boolean).length + s.missed.filter(Boolean).length === 4) s.finished = true;
-    },
-    medal: s => M.strumMedal(s.errors.filter(e => e != null)),
-    draw(s, p, a) {
-      p.r(a.x, a.y, a.w, a.h, '#2b2433');
-      p.poly([[a.x + a.w * .22, a.y], [a.x + a.w * .38, a.y], [a.x + a.w * .5, a.y + a.h], [a.x + a.w * .06, a.y + a.h]], '#3a3144');
-      p.r(a.x, a.y + a.h * .86, a.w, a.h * .14, '#4a3a2c');
-      const cy = a.y + a.h * .52, R = Math.min(a.h * .26, a.w * .15), bx = a.x + a.w * .2, hx = bx + R * .35;
-      s.hx = hx * 2; s.hy = cy * 2;
-      // Body, neck, sound hole and strings.
-      p.disc(bx - R * .2, cy, R + 2, INK); p.disc(bx + R * .55, cy, R * .78 + 2, INK);
-      p.disc(bx - R * .2, cy, R, '#c07a3e'); p.disc(bx + R * .55, cy, R * .78, '#c07a3e');
-      const nx = bx + R * 1.1, nh = Math.max(12, R * .42);
-      p.r(nx, cy - nh / 2 - 1, a.x + a.w - nx, nh + 2, INK); p.r(nx, cy - nh / 2, a.x + a.w - nx, nh, '#6b4a2a');
-      for (let f = nx + 10; f < a.x + a.w; f += Math.max(14, a.w * .07)) p.r(f, cy - nh / 2, 1, nh, '#c9bda6');
-      p.disc(hx, cy, R * .36, '#241a14');
-      p.r(bx - R * .75, cy - nh / 2 - 1, 4, nh + 2, '#3a2418');
-      const ringing = s.t - s.ring < .3;
-      for (let i = 0; i < 6; i++) {
-        const y = cy - nh / 2 + 2 + i * (nh - 4) / 5, wob = ringing ? Math.round(Math.sin(s.t * 90 + i) * 1.2 * (1 - (s.t - s.ring) / .3)) : 0;
-        p.r(bx - R * .72, y + wob, a.x + a.w - bx + R * .72, 1, '#efe4c8');
-      }
-      // The strum line over the hole, and notes coming down the neck.
-      p.r(hx - 1, cy - R * 1.05, 3, R * 2.1, GOLD); p.tag('STRUM', hx, cy - R * 1.05 - 12, INK, GOLD, 1);
-      const speed = a.w * .32;
-      s.beats.forEach((b, i) => {
-        const x = hx + (b - s.t) * speed; if (x < a.x - 10 || x > a.x + a.w + 10) return;
-        const col = s.hit[i] ? (Math.abs(s.errors[i]) <= .08 ? '#6bbf85' : AMBER) : s.missed[i] ? RED : PAPER;
-        const y = cy - nh / 2 - 12 - (s.missed[i] ? (s.t - b - .35) * 60 : 0);
-        p.disc(x, y + 8, 4, col); p.r(x + 3, y - 2, 2, 10, col); p.r(x + 3, y - 2, 5, 2, col);
-      });
-      for (let i = 0; i < 4; i++) p.r(a.x + a.w / 2 - 18 + i * 10, a.y + a.h * .92, 6, 6, s.hit[i] ? (Math.abs(s.errors[i]) <= .08 ? '#6bbf85' : AMBER) : s.missed[i] ? RED : '#5a4d63');
-    }},
   {key: 'chess', name: 'Mate in one', help: 'White to move. Pick the move that gives checkmate.', time: 8, linger: .9,
     init() { const puzzle = M.PUZZLES[Math.floor(Math.random() * M.PUZZLES.length)]; return {puzzle, choice: null, hits: []}; },
     options: s => s.puzzle.options.map(o => M.moveText(s.puzzle, o)),
@@ -187,155 +140,6 @@ const EVENTS = [
       });
       for (let f = 0; f < 8; f++) p.text('ABCDEFGH'[f], bx + f * size + size / 2 - 1, by + size * 8 + 4, '#e8dcc0', 1);
     }},
-  {key: 'ollie', name: 'Ollie', help: 'Ollie just before each bin reaches you.', time: 4.6, action: 'Ollie', linger: .7,
-    init() { return {arrive: M.OLLIE_BINS, jumps: [], medals: []}; },
-    press(s, say, fx) {
-      const i = s.jumps.length; if (i >= 2 || s.crashed) return;
-      const err = s.t - (s.arrive[i] - M.OLLIE_LEAD), m = M.timingMedal(err, M.OLLIE_WINDOWS);
-      s.jumps.push(s.t); s.medals[i] = m;
-      if (m) say(m === 3 ? 'CLEAN' : m === 2 ? 'NICE' : 'JUST', m === 3 ? 'good' : 'warn', s.sx, s.gy - 90);
-      else { s.crashAt = Math.max(s.t + .12, s.arrive[i]); s.crashWord = err < 0 ? 'TOO EARLY' : 'TOO LATE'; }
-    },
-    update(s, dt, say, fx) {
-      for (let i = 0; i < 2; i++) if (s.jumps.length <= i && s.t > s.arrive[i] + .05 && !s.crashAt) { s.jumps.push(null); s.medals[i] = 0; s.crashAt = s.t; s.crashWord = 'NO OLLIE'; }
-      if (s.crashAt && !s.crashed && s.t >= s.crashAt) { s.crashed = s.t; say(s.crashWord, 'bad', s.sx, s.gy - 90); fx.shake(); fx.burst(s.sx, s.gy, ['#3e7654', INK], 10); }
-      if (s.crashed && s.t > s.crashed + .1) s.finished = true;
-      if (s.medals.length === 2 && !s.crashAt && s.t > s.arrive[1] + .35) s.finished = true;
-    },
-    medal: s => s.crashed && s.medals.length < 2 ? 0 : M.ollieMedal(s.medals),
-    draw(s, p, a) {
-      const g = a.y + a.h * .74, sx = a.x + a.w * .3, speed = a.w * .3; s.sx = sx * 2; s.gy = g * 2;
-      sky(p, a, '#bfe0ee', '#d4ebf2', .5);
-      for (let i = 0; i < 9; i++) { const w = a.w * .14, x = a.x + ((i * w * 1.15 - s.t * speed * .25) % (a.w + w) + a.w + w) % (a.w + w) - w, h = a.h * (.22 + (i * 37 % 20) / 100); p.r(x, g - h, w, h, i % 2 ? '#9fb3c0' : '#b0c2cd'); for (let wy = g - h + 5; wy < g - 6; wy += 9) p.r(x + 4, wy, w - 8, 3, '#c8d6de'); }
-      p.r(a.x, g, a.w, a.y + a.h - g, '#b8b1a5'); p.r(a.x, g, a.w, 2, INK);
-      for (let x = a.x - ((s.t * speed) % 24); x < a.x + a.w; x += 24) p.r(x, g + 8, 12, 1, '#9e978b');
-      s.arrive.forEach((t0, i) => {
-        const x = sx + (t0 - s.t) * speed; if (x < a.x - 20 || x > a.x + a.w + 20) return;
-        if (s.crashed && s.medals[i] === 0) { p.r(x - 2, g - 12, 20, 12, '#3e7654'); p.r(x + 16, g - 13, 3, 14, '#2f5d43'); return; }
-        p.r(x - 8, g - 20, 16, 20, '#3e7654'); p.r(x - 9, g - 22, 18, 3, '#2f5d43'); p.r(x - 5, g - 16, 10, 1, '#5a9270'); p.disc(x + 5, g - 2, 2, INK);
-      });
-      let h = 0, tilt = 0; const last = s.jumps.filter(j => j != null).at(-1);
-      if (last != null && !s.crashed && s.t - last < .55) { const u = (s.t - last) / .55; h = Math.sin(Math.PI * u) * 34; tilt = u < .3 ? 5 : u > .75 ? -2 : 0; }
-      const y = g - 4 - h;
-      if (s.crashed) { p.blit(LYING, sx + 6, g - 4, 2); p.line(sx + 18, g - 3, sx + 36, g - 6, '#e3822b', 3); }
-      else { p.line(sx - 12, y + 4 + tilt, sx + 12, y + 4 - tilt, '#e3822b', 3); p.r(sx - 9, y + 6, 3, 3, INK); p.r(sx + 6, y + 6, 3, 3, INK); p.blit(h ? CROUCH : PERSON, sx, y - (h ? 7 : 9), 2); }
-    }},
-  {key: 'kana', name: 'Read the kana', help: 'I’m learning Japanese. Use the key to read the sign.', time: 10, linger: .5,
-    init() { return {...M.kanaRound(), q: 0, right: 0, flash: null}; },
-    options: s => s.q < 3 ? s.opts[s.q].map(k => k[1]) : [],
-    stage: s => s.q,
-    busy: s => s.flash && s.t - s.flash.t < .4,
-    choose(s, i, say) {
-      if (s.q >= 3) return;
-      const word = s.words[s.q], ok = s.opts[s.q][i] === word; if (ok) s.right++;
-      s.flash = {ok, t: s.t, word}; s.q++;
-      say(ok ? `${word[1]} → ${word[2]}` : `it says ${word[1]}`, ok ? 'good' : 'bad', s.sx, s.sy);
-      if (s.q === 3) { s.finished = true; s.at = s.t; }
-    },
-    medal: s => M.answerMedal(s.right, 3, s.at ?? 99, 7),
-    draw(s, p, a) {
-      const ground = a.y + a.h * .8;
-      sky(p, a, '#a9d3ea', '#c6e2f0', .5);
-      hills(p, a, ground, '#b7c7d4', 1, a.h * .55);
-      for (let i = 0; i <= 8; i++) { const f = Math.abs(Math.sin(1 + i * 1.7)), x = a.x + a.w * i / 8, y = ground - a.h * .55 * (.4 + .6 * f); if (f > .75) p.poly([[x - 7, y + 6], [x, y], [x + 7, y + 6]], PAPER); }
-      hills(p, a, ground, '#7d93a7', 4, a.h * .3);
-      p.r(a.x, ground, a.w, a.y + a.h - ground, '#eef3f6');
-      const w = Math.min(a.w * .62, 170), h = Math.min(a.h * .36, 62), x = a.x + a.w / 2 - w / 2, y = a.y + a.h * .12;
-      s.sx = (x + w / 2) * 2; s.sy = (y + h + 18) * 2;
-      p.r(x + w * .2, y + h, 4, ground - y - h, '#6b4a2a'); p.r(x + w * .8 - 4, y + h, 4, ground - y - h, '#6b4a2a');
-      const shown = s.flash && s.t - s.flash.t < .4 ? s.flash : null, word = shown ? shown.word : s.words[Math.min(2, s.q)];
-      p.r(x - 3, y - 3, w + 6, h + 6, shown ? (shown.ok ? GREEN : RED) : INK); p.r(x, y, w, h, '#c99a5a'); p.r(x + 3, y + 3, w - 6, h - 6, '#dcb57a');
-      p.c.fillStyle = INK; p.c.font = `bold ${Math.round(h * .58)}px "Hiragino Sans","Noto Sans JP",sans-serif`; p.c.textAlign = 'center'; p.c.textBaseline = 'middle';
-      p.c.fillText(word[0], x + w / 2, y + h / 2 + 2);
-      // The key: every kana in this question's answers and the sound it makes.
-      if (s.q < 3) {
-        const key = M.keyFor(s.opts[s.q]), per = Math.min(34, (a.w - 8) / Math.min(key.length, 5)), rows = Math.ceil(key.length / Math.floor((a.w - 8) / per)), across = Math.ceil(key.length / rows);
-        const kh = 24, top = ground - rows * kh - 6;
-        p.r(a.x + a.w / 2 - across * per / 2 - 4, top - 4, across * per + 8, rows * kh + 6, 'rgba(251,251,250,.9)');
-        key.forEach((k, n) => {
-          const col = n % across, row = Math.floor(n / across), kx = a.x + a.w / 2 - across * per / 2 + col * per + per / 2, ky = top + row * kh;
-          p.c.font = `bold 12px "Hiragino Sans","Noto Sans JP",sans-serif`; p.c.fillText(k, kx, ky + 7);
-          const sound = M.SOUNDS[k]; p.text(sound, kx - p.textWidth(sound) / 2, ky + 15, '#5f6164', 1);
-        });
-      }
-      p.c.textAlign = 'start'; p.c.textBaseline = 'alphabetic';
-      for (let i = 0; i < 3; i++) p.r(a.x + a.w / 2 - 14 + i * 10, a.y + a.h - 9, 6, 6, i < s.q ? GREEN : '#9aa3ab');
-    }},
-  {key: 'piano', name: 'Play it back', help: 'Watch the four notes light up, then play them back.', time: 6.8, linger: .5,
-    init() { return {seq: Array.from({length: 4}, () => Math.floor(Math.random() * 5)), idx: 0, down: null, wrong: false, hits: []}; },
-    options: s => s.t < 2 ? [] : ['C', 'D', 'E', 'F', 'G'],
-    stage: s => s.t < 2 ? 'watch' : 'play',
-    choose(s, i, say, fx) {
-      if (s.t < 2) return;
-      s.down = {i, t: s.t};
-      if (s.seq[s.idx] === i) { s.idx++; say('CDEFG'[i], 'good', s.keyX[i], s.keyY); if (s.idx === 4) { s.finished = true; s.at = s.t - 2; } }
-      else { s.wrong = true; s.finished = true; say('WRONG NOTE', 'bad', s.keyX[i], s.keyY); fx.shake(); }
-    },
-    medal: s => s.idx === 4 ? (s.at <= 2.4 ? 3 : 2) : s.idx >= 2 ? 1 : 0,
-    note: s => s.wrong ? 'WRONG NOTE' : '',
-    draw(s, p, a) {
-      p.r(a.x, a.y, a.w, a.h, '#e9dcc4'); for (let x = a.x + 6; x < a.x + a.w; x += 16) p.r(x, a.y, 1, a.h * .7, '#dccdb1');
-      p.r(a.x, a.y + a.h * .85, a.w, a.h * .15, '#9c7a55');
-      const kw = Math.min(a.w * .8 / 5, 46), kh = Math.min(a.h * .5, kw * 3), x0 = a.x + a.w / 2 - kw * 2.5, y0 = a.y + a.h * .56 - kh / 2;
-      p.r(x0 - 10, y0 - 22, kw * 5 + 20, kh + 30, '#3a2a20'); p.r(x0 - 10, y0 - 22, kw * 5 + 20, 3, '#5a4030');
-      const watching = s.t < 2, flashK = watching ? Math.floor((s.t - .25) / .4) : -1;
-      const lit = watching ? (flashK >= 0 && flashK < 4 && (s.t - .25) % .4 < .3 ? s.seq[flashK] : null) : s.down && s.t - s.down.t < .22 ? s.down.i : null;
-      s.keyX = s.keyX || []; s.keyY = (y0 - 26) * 2; s.hits.length = 0;
-      for (let i = 0; i < 5; i++) {
-        const x = x0 + i * kw; s.keyX[i] = (x + kw / 2) * 2;
-        p.r(x, y0, kw - 1, kh, INK); p.r(x + 1, y0 + 1, kw - 3, kh - 2, lit === i ? (watching ? GOLD : s.wrong ? RED : '#8fd18f') : PAPER);
-        p.text('CDEFG'[i], x + kw / 2 - 2, y0 + kh - 9, '#8a8f94', 1);
-        s.hits.push({x: x * 2, y: y0 * 2, w: kw * 2, h: kh * 2, i});
-      }
-      for (const i of [0, 1, 3]) p.r(x0 + (i + 1) * kw - kw * .22, y0, kw * .44, kh * .58, INK);
-      if (watching && lit != null) p.tag('CDEFG'[lit], x0 + lit * kw + kw / 2, y0 - 16, INK, GOLD, 1);
-      else p.tag(watching ? 'WATCH' : 'YOUR TURN', a.x + a.w / 2, y0 - 16, PAPER, watching ? INK : GREEN, 1);
-      for (let i = 0; i < 4; i++) p.r(a.x + a.w / 2 - 16 + i * 9, y0 + kh + 12, 5, 5, i < s.idx ? GREEN : watching && i <= flashK ? GOLD : '#b9a98a');
-    }},
-  {key: 'pc', name: 'Build a PC', help: 'Which slot does this part go in?', time: 8, linger: .7,
-    init() { return {slots: pickN(['cpu', 'ram', 'pcie'], 3), order: pickN(M.PARTS, 3), q: 0, right: 0, placed: {}, flash: null, hits: []}; },
-    options: s => s.q < 3 ? ['Slot 1', 'Slot 2', 'Slot 3'] : [],
-    stage: s => s.q,
-    busy: s => s.flash && s.t - s.flash.t < .3,
-    choose(s, i, say, fx) {
-      if (s.q >= 3) return;
-      const part = s.order[s.q], ok = s.slots[i] === part[1];
-      if (ok) { s.right++; s.placed[part[1]] = true; fx.burst(s.slotX[i], s.slotY, [GOLD, PAPER], 8); }
-      say(ok ? 'CLICK' : 'WONT FIT', ok ? 'good' : 'bad', s.slotX[i], s.slotY - 50);
-      s.flash = {ok, t: s.t, i}; s.q++;
-      if (s.q === 3) { s.finished = true; s.at = s.t; if (s.right === 3) say('IT BOOTS', 'good', s.bootX, s.bootY); }
-    },
-    medal: s => M.answerMedal(s.right, 3, s.at ?? 99, 5.5),
-    draw(s, p, a) {
-      p.r(a.x, a.y, a.w, a.h, '#d9d2c3'); p.r(a.x, a.y + a.h * .9, a.w, a.h * .1, '#9c7a55');
-      const wide = a.w > a.h * 1.1;
-      const bw = wide ? Math.min(a.w * .56, 210) : Math.min(a.w * .86, 190), bh = wide ? Math.min(a.h * .8, 150) : Math.min(a.h * .56, 150);
-      const bx = wide ? a.x + a.w * .62 - bw / 2 : a.x + a.w / 2 - bw / 2, by = wide ? a.y + a.h * .48 - bh / 2 : a.y + a.h * .4;
-      s.bootX = (bx + bw / 2) * 2; s.bootY = (by + 10) * 2; s.slotY = (by + bh / 2) * 2; s.slotX = s.slotX || []; s.hits.length = 0;
-      p.r(bx - 2, by - 2, bw + 4, bh + 4, INK); p.r(bx, by, bw, bh, '#2f6b4f'); for (let i = 0; i < 16; i++) p.r(bx + (i * 37 % bw), by + (i * 53 % bh), 8, 1, '#3e8a66');
-      if (s.finished && s.right === 3) p.r(bx + 4, by + 4, 4, 4, Math.floor(s.t * 6) % 2 ? '#6bbf85' : GREEN);
-      const sl = Math.min(bh * .32, 36);
-      s.slots.forEach((slot, i) => {
-        const cx = bx + bw * (.2 + .3 * i), cy = by + bh * .48; s.slotX[i] = cx * 2;
-        const hot = s.flash && !s.flash.ok && s.t - s.flash.t < .3 && s.flash.i === i;
-        if (slot === 'cpu') { p.r(cx - sl * .45, cy - sl * .45, sl * .9, sl * .9, '#c9ccd0'); p.r(cx - sl * .35, cy - sl * .35, sl * .7, sl * .7, s.placed.cpu ? '#6b6e72' : '#e3e6e8'); if (!s.placed.cpu) for (let k = 0; k < 4; k++) p.r(cx - sl * .3 + k * sl * .18, cy - sl * .3, 1, sl * .6, '#c9ccd0'); }
-        if (slot === 'ram') { p.r(cx - 7, cy - sl, 3, sl * 2, '#1f2023'); p.r(cx + 4, cy - sl, 3, sl * 2, '#1f2023'); if (s.placed.ram) p.r(cx - 3, cy - sl + 2, 6, sl * 2 - 4, '#2a6f9e'); }
-        if (slot === 'pcie') { p.r(cx - 3, cy - sl * .8, 6, sl * 1.6, '#1f2023'); p.r(cx - 1, cy - sl * .8, 2, sl * 1.6, '#8a8f94'); if (s.placed.pcie) { p.r(cx - 9, cy - sl * .85, 18, sl * 1.7, '#3a3f45'); p.disc(cx, cy - sl * .35, 5, '#6b6e72'); p.disc(cx, cy + sl * .35, 5, '#6b6e72'); } }
-        if (hot) p.r(cx - 12, cy - sl, 24, sl * 2, 'rgba(173,52,60,.35)');
-        p.tag(String(i + 1), cx, by + bh - 12, PAPER, INK, 1);
-        s.hits.push({x: (cx - bw * .15) * 2, y: by * 2, w: bw * .3 * 2, h: bh * 2, i});
-      });
-      if (s.q < 3) {
-        const part = s.order[s.q], x = wide ? a.x + a.w * .16 : a.x + a.w / 2, y = wide ? a.y + a.h * .45 : a.y + a.h * .17;
-        const nudge = s.flash && !s.flash.ok && s.t - s.flash.t < .25 ? Math.sin(s.t * 70) * 2 : 0;
-        p.c.save(); p.c.translate(nudge, 0);
-        if (part[1] === 'ram') { p.r(x - 22, y - 5, 44, 10, '#2a6f9e'); for (let i = 0; i < 6; i++) p.r(x - 19 + i * 7, y - 3, 4, 5, '#1f2023'); p.r(x - 22, y + 5, 44, 2, GOLD); }
-        if (part[1] === 'pcie') { p.r(x - 26, y - 10, 52, 20, '#3a3f45'); p.disc(x - 10, y, 7, '#6b6e72'); p.disc(x + 10, y, 7, '#6b6e72'); p.r(x - 26, y + 10, 30, 3, GOLD); }
-        if (part[1] === 'cpu') { p.r(x - 12, y - 12, 24, 24, '#c9ccd0'); p.r(x - 8, y - 8, 16, 16, '#9aa3ab'); p.r(x - 12, y + 10, 4, 2, GOLD); }
-        p.c.restore();
-        p.tag(part[0], x, y + 18, INK, PAPER, 1);
-      }
-    }},
   {key: 'boulder', name: 'Boulder', help: 'Left, right, left, right. Top out before time.', time: M.CLIMB_TIME, linger: .7, keys: ['←', '→'],
     init() { return {moves: 0, next: 0, slip: -9}; },
     options: () => ['Left hand', 'Right hand'],
@@ -369,49 +173,6 @@ const EVENTS = [
       p.line(cx - 4 + sway, y - 6, lh[0], lh[1] + (slipping ? 4 : 0), '#e2ad84', 2); p.line(cx + 4 + sway, y - 6, rh[0], rh[1], '#e2ad84', 2);
       p.blit(CLIMBER, cx + sway, y, 2);
       for (let i = 0; i < top; i++) p.r(a.x + 6, base - (i + 1) * step, 3, step - 1, i < s.moves ? GREEN : 'rgba(31,32,35,.15)');
-    }},
-  {key: 'popup', name: 'Pop up', help: 'Tap fast to paddle, then pop up as the wave lifts you.', time: 4.2, action: 'Paddle', linger: .8,
-    init() { return {paddle: 0, popped: null, missed: false, splash: -9}; },
-    stage: s => s.t < M.WAVE_AT ? 'paddle' : 'pop',
-    actionLabel: s => s.t < M.WAVE_AT ? 'Paddle' : 'Pop up',
-    press(s, say) {
-      if (s.t < M.WAVE_AT) { s.paddle = Math.min(1, s.paddle + .1); s.splash = s.t; return; }
-      if (s.missed) return;
-      s.popped = s.t; s.finished = true; s.m = M.popMedal(s.paddle, s.popped);
-      const err = s.popped - M.POP_AT;
-      say(s.m === 3 ? 'UP AND RIDING' : s.m ? (err < 0 ? 'A BIT EARLY' : 'A BIT LATE') : err < 0 ? 'TOO EARLY' : 'TOO LATE', s.m === 3 ? 'good' : s.m ? 'warn' : 'bad', s.bx, s.by - 60);
-    },
-    update(s, dt, say) {
-      if (s.t >= M.WAVE_AT && s.paddle < .5 && !s.missed) { s.missed = true; s.finished = true; say('MISSED THE WAVE', 'bad', s.bx, s.by - 60); }
-      if (s.t > 3.6 && s.popped == null && !s.missed) { s.finished = true; say('TOO LATE', 'bad', s.bx, s.by - 60); }
-    },
-    medal: s => s.missed || s.popped == null ? 0 : s.m,
-    note: s => s.missed ? 'TOO SLOW' : '',
-    draw(s, p, a) {
-      const horizon = sky(p, a, '#a9d8ec', '#cbe8f3', .34); sun(p, a.x + a.w * .82, a.y + a.h * .14, 8);
-      p.r(a.x, horizon, a.w, a.y + a.h - horizon, '#3f8fb0');
-      for (let i = 0; i < 6; i++) p.r(a.x + ((i * 61 + s.t * 12) % a.w), horizon + 6 + i * 9, 10, 1, '#5aa6c4');
-      const lift = s.t > M.WAVE_AT - .6 ? clamp((s.t - M.WAVE_AT + .6) / 1.25, 0, 1) : 0, bx = a.x + a.w * .45, base = a.y + a.h * .72;
-      const rideOk = s.popped != null && s.m > 0, ride = rideOk ? clamp((s.t - s.popped) / .8, 0, 1) : 0;
-      // The swell builds from behind and lifts the board.
-      const crest = a.x + a.w * (.95 - lift * .5), peak = a.h * .34 * lift, face = [];
-      for (let i = 0; i <= 24; i++) { const x = a.x + a.w * i / 24, d = (x - crest) / (a.w * .28); face.push([x, base - peak * Math.exp(-d * d * (d > 0 ? 2.5 : .8))]); }
-      p.poly([...face, [a.x + a.w, a.y + a.h], [a.x, a.y + a.h]], '#2f7e9c');
-      face.forEach(([x, y], i) => { if (i && lift > .5) p.r(x, y, a.w / 24 + 1, 2, '#bfe6f2'); });
-      const d0 = (bx - crest) / (a.w * .28), wy = base - peak * Math.exp(-d0 * d0 * (d0 > 0 ? 2.5 : .8)) - 2;
-      const x = bx + ride * a.w * .2, y = wy + ride * a.h * .1; s.bx = x * 2; s.by = y * 2;
-      const fell = s.popped != null && !rideOk;
-      if (fell) { const u = clamp((s.t - s.popped) / .4, 0, 1); p.line(x - 18, y + 2, x + 16, y - 6 * u, PAPER, 3); if (u >= 1) { p.disc(x + 4, y + 2, 6, '#e8f6fb'); p.blit(LYING, x + 2, y + 6, 2, .8); } else p.blit(PERSON, x, y - 9 - u * 4, 2, u); }
-      else {
-        const k = a.w > 300 ? 3 : 2; p.line(x - 9 * k, y + 2, x + 9 * k, y + 2 - (rideOk ? 4 : 0), PAPER, 3);
-        const up = s.popped != null; p.blit(up ? PERSON : LYING, x, y - (up ? 5.5 * k : k), k);
-        if (!up && s.t - s.splash < .15) { p.r(x - 22, y + 1, 4, 2, PAPER); p.r(x + 20, y + 1, 4, 2, PAPER); p.r(x - 16, y - 3, 2, 2, PAPER); }
-      }
-      const mw = Math.min(a.w * .35, 110), done = s.t >= M.WAVE_AT;
-      p.r(a.x + 8, a.y + 8, mw + 4, 10, INK); p.r(a.x + 10, a.y + 10, mw * s.paddle, 6, s.paddle >= .9 ? '#6bbf85' : s.paddle >= .5 ? GOLD : '#e3822b');
-      p.r(a.x + 10 + mw * .5, a.y + 8, 1, 10, PAPER);
-      p.text(done ? 'PADDLE DONE' : 'PADDLE', a.x + 10, a.y + 22, INK, 1);
-      if (s.t > 2.6 && s.t < 3.15 && s.popped == null && !s.missed) p.tag('POP UP!', x, y - 36, PAPER, GREEN, 2);
     }},
   {key: 'fish', name: 'Handline', help: 'Out on the pirogue. Pull on the big tug, not the nibbles.', time: 6.5, action: 'Pull', linger: .9,
     init() {
@@ -449,17 +210,14 @@ const EVENTS = [
       if (tugging) p.tag('!', hx, hy - 22, PAPER, RED, 2);
     }},
 ];
+const N = EVENTS.length, MAX = N * 3, WORDS = ['none', 'one', 'two', 'three', 'four', 'five'];
 
 export function start(root, {key, characters, onExit}) {
-  const shell = createShell(root, {key, characters, boss: 'The To Do List', meterLabel: 'LIST', onExit, scene: 'far', reserve: [104, 150]});
+  const shell = createShell(root, {key, characters, meterLabel: 'EVENTS', onExit, scene: 'far', reserve: [104, 150]});
   const {el, play} = shell, p = pen(play);
-  play.setAttribute('aria-label', 'Decathlon. Space or a tap for the main action, number keys for choices, left and right arrows for hands.');
-  shell.$('.arcade-sprites').innerHTML = '<canvas class="dec-boss" width="64" height="64"></canvas>';
-  const boss = shell.$('.dec-boss');
-  let geo = null, index = 0, ev = EVENTS[0], s = null, phase = 'card', timer = 0, medals = [], running = false, run = 0, introSeen = false, pose = '', stageKey = null, total = 0;
+  play.setAttribute('aria-label', 'A bit of everything. Space or a tap for the main action, number keys for choices, left and right arrows for hands.');
+  let geo = null, index = 0, ev = EVENTS[0], s = null, phase = 'card', timer = 0, medals = [], running = false, run = 0, introSeen = false, stageKey = null, total = 0;
   const floats = [];
-  const setPose = next => { if (next !== pose) { pose = next; drawBoss(boss, 'allrounder', next); } };
-  setPose('idle');
   const TONE = {good: GREEN, warn: AMBER, bad: RED};
   // Words that float up over the scene. Positions come in CSS pixels, like shell.burst.
   const say = (text, tone = 'good', x = geo ? geo.x + geo.w / 2 : 0, y = geo ? geo.y + geo.h / 2 : 0) => {
@@ -472,16 +230,14 @@ export function start(root, {key, characters, onExit}) {
     const top = shell.$('.arcade-top'), W = el.offsetWidth, playTop = top.offsetTop + top.offsetHeight + 10, playBottom = shell.playBottom() - 8;
     const w = Math.min(W - 24, 860), h = Math.max(220, Math.min(playBottom - playTop, 500));
     geo = {W, x: Math.round((W - w) / 2), y: Math.round(playTop + (playBottom - playTop - h) / 2), w, h};
-    const size = W >= 1150 ? 130 : 0; boss.hidden = !size;
-    Object.assign(boss.style, {width: size + 'px', height: size + 'px', left: geo.x + w + 16 + 'px', top: geo.y + 10 + 'px'});
   }
   shell.floor = h => Math.round(h * .85);
 
-  // The rack of ten medals along the top of the panel, and the three stars they count towards.
+  // The rack of medals along the top of the panel, and the three stars they count towards.
   function drawRack(x, y, w, h, shown, flyIndex = -1) {
     p.r(x, y, w, h, INK);
-    const starW = w >= 200 ? 58 : 30, slots = w - starW - 6, gap = slots / 10, r = Math.max(3, Math.min(h / 2 - 3, gap / 2 - 2));
-    for (let i = 0; i < 10; i++) {
+    const starW = w >= 200 ? 58 : 30, slots = w - starW - 6, gap = slots / N, r = Math.max(3, Math.min(h / 2 - 3, gap / 2 - 2));
+    for (let i = 0; i < N; i++) {
       const cx = x + 4 + gap * (i + .5), cy = y + h / 2, m = i < shown ? medals[i] : null;
       if (i === index && phase !== 'tally' && phase !== 'done' && m == null) p.disc(cx, cy, r + 1, Math.floor(clock * 4) % 2 ? '#8a8f94' : '#5f6164');
       p.disc(cx, cy, r, '#3a3b3e');
@@ -489,7 +245,7 @@ export function start(root, {key, characters, onExit}) {
     }
     const got = M.stars(total), sx = x + w - starW + 2;
     for (let i = 0; i < 3; i++) p.blit(i < got ? STAR : STAR_OFF, sx + 5 + i * 9, y + h / 2 - (starW > 40 ? 3 : 0), 1);
-    if (starW > 40) { const next = M.STAR_SCORES[got]; p.text(next ? `${total}/${next}` : `${total}/30`, sx + 30, y + h / 2 - 2, got === 3 ? GOLD : PAPER, 1); }
+    if (starW > 40) { const next = M.STAR_SCORES[got]; p.text(next ? `${total}/${next}` : `${total}/${MAX}`, sx + 30, y + h / 2 - 2, got === 3 ? GOLD : PAPER, 1); }
   }
 
   let clock = 0;
@@ -510,7 +266,7 @@ export function start(root, {key, characters, onExit}) {
     if (phase === 'card' || phase === 'medal' || phase === 'tally') p.r(a.x, a.y, a.w, a.h, 'rgba(31,32,35,.5)');
     if (phase === 'card') {
       const cx = a.x + a.w / 2, cy = a.y + a.h / 2, k = a.w < 240 ? 2 : 3;
-      p.tag(`EVENT ${index + 1} OF 10`, cx, cy - 26, INK, PAPER, 1);
+      p.tag(`EVENT ${index + 1} OF ${N}`, cx, cy - 26, INK, PAPER, 1);
       p.tag(ev.name, cx, cy - 8, INK, GOLD, k);
       p.tag(timer < .75 ? 'READY' : 'GO', cx, cy + 10 + 6 * k, PAPER, timer < .75 ? INK : GREEN, 2);
     }
@@ -520,7 +276,7 @@ export function start(root, {key, characters, onExit}) {
     let shown = medals.length, fly = -1;
     if (phase === 'medal') {
       const m = medals[index], pop = clamp(timer / .15, 0, 1), go = clamp((timer - .95) / .3, 0, 1), ease = go * go;
-      const gap = (full.w - (full.w >= 200 ? 58 : 30) - 6) / 10, tx = full.x + 4 + gap * (index + .5), ty = full.y + band / 2;
+      const gap = (full.w - (full.w >= 200 ? 58 : 30) - 6) / N, tx = full.x + 4 + gap * (index + .5), ty = full.y + band / 2;
       const cx = a.x + a.w / 2 + (tx - a.x - a.w / 2) * ease, cy = a.y + a.h * .42 + (ty - a.y - a.h * .42) * ease;
       const r = Math.max(4, Math.min(a.w, a.h) * .12 * (pop < 1 ? .6 + pop * .5 : 1) * (1 - ease * .8));
       if (go < 1) fly = index;
@@ -534,13 +290,13 @@ export function start(root, {key, characters, onExit}) {
     drawRack(full.x, full.y, full.w, band, shown, fly);
     if (phase === 'tally') {
       p.r(a.x, a.y, a.w, a.h + 4, '#2b2c30');
-      const cx = a.x + a.w / 2, cy = a.y + a.h * .36, n = Math.min(10, Math.floor(timer / .09) + 1), count = medals.slice(0, n).reduce((x, m) => x + m, 0);
-      const r = Math.min(10, (a.w - 20) / 22), gap = r * 2 + 3;
-      for (let i = 0; i < 10; i++) { const x = cx - gap * 4.5 + gap * i; p.disc(x, cy, r + 1, INK); p.disc(x, cy, r, i < n ? MEDAL_COLOUR[medals[i]] : '#3a3b3e'); }
+      const cx = a.x + a.w / 2, cy = a.y + a.h * .36, n = Math.min(N, Math.floor(timer / .2) + 1), count = medals.slice(0, n).reduce((x, m) => x + m, 0);
+      const r = Math.min(16, (a.w - 20) / (N * 2 + 2)), gap = r * 2 + 6;
+      for (let i = 0; i < N; i++) { const x = cx - gap * (N - 1) / 2 + gap * i; p.disc(x, cy, r + 1, INK); p.disc(x, cy, r, i < n ? MEDAL_COLOUR[medals[i]] : '#3a3b3e'); }
       const got = M.stars(count);
-      p.tag(`${count} OF 30`, cx, cy + r + 10, INK, PAPER, 2);
+      p.tag(`${count} OF ${MAX}`, cx, cy + r + 10, INK, PAPER, 2);
       for (let i = 0; i < 3; i++) p.blit(i < got ? STAR : STAR_OFF, cx - 24 + i * 24, cy + r + 42, 3);
-      if (n === 10 && timer > 1.05) p.tag(M.TITLES[got].replace('.', ''), cx, cy + r + 62, INK, got ? GOLD : PAPER, a.w < 240 ? 1 : 2);
+      if (n === N && timer > 1.05) p.tag(M.TITLES[got].replace('.', ''), cx, cy + r + 62, INK, got ? GOLD : PAPER, a.w < 240 ? 1 : 2);
     }
   }
 
@@ -563,29 +319,28 @@ export function start(root, {key, characters, onExit}) {
   function endEvent() {
     phase = 'medal'; timer = 0;
     const before = M.stars(total), m = ev.medal(s); medals[index] = m; total += m;
-    setPose(m >= 2 ? 'hit' : m === 0 ? 'attack' : 'idle');
-    shell.announce(`${ev.name}: ${M.MEDALS[m]}. ${total} of 30.`);
+    shell.announce(`${ev.name}: ${M.MEDALS[m]}. ${total} of ${MAX}.`);
     const got = M.stars(total);
     if (got > before) { shell.callout(M.TITLES[got].replace('.', ''), 'win'); shell.burst(geo.x + geo.w / 2, geo.y + geo.h * .45, [GOLD, PAPER], 24); }
     else if (m === 3) shell.burst(geo.x + geo.w / 2, geo.y + geo.h * .45, [GOLD, PAPER], 14);
     else if (!m) shell.shake();
     paintHud();
-    const nextName = index < 9 ? `Next: ${escape(EVENTS[index + 1].name)}.` : 'That’s all ten.';
+    const nextName = index < N - 1 ? `Next: ${escape(EVENTS[index + 1].name)}.` : `That’s all ${WORDS[N]}.`;
     setBar(`<p class="dec-help"><strong>${m ? M.MEDALS[m] + ', +' + m : 'No medal'}.</strong> ${nextName}</p>`, `<button type="button" class="arcade-button arcade-big dec-action" data-skip><kbd>Space</kbd> Next ▶</button>`);
   }
   function next() {
-    if (index === EVENTS.length - 1) { phase = 'tally'; timer = 0; setPose(M.stars(total) >= 2 ? 'defeated' : 'attack'); setBar(`<p class="dec-help"><strong>${total} of 30.</strong> Adding up the medals.</p>`, ''); return; }
+    if (index === N - 1) { phase = 'tally'; timer = 0; setBar(`<p class="dec-help"><strong>${total} of ${MAX}.</strong> Adding up the medals.</p>`, ''); return; }
     begin_(index + 1);
   }
   function setBar(help, controls) {
-    const box = shell.setBox(`<div class="dec-bar"><div><span class="arcade-label">EVENT ${index + 1} OF 10 · ${escape(ev.name.toUpperCase())}</span>${help}</div>${controls ? `<div class="dec-buttons">${controls}</div>` : ''}</div>`, 'is-play');
+    const box = shell.setBox(`<div class="dec-bar"><div><span class="arcade-label">EVENT ${index + 1} OF ${N} · ${escape(ev.name.toUpperCase())}</span>${help}</div>${controls ? `<div class="dec-buttons">${controls}</div>` : ''}</div>`, 'is-play');
     box.querySelector('[data-skip]')?.addEventListener('click', skip);
     if (!el.contains(document.activeElement) || box.contains(document.activeElement) || document.activeElement === document.body) shell.focusPlay();
     return box;
   }
   function begin_(i) {
-    index = i; ev = EVENTS[i]; s = {t: 0, ...ev.init()}; phase = 'card'; timer = 0; stageKey = null; floats.length = 0; setPose('idle');
-    shell.tag(`EVENT ${i + 1}/10`); shell.level(ev.name.toUpperCase());
+    index = i; ev = EVENTS[i]; s = {t: 0, ...ev.init()}; phase = 'card'; timer = 0; stageKey = null; floats.length = 0;
+    shell.tag(`EVENT ${i + 1}/${N}`); shell.level(ev.name.toUpperCase());
     setBar(`<p class="dec-help"><strong>${escape(ev.help)}</strong></p>`, '');
     running = true;
   }
@@ -638,31 +393,26 @@ export function start(root, {key, characters, onExit}) {
 
   function paintHud() {
     const done = medals.filter(m => m != null).length;
-    shell.meter(done / 10 * 100, `${done}/10`, 'ok'); shell.score('MEDALS', String(total));
+    shell.meter(done / N * 100, `${done}/${N}`, 'ok'); shell.score('MEDALS', String(total));
   }
   function finish() {
     running = false; phase = 'done'; el.dataset.phase = 'result';
     const stars = M.stars(total), count = n => medals.filter(m => m === n).length;
-    setPose(stars >= 2 ? 'defeated' : 'attack');
     shell.result({
       title: M.TITLES[stars], stars,
-      line: `${count(3)} gold, ${count(2)} silver, ${count(1)} bronze: ${total} of 30. ${stars < 3 ? `Three stars takes ${M.STAR_SCORES[2]}.` : ''}`,
-      source: '<p>The events are made up for the game: the timings, tyre pressures, chess positions, the kana quiz and the medal rules. The hobbies are real and all on my experience page. I fix bikes, play guitar, piano and chess, skate, surf, climb (mostly bouldering), build my own PCs and I’m learning Japanese before a ski season in Hakuba. The handline is from Senegal, where I went out on a pirogue with the local fishermen.</p>',
+      line: 'Most of these I do for fun. Bikes are the one I turned into a business: I started fixing them at sixteen and taught myself as I went.',
+      rows: EVENTS.map((e, i) => [e.name, M.MEDALS[medals[i]] === 'None' ? 'No medal' : M.MEDALS[medals[i]]]).concat([['Total', `${total} of ${MAX}, ${count(3)} gold`]]),
+      source: '<p>The events are made up for the game: the timings, tyre pressures, chess positions, holds, bites and the medal rules. The hobbies are real and all on my experience page. I fix bikes, play guitar, piano and chess, skate, surf, climb (mostly bouldering), build my own PCs and I’m learning Japanese before a ski season in Hakuba. The handline is from Senegal, where I went out on a pirogue with the local fishermen.</p>',
     });
-    const text = shell.box.querySelector('.arcade-text');
-    const strip = document.createElement('div'); strip.className = 'dec-podium';
-    strip.innerHTML = `<ol class="dec-medals">${EVENTS.map((e, i) => `<li data-medal="${medals[i]}"><i aria-hidden="true"></i><span>${escape(e.name)}</span><b>${M.MEDALS[medals[i]] === 'None' ? 'none' : M.MEDALS[medals[i]]}</b></li>`).join('')}</ol>
-      <p class="arcade-text dec-bridge">Most of these I do for fun. Bikes are the one I turned into a business: I started fixing them at sixteen and taught myself as I went.</p>`;
-    text.after(strip);
   }
 
   async function begin() {
     const token = ++run; running = false; medals = []; total = 0; index = 0; ev = EVENTS[0]; s = null; phase = 'card'; floats.length = 0;
-    el.dataset.phase = 'intro'; setPose('idle'); paintHud(); shell.tag('EVENT 1/10'); shell.level('LV 99+');
+    el.dataset.phase = 'intro'; paintHud(); shell.tag(`EVENT 1/${N}`); shell.level(`${N} EVENTS`);
     if (!introSeen) {
       await shell.intro({
-        label: 'JACK OF ALL TRADES VS THE TO DO LIST', title: 'Jackson’s decathlon.',
-        text: 'Ten quick events from things I actually do, from pumping a tyre to catching a fish off a pirogue. Gold is worth 3, silver 2 and bronze 1. Score 25 of 30 for three stars.',
+        label: 'JACK OF ALL TRADES', title: 'A bit of everything.',
+        text: `Four quick events from things I actually do: pump up a tyre, find mate in one, climb a boulder and catch a fish off a pirogue. Gold is worth 3, silver 2 and bronze 1. Score ${M.STAR_SCORES[2]} of ${MAX} for three stars.`,
         controls: [['Space', 'The main action', 'mouse'], ['1 2 3', 'Pick an answer', 'mouse'], ['← →', 'Hands, when climbing', 'mouse'], ['Tap', 'The big button, or the thing itself', 'touch']],
         button: 'First event',
       });

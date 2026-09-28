@@ -244,15 +244,13 @@ test('running out of energy eats the snacks first',()=>{
   assert.equal(s.done,false);assert.equal(s.snacks,1);assert.ok(s.energy>0);
 });
 
-// Jackson's decathlon
+// A bit of everything (the decathlon)
 
 test('decathlon medals follow each event’s rules',()=>{
   assert.equal(dec.pumpMedal(101,60,74),0);assert.equal(dec.pumpMedal(67,60,74),3);assert.equal(dec.pumpMedal(61,60,74),2);assert.equal(dec.pumpMedal(55,60,74),1);assert.equal(dec.pumpMedal(30,60,74),0);
-  assert.equal(dec.timingMedal(.05),3);assert.equal(dec.timingMedal(-.2),1);assert.equal(dec.timingMedal(.5),0);
-  assert.equal(dec.strumMedal([.01,-.02,.03,.05]),3);assert.equal(dec.strumMedal([.01,.3]),0);
   assert.equal(dec.reactionMedal(-.1),0);assert.equal(dec.reactionMedal(.3),3);assert.equal(dec.reactionMedal(1.2),0);
   assert.equal(dec.climbMedal(dec.CLIMB_TOP),3);assert.equal(dec.climbMedal(3),0);
-  assert.equal(dec.stars(25),3);assert.equal(dec.stars(9),0);
+  assert.equal(dec.stars(10),3);assert.equal(dec.stars(3),0);
 });
 test('the chess puzzles have one answer each, and the moves are on the board',()=>{
   for(const p of dec.PUZZLES){
@@ -260,10 +258,6 @@ test('the chess puzzles have one answer each, and the moves are on the board',()
     assert.equal(new Set(p.options.map(o=>o.join())).size,p.options.length);
     for(const [from,to] of p.options){assert.ok(p.pieces[from]);assert.ok(/^[a-h][1-8]$/.test(to));assert.ok(!p.pieces[to]);}
   }
-});
-test('the kana spell the words they say they do',()=>{
-  const sound={や:'ya',ま:'ma',ゆ:'yu',き:'ki',す:'su',し:'shi',は:'ha',く:'ku',ば:'ba',う:'u',み:'mi',さ:'sa',か:'ka',な:'na'};
-  for(const [kana,latin] of dec.KANA)assert.equal([...kana].map(k=>sound[k]).join(''),latin,kana);
 });
 test('every character has a game',()=>{
   assert.deepEqual(Object.keys(GAMES).sort(),Object.keys(EVIDENCE).sort());
