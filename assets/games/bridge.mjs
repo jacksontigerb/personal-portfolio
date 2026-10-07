@@ -1,5 +1,5 @@
 // Bridge Test: Engineer Jackson versus Test Day, the radio controlled car.
-import {createShell} from './shell.mjs?v=3';
+import {createShell} from './shell.mjs?v=4';
 import {pen, INK, PAPER} from './pixels.mjs?v=3';
 import {drawBoss} from './bosses.mjs?v=3';
 import * as M from './bridge-model.mjs?v=3';
@@ -253,9 +253,6 @@ export function start(root, {key, characters, onExit}) {
     shell.result({
       title: FINAL[stars], stars,
       line: 'Ours was the only bridge in the group that held the car.',
-      rows: M.LEVELS.map((info, i) => [`${i + 1}. ${info.name}`, best[i] ? `${starText(best[i])}, ${designs[i].sticks.length} sticks` : 'Skipped']).concat([['How it adds up', 'Both tests’ stars, halved']]),
-      source: `<p>The game is 2D and the physics are simplified: stiff springs that snap past a set force. It isn’t how we analysed the real bridge.</p>
-        <p>On ours, the small prototype showed it collapsed when pushed sideways, so we added lateral support. On test day it carried a large radio controlled car, and it was the only bridge in the group that held.</p>`,
     });
   }
 

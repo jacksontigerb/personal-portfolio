@@ -1,5 +1,5 @@
 // Run club: Athlete Jackson versus Mile 23.
-import {createShell} from './shell.mjs?v=3';
+import {createShell} from './shell.mjs?v=4';
 import {pen, sprite, INK, PAPER} from './pixels.mjs?v=3';
 import {drawBoss} from './bosses.mjs?v=3';
 import * as M from './run-model.mjs?v=3';
@@ -134,8 +134,6 @@ export function start(root, {key, characters, onExit}) {
       shell.result({
         title: TITLES[stars], stars,
         line: 'I started Falmouth Running Society in January 2024. By June it was 25 runners a week.',
-        rows: [['Runners at the finish', String(s.club)], ['Most at once', String(s.best)], ['Mile 23', s.wall === 'through' ? 'Straight through' : 'Hit it'], ['Obstacles hit', String(s.hits)]],
-        source: '<p>The race is made up. The run club is real, and so is the London Marathon: I ran it in 2026 for Marie Curie and raised £1,647, with a crowd of mates holding a GO TIGGY sign at the finish.</p>',
       });
     }, 1200);
   }

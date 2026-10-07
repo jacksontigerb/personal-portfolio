@@ -1,7 +1,7 @@
 // Route finder: Explorer Jackson versus The Baggage Allowance.
 // Three steps: pack the bag (every item says what it does), a kit check that says what the bag
 // means for the walk, then the map, one leg at a time, with the kit showing when it helps.
-import {createShell, escape} from './shell.mjs?v=3';
+import {createShell, escape} from './shell.mjs?v=4';
 import {pen, sprite, INK, PAPER} from './pixels.mjs?v=3';
 import {drawBoss} from './bosses.mjs?v=3';
 import * as M from './route-model.mjs?v=3';
@@ -413,44 +413,14 @@ export function start(root, {key, characters, onExit}) {
   }
 
   // ----- Result -----
-  // What each item did on the walk, or what leaving it behind cost.
-  function kitReport() {
-    const k = s.kit, has = x => s.packed.includes(x), out = [];
-    const add = (key, on, text) => { if (text) out.push({key, on, text}); };
-    add('torch', has('torch'), has('torch') ? (k.torch ? `Saved ${k.torch} min in the dark.` : 'Never needed it.') : k.dark ? `Left behind. The dark cost ${k.dark} min.` : '');
-    add('jacket', has('jacket'), has('jacket') ? (k.jacket ? `Saved ${k.jacket} energy in the storm.` : 'Stayed dry anyway.') : k.storm ? `Left behind. The storm cost ${k.storm} energy.` : '');
-    add('snacks', has('snacks'), has('snacks') ? (s.snacks ? 'Never needed them.' : `Eaten on the way, +${M.SNACK} energy.`) : s.ended === 'tired' ? 'Left behind, and you ran out of energy.' : '');
-    add('camera', has('camera'), has('camera') ? `${s.photos.length} photo${s.photos.length === 1 ? '' : 's'}, +${s.photos.length * 10}.` : s.seen.length ? `Left behind. You saw ${s.seen.length} animal${s.seen.length === 1 ? '' : 's'}, worth ${s.seen.length * 10}.` : '');
-    add('speaker', true, has('speaker') ? '2 kg that did nothing.' : '');
-    return out;
-  }
-  function tip() {
-    const k = s.kit, has = x => s.packed.includes(x);
-    if (s.ended === 'tired') return has('snacks') ? 'Save energy for the way down. The col costs 3 on the way up, the meadow 2 on the way down.' : `Pack snacks. They’re +${M.SNACK} energy when you run low.`;
-    if (s.sunrise !== 'made' && k.dark) return `Pack the torch. It would have saved ${k.dark} min in the dark.`;
-    if (s.sunrise !== 'made') return 'Head straight up. The forest path is the quick way to the summit.';
-    if (k.storm) return `Pack the jacket, or take the meadow. The storm on the ridge cost ${k.storm} energy.`;
-    if (!has('camera')) return 'Pack the film camera. Every animal you pass is 10 points.';
-    if (!s.path.includes(2)) return 'Try the col on the way up. There’s a chamois there, worth 10 with the camera.';
-    return 'Keep more energy for the lake: 2 points each.';
-  }
   function finish() {
     running = false; queue = []; parts = {}; ui.replaceChildren(); el.dataset.phase = 'result';
-    const sc = M.score(s), stars = M.stars(s), at = M.NODES[s.at];
+    const stars = M.stars(s);
     setPose(stars >= 2 ? 'defeated' : 'attack');
-    const summit = s.sunrise === 'made' ? `Made it, ${M.clock(s.summitAt)}` : s.sunrise ? `${s.sunrise === 'late' ? 'Just after' : 'Missed'}, ${M.clock(s.summitAt)}` : 'Never got there';
     shell.result({
       title: TITLES[stars], stars,
       line: 'The trip was real: a few days camping in the Dolomites, an early start for a sunrise hike, and a backflip into a freezing alpine lake.',
-      rows: [['Sunrise', summit], ['On film', s.photos.length ? s.photos.map(a => a[0].toUpperCase() + a.slice(1)).join(', ') : 'Nothing'],
-        ['Finished', s.ended === 'lake' ? `The lake, ${M.clock(s.time)}` : `Out of energy at ${at.name.toLowerCase()}`], ['Points', String(sc.total)]],
-      source: '<p>The route, the times, the weather, the kit and what it does, and the animals are all made up for the game. The trip itself, the early start, the sunrise and the backflip into the lake are real.</p>',
     });
-    // How the bag played out, under the result rows.
-    const debrief = document.createElement('div'); debrief.className = 'route-debrief';
-    debrief.innerHTML = `<span class="arcade-label">HOW YOUR BAG DID</span><ul>${kitReport().map(r => `<li class="${r.on ? 'is-on' : 'is-off'}"><img src="${iconURL(r.key)}" alt=""><span><strong>${escape(item(r.key).name)}</strong> ${escape(r.text)}</span></li>`).join('') || '<li>An empty bag. Nothing to help, nothing to carry.</li>'}</ul>
-      <p class="route-points">Points: sunrise ${sc.sunrise}, photos ${sc.photos}, lake ${sc.lake}, energy left ${sc.energy}.</p><p class="route-tip"><strong>Next time:</strong> ${escape(tip())}</p>`;
-    shell.box.querySelector('.arcade-rows')?.after(debrief);
     shell.$('.arcade-meter-label').textContent = 'BAG';
   }
 

@@ -1,6 +1,6 @@
 // Character select: the chosen Jackson stands in his own world beside a card for his game.
 // Start plays the game in the same frame; leaving it comes back here.
-import {GAMES, stillFor} from './games/index.mjs?v=3';
+import {GAMES, stillFor} from './games/index.mjs?v=4';
 import {paintScene} from './games/scenes.mjs?v=3';
 import {readProgress, summary, starText} from './games/progress.mjs?v=3';
 

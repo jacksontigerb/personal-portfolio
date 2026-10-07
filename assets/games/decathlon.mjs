@@ -1,7 +1,7 @@
 // A bit of everything: Jack of All Trades.
 // Four events of a few seconds each. Space or a tap does the main thing, number keys or the
 // buttons pick, and each event ends on a medal that flies into the rack along the top.
-import {createShell, escape} from './shell.mjs?v=3';
+import {createShell, escape} from './shell.mjs?v=4';
 import {pen, sprite, INK, PAPER} from './pixels.mjs?v=3';
 import * as M from './decathlon-model.mjs?v=3';
 
@@ -397,12 +397,10 @@ export function start(root, {key, characters, onExit}) {
   }
   function finish() {
     running = false; phase = 'done'; el.dataset.phase = 'result';
-    const stars = M.stars(total), count = n => medals.filter(m => m === n).length;
+    const stars = M.stars(total);
     shell.result({
       title: M.TITLES[stars], stars,
       line: 'Most of these I do for fun. Bikes are the one I turned into a business: I started fixing them at sixteen and taught myself as I went.',
-      rows: EVENTS.map((e, i) => [e.name, M.MEDALS[medals[i]] === 'None' ? 'No medal' : M.MEDALS[medals[i]]]).concat([['Total', `${total} of ${MAX}, ${count(3)} gold`]]),
-      source: '<p>The events are made up for the game: the timings, tyre pressures, chess positions, holds, bites and the medal rules. The hobbies are real and all on my experience page. I fix bikes, play guitar, piano and chess, skate, surf, climb (mostly bouldering), build my own PCs and I’m learning Japanese before a ski season in Hakuba. The handline is from Senegal, where I went out on a pirogue with the local fishermen.</p>',
     });
   }
 

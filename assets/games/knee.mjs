@@ -1,7 +1,7 @@
 // Find the knee: Computer Guy Jackson versus The Knee.
 // Data streams in; you pin where the dots will cross 70% and lock it in. Then the rest of the
 // data plays out fast and you see your pin, the baseline's and the real crossing side by side.
-import {createShell} from './shell.mjs?v=3';
+import {createShell} from './shell.mjs?v=4';
 import {pen, INK, PAPER} from './pixels.mjs?v=3';
 import {drawBoss} from './bosses.mjs?v=3';
 import * as M from './knee-model.mjs?v=3';
@@ -216,14 +216,9 @@ export function start(root, {key, characters, onExit}) {
     const sum = total(), stars = M.stars(sum), good = totals.filter(t => t.verdict === 'bullseye' || t.verdict === 'close').length;
     const baseSum = totals.reduce((a, t) => a + t.basePoints, 0);
     setPose(stars >= 2 ? 'defeated' : 'idle');
-    const row = t => t.late ? 'Too late' : t.verdict === 'miss' ? `${Math.round(t.error * 100)}% out, 0 points` : `${Math.round(t.error * 100)}% out, ${t.points} points`;
     shell.result({
       title: TITLES[stars], stars,
       line: `${good} of ${M.CELL_COUNT} pins within 10%. Locking in at the same moments, the baseline would have scored ${baseSum}.`,
-      rows: cells.map((c, i) => [`${i + 1}. ${c.label}${c.knee >= M.endOfLife(c) ? ', no knee' : ''}`, row(totals[i])]).concat([['Best run of close calls', String(bestStreak)], ['Total', `${sum} points`]]),
-      source: `<p>These cells and curves are made up, shaped like the ones in the competition. None of the real data is used here, and it isn’t mine to publish. In the real competition there was no data at all from the cells being scored, only their temperature and C rate.</p>
-        <p>The grey baseline fades as n to the power 0.8, like the organisers’ one, so it can’t bend down into a knee. That’s why it keeps saying the cell will last far longer than it does. My model gave the gradual fade and the knee their own terms, and let the knee fit to zero where a cell didn’t have one, like the cell here with no knee.</p>
-        <p>The noise, the odd bad reading, the 10% cut off and the 400 cycle cap on warning are game rules.</p>`,
     });
   }
 

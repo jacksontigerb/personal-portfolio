@@ -1,5 +1,5 @@
 // Get the shot: Content Creator Jackson versus The Algorithm.
-import {createShell} from './shell.mjs?v=3';
+import {createShell} from './shell.mjs?v=4';
 import {pen, sprite, INK, PAPER} from './pixels.mjs?v=3';
 import {drawBoss} from './bosses.mjs?v=3';
 import * as M from './shot-model.mjs?v=3';
@@ -208,8 +208,6 @@ export function start(root, {key, characters, onExit}) {
     shell.result({
       title: TITLES[stars], stars,
       line: 'One of my real videos got 1.2 million views. I filmed and edited it myself.',
-      rows: M.SCENES.map((s, i) => [s.name, shots[i].missed ? 'No shot' : `${M.viewText(shots[i].views)} views`]).concat([['Total', `${M.viewText(totalViews())} views`]]),
-      source: `<p>These are pixel versions of things I’ve filmed or been to: skiing, the surf camp in Senegal, a lake in the Dolomites, the giraffe, and New York. The views are made up. A perfect shot is worth 1.2 million, the same as my best real video.</p>`,
     });
   }
 

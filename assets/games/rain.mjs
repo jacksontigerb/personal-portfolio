@@ -1,5 +1,5 @@
 // Shed the Rain: Researcher Jackson versus The Forever Chemical.
-import {createShell} from './shell.mjs?v=3';
+import {createShell} from './shell.mjs?v=4';
 import {pen, INK, PAPER} from './pixels.mjs?v=3';
 import {drawBoss} from './bosses.mjs?v=3';
 import * as M from './rain-model.mjs?v=3';
@@ -223,15 +223,11 @@ export function start(root, {key, characters, onExit}) {
   }
   function finish() {
     el.dataset.phase = 'result'; wash.hidden = true; s = M.createRound(2, 0); flying = []; popups = [];
-    const total = totals.reduce((sum, t) => sum + t.score, 0), stars = M.stars(total), best = Math.max(...totals.map(t => t.best));
+    const total = totals.reduce((sum, t) => sum + t.score, 0), stars = M.stars(total);
     setPose(stars >= 2 ? 'hit' : 'attack');
     shell.result({
       title: TITLES[stars], stars,
       line: 'The small drops never moved on their own. In the lab, they didn’t either.',
-      rows: [...M.ROUNDS.map((r, i) => [r.name, `${totals[i].score} points${totals[i].reason === 'soaked' ? ', soaked' : ''}`]), ['Biggest drop off', best ? `${best} drops in one` : 'None'], ['Total', `${total} points`]],
-      source: `<p>Only two drop sizes were measured on my C-A1 coating. The smaller drops never moved, even at 90°. Drops of about 33 µL rolled off at the angles used here: 28.5°, 55.7° and 45.7° before washing, 47.0° to 56.0° after 10 wash cycles, and 46.4° to 56.1° after 20.</p>
-        <p>Small drops joining into bigger ones is what gets them moving, but I didn’t measure that. The game stops at 60°, and the soak meter is made up.</p>
-        <a href="https://jacksontigerb.github.io/fluorine-free-DWR/results.html#shedding" target="_blank" rel="noopener">See the measurements ↗</a>`,
     });
     shell.tag(''); paintHudFinal(total);
   }

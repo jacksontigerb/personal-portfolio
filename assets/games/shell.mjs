@@ -1,7 +1,7 @@
 // The frame every character game shares: the character's pixel world, a paper HUD, a dialogue
 // box, a pause menu, and a results screen that leads with the real project.
 import {paintScene, particles} from './scenes.mjs?v=3';
-import {GAMES, EVIDENCE, EMAIL} from './index.mjs?v=3';
+import {GAMES, EVIDENCE, EMAIL} from './index.mjs?v=4';
 import {recordStars, summary, starText} from './progress.mjs?v=3';
 import {soundOn, setSound, onSoundChange, unlock, play as playSound} from './sound.mjs?v=3';
 
@@ -164,8 +164,8 @@ export function createShell(root, {key, characters, boss = null, meterLabel, onE
       const go = box.querySelector('[data-go]'); go.focus({preventScroll: true});
       return new Promise(resolve => go.addEventListener('click', () => { unlock(); playSound('start'); resolve(); }, {once: true}));
     },
-    // Title and stars, then the real project, then what to do next. The details sit underneath.
-    result({title, stars, max = 3, line, rows = [], source = '', proof = EVIDENCE[key]}) {
+    // Title and stars, then the real project, then what to do next.
+    result({title, stars, max = 3, line, proof = EVIDENCE[key]}) {
       const url = new URL(proof.href, location.href); url.searchParams.set('c', key);
       const saved = recordStars(key, Math.max(0, Math.min(3, Math.round(stars * 3 / max))), characters.keys), tally = summary(saved.progress, characters.keys);
       const best = saved.first ? '' : saved.newBest ? '<span class="arcade-best">NEW BEST</span>' : saved.best > stars ? `<span class="arcade-best">BEST <span class="arcade-star-glyphs">${starText(saved.best, max)}</span></span>` : '';
@@ -182,9 +182,7 @@ export function createShell(root, {key, characters, boss = null, meterLabel, onE
         ${finale}
         <span class="arcade-label">THE REAL PROJECT</span>
         <a class="real-project arcade-proof" href="${url.pathname + url.search + url.hash}"><img src="assets/${proof.image}" alt="${escape(proof.alt)}" width="640" height="420" loading="lazy"><span><strong>${escape(proof.title)}</strong><span>${escape(proof.text)}</span><b>See the project ↗</b></span></a>
-        <div class="arcade-actions"><button type="button" class="arcade-button ${tally.all ? '' : 'arcade-primary '}arcade-big" data-other>Try another Jackson</button><button type="button" class="arcade-button arcade-big" data-again>↺ Play again</button><a class="arcade-button arcade-big" href="mailto:${EMAIL}">✉ Email Jackson</a><span class="arcade-tally">${tally.all ? 'All nine played' : `${tally.played} of ${tally.total} played`}</span></div>
-        ${rows.length ? `<details class="arcade-how"${matchMedia('(min-width: 761px)').matches ? ' open' : ''}><summary>How you did</summary><ul class="arcade-rows">${rows.map(([a, b]) => `<li><span>${escape(a)}</span><strong>${escape(b)}</strong></li>`).join('')}</ul></details>` : ''}
-        ${source ? `<details class="arcade-source"><summary>The data behind this</summary>${source}</details>` : ''}`, 'is-result');
+        <div class="arcade-actions"><button type="button" class="arcade-button ${tally.all ? '' : 'arcade-primary '}arcade-big" data-other>Try another Jackson</button><button type="button" class="arcade-button arcade-big" data-again>↺ Play again</button><a class="arcade-button arcade-big" href="mailto:${EMAIL}">✉ Email Jackson</a><span class="arcade-tally">${tally.all ? 'All nine played' : `${tally.played} of ${tally.total} played`}</span></div>`, 'is-result');
       box.querySelector('[data-again]').addEventListener('click', () => game?.restart());
       box.querySelector('[data-other]').addEventListener('click', () => onExit('next'));
       playSound(stars > 0 ? 'win' : 'lose');

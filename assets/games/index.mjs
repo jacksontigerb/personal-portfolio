@@ -7,47 +7,47 @@ export const GAMES = {
   allrounder: {
     title: 'A bit of everything.', line: 'Four quick events, from pumping a tyre to catching a fish.', shows: 'My bike repair business, and the rest',
     blurb: 'Runs a bike repair business and started a running club.',
-    load: () => import('./decathlon.mjs?v=3'),
+    load: () => import('./decathlon.mjs?v=4'),
   },
   master: {
     title: 'Term time.', line: 'Get every task to the right room before it storms off.', shows: 'Getting an MSc done',
     blurb: 'Has written two dissertations and formatted a lot of references.',
-    load: () => import('./term.mjs?v=3'),
+    load: () => import('./term.mjs?v=4'),
   },
   researcher: {
     title: 'Shed the rain.', line: 'Tilt my coated cotton so the rain rolls off.', shows: 'My PFAS free coating',
     blurb: 'Made a fluorine free water repellent coating and put it through 20 wash cycles.',
-    load: () => import('./rain.mjs?v=3'),
+    load: () => import('./rain.mjs?v=4'),
   },
   builder: {
     title: 'Bridge the gap.', line: 'Build a balsa bridge, then send the car across.', shows: 'Building and testing prototypes',
     blurb: 'Built a hydroturbine, a maze solving robot and a bridge that held.',
-    load: () => import('./bridge.mjs?v=3'),
+    load: () => import('./bridge.mjs?v=4'),
   },
   operator: {
     title: 'Find the knee.', line: 'Call where a battery hits 70%, as early as you dare.', shows: 'Battery ageing models',
     blurb: 'Models battery lifetime in Python and MATLAB.',
-    load: () => import('./knee.mjs?v=3'),
+    load: () => import('./knee.mjs?v=4'),
   },
   creator: {
     title: 'Get the shot.', line: 'Frame five moments and shoot at the right time.', shows: 'Filming and editing',
     blurb: 'Films and edits his own videos. One TikTok reached 1.2 million views.',
-    load: () => import('./shot.mjs?v=3'),
+    load: () => import('./shot.mjs?v=4'),
   },
   rider: {
     title: 'Run club.', line: 'Gather runners and get the club through Mile 23.', shows: 'Starting a running club',
     blurb: 'Ran the London Marathon and started Falmouth Running Society.',
-    load: () => import('./run.mjs?v=3'),
+    load: () => import('./run.mjs?v=4'),
   },
   wanderer: {
     title: 'Route finder.', line: 'Pack light, then pick a route to the summit for sunrise.', shows: 'Planning a trip',
     blurb: 'Has been to Senegal, the Dolomites, New York and Perth.',
-    load: () => import('./route.mjs?v=3'),
+    load: () => import('./route.mjs?v=4'),
   },
   skier: {
     title: 'Last run.', line: 'Get down the mountain before the last chair goes.', shows: 'Skiing since I was three',
     blurb: 'Has been skiing since he was three, usually with a camera.',
-    load: () => import('./ski.mjs?v=3'),
+    load: () => import('./ski.mjs?v=4'),
   },
 };
 

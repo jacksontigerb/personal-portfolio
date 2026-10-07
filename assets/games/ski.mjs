@@ -1,6 +1,6 @@
 // Last run: Skier Jackson versus The Last Chair. A top down run through gates, a steep wall,
 // a kicker, moguls and a tree shortcut, to make the last chair before the lift closes.
-import {createShell} from './shell.mjs?v=3';
+import {createShell} from './shell.mjs?v=4';
 import {pen, sprite, INK, PAPER} from './pixels.mjs?v=3';
 import {drawBoss} from './bosses.mjs?v=3';
 import * as M from './ski-model.mjs?v=3';
@@ -434,16 +434,10 @@ export function start(root, {key, characters, onExit}) {
 
   function showResult() {
     el.dataset.phase = 'result';
-    const stars = M.stars(s), spare = M.timeLeft(s), route = s.powder > 3 ? 'Through the trees' : 'Round the cat track';
+    const stars = M.stars(s);
     shell.result({
       title: TITLES[stars], stars,
       line: 'I’ve been skiing since I was three, and I film my runs as I go. This winter I’m doing a season in Hakuba.',
-      rows: [['Last chair', s.made ? `${s.t.toFixed(1)} s, ${spare.toFixed(1)} s to spare` : 'Missed it'],
-        ['Gates', `${s.gates} of ${s.map.gates.length}, ${s.clean} clean`], ['Route', route],
-        ['Jumps, close calls', `${s.airs}, ${s.skims}`], ['Crashes', String(s.crashes)], ['Top speed', `${Math.round(s.top * 3.6)} km/h`]],
-      source: `<p>The run is made up: the hill, the gates, the speeds and the ${M.LIMIT} seconds. So is the scoring. Gates add ${M.GATE_BONUS} s, or ${M.GATE_BONUS + M.CLEAN_BONUS} s if you were still carving through them, jumps add ${M.AIR_BONUS} s and close calls add ${M.SKIM_BONUS} s.</p>
-        <p>Turning is simplified. A smooth turn carves and keeps its speed, a sharp one skids and scrubs it off, and deep snow slows you down.</p>
-        <p>The clips on the portfolio page are real and mine, filmed as I go: carving a sunny piste, a kicker, a small cliff into powder, and off piste in a snowstorm beside the trees.</p>`,
     });
   }
 

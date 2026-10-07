@@ -1,5 +1,5 @@
 // Term Time: Master of One Jackson versus The Word Count.
-import {createShell} from './shell.mjs?v=3';
+import {createShell} from './shell.mjs?v=4';
 import {pen, sprite, INK, PAPER} from './pixels.mjs?v=3';
 import {drawBoss} from './bosses.mjs?v=3';
 import * as M from './term-model.mjs?v=3';
@@ -137,8 +137,6 @@ export function start(root, {key, characters, onExit}) {
       shell.result({
         title: s.reason === 'burnt out' && stars < 2 ? TITLES[0] : TITLES[Math.max(1, stars)], stars,
         line: 'My MSc year at UCL was mostly synthesis in the lab and a lot of hours on SEM, TEM, FTIR, XRD and XPS, with the writing around it.',
-        rows: [['Tasks done', String(s.done)], ['Missed', String(s.missed)], ['Hand in', s.handin === 'done' ? 'In on time' : s.handin === 'missed' ? 'Missed it' : 'Didn’t get there'], ['Points', String(s.score)]],
-        source: '<p>The tasks and timings are made up. The year was real: an MSc in Advanced Materials Science at UCL, with the coating project for Finisterre.</p>',
       });
     }, 1100);
   }
