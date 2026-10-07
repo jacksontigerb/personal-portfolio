@@ -5,12 +5,12 @@
 <script>document.documentElement.className+=' js';(function(){var r=document.documentElement;function w(){r.style.setProperty('--vw',r.clientWidth+'px');}w();addEventListener('resize',w);addEventListener('DOMContentLoaded',w);if(window.ResizeObserver)new ResizeObserver(w).observe(r);})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Jackson Brocklebank · Portfolio</title>
-<meta name="description" content="Engineering and materials science projects by Jackson Brocklebank, with nine short games that explain them. Looking for work in London from May 2027.">
+<meta name="description" content="Engineering and materials science projects by Jackson Brocklebank. Read the portfolio, or play it as nine short games. Looking for work in London from May 2027.">
 <meta name="theme-color" content="#f2f2f2">
 <link rel="canonical" href="https://jacksontigerb.github.io/personal-portfolio/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Jackson Brocklebank · Portfolio">
-<meta property="og:description" content="My engineering and materials science projects, and nine games of under a minute that explain them.">
+<meta property="og:description" content="My engineering and materials science projects. Read them, or play them as nine games of under a minute.">
 <meta property="og:url" content="https://jacksontigerb.github.io/personal-portfolio/">
 <meta property="og:image" content="https://jacksontigerb.github.io/personal-portfolio/assets/site-game.png">
 <meta property="og:image:width" content="1200">
@@ -23,28 +23,31 @@
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;600&display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;600&display=swap" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;600&display=swap"></noscript>
-<link rel="stylesheet" href="assets/home.css?v=15">
+<link rel="stylesheet" href="assets/home.css?v=16">
 <link rel="stylesheet" href="assets/portfolio-polish.css?v=4">
-<link rel="stylesheet" href="assets/games/games.css?v=3">
 </head>
-<body class="game-home">
+<body class="door-home">
 <div class="page">
   <nav aria-label="Main navigation">
     <a class="wordmark" href="#top">Jackson Brocklebank</a>
     <div class="navlinks"><a href="mailto:jacksontiger2004@icloud.com">Email me</a><a class="nav-cv" href="experience.html">Portfolio</a></div>
   </nav>
   <main>
-    <section class="game-hero" id="top" aria-labelledby="game-title">
-      <div class="game-heading">
-        <h1 id="game-title">Hi, I’m Jackson.</h1>
+    <section class="doors" id="top" aria-labelledby="door-title">
+      <div class="doors-heading">
+        <h1 id="door-title">Hi, I’m Jackson.</h1>
         <p class="home-introduction">I studied renewable energy engineering and materials science, and I’m now researching at Curtin in Perth. <span>I’m looking for work in London from May 2027.</span></p>
-        <a class="hero-portfolio" href="experience.html">See my portfolio <span aria-hidden="true">→</span></a>
-        <p class="game-prompt">Or play your way through it. Each game takes under a minute and is based on something I’ve done.</p>
       </div>
-      <div id="battle" class="game-mount">
-        <p class="select-loading">Loading the games… <button type="button">Load games</button></p>
+      <div class="door-pair">
+        <a class="door door-read" href="experience.html">
+          <span class="door-art"><img src="assets/cards/wca-coating-800.webp" width="640" height="420" alt="" decoding="async"></span>
+          <span class="door-copy"><strong>See my portfolio <span aria-hidden="true">→</span></strong><span>My projects, research and experience, all on one page.</span></span>
+        </a>
+        <a class="door door-play" href="play.html">
+          <span class="door-art" aria-hidden="true"><span class="door-faces"><img src="assets/face-researcher.webp" width="240" height="240" alt=""><img src="assets/face-builder.webp" width="240" height="240" alt=""><img src="assets/face-skier.webp" width="240" height="240" alt=""><img src="assets/face-operator.webp" width="240" height="240" alt=""><img src="assets/face-allrounder.webp" width="240" height="240" alt=""><img src="assets/face-creator.webp" width="240" height="240" alt=""><img src="assets/face-rider.webp" width="240" height="240" alt=""><img src="assets/face-wanderer.webp" width="240" height="240" alt=""><img src="assets/face-master.webp" width="240" height="240" alt=""></span></span>
+          <span class="door-copy"><strong>Play my portfolio <span aria-hidden="true">▶</span></strong><span>Nine games of under a minute, each based on something I’ve done.</span></span>
+        </a>
       </div>
-      <noscript><p>The game isn’t running in this browser. You can still see what I’ve made below.</p><img class="fallback-jackson" src="assets/char-allrounder.png" width="537" height="840" alt="Pixel art of Jackson with a mix of his outfits"></noscript>
     </section>
     <section class="experience-gallery" id="experience" aria-labelledby="experience-title">
       <div class="gallery-heading"><div><h2 id="experience-title">Selected projects.</h2></div></div>
@@ -60,11 +63,9 @@
     </section>
   </main>
 </div>
-<script src="assets/characters.js?v=9"></script>
-<script src="assets/game-loader.js?v=4"></script>
 <script>
 // Existing shared links still reach their project write ups.
-(function(){function legacy(){if(/^#(?:p-[a-z]+|work|current|engineering|education|skills|outside|skiing|sport|travel|content|tools)$/.test(location.hash))location.replace('experience.html'+location.search+location.hash);}legacy();window.addEventListener('hashchange',legacy);})();
+(function(){function legacy(){if(/^#(?:p-[a-z]+|work|current|engineering|education|skills|outside|skiing|sport|travel|content|tools)$/.test(location.hash))location.replace('experience.html'+location.search+location.hash);else if(location.hash==='#battle')location.replace('play.html'+location.search);}legacy();window.addEventListener('hashchange',legacy);})();
 </script>
 </body>
 </html>

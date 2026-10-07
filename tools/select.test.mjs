@@ -12,17 +12,25 @@ function memory(initial = {}) {
   return {getItem: k => data.has(k) ? data.get(k) : null, setItem: (k, v) => data.set(k, String(v)), data};
 }
 
-test('homepage starts with the games, keeps contact, and everything it links exists', () => {
+test('homepage offers two ways in, the portfolio or the games, and keeps contact', () => {
   const page = readFileSync(file('index.html'), 'utf8');
-  assert.ok(page.indexOf('id="battle"') < page.indexOf('id="experience"'));
+  assert.match(page, /class="door door-read" href="experience\.html"/);
+  assert.match(page, /class="door door-play" href="play\.html"/);
   assert.match(page, /mailto:jacksontiger2004@icloud\.com/);
+  for (const [, path] of page.matchAll(/(?:src|href)="(assets\/[^"?#]+)"/g)) assert.ok(existsSync(file(path)), path);
+});
+
+test('the games have their own page, with a way to the portfolio and everything it links exists', () => {
+  const page = readFileSync(file('play.html'), 'utf8');
+  assert.match(page, /id="battle"/);
   assert.match(page, /href="experience\.html"/);
+  assert.match(page, /mailto:jacksontiger2004@icloud\.com/);
   assert.doesNotMatch(page, /battle\.css|selection\.css|battle-loader/);
   for (const [, path] of page.matchAll(/(?:src|href)="(assets\/[^"?#]+)"/g)) assert.ok(existsSync(file(path)), path);
 });
 
 test('nothing on the site still loads the old fight code', () => {
-  for (const path of ['index.html', 'assets/select.mjs', 'assets/game-loader.js', 'assets/games/shell.mjs', 'assets/games/index.mjs']) {
+  for (const path of ['index.html', 'play.html', 'assets/select.mjs', 'assets/game-loader.js', 'assets/games/shell.mjs', 'assets/games/index.mjs']) {
     assert.doesNotMatch(readFileSync(file(path), 'utf8'), /battle-(engine|data|extras|clock|art|scenes)|battle\.mjs/, path);
   }
 });
