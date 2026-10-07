@@ -5,7 +5,7 @@
   function load() {
     if (loading) return;
     loading = true;
-    import('./select.mjs?v=3').then(function (select) {
+    import('./select.mjs?v=4').then(function (select) {
       select.mountSelect(mount, window.PortfolioCharacters);
       if (observer) observer.disconnect();
     }).catch(function () {

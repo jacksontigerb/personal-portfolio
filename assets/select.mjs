@@ -15,11 +15,10 @@ export function mountSelect(mount, characters) {
       </div>
       <div class="select-side">
         <article class="select-card" aria-labelledby="select-card-title">
-          <p class="select-card-kicker"><span>Under a minute</span><span class="select-card-best"></span></p>
+          <p class="select-card-best"></p>
           <h2 class="select-card-title" id="select-card-title"></h2>
           <img class="select-card-still" width="640" height="320" alt="" decoding="async">
           <p class="select-card-line"></p>
-          <p class="select-card-shows"><span>Shows</span> <strong></strong></p>
         </article>
         <div class="select-start-wrap"><button type="button" class="select-start">Start game <span aria-hidden="true">▶</span></button></div>
       </div>
@@ -31,7 +30,6 @@ export function mountSelect(mount, characters) {
           <button type="button" class="select-step" data-step="1" aria-label="Next Jackson"><span aria-hidden="true">▶</span></button>
         </div>
       </div>
-      <a class="select-skip" href="#experience">or skip to the portfolio <span aria-hidden="true">↓</span></a>
     </div>
     <div class="arcade-mount" hidden></div>
     <p class="vh select-announcement" role="status" aria-live="polite" aria-atomic="true"></p>`;
@@ -105,7 +103,7 @@ export function mountSelect(mount, characters) {
     const tally = summary(progress, keys), tallyEl = $('.select-tally');
     if (tally.all) tallyEl.innerHTML = `All nine played <span aria-hidden="true">·</span> ${tally.stars} of ${tally.total * 3} ★ <span aria-hidden="true">·</span> <a href="experience.html">See the full portfolio ↗</a>`;
     else if (tally.played) tallyEl.textContent = `${tally.played} of ${tally.total} played · ${tally.stars} ★`;
-    else tallyEl.textContent = 'Nine games, under a minute each';
+    else tallyEl.textContent = 'Pick a Jackson';
     keys.forEach(key => {
       const played = key in progress, badge = badges.get(key);
       badge.hidden = !played; badge.textContent = played ? starText(progress[key]) : '';
@@ -131,7 +129,6 @@ export function mountSelect(mount, characters) {
     $('.select-blurb').textContent = game.blurb;
     $('.select-card-title').textContent = game.title;
     $('.select-card-line').textContent = game.line;
-    $('.select-card-shows strong').textContent = game.shows;
     const still = $('.select-card-still'); still.src = stillFor(key); still.alt = `${game.title.replace(/\.$/, '')}, a still from the game`;
     screen.dataset.character = key;
     if (shown) { replay($('.select-card'), 'is-arriving'); replay($('.select-copy'), 'is-arriving'); }
